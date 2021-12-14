@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   cmp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 20:11:54 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/14 21:03:59 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 21:05:29 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-
-void	env_free(t_env *env)
+int	str_cmp(char *s1, char *s2)
 {
-	t_env	*next;
-
-	while (env)
+	while (*s1 && *s2)
 	{
-		next = env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
-		env = next;
+		if (*s1 != *s2)
+			return (1);
+		s1++;
+		s2++;
 	}
+	if (*s1 != *s2)
+		return (1);
+	return (0);
 }

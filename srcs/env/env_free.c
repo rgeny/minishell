@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   env_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 21:41:02 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 20:57:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#include "env.h"
+#include <stdlib.h>
 
-typedef struct s_env
+void	env_free(t_env *env)
 {
-	struct s_env	*next;
-	struct s_env	*prev;
-	char			*name;
-	char			*value;
-}				t_env;
+	t_env	*next;
 
-t_env	*env_new(char *name, char *value);
-void	env_add(t_env **env, t_env *new);
-void	env_print(t_env *env); //all one
-void	env_init(t_env **env, char *envp[]); //init_all init_one
-void	env_free(t_env *env); //all et faire un one
-t_env	*env_find(t_env *env, char *s);
-#endif
+	while (env)
+	{
+		next = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+		env = next;
+	}
+}

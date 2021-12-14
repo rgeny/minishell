@@ -11,8 +11,6 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	t_env	*env = 0;
-	char	*name;
-	char	*value;
 
 	env_init(&env, envp);
 	env_print(env);

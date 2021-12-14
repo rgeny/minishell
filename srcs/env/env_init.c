@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 19:22:28 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 19:33:15 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 20:56:59 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include <stdio.h>
+#include "libft.h"
 
-void	env_print(t_env *env)
+void	env_init(t_env **env, char *envp[])
 {
-	while (env)
+	char	*name;
+	char	*value;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (envp[i])
 	{
-		printf("%s=%s\n", env->name, env->value);
-		env = env->next;
+		j = 0;
+		while (envp[i][j] && envp[i][j] != '=')
+			j++;
+		name = str_ndup(envp[i], j);
+		j++;
+		value = str_ndup(&envp[i][j], str_len(&envp[i][j]));
+		env_add(env, env_new(name, value));
+		i++;
 	}
 }

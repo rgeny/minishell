@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   env_del.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 20:09:02 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/14 21:01:51 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 21:23:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "libft.h"
 
-void	env_init(t_env **env, char *envp[])
+void	env_del(t_env **env, char *s)
 {
-	char	*name;
-	char	*value;
-	int		i;
-	int		j;
+	t_env	*node;
 
-	i = 0;
-	while (envp[i])
+	node = env_find(*env, s);
+	if (node)
 	{
-		j = 0;
-		while (envp[i][j] && envp[i][j] != '=')
-			j++;
-		name = str_ndup(envp[i], j);
-		j++;
-		value = str_ndup(&envp[i][j], str_len(&envp[i][j]));
-		env_add_back(env, env_new(name, value));
-		i++;
+		if (node->prev)
+			node->prev->next = node->next;
+		if (node->next)
+			node->next->prev = node->prev;
+		if (node == *env)
+		{
+			if (node->prev)
+				*env = node->prev;
+			else
+				*env = node->next;
+		}
+		free(node->name);
+		free(node->value);
+		free(node);
 	}
 }
