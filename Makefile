@@ -2,9 +2,10 @@ CC				= cc
 FLAG			= $(DEPF) #-Wall -Werror -Wextra
 LIB				= -lreadline
 DEPF			= -MMD
+SRC_DIR			= srcs/
 OBJ_DIR			= objs
 LIBFT_DIR		= libft/
-VPATH			= $(LIBFT_DIR)
+VPATH			= $(SRC_DIR) $(LIBFT_DIR)
 SRC				= $(addsuffix .c,	main)
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)
