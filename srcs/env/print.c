@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/03 21:10:30 by tokino            #+#    #+#             */
-/*   Updated: 2020/12/03 21:10:31 by tokino           ###   ########.fr       */
+/*   Created: 2021/12/14 19:22:28 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 19:33:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "env.h"
+#include <stdio.h>
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	env_print(t_env *env)
 {
-	if (lst)
+	while (env)
 	{
-		if (del && lst->content)
-		{
-			del(lst->content);
-		}
-		free(lst);
+		printf("%s=%s\n", env->name, env->value);
+		env = env->next;
 	}
 }

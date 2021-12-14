@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   add.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 14:13:15 by tokino            #+#    #+#             */
-/*   Updated: 2020/11/14 14:13:19 by tokino           ###   ########.fr       */
+/*   Created: 2021/12/14 19:19:47 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 19:38:52 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "env.h"
 
-void	ft_putchar_fd(char c, int fd)
+void	env_add_back(t_env **env, t_env *new)
 {
-	write(fd, &c, 1);
+	t_env	*tmp;
+
+	if (!(*env))
+		*env = new;
+	else
+	{
+		tmp = *env;
+		while (tmp && tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
 }

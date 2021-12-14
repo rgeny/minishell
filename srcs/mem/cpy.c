@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   cpy.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 14:13:32 by tokino            #+#    #+#             */
-/*   Updated: 2020/11/14 14:13:35 by tokino           ###   ########.fr       */
+/*   Created: 2020/11/14 14:45:17 by tokino            #+#    #+#             */
+/*   Updated: 2021/12/14 18:32:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	*mem_cpy(void *dst, const void *src, size_t n)
 {
-	unsigned int	abs_n;
+	size_t			i;
+	unsigned char	*c_dst;
+	unsigned char	*c_src;
 
-	abs_n = n;
-	if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		abs_n = -abs_n;
-	}
-	if (abs_n > 9)
-	{
-		ft_putnbr_fd(abs_n / 10, fd);
-	}
-	ft_putchar_fd(abs_n % 10 + 48, fd);
+	i = -1;
+	c_dst = (unsigned char *)dst;
+	c_src = (unsigned char *)src;
+	if (c_dst == NULL && c_src == NULL)
+		return (NULL);
+	while (++i < n)
+		c_dst[i] = c_src[i];
+	return (dst);
 }

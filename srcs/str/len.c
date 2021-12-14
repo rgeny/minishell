@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   len.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/03 20:42:49 by tokino            #+#    #+#             */
-/*   Updated: 2020/12/03 20:42:51 by tokino           ###   ########.fr       */
+/*   Created: 2020/11/14 14:13:56 by tokino            #+#    #+#             */
+/*   Updated: 2021/12/14 18:32:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	str_len(const char *s)
 {
-	if (lst == NULL)
-	{
-		return (NULL);
-	}
-	while (lst->next)
-	{
-		lst = lst->next;
-	}
-	return (lst);
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

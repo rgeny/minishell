@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 16:41:54 by tokino            #+#    #+#             */
-/*   Updated: 2020/11/14 16:41:55 by tokino           ###   ########.fr       */
+/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 20:11:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "env.h"
 
-int	ft_toupper(int c)
+void	env_free(t_env *env)
 {
-	if (c >= 'a' && c <= 'z')
+	t_env	*next;
+
+	while (env)
 	{
-		return (c - 32);
-	}
-	else
-	{
-		return (c);
+		next = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+		env = next;
 	}
 }

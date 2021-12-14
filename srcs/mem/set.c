@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   set.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 20:06:49 by tokino            #+#    #+#             */
-/*   Updated: 2020/11/14 20:06:51 by tokino           ###   ########.fr       */
+/*   Created: 2020/11/14 14:22:28 by tokino            #+#    #+#             */
+/*   Updated: 2021/12/14 18:32:32 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+void	*mem_set(void *b, int c, size_t len)
 {
-	int	i;
+	unsigned char	*str_b;
 
-	i = ft_strlen(s);
-	while (i >= 0)
+	str_b = (unsigned char *)b;
+	while (len > 0)
 	{
-		if (s[i] == (char)c)
-		{
-			return ((char *)(s + i));
-		}
-		i--;
+		*str_b = (unsigned char)c;
+		str_b++;
+		len--;
 	}
-	return (NULL);
+	return (b);
 }

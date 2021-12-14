@@ -1,35 +1,38 @@
 CC				= cc
 FLAG			= $(DEPF) #-Wall -Werror -Wextra
-LIB				= -lreadline
+LIBF			= -lreadline
 DEPF			= -MMD
+INCLUDES		= -Iincludes/
+
 SRC_DIR			= srcs/
+ENV_DIR			= $(SRC_DIR)env/
+MEM_DIR			= $(SRC_DIR)mem/
+STR_DIR			= $(SRC_DIR)str/
+TOOL_DIR		= $(SRC_DIR)tool/
 OBJ_DIR			= objs
-LIBFT_DIR		= libft/
-VPATH			= $(SRC_DIR) $(LIBFT_DIR)
-SRC				= $(addsuffix .c,	main)
+
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(TOOL_DIR)
+
+SRC				= $(addsuffix .c,	main add new print cpy init free\
+									set len ndup get_min split)
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)
 EXE				= minishell
-LIBFT			= $(LIBFT_DIR)libft.a
 
 all				: $(EXE)
 
-$(EXE)			: $(OBJ) $(LIBFT)
-				$(CC) $(FLAG) $^ -o $@ $(LIB)
-
-$(LIBFT)		:
-				make -C $(LIBFT_DIR)
+$(EXE)			: $(OBJ)
+				$(CC) $(FLAG) $^ -o $@ $(LIBF)
 
 $(OBJ_DIR)/%.o	: %.c
 				mkdir -p $(OBJ_DIR)
-				$(CC) $(FLAG) -c $< -o $@
+				$(CC) $(FLAG) -c $< $(INCLUDES) -o $@
 
 clean			:
 				rm -rf $(OBJ_DIR)
-				make clean -C $(LIBFT_DIR)
 
 fclean			: clean
-				rm $(EXE) $(LIBFT)
+				rm $(EXE)
 
 re				: fclean all
 

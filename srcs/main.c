@@ -1,12 +1,23 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../libft/libft.h"
+
+#include "libft.h"
+#include "env.h"
 
 int main(int argc, char *argv[], char *envp[])
 {
-    char *s;
+	t_env	*env = 0;
+	char	*name;
+	char	*value;
+
+	env_init(&env, envp);
+	env_print(env);
+	env_free(env);
+/*    char *s;
     char **cmd;
     while ((s = readline("$>")))
     {
@@ -24,5 +35,5 @@ int main(int argc, char *argv[], char *envp[])
             exit(127);
         }
         wait(0);
-    }
+    }*/
 }

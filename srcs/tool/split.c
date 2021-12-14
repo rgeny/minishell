@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:52:56 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/10 16:17:47 by tokino           ###   ########.fr       */
+/*   Updated: 2021/12/14 18:33:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	is_in_charset(char c, char *charset)
 {
@@ -33,23 +32,14 @@ static int	get_word_cnt(char const *s, char *charset)
 	int	count;
 
 	if (s == NULL || s[0] == '\0')
-	{
 		return (0);
-	}
 	count = 0;
 	if (!is_in_charset(s[0], charset))
-	{
 		count++;
-	}
-	i = 1;
-	while (s[i])
-	{
+	i = 0;
+	while (s[++i])
 		if (is_in_charset(s[i - 1], charset) && !is_in_charset(s[i], charset))
-		{
 			count++;
-		}
-		i++;
-	}
 	return (count);
 }
 
@@ -57,12 +47,9 @@ static void	*free_ary(char **ary)
 {
 	int	i;
 
-	i = 0;
-	while (ary[i])
-	{
+	i = -1;
+	while (ary[++i])
 		free(ary[i]);
-		i++;
-	}
 	free(ary);
 	return (NULL);
 }
@@ -80,7 +67,7 @@ static int	get_next_word(char **ary, char const *s, int *i, char *charset)
 	curr_chr = 0;
 	while (s[*i + curr_chr] && !is_in_charset(s[*i + curr_chr], charset))
 		curr_chr++;
-	ary[curr_w] = ft_strndup(s + *i, curr_chr);
+	ary[curr_w] = str_ndup(s + *i, curr_chr);
 	if (!ary[curr_w])
 		return (0);
 	*i += curr_chr - 1;
@@ -96,7 +83,7 @@ char	**ft_split(char *s, char *charset)
 
 	if (s == NULL)
 		return ((char **) 0);
-	ary = (char **)ft_calloc((get_word_cnt(s, charset) + 1), sizeof(char *));
+	ary = malloc(sizeof(char *) * (get_word_cnt(s, charset) + 1));
 	if (!ary)
 		return (NULL);
 	i = -1;

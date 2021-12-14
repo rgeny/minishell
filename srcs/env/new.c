@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_max.c                                          :+:      :+:    :+:   */
+/*   new.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 21:28:36 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/09 21:28:47 by tokino           ###   ########.fr       */
+/*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/14 19:37:47 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "env.h"
+#include <stdlib.h>
 
-int	get_max(int a, int b)
+t_env	*env_new(char *name, char *value)
 {
-	if (a > b)
-		return (a);
-	else
-		return (b);
+	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (0);
+	env->name = name;
+	env->value = value;
+	env->next = 0;
+	env->prev = 0;
+	return (env);
 }
