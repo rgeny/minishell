@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft/libft.h"
@@ -8,7 +8,7 @@ int main(int argc, char *argv[], char *envp[])
 {
     char *s;
     char **cmd;
-    while (s= readline("$>"))
+    while ((s = readline("$>")))
     {
         add_history(s);
 
