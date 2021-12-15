@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 21:41:02 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/15 12:35:53 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ typedef struct s_env
 	char			*value;
 }				t_env;
 
+void	env_init(t_env **env, char *envp[]);
 t_env	*env_new(char *name, char *value);
 void	env_add(t_env **env, t_env *new);
-void	env_print(t_env *env); //all one
-void	env_init(t_env **env, char *envp[]); //init_all init_one
-void	env_free(t_env *env); //all et faire un one
+
+void	env_print_one(t_env *env);
+void	env_print_all(t_env *env);
+
 t_env	*env_find(t_env *env, char *s);
+
+void	env_del_all(t_env *env);
+void	env_del_one(t_env *env);
 #endif

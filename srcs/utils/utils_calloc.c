@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_free.c                                         :+:      :+:    :+:   */
+/*   utils_calloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 20:57:19 by rgeny            ###   ########.fr       */
+/*   Created: 2020/11/17 18:46:29 by tokino            #+#    #+#             */
+/*   Updated: 2021/12/15 14:30:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include <stdlib.h>
+#include "utils.h"
 
-void	env_free(t_env *env)
+void	*uti_calloc(size_t count, size_t size)
 {
-	t_env	*next;
+	void	*dst;
 
-	while (env)
-	{
-		next = env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
-		env = next;
-	}
+	dst = malloc(count * size);
+	if (dst == NULL)
+		return (NULL);
+	uti_bzero(dst, count * size);
+	return (dst);
 }

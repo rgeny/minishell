@@ -1,5 +1,5 @@
 CC				= cc
-FLAG			= $(DEPF)# -Wall -Werror -Wextra
+FLAG			= -g $(DEPF)# -Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 INCLUDES		= -Iincludes/
@@ -8,15 +8,16 @@ SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
 MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
-TOOL_DIR		= $(SRC_DIR)tool/
+UTILS_DIR		= $(SRC_DIR)utils/
 OBJ_DIR			= objs
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(TOOL_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR)
 
 SRC				= $(addsuffix .c,		main \
-					$(addprefix env_,	add free init new print) \
-					$(addprefix str_,	cmp len ndup) \
-										cpy set get_min split)
+					$(addprefix env_,	add del find init new print) \
+					$(addprefix str_,	cmp len ndup split) \
+					$(addprefix utils_,	bzero calloc min) \
+					$(addprefix mem_,	cpy set))
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)
 EXE				= minishell

@@ -5,16 +5,17 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "libft.h"
 #include "env.h"
 
 int main(int argc, char *argv[], char *envp[])
 {
 	t_env	*env = 0;
+	t_env	*tmp;
 
 	env_init(&env, envp);
-	env_print(env);
-	env_free(env);
+	env_print_all(env);
+	env_print_one(env_find(env, "ABC"));
+	env_del_all(env);
 /*    char *s;
     char **cmd;
     while ((s = readline("$>")))

@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set.c                                              :+:      :+:    :+:   */
+/*   mem.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 14:22:28 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/14 18:32:32 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 14:26:11 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 14:27:04 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MEM_H
+# define MEM_H
 
-void	*mem_set(void *b, int c, size_t len)
-{
-	unsigned char	*str_b;
-
-	str_b = (unsigned char *)b;
-	while (len > 0)
-	{
-		*str_b = (unsigned char)c;
-		str_b++;
-		len--;
-	}
-	return (b);
-}
+void	*mem_set(void *b, int c, size_t len);
+void	*mem_cpy(void *dst, const void *src, size_t n);
+#endif

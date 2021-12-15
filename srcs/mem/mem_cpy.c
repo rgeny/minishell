@@ -6,11 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 14:45:17 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/14 18:32:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/15 14:37:41 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
 void	*mem_cpy(void *dst, const void *src, size_t n)
 {

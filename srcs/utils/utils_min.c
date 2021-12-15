@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_find.c                                         :+:      :+:    :+:   */
+/*   utils_min.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 21:18:35 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 14:31:16 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/09 21:28:57 by tokino            #+#    #+#             */
+/*   Updated: 2021/12/15 14:42:13 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "str.h"
-
-t_env	*env_find(t_env *env, char *s)
+int	uti_min(int a, int b)
 {
-	while (env && env->prev)
-		env = env->prev;
-	while (env && str_cmp(env->name, s))
-		env = env->next;
-	return (env);
+	if (a < b)
+		return (a);
+	else
+		return (b);
 }

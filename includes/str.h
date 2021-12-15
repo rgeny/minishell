@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_min.c                                          :+:      :+:    :+:   */
+/*   str.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/09 21:28:57 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/14 18:32:57 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 14:22:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef STR_H
+# define STR_H
 
-int	get_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	else
-		return (b);
-}
+char	*str_ndup(const char *s, int n);
+char	*str_cmp(char *s1, char *s2);
+char	**str_split(char *s, char *charset);
+int		str_len(const char *s, char c);
+#endif

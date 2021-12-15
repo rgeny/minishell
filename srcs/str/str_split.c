@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   str_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:52:56 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/14 18:33:05 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/15 14:37:10 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "str.h"
+#include <stdlib.h>
 
 static int	is_in_charset(char c, char *charset)
 {
@@ -75,7 +76,7 @@ static int	get_next_word(char **ary, char const *s, int *i, char *charset)
 	return (curr_w);
 }
 
-char	**ft_split(char *s, char *charset)
+char	**str_split(char *s, char *charset)
 {
 	int		i;
 	int		curr_w;

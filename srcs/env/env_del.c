@@ -5,33 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 21:01:51 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/14 21:23:23 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 12:40:06 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include <stdlib.h>
 
-void	env_del(t_env **env, char *s)
+void	env_del_one(t_env *env)
 {
-	t_env	*node;
+	t_env	*tmp;
 
-	node = env_find(*env, s);
-	if (node)
+/*	tmp = *env;
+	if (tmp)
 	{
-		if (node->prev)
-			node->prev->next = node->next;
-		if (node->next)
-			node->next->prev = node->prev;
-		if (node == *env)
-		{
-			if (node->prev)
-				*env = node->prev;
-			else
-				*env = node->next;
-		}
-		free(node->name);
-		free(node->value);
-		free(node);
+		if (tmp->prev)
+			tmp->prev->next = tmp->next;
+		if (tmp->next)
+			tmp->next->prev = tmp->prev;
+		if (tmp->prev)
+			env = &tmp->prev;
+		else
+			env = &tmp->next;*/
+		free(env->name);
+		free(env->value);
+		free(env);
+//	}
+}
+
+void	env_del_all(t_env *env)
+{
+	t_env	*next;
+
+	while (env)
+	{
+		next = env->next;
+		env_del_one(env);
+		env = next;
 	}
 }
