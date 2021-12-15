@@ -1,0 +1,11 @@
+Variable à modifier au démarrage :
+	SHELL
+	SHLVL
+	_
+
+Variable à modifier avec cd :
+	PWD
+	OLD_PWD
+
+Variable à modifier après chaque commande :
+	_

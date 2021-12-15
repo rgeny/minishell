@@ -1,38 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 18:47:21 by rgeny            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
 #include "env.h"
+#include "utils.h"
+#include "str.h"
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	t_env	*env = 0;
-	t_env	*tmp;
+	t_env	*env;
+	char	*s;
+	char	**cmd;
+	char	**env_cpy;
+	pid_t	pid;
 
-	env_init(&env, envp);
-	env_print_all(env);
-	env_print_one(env_find(env, "ABC"));
+	env = 0;
+	env_init(&env, envp, argv[0]);
+	s = readline("$>");
+	while (s)
+	{
+		add_history(s);
+		cmd = str_split(s, " ");
+		pid = fork();
+		if (!pid)
+		{
+			env_cpy = env_switch(env);
+			execve(cmd[0], cmd, env_cpy);
+			exit(127);
+		}
+		wait(0);
+		s = readline("$>");
+	}
 	env_del_all(env);
-/*    char *s;
-    char **cmd;
-    while ((s = readline("$>")))
-    {
-        add_history(s);
-
-        cmd = ft_split(s, " ");
-        for (int i = 0; cmd[i]; i++)
-            printf("%s\n", cmd[i]);
-
-        int pid = fork();
-        if (pid == 0)
-        {
-            int ret = execve(cmd[0], cmd, envp);
-            printf("ret=%d\n", ret);
-            exit(127);
-        }
-        wait(0);
-    }*/
 }

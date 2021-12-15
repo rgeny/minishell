@@ -14,9 +14,9 @@ OBJ_DIR			= objs
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR)
 
 SRC				= $(addsuffix .c,		main \
-					$(addprefix env_,	add del find init new print) \
-					$(addprefix str_,	cmp len ndup split) \
-					$(addprefix utils_,	bzero calloc min) \
+					$(addprefix env_,	del find init new print assign switch) \
+					$(addprefix str_,	cmp len ndup split join) \
+					$(addprefix utils_,	bzero calloc min itoa atoi) \
 					$(addprefix mem_,	cpy set))
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)

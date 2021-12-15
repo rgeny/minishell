@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_del.c                                          :+:      :+:    :+:   */
+/*   utils_atoi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 14:54:36 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 17:27:14 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 18:48:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include <stdlib.h>
-
-void	env_del_one(t_env *env)
+int	uti_atoi(char *s)
 {
-	t_env	*tmp;
+	long	n;
+	int		i;
 
-	if (!env)
-		return ;
-	if (env->prev)
-		env->prev->next = env->next;
-	if (env->next)
-		env->next->prev = env->prev;
-	free(env->name);
-	free(env->value);
-	free(env);
-}
-
-void	env_del_all(t_env *env)
-{
-	t_env	*next;
-
-	while (env)
+	n = 0;
+	i = 0;
+	while (s[i])
 	{
-		next = env->next;
-		env_del_one(env);
-		env = next;
+		n = n * 10 + s[i] - '0';
+		if (n > 2147483647)
+			return (0);
+		i++;
 	}
+	return (n);
 }

@@ -1,41 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_del.c                                          :+:      :+:    :+:   */
+/*   str_join.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 14:54:36 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 18:47:50 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 18:47:53 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include <stdlib.h>
+#include "mem.h"
+#include "str.h"
 
-void	env_del_one(t_env *env)
+char	*str_join(const char *s1, const char *s2, char c)
 {
-	t_env	*tmp;
+	int		sz1;
+	int		sz2;
+	char	*dst;
 
-	if (!env)
-		return ;
-	if (env->prev)
-		env->prev->next = env->next;
-	if (env->next)
-		env->next->prev = env->prev;
-	free(env->name);
-	free(env->value);
-	free(env);
-}
-
-void	env_del_all(t_env *env)
-{
-	t_env	*next;
-
-	while (env)
-	{
-		next = env->next;
-		env_del_one(env);
-		env = next;
-	}
+	if (!s1 || !s2)
+		return (0);
+	sz1 = str_len((char *)s1, 0);
+	sz2 = str_len((char *)s2, 0);
+	dst = malloc(sizeof(char) * (sz1 + sz2 + 1 + !(!c)));
+	if (!dst)
+		return (0);
+	dst[sz1 + sz2] = 0;
+	mem_cpy(dst, s1, sz1 + 1);
+	dst[sz1] = c;
+	mem_cpy(dst + sz1 + !(!c), s2, sz2 + 1);
+	return (dst);
 }

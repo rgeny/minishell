@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_del.c                                          :+:      :+:    :+:   */
+/*   env_assign.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 14:54:36 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 15:11:41 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/15 17:00:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
 
-void	env_del_one(t_env *env)
+void	env_assign(t_env *env, char *name, char *new_value)
 {
-	t_env	*tmp;
+	t_env	*node;
 
-	if (!env)
+	node = env_find(env, name);
+	if (!node)
 		return ;
-	if (env->prev)
-		env->prev->next = env->next;
-	if (env->next)
-		env->next->prev = env->prev;
-	free(env->name);
-	free(env->value);
-	free(env);
-}
-
-void	env_del_all(t_env *env)
-{
-	t_env	*next;
-
-	while (env)
-	{
-		next = env->next;
-		env_del_one(env);
-		env = next;
-	}
+	free(node->value);
+	node->value = new_value;
 }
