@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:18:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 18:24:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/29 22:27:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,42 @@
 #include "str.h"
 #include <stdlib.h>
 
-static int	static_size(t_env *env)
+static int	static_size(t_env *env, int with_not_init)
 {
 	int	i;
 
 	i = 0;
 	while (env)
 	{
-		i++;
+		if (with_not_init || env->value)
+			i++;
 		env = env->next;
 	}
 	return (i);
 }
 
-char	**env_switch(t_env *env)
+char	**env_switch(t_env *env, int with_not_init)
 {
 	int		sz;
 	char	**ret;
 	int		i;
 
-	sz = static_size(env);
+	sz = static_size(env, with_not_init);
 	ret = malloc(sizeof(char *) * (sz + 1));
 	if (!ret)
 		return (0);
 	i = 0;
 	while (env)
 	{
-		ret[i] = str_join(env->name, env->value, '=');
+		if (with_not_init || env->value)
+		{
+			if (env->value)
+				ret[i] = str_join(env->name, env->value, '=');
+			else
+				ret[i] = str_ndup(env->name, str_len(env->name, 0));
+			i++;
+		}
 		env = env->next;
-		i++;
 	}
 	ret[i] = 0;
 	return (ret);

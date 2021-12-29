@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 14:54:36 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/29 22:59:31 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	env_del_one(t_env *env)
 	if (env->next)
 		env->next->prev = env->prev;
 	free(env->name);
-	free(env->value);
+	if (env->value)
+		free(env->value);
 	free(env);
 }
 

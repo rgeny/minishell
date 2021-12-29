@@ -9,3 +9,13 @@ Variable à modifier avec cd :
 
 Variable à modifier après chaque commande :
 	_
+
+
+
+ENVIRONNEMENT :
+
+env : N'affiche que les variables initialisé.
+
+export : Affiche toute les variables dans l'ordre ascii
+
+execeve : N'envoie que les variables d'environnement initialisé

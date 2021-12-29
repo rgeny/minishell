@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 18:47:21 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/29 22:56:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,20 @@ int	main(int argc, char *argv[], char *envp[])
 	while (s)
 	{
 		add_history(s);
-		cmd = str_split(s, " ");
+		cmd = str_split(s, " =");
+		free(s);
 		pid = fork();
 		if (!pid)
 		{
-			env_cpy = env_switch(env);
-			execve(cmd[0], cmd, env_cpy);
+			if (!str_cmp(cmd[0], "export"))
+				exit(env_export(cmd, &env));
+			else if (!str_cmp(cmd[0], "env"))
+				env_print_all(env);
+			else
+			{
+				env_cpy = env_switch(env, 0);
+				execve(cmd[0], cmd, env_cpy);
+			}
 			exit(127);
 		}
 		wait(0);

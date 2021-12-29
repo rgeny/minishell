@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_print.c                                        :+:      :+:    :+:   */
+/*   str_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 19:22:28 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/29 22:01:46 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/29 22:37:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-
-#include "env.h"
-#include "str.h"
-
-void	env_print_one(t_env *env)
+void	str_free_s(char *s)
 {
-	if (env->value)
-	{
-		if (env)
-		{
-			write(1, env->name, str_len(env->name, 0));
-			write(1, "=", 1);
-			write(1, env->value, str_len(env->value, 0));
-		}
-		write(1, "\n", 1);
-	}
+	free(s);
 }
 
-void	env_print_all(t_env *env)
+void	str_free_ss(char **s)
 {
-	while (env)
+	int	i;
+
+	i = 0;
+	while (s[i])
 	{
-		env_print_one(env);
-		env = env->next;
+		str_free_s(s[i]);
+		i++;
 	}
+	free(s);
 }
