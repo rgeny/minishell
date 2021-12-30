@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/29 22:56:15 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 15:16:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ int	main(int argc, char *argv[], char *envp[])
 	pid_t	pid;
 
 	env = 0;
+	argc++;
+	argc--;
 	env_init(&env, envp, argv[0]);
 	s = readline("$>");
-	while (s)
+	while (str_cmp(s, "exit"))
 	{
 		add_history(s);
-		cmd = str_split(s, " =");
+		cmd = str_split(s, " ");
 		free(s);
 		pid = fork();
 		if (!pid)
@@ -50,6 +52,7 @@ int	main(int argc, char *argv[], char *envp[])
 			}
 			exit(127);
 		}
+		str_free_ss(cmd);
 		wait(0);
 		s = readline("$>");
 	}

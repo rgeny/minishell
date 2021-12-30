@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 15:09:52 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 15:13:04 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	env_new(t_env **env, char *name, char *value)
 {
 	t_env	*new;
 
+	new = env_find(*env, name);
+	if (new)
+	{
+		env_assign(*env, name, value);
+		free(name);
+		return ;
+	}
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return ;

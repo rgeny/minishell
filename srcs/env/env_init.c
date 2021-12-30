@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 18:17:58 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 15:17:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	static_cpy(t_env **env, char *envp[])
 	}
 }
 
-static void	static_actualize(t_env **env, char *cmd, char *envp[])
+static void	static_actualize(t_env **env, char *cmd)
 {
 	t_env	*pwd;
 	t_env	*node;
@@ -57,5 +57,5 @@ static void	static_actualize(t_env **env, char *cmd, char *envp[])
 void	env_init(t_env **env, char *envp[], char *cmd)
 {
 	static_cpy(env, envp);
-	static_actualize(env, cmd, envp);
+	static_actualize(env, cmd);
 }

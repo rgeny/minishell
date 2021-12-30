@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:10:24 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/15 14:36:15 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 14:22:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*str_ndup(const char *s, int n)
 {
 	char	*dup;
 
+	if (!s)
+		return (0);
 	dup = uti_calloc(n + 1, sizeof(char));
 	if (dup == NULL)
 		return (NULL);

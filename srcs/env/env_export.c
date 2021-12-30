@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/29 22:56:44 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 15:18:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,47 @@ static void	static_sort(char **s)
 	}
 }
 
-static void	static_print(char **s)
+static void	static_print(t_env *env)
 {
-	int	i;
+	char	**cpy;
+	int		i;
 
+	cpy = env_switch(env, 1);
+	static_sort(cpy);
 	i = 0;
-	while (s[i])
+	while (cpy[i])
 	{
-		if (s[i] && (s[i][0] != '_' || s[i][1] != '='))
-			printf("%s\n", s[i]);
+		if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
+			printf("export %s\n", cpy[i]);
 		i++;
 	}
+	str_free_ss(cpy);
+}
+
+static void	static_new(char **cmd, t_env **env)
+{
+	int		i;
+	char	**var;
+
+	i = 1;
+	while (cmd[i])
+	{
+		var = str_split(cmd[i], "=");
+		env_new(env, str_ndup(var[0], str_len(var[0], 0)),
+			str_ndup(var[1], str_len(var[1], 0)));
+		str_free_ss(var);
+		i++;
+	}
+	static_print(*env);
 }
 
 int	env_export(char **cmd, t_env **env)
 {
-	char	**cpy;
-
-	cpy = env_switch(*env, 1);
 	if (!cmd[1])
-	{
-		static_sort(cpy);
-		static_print(cpy);
-	}
+		static_print(*env);
 	else
-		env_new(env, cmd[1], cmd[2]);
-	for (int i = 0; cpy[i]; i++)
-		free(cpy[i]);
-	free(cpy);
-	for (int i = 0; cmd[i]; i++)
-		free(cmd[i]);
-	free(cmd);
+		static_new(cmd, env);
+	str_free_ss(cmd);
 	env_del_all(*env);
 	return (0);
 }

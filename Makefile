@@ -1,5 +1,5 @@
 CC				= cc
-FLAG			= -g $(DEPF)# -Wall -Werror -Wextra
+FLAG			= -g $(DEPF) -Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 INCLUDES		= -Iincludes/
@@ -15,7 +15,7 @@ VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR)
 
 SRC				= $(addsuffix .c,		main \
 					$(addprefix env_,	del find init new print assign switch export) \
-					$(addprefix str_,	cmp len ndup split join) \
+					$(addprefix str_,	cmp len ndup split join free) \
 					$(addprefix utils_,	bzero calloc min itoa atoi) \
 					$(addprefix mem_,	cpy set))
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))

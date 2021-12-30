@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/29 22:35:50 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 15:16:09 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	**env_switch(t_env *env, int with_not_init);
 
 void	env_del_all(t_env *env);
 void	env_del_one(t_env *env);
-
-
 
 int		env_export(char **cmd, t_env **env);
 #endif
