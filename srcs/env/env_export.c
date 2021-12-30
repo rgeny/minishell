@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 15:18:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/30 19:54:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	static_new(char **cmd, t_env **env)
 		str_free_ss(var);
 		i++;
 	}
-	static_print(*env);
 }
 
 int	env_export(char **cmd, t_env **env)
@@ -79,7 +78,5 @@ int	env_export(char **cmd, t_env **env)
 		static_print(*env);
 	else
 		static_new(cmd, env);
-	str_free_ss(cmd);
-	env_del_all(*env);
 	return (0);
 }

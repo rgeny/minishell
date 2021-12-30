@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_free.c                                         :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 15:20:37 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/30 20:23:53 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
-void	str_free_s(char *s)
-{
-	free(s);
-}
-
-void	str_free_ss(char **s)
+int	main(int argc, char *argv[], char *envp[])
 {
 	int	i;
 
+	if (argc || argv)
+		i = 0;
 	i = 0;
-	while (s[i])
+	while (envp[i])
 	{
-		str_free_s(s[i]);
+		printf("%s\n", envp[i]);
 		i++;
 	}
-	free(s);
+	return (0);
 }

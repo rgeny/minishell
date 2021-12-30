@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_free.c                                         :+:      :+:    :+:   */
+/*   env_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 15:20:37 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/30 19:49:29 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <unistd.h>
+#include "env.h"
 
-void	str_free_s(char *s)
+int	env_unset(char **cmd, t_env *env)
 {
-	free(s);
-}
+	int		i;
+	t_env	*to_del;
 
-void	str_free_ss(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
+	if (cmd[1])
 	{
-		str_free_s(s[i]);
-		i++;
+		i = 1;
+		while (cmd[i])
+		{
+			to_del = env_find(env, cmd[i]);
+			if (to_del)
+				env_del_one(to_del);
+			i++;
+		}
+		return (0);
 	}
-	free(s);
+	else
+	{
+		write(2, "unset: not enough arguments\n", 28);
+		return (1);
+	}
 }

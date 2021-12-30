@@ -14,8 +14,14 @@ Variable à modifier après chaque commande :
 
 ENVIRONNEMENT :
 
-env : N'affiche que les variables initialisé.
+env :
+	- N'affiche que les variables initialisé.
+	- env ne prend ni option ni arguments, que fait-on s'il y en a? (affichage, valeur return)
 
 export : Affiche toute les variables dans l'ordre ascii
+
+unset : Supprime les variables globales indiqués en paramètre.
+	- "unset" : affiche "unset: not enough arguments" et return 1
+	- "unset VAR" : que VAR existe ou non, n'affiche rien et return 0
 
 execeve : N'envoie que les variables d'environnement initialisé
