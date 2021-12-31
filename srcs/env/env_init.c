@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 23:45:56 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 00:09:26 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ static void	static_actualize(t_env **env)
 	env_new(env, str_ndup("SHLVL", 5), s);
 	node = env_find(*env, "PATH");
 	if (node)
-		env_assign(*env, "PATH", str_join(BUILTIN_PATH, node->value, ':'));
+	{
+		s = str_join(path, "builtin", '/');
+		env_assign(*env, "PATH", str_join(s, node->value, ':'));
+		free(s);
+	}
 }
 
 void	env_init(t_env **env, char *envp[])

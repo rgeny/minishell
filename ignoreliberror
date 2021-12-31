@@ -10,3 +10,9 @@
 	...
 	fun:add_history
 }
+{
+	leak static_init_path
+	Memcheck:Leak
+	...
+	fun:static_init_path
+}

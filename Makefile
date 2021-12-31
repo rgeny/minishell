@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2021/12/31 23:46:26 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 00:11:03 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,12 @@ ENV				= env -i
 # **************************************************************************** #
 
 CC				= clang
-FLAG			= $(DEPF) $(BUILTINF) -g -Wall -Werror -Wextra
+FLAG			= $(DEPF) -g -Wall -Werror -Wextra
+OBJ_FLAG		= $(INCLUDES)
 LIBF			= -lreadline
 DEPF			= -MMD
 INCLUDES		= -I$(INCLUDES_DIR)
+PROMPTF			= -D PROMPT=
 
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
@@ -56,8 +58,6 @@ EXE				= minishell
 # **************************************************************************** #
 # ********************************** Builtin ********************************* #
 # **************************************************************************** #
-
-BUILTINF		= -D BUILTIN_PATH=\"$(PATH_DIR)$(BUILTIN_DIR)\"
 
 PATH_DIR		= $(shell /usr/bin/pwd)/
 BUILTIN_DIR		= builtin
@@ -92,7 +92,7 @@ builtin			: $(OBJ_BUILTIN)
 
 $(OBJ_DIR)/%.o	: %.c
 				$(NEW_DIR) $(OBJ_DIR)
-				$(CC) $(FLAG) -c $< $(INCLUDES) -o $@
+				$(CC) $(FLAG) -c $< $(INCLUDES) $(BUILTINF) -o $@
 
 valgrind		: all
 				$(VALGRIND) $(VALGRINDF)  ./$(EXE)

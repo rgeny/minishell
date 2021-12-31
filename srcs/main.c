@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 23:49:01 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 00:19:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@
 #include "env.h"
 #include "utils.h"
 #include "str.h"
+
+char	*g_path = 0;
+
+static void	static_init_path(void)
+{
+	char	tmp[PATH_CHAR_MAX + 1];
+
+	getcwd(tmp, PATH_CHAR_MAX + 1);
+	g_path = str_join(tmp, "builtin", '/');
+}
 
 static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 {
@@ -47,13 +57,13 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 		if (!str_cmp(cmd[0], "env"))
 		{
 			free(cmd[0]);
-			cmd[0] = str_join(BUILTIN_PATH, "env", '/');
+			cmd[0] = str_join(g_path, "env", '/');
 			execve(cmd[0], cmd, env_cpy);
 		}
 		else if (!str_cmp(cmd[0], "echo"))
 		{
 			free(cmd[0]);
-			cmd[0] = str_join(BUILTIN_PATH, "echo", '/');
+			cmd[0] = str_join(g_path, "echo", '/');
 			execve(cmd[0], cmd, env_cpy);
 		}
 		else
@@ -74,6 +84,7 @@ int	main(int ret, char **cmd, char *envp[])
 
 	env = 0;
 	env_init(&env, envp);
+	static_init_path();
 	s = readline("$>");
 	while (1)
 	{
