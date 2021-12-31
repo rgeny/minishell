@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2021/12/30 20:39:45 by rgeny            ###   ########.fr        #
+#    Updated: 2021/12/31 16:29:04 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC				= clang
 FLAG			= $(DEPF) $(BUILTINF) #-g -Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
-INCLUDES		= -Iincludes/
+INCLUDES		= -I$(INCLUDES_DIR)
 
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
@@ -26,11 +26,12 @@ MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
 UTILS_DIR		= $(SRC_DIR)utils/
 OBJ_DIR			= objs
+INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR)
 
 SRC				= $(addsuffix .c,		main \
-					$(addprefix env_,	del find init new print assign switch export unset) \
+					$(addprefix env_,	del find init new print assign switch export unset _) \
 					$(addprefix str_,	cmp len ndup split join free) \
 					$(addprefix utils_,	bzero calloc min itoa atoi) \
 					$(addprefix mem_,	cpy set))
@@ -75,6 +76,9 @@ $(OBJ_DIR)/%.o	: %.c
 valgrind		: all
 				valgrind --trace-children=yes --suppressions=./ignoreliberror --leak-check=full --show-leak-kinds=all ./$(EXE)
 
+envi			: all	
+				env -i valgrind --trace-children=yes --suppressions=./ignoreliberror --leak-check=full --show-leak-kinds=all ./$(EXE)
+
 clean			:
 				rm -rf $(OBJ_DIR)
 
@@ -86,4 +90,4 @@ re				: fclean all
 
 -include $(DEP)
 
-.PHONY	: all clean fclean re
+.PHONY	: all valgrind envi clean fclean re

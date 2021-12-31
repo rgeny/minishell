@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 20:05:02 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/31 16:25:13 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 #include "utils.h"
 #include "str.h"
 
-static int	static_exec_in_process(char **cmd, int *ret, t_env *env)
+static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 {
 	if (!str_cmp(cmd[0], "export"))
-		*ret = env_export(cmd, &env);
+		*ret = env_export(cmd, env);
 	else if (!str_cmp(cmd[0], "unset"))
 		*ret = env_unset(cmd, env);
 	else
@@ -52,6 +52,7 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 			execve(cmd[0], cmd, env_cpy);
 		if (s)
 			free(s);
+		str_free_ss(cmd);
 		str_free_ss(env_cpy);
 		env_del_all(env);
 		exit (127);
@@ -72,15 +73,22 @@ int	main(int argc, char *argv[], char *envp[])
 	s = readline("$>");
 	while (str_cmp(s, "exit") && argc)
 	{
-		printf("\n");
-		add_history(s);
 		cmd = str_split(s, " ");
-		free(s);
-		if (static_exec_in_process(cmd, &ret, env))
-			ret = static_exec_out_process(cmd, env);
+		if (cmd[0])
+		{
+			printf("\n");
+			add_history(s);
+			env__(cmd[0], &env);
+			if (static_exec_in_process(cmd, &ret, &env))
+				ret = static_exec_out_process(cmd, env);
+			printf("\n");
+			env_print_one(env_find(env, "_"));
+			printf("return value : %d\n\n", ret);
+		}
 		str_free_ss(cmd);
-		printf("\nreturn value : %d\n\n", ret);
+		free(s);
 		s = readline("$>");
 	}
+	free(s);
 	env_del_all(env);
 }

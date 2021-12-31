@@ -6,14 +6,14 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 19:49:29 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/31 14:04:44 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "env.h"
 
-int	env_unset(char **cmd, t_env *env)
+int	env_unset(char **cmd, t_env **env)
 {
 	int		i;
 	t_env	*to_del;
@@ -23,9 +23,13 @@ int	env_unset(char **cmd, t_env *env)
 		i = 1;
 		while (cmd[i])
 		{
-			to_del = env_find(env, cmd[i]);
+			to_del = env_find(*env, cmd[i]);
 			if (to_del)
+			{
+				if (*env == to_del)
+					*env = &(*to_del->next);
 				env_del_one(to_del);
+			}
 			i++;
 		}
 		return (0);
