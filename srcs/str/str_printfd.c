@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_atoi.c                                       :+:      :+:    :+:   */
+/*   str_printfd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 17:27:14 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 18:48:05 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/31 21:57:59 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/31 22:00:20 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	uti_atoi(char *s)
-{
-	long	n;
-	int		i;
+#include <unistd.h>
+#include "str.h"
 
-	n = 0;
-	i = 0;
-	while (s[i])
-	{
-		n = n * 10 + s[i] - '0';
-		if (n > 2147483647)
-			return (0);
-		i++;
-	}
-	return (n);
+void	str_printfd(const char *s, int fd)
+{
+	write(fd, s, str_len(s, 0));
 }

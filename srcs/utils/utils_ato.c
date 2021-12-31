@@ -1,26 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   utils_atoi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 22:22:35 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 17:27:14 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/31 22:18:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+int	uti_ato_i(char *s)
+{
+	long	n;
+	int		i;
 
-# include <stdio.h>
-# include <stdlib.h>
+	n = 0;
+	i = 0;
+	while (s[i])
+	{
+		n = n * 10 + s[i] - '0';
+		if (n > 2147483647)
+			return (0);
+		i++;
+	}
+	return (n);
+}
 
-int		uti_min(int a, int b);
-void	*uti_calloc(size_t count, size_t size);
-void	uti_bzero(void *s, size_t n);
-char	*uti_itoa(int n);
-int		uti_ato_i(char *s);
-long	uti_ato_l(char *s);
-int		uti_isdigit(char *s);
-#endif
+long	uti_ato_l(char *s)
+{
+	long	n;
+	int		i;
+
+	n = 0;
+	i = 0;
+	while (s[i])
+	{
+		if ((n * 10 + s[i] - '0') < n)
+			return (-1);
+		n = n * 10 + s[i] - '0';
+		i++;
+	}
+	return (n);
+}

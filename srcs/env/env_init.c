@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 16:52:00 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/31 23:45:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ static void	static_cpy(t_env **env, char *envp[])
 	}
 }
 
-static void	static_actualize(t_env **env, char *cmd)
+static void	static_actualize(t_env **env)
 {
-	t_env	*pwd;
 	t_env	*node;
 	char	*s;
 	int		n;
@@ -49,7 +48,7 @@ static void	static_actualize(t_env **env, char *cmd)
 	env_new(env, str_ndup("PWD", 3), str_ndup(path, str_len(path, 0)));
 	node = env_find(*env, "SHLVL");
 	if (node && node->value)
-		n = uti_atoi(node->value) + 1;
+		n = uti_ato_i(node->value) + 1;
 	else
 		n = 1;
 	s = uti_itoa(n);
@@ -59,8 +58,8 @@ static void	static_actualize(t_env **env, char *cmd)
 		env_assign(*env, "PATH", str_join(BUILTIN_PATH, node->value, ':'));
 }
 
-void	env_init(t_env **env, char *envp[], char *cmd)
+void	env_init(t_env **env, char *envp[])
 {
 	static_cpy(env, envp);
-	static_actualize(env, cmd);
+	static_actualize(env);
 }

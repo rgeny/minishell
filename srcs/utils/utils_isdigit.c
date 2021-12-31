@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   utils_isdigit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 22:22:35 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/31 22:21:28 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/31 22:24:21 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+int	uti_isdigit(char *s)
+{
+	int	i;
 
-# include <stdio.h>
-# include <stdlib.h>
-
-int		uti_min(int a, int b);
-void	*uti_calloc(size_t count, size_t size);
-void	uti_bzero(void *s, size_t n);
-char	*uti_itoa(int n);
-int		uti_ato_i(char *s);
-long	uti_ato_l(char *s);
-int		uti_isdigit(char *s);
-#endif
+	i = 0;
+	if (!s[0])
+		return (1);
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}

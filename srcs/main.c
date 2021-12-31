@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 19:10:33 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/31 23:49:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 		*ret = builtin_export(cmd, env);
 	else if (!str_cmp(cmd[0], "unset"))
 		*ret = builtin_unset(cmd, env);
+	else if (!str_cmp(cmd[0], "exit"))
+		*ret = builtin_exit(cmd, *env);
 	else
 		return (1);
 	return (0);
@@ -65,23 +67,22 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	return (WEXITSTATUS(ret));
 }
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(int ret, char **cmd, char *envp[])
 {
 	t_env	*env;
 	char	*s;
-	char	**cmd;
-	int		ret;
 
 	env = 0;
-	env_init(&env, envp, argv[0]);
+	env_init(&env, envp);
 	s = readline("$>");
-	while (str_cmp(s, "exit") && argc)
+	while (1)
 	{
 		cmd = str_split(s, " ");
 		if (cmd[0])
 		{
 			printf("\n");
 			add_history(s);
+			free(s);
 			env_new_(cmd[0], &env);
 			if (static_exec_in_process(cmd, &ret, &env))
 				ret = static_exec_out_process(cmd, env);
@@ -89,8 +90,9 @@ int	main(int argc, char *argv[], char *envp[])
 			env_print_one(env_find(env, "_"));
 			printf("return value : %d\n\n", ret);
 		}
+		else
+			free(s);
 		str_free_string(cmd);
-		free(s);
 		s = readline("$>");
 	}
 	free(s);

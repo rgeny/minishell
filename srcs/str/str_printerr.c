@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   str_printerr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 22:22:35 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/31 22:25:33 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/31 22:27:59 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include <unistd.h>
+#include "str.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-
-int		uti_min(int a, int b);
-void	*uti_calloc(size_t count, size_t size);
-void	uti_bzero(void *s, size_t n);
-char	*uti_itoa(int n);
-int		uti_ato_i(char *s);
-long	uti_ato_l(char *s);
-int		uti_isdigit(char *s);
-#endif
+void	str_printerr(char *s1, char *s2, char *s3, char *s4)
+{
+	if (s1)
+		write(2, s1, str_len(s1, 0));
+	if (s2)
+		write(2, s2, str_len(s2, 0));
+	if (s3)
+		write(2, s3, str_len(s3, 0));
+	if (s4)
+		write(2, s4, str_len(s4, 0));
+}
