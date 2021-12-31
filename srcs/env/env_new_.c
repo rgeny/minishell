@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str.h                                              :+:      :+:    :+:   */
+/*   env_new_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 17:01:44 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/31 12:55:29 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/31 17:44:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STR_H
-# define STR_H
+#include "env.h"
+#include "str.h"
 
-char	*str_ndup(const char *s, int n);
-int		str_cmp(char *s1, char *s2);
-char	*str_join(const char *s1, const char *s2, char c);
-char	**str_split(char *s, char *charset);
-int		str_len(const char *s, char c);
-void	str_free_string(char **s);
-#endif
+void	env_new_(char *value, t_env **env)
+{
+	env_new(env, str_ndup("_", 1), str_ndup(value, str_len(value, 0)));
+}

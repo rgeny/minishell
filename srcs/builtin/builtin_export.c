@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_export.c                                       :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 19:54:34 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/31 17:38:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	static_print(t_env *env)
 			printf("export %s\n", cpy[i]);
 		i++;
 	}
-	str_free_ss(cpy);
+	str_free_string(cpy);
 }
 
 static void	static_new(char **cmd, t_env **env)
@@ -67,12 +67,12 @@ static void	static_new(char **cmd, t_env **env)
 		var = str_split(cmd[i], "=");
 		env_new(env, str_ndup(var[0], str_len(var[0], 0)),
 			str_ndup(var[1], str_len(var[1], 0)));
-		str_free_ss(var);
+		str_free_string(var);
 		i++;
 	}
 }
 
-int	env_export(char **cmd, t_env **env)
+int	builtin_export(char **cmd, t_env **env)
 {
 	if (!cmd[1])
 		static_print(*env);

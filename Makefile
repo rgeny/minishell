@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2021/12/31 16:29:04 by rgeny            ###   ########.fr        #
+#    Updated: 2021/12/31 17:44:58 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,11 @@ INCLUDES_DIR	= includes/
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR)
 
 SRC				= $(addsuffix .c,		main \
-					$(addprefix env_,	del find init new print assign switch export unset _) \
+					$(addprefix env_,	del find init new print assign switch new_) \
 					$(addprefix str_,	cmp len ndup split join free) \
 					$(addprefix utils_,	bzero calloc min itoa atoi) \
-					$(addprefix mem_,	cpy set))
+					$(addprefix mem_,	cpy set) \
+					$(SRC_BUILTIN))
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)
 EXE				= minishell
@@ -51,6 +52,7 @@ SRC_BUILTIN_DIR	= $(SRC_DIR)builtin/
 
 VPATH			+= $(SRC_BUILTIN_DIR)
 
+SRC_BUILTIN		= $(addprefix builtin_, export unset)
 SRC_ENV			= builtin_env.c
 OBJ_ENV			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ENV))
 OBJ_BUILTIN		= $(OBJ_ENV)

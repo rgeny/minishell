@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 16:26:19 by rgeny            ###   ########.fr       */
+/*   Updated: 2021/12/31 16:52:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ static void	static_actualize(t_env **env, char *cmd)
 	char	path[PATH_CHAR_MAX + 1];
 
 	getcwd(path, PATH_CHAR_MAX + 1);
-	env_assign_force(env, "PWD", str_ndup(path, str_len(path, 0)));
+	env_new(env, str_ndup("PWD", 3), str_ndup(path, str_len(path, 0)));
 	node = env_find(*env, "SHLVL");
 	if (node && node->value)
 		n = uti_atoi(node->value) + 1;
 	else
 		n = 1;
 	s = uti_itoa(n);
-	env_assign_force(env, "SHLVL", s);
+	env_new(env, str_ndup("SHLVL", 5), s);
 	node = env_find(*env, "PATH");
 	if (node)
 		env_assign(*env, "PATH", str_join(BUILTIN_PATH, node->value, ':'));

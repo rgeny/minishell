@@ -1,42 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_unset.c                                        :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 14:04:44 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/31 17:27:20 by rgeny             #+#    #+#             */
+/*   Updated: 2021/12/31 17:37:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "env.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
+# include "env.h"
 
-int	env_unset(char **cmd, t_env **env)
-{
-	int		i;
-	t_env	*to_del;
-
-	if (cmd[1])
-	{
-		i = 1;
-		while (cmd[i])
-		{
-			to_del = env_find(*env, cmd[i]);
-			if (to_del)
-			{
-				if (*env == to_del)
-					*env = &(*to_del->next);
-				env_del_one(to_del);
-			}
-			i++;
-		}
-		return (0);
-	}
-	else
-	{
-		write(2, "unset: not enough arguments\n", 28);
-		return (1);
-	}
-}
+int	builtin_export(char **cmd, t_env **env);
+int	builtin_unset(char **cmd, t_env **env);
+#endif
