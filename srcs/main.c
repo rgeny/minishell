@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 18:30:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 19:33:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,6 @@
 #include "utils.h"
 #include "str.h"
 #include "global.h"
-
-char	*g_path = 0;
-
-static void	static_init_path(void)
-{
-	char	tmp[PATH_CHAR_MAX + 1];
-
-	getcwd(tmp, PATH_CHAR_MAX + 1);
-	g_path = str_join(tmp, "builtin", '/');
-}
 
 static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 {
@@ -47,6 +37,35 @@ static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 	return (0);
 }
 
+static void	static_pathing(char **cmd, t_env *env)
+{
+	int		i;
+	char	**split;
+	char	*s;
+
+	if (!access(cmd[0], F_OK | X_OK))
+		return ;
+	env = env_find(env, "PATH");
+	if (!env)
+		return ;
+	split = str_split(env->value, ":");
+	i = 0;
+	while (split[i])
+	{
+		s = str_join(split[i], cmd[0], '/');
+		if (!access(s, F_OK | X_OK))
+		{
+			free(cmd[0]);
+			cmd[0] = s;
+			str_free_string(split);
+			return ;
+		}
+		free(s);
+		i++;
+	}
+	str_free_string(split);
+}
+
 static int	static_exec_out_process(char **cmd, t_env *env)
 {
 	pid_t	pid;
@@ -58,26 +77,8 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	{
 		env_cpy = env_switch(&env, 0);
 		glo_pwd(0, 1);
-		if (!str_cmp(cmd[0], "env"))
-		{
-			free(cmd[0]);
-			cmd[0] = str_join(g_path, "env", '/');
-			execve(cmd[0], cmd, env_cpy);
-		}
-		else if (!str_cmp(cmd[0], "echo"))
-		{
-			free(cmd[0]);
-			cmd[0] = str_join(g_path, "echo", '/');
-			execve(cmd[0], cmd, env_cpy);
-		}
-		else if (!str_cmp(cmd[0], "pwd"))
-		{
-			free(cmd[0]);
-			cmd[0] = str_join(g_path, "pwd", '/');
-			execve(cmd[0], cmd, env_cpy);
-		}
-		else
-			execve(cmd[0], cmd, env_cpy);
+		static_pathing(cmd, env);
+		execve(cmd[0], cmd, env_cpy);
 		str_free_string(cmd);
 		str_free_string(env_cpy);
 		env_del_all(env);
@@ -138,7 +139,6 @@ int	main(int ret, char **cmd, char *envp[])
 	tmp = env_find(env, "PWD");
 	if (tmp)
 		glo_pwd(str_ndup(tmp->value, str_len(tmp->value, 0)), 0);
-	static_init_path();
 	s = uti_readline(env);
 	while (1)
 	{
@@ -151,10 +151,6 @@ int	main(int ret, char **cmd, char *envp[])
 			env_new_(cmd[0], &env);
 			if (static_exec_in_process(cmd, &ret, &env))
 				ret = static_exec_out_process(cmd, env);
-			printf("\n");
-			printf("glo : %s\n", glo_pwd(0, 0));
-			env_print_one(env_find(env, "_"));
-			printf("return value : %d\n\n", ret);
 		}
 		else
 			free(s);
