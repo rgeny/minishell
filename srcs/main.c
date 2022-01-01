@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 00:19:05 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 00:58:39 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
-#include <readline/readline.h>
 #include <readline/history.h>
 #include "builtin.h"
 #include "env.h"
@@ -85,7 +84,7 @@ int	main(int ret, char **cmd, char *envp[])
 	env = 0;
 	env_init(&env, envp);
 	static_init_path();
-	s = readline("$>");
+	s = uti_readline(env);
 	while (1)
 	{
 		cmd = str_split(s, " ");
@@ -104,7 +103,7 @@ int	main(int ret, char **cmd, char *envp[])
 		else
 			free(s);
 		str_free_string(cmd);
-		s = readline("$>");
+		s = uti_readline(env);
 	}
 	free(s);
 	env_del_all(env);

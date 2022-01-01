@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 00:11:03 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 00:46:41 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,12 @@ ENV				= env -i
 
 CC				= clang
 FLAG			= $(DEPF) -g -Wall -Werror -Wextra
-OBJ_FLAG		= $(INCLUDES)
+OBJ_FLAG		= $(INCLUDES) $(PROMPTF)
 LIBF			= -lreadline
 DEPF			= -MMD
 INCLUDES		= -I$(INCLUDES_DIR)
-PROMPTF			= -D PROMPT=
+PROMPTF			= -D PROMPT=$(VPROMPT)
+VPROMPT			= \"$(shell whoami)@$(shell hostname -s):\"
 
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
@@ -46,7 +47,7 @@ SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free print
 OBJ_STR			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_STR))
 SRC				= $(addsuffix .c,		main \
 					$(addprefix env_,	del find init new print assign switch new_) \
-					$(addprefix utils_,	bzero calloc min itoa ato isdigit) \
+					$(addprefix utils_,	bzero calloc min itoa ato isdigit prompt) \
 					$(addprefix mem_,	cpy set) \
 					$(SRC_BUILTIN))
 
@@ -92,7 +93,7 @@ builtin			: $(OBJ_BUILTIN)
 
 $(OBJ_DIR)/%.o	: %.c
 				$(NEW_DIR) $(OBJ_DIR)
-				$(CC) $(FLAG) -c $< $(INCLUDES) $(BUILTINF) -o $@
+				$(CC) $(FLAG) -c $< $(OBJ_FLAG) -o $@
 
 valgrind		: all
 				$(VALGRIND) $(VALGRINDF)  ./$(EXE)
