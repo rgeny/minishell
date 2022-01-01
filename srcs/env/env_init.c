@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 00:09:26 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 10:47:20 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void	static_actualize(t_env **env)
 		env_assign(*env, "PATH", str_join(s, node->value, ':'));
 		free(s);
 	}
+	if (!env_find(*env, "OLDPWD"))
+		env_new(env, str_ndup("OLDPWD", str_len("OLDPWD", 0)), 0);
 }
 
 void	env_init(t_env **env, char *envp[])
