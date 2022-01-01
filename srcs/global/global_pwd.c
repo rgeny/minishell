@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 09:13:22 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 09:58:31 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 18:06:06 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char	*glo_pwd(char *s, int b)
 
 	if (b)
 		free(pwd);
+	if (b)
+		pwd = 0;
 	if (s)
 		pwd = s;
-	else if (b)
-		pwd = 0;
 	return (pwd);
 }

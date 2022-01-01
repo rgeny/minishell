@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 11:22:42 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 18:05:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void	static_replace(t_env *env)
 	}
 	else
 		env_del_one(env_find(env, "OLDPWD"));
-	glo_pwd(str_ndup(path, str_len(path, 0)), 1);
+	if (path[0])
+		glo_pwd(str_ndup(path, str_len(path, 0)), 1);
 }
 
 static int	static_move(char *dir, char *pwd, t_env *env, int b)

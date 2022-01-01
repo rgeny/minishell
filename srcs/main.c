@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 15:09:01 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 18:08:49 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	pid = fork();
 	if (!pid)
 	{
-		glo_pwd(0, 1);
 		env_cpy = env_switch(&env, 0);
+		glo_pwd(0, 1);
 		if (!str_cmp(cmd[0], "env"))
 		{
 			free(cmd[0]);
@@ -87,6 +87,45 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	return (WEXITSTATUS(ret));
 }
 
+static void	static_expand(char **cmd, t_env *env)
+{
+	int		i;
+	int		j;
+	t_env	*tmp;
+	char	*s;
+	char	*s2;
+
+	i = 1;
+	while (cmd[i])
+	{
+		j = 0;
+		while (cmd[i][j])
+		{
+			if (cmd[i][j] == '$')
+			{
+				tmp = env_find(env, &cmd[i][j + 1]);
+				if (tmp)
+				{
+					s = cmd[i];
+					cmd[i] = str_ndup(tmp->value, str_len(tmp->value, 0));
+					s[j + 1] = 0;
+					s2 = cmd[i];
+					cmd[i] = str_join(s, cmd[i], 0);
+					free(s2);
+					free(s);
+				}
+				else
+				{
+					free(cmd[i]);
+					cmd[i] = strndup(" ", 1);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 int	main(int ret, char **cmd, char *envp[])
 {
 	t_env	*env;
@@ -103,6 +142,7 @@ int	main(int ret, char **cmd, char *envp[])
 	while (1)
 	{
 		cmd = str_split(s, " ");
+		static_expand(cmd, env);
 		if (cmd[0])
 		{
 			add_history(s);
