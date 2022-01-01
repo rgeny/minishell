@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_prompt.c                                     :+:      :+:    :+:   */
+/*   utils_readline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 00:58:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 10:00:12 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include "str.h"
 #include "env.h"
+#include "global.h"
 
 static int	static_cmp(char *s1, char *s2)
 {
@@ -37,15 +38,18 @@ static char	*static_prompt(t_env *env)
 	char	*tmp;
 	char	*prompt;
 
-	getcwd(path, PATH_CHAR_MAX + 1);
+	tmp = getcwd(path, PATH_CHAR_MAX + 1);
+	prompt = path;
+	if (!tmp)
+		prompt = glo_pwd(0, 0);
 	pwd = env_find(env, "HOME");
 	ret = 0;
 	if (pwd)
-		ret = static_cmp(pwd->value, path);
+		ret = static_cmp(pwd->value, prompt);
 	if (ret)
-		tmp = str_join(PROMPT, &path[ret], '~');
+		tmp = str_join(PROMPT, &prompt[ret], '~');
 	else
-		tmp = str_join(PROMPT, path, 0);
+		tmp = str_join(PROMPT, prompt, 0);
 	prompt = str_join(tmp, "$ ", 0);
 	free(tmp);
 	return (prompt);

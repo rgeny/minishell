@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 07:38:10 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 09:37:08 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ IGNORE_FILE		= $(shell pwd)/ignoreliberror
 # **************************************************************************** #
 
 CC				= clang
-FLAG			= $(DEPF) #-g -Wall -Werror -Wextra
+FLAG			= $(DEPF) -g #-Wall -Werror -Wextra
 OBJ_FLAG		= $(INCLUDES) $(PROMPTF)
 LIBF			= -lreadline
 DEPF			= -MMD
@@ -39,17 +39,19 @@ ENV_DIR			= $(SRC_DIR)env/
 MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
 UTILS_DIR		= $(SRC_DIR)utils/
+GLOBAL_DIR		= $(SRC_DIR)global/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
 
-SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free printerr))
+SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free printerr printfd))
 OBJ_STR			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_STR))
-SRC				= $(addsuffix .c,		main \
-					$(addprefix env_,	del find init new print assign switch new_) \
-					$(addprefix utils_,	bzero calloc min itoa ato isdigit prompt) \
-					$(addprefix mem_,	cpy set) \
+SRC				= $(addsuffix .c,			main \
+					$(addprefix env_,		del find init new print assign switch new_) \
+					$(addprefix utils_,		bzero calloc min itoa ato isdigit readline) \
+					$(addprefix mem_,		cpy set) \
+					$(addprefix global_,	pwd) \
 					$(SRC_BUILTIN))
 
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC)) $(OBJ_STR)

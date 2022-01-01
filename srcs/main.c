@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 07:34:02 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 10:32:31 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "env.h"
 #include "utils.h"
 #include "str.h"
+#include "global.h"
 
 char	*g_path = 0;
 
@@ -55,6 +56,7 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	pid = fork();
 	if (!pid)
 	{
+		glo_pwd(0, 1);
 		env_cpy = env_switch(env, 0);
 		if (!str_cmp(cmd[0], "env"))
 		{
@@ -88,10 +90,14 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 int	main(int ret, char **cmd, char *envp[])
 {
 	t_env	*env;
+	t_env	*tmp;
 	char	*s;
 
 	env = 0;
 	env_init(&env, envp);
+	tmp = env_find(env, "PWD");
+	if (tmp)
+		glo_pwd(str_ndup(tmp->value, str_len(tmp->value, 0)), 0);
 	static_init_path();
 	s = uti_readline(env);
 	while (1)
@@ -105,6 +111,7 @@ int	main(int ret, char **cmd, char *envp[])
 			if (static_exec_in_process(cmd, &ret, &env))
 				ret = static_exec_out_process(cmd, env);
 			printf("\n");
+			printf("glo : %s\n", glo_pwd(0, 0));
 			env_print_one(env_find(env, "_"));
 			printf("return value : %d\n\n", ret);
 		}
@@ -114,5 +121,6 @@ int	main(int ret, char **cmd, char *envp[])
 		s = uti_readline(env);
 	}
 	free(s);
+	glo_pwd(0, 1);
 	env_del_all(env);
 }

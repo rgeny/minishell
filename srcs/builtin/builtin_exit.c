@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 05:42:24 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 09:38:58 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 #include "utils.h"
 #include "env.h"
 #include "builtin.h"
+#include "global.h"
 
 static void	static_exit(char **cmd, t_env *env, int ret)
 {
 	str_free_string(cmd);
 	env_del_all(env);
+	glo_pwd(0, 1);
 	exit(ret);
 }
 
@@ -31,8 +33,6 @@ static int	static_check_first(char **cmd, t_env *env)
 	if (uti_isdigit(cmd[1]) || ret == -1)
 	{
 		perror("minishell: exit");
-		//str_printerr("minishell: exit: ", cmd[1],
-		//	": numeric argument required\n", 0);
 		static_exit(cmd, env, 2);
 	}
 	return (ret % 256);
