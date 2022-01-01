@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 11:49:51 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 12:30:06 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	main(int argc, char *argv[], char *envp[])
 		path = tmp;
 	str_printfd(path, 1);
 	write(1, "\n", 1);
-	free(path);
+	if (path != tmp)
+		free(path);
 	return (PWD_DEFAULT);
 }
