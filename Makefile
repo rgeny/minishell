@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 17:51:56 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 18:29:06 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
 
-SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free printerr printfd))
+SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free printerr printfd split_first))
 OBJ_STR			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_STR))
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \

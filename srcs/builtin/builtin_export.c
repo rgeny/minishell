@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 15:15:14 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 18:29:32 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	static_new(char **cmd, t_env **env)
 		}
 		j++;
 	}
-	var = str_split(cmd[0], "=");
+	var = str_split_first(cmd[0], '=');
 	env_new(env, str_ndup(var[0], str_len(var[0], 0)),
 		str_ndup(var[1], str_len(var[1], 0)));
 	str_free_string(var);
@@ -116,40 +116,3 @@ int	builtin_export(char **cmd, t_env **env)
 	}
 	return (ret);
 }
-/*	int		i;
-	int		j;
-	int		ret;
-	char	**var;
-
-	i = 1;
-	ret = 0;
-	while (cmd[i])
-	{
-		j = 0;
-		if (static_isdigitchar(cmd[i][j]) == 1)
-		{
-			while (cmd[i][j] && cmd[i][j] != '=')
-			{
-				if (!static_isdigitchar(cmd[i][j]))
-				{
-					str_printerr("minishell: export: '", cmd[i],
-						"': not a valid identifier\n", 0);
-					ret = 1;
-					break ;
-				}
-				j++;
-			}
-			var = str_split(cmd[i], "=");
-			env_new(env, str_ndup(var[0], str_len(var[0], 0)),
-				str_ndup(var[1], str_len(var[1], 0)));
-			str_free_string(var);
-		}
-		else
-		{
-			ret = 1;
-			str_printerr("minishell: export: '", cmd[i],
-				"': not a valid identifier\n", 0);
-		}
-		i++;
-	}
-	return (ret);*/

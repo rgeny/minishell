@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 18:08:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 18:30:32 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ static void	static_expand(char **cmd, t_env *env)
 					s = cmd[i];
 					cmd[i] = str_ndup(tmp->value, str_len(tmp->value, 0));
 					s[j + 1] = 0;
+					s[j] = 0;
 					s2 = cmd[i];
 					cmd[i] = str_join(s, cmd[i], 0);
 					free(s2);
