@@ -6,13 +6,14 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:18:23 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/29 22:27:15 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 12:01:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "env.h"
 #include "str.h"
-#include <stdlib.h>
+#include "global.h"
 
 static int	static_size(t_env *env, int with_not_init)
 {
@@ -28,29 +29,40 @@ static int	static_size(t_env *env, int with_not_init)
 	return (i);
 }
 
-char	**env_switch(t_env *env, int with_not_init)
+static void	static_assign(t_env *tmp, int with_not_init, char **ret)
+{
+	int	i;
+
+	i = 0;
+	while (tmp)
+	{
+		if (with_not_init || tmp->value)
+		{
+			if (tmp->value)
+				ret[i] = str_join(tmp->name, tmp->value, '=');
+			else
+				ret[i] = str_ndup(tmp->name, str_len(tmp->name, 0));
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	ret[i] = 0;
+}
+
+char	**env_switch(t_env **env, int with_not_init)
 {
 	int		sz;
 	char	**ret;
 	int		i;
+	t_env	*tmp;
 
-	sz = static_size(env, with_not_init);
+	tmp = *env;
+	env_new(env, str_ndup("PWD", str_len("PWD", 0)),
+		str_ndup(glo_pwd(0, 0), str_len(glo_pwd(0, 0), 0)));
+	sz = static_size(tmp, with_not_init);
 	ret = malloc(sizeof(char *) * (sz + 1));
 	if (!ret)
 		return (0);
-	i = 0;
-	while (env)
-	{
-		if (with_not_init || env->value)
-		{
-			if (env->value)
-				ret[i] = str_join(env->name, env->value, '=');
-			else
-				ret[i] = str_ndup(env->name, str_len(env->name, 0));
-			i++;
-		}
-		env = env->next;
-	}
-	ret[i] = 0;
+	static_assign(*env, with_not_init, ret);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 10:32:31 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 11:15:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	if (!pid)
 	{
 		glo_pwd(0, 1);
-		env_cpy = env_switch(env, 0);
+		env_cpy = env_switch(&env, 0);
 		if (!str_cmp(cmd[0], "env"))
 		{
 			free(cmd[0]);

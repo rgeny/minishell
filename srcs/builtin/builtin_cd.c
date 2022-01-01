@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 10:29:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 11:22:42 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ static int	static_error(char **cmd, t_env *env)
 	return (0);
 }
 
-static void	static_replace(t_env *env, char *path)
+static void	static_replace(t_env *env)
 {
 	t_env	*tmp;
+	char	path[PATH_CHAR_MAX + 1];
 
+	getcwd(path, PATH_CHAR_MAX + 1);
 	tmp = env_find(env, "PWD");
 	if (tmp)
 	{
@@ -54,6 +56,7 @@ static void	static_replace(t_env *env, char *path)
 	}
 	else
 		env_del_one(env_find(env, "OLDPWD"));
+	glo_pwd(str_ndup(path, str_len(path, 0)), 1);
 }
 
 static int	static_move(char *dir, char *pwd, t_env *env, int b)
@@ -72,11 +75,9 @@ static int	static_move(char *dir, char *pwd, t_env *env, int b)
 		return (1);
 	ret = chdir(path);
 	if (!ret)
-		static_replace(env, path);
+		static_replace(env);
 	if (!ret && b)
 		str_printfd(path, 1);
-	if (!ret)
-		glo_pwd(str_ndup(path, str_len(path, 0)), 1);
 	free(path);
 	return (!!ret);
 }

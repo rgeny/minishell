@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/31 17:38:56 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 11:14:08 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	static_print(t_env *env)
 	char	**cpy;
 	int		i;
 
-	cpy = env_switch(env, 1);
+	cpy = env_switch(&env, 1);
 	static_sort(cpy);
 	i = 0;
 	while (cpy[i])

@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 09:37:08 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 11:41:08 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ SRC_ENV			= builtin_env.c
 OBJ_ENV			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ENV))
 SRC_ECHO		= $(addsuffix .c,builtin_echo str_cmp str_len)
 OBJ_ECHO		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ECHO))
-SRC_PWD			= $(addsuffix .c,builtin_pwd str_printfd str_printerr str_len)
+SRC_PWD			= $(addsuffix .c,builtin_pwd str_printfd str_printerr str_len global_pwd str_free str_split str_ndup utils_calloc utils_bzero utils_min str_cmp mem_cpy mem_set)
 OBJ_PWD			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_PWD))
 OBJ_BUILTIN		= $(OBJ_ENV) $(OBJ_ECHO) $(OBJ_PWD)
 
