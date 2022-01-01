@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 00:46:41 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 01:56:01 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,11 +71,13 @@ SRC_ENV			= builtin_env.c
 OBJ_ENV			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ENV))
 SRC_ECHO		= $(addsuffix .c,builtin_echo str_cmp str_len)
 OBJ_ECHO		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ECHO))
-OBJ_BUILTIN		= $(OBJ_ENV) $(OBJ_ECHO)
+SRC_PWD			= $(addsuffix .c,builtin_pwd str_printfd str_printerr str_len)
+OBJ_PWD			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_PWD))
+OBJ_BUILTIN		= $(OBJ_ENV) $(OBJ_ECHO) $(OBJ_PWD)
 
 EXE_ENV			= $(BUILTIN_DIR)/env
 EXE_ECHO		= $(BUILTIN_DIR)/echo
-EXE_EXIT		= $(BUILTIN_DIR)/exit
+EXE_PWD			= $(BUILTIN_DIR)/pwd
 
 # **************************************************************************** #
 # ******************************* Compilation ******************************** #
@@ -88,8 +90,9 @@ $(EXE)			: $(OBJ)
 
 builtin			: $(OBJ_BUILTIN)
 				$(NEW_DIR) $(BUILTIN_DIR)/
-				$(CC) $(FLAG) $(OBJ_ENV) -o  $(EXE_ENV)
+				$(CC) $(FLAG) $(OBJ_ENV) -o $(EXE_ENV)
 				$(CC) $(FLAG) $(OBJ_ECHO) -o $(EXE_ECHO)
+				$(CC) $(FLAG) $(OBJ_PWD) -o $(EXE_PWD)
 
 $(OBJ_DIR)/%.o	: %.c
 				$(NEW_DIR) $(OBJ_DIR)

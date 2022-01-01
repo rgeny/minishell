@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 00:58:39 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 01:57:24 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 		{
 			free(cmd[0]);
 			cmd[0] = str_join(g_path, "echo", '/');
+			execve(cmd[0], cmd, env_cpy);
+		}
+		else if (!str_cmp(cmd[0], "pwd"))
+		{
+			free(cmd[0]);
+			cmd[0] = str_join(g_path, "pwd", '/');
 			execve(cmd[0], cmd, env_cpy);
 		}
 		else
