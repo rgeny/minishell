@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 01:56:01 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/01 07:38:10 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,15 +17,16 @@
 RM				= rm -rf
 NEW_DIR			= mkdir -p
 VALGRIND		= valgrind
-VALGRINDF		= --trace-children=yes --suppressions=./ignoreliberror --leak-check=full --show-leak-kinds=all
+VALGRINDF		= --trace-children=yes --suppressions=$(IGNORE_FILE) --leak-check=full --show-leak-kinds=all
 ENV				= env -i
+IGNORE_FILE		= $(shell pwd)/ignoreliberror
 
 # **************************************************************************** #
 # ********************************* Minishell ******************************** #
 # **************************************************************************** #
 
 CC				= clang
-FLAG			= $(DEPF) -g -Wall -Werror -Wextra
+FLAG			= $(DEPF) #-g -Wall -Werror -Wextra
 OBJ_FLAG		= $(INCLUDES) $(PROMPTF)
 LIBF			= -lreadline
 DEPF			= -MMD
@@ -66,7 +67,7 @@ SRC_BUILTIN_DIR	= $(SRC_DIR)builtin/
 
 VPATH			+= $(SRC_BUILTIN_DIR)
 
-SRC_BUILTIN		= $(addprefix builtin_, export unset exit)
+SRC_BUILTIN		= $(addprefix builtin_, export unset exit cd)
 SRC_ENV			= builtin_env.c
 OBJ_ENV			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ENV))
 SRC_ECHO		= $(addsuffix .c,builtin_echo str_cmp str_len)

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 01:57:24 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/01 07:34:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <readline/history.h>
+#include <string.h>
 #include "builtin.h"
 #include "env.h"
 #include "utils.h"
@@ -38,6 +39,8 @@ static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 		*ret = builtin_unset(cmd, env);
 	else if (!str_cmp(cmd[0], "exit"))
 		*ret = builtin_exit(cmd, *env);
+	else if (!str_cmp(cmd[0], "cd"))
+		*ret = builtin_cd(cmd, *env);
 	else
 		return (1);
 	return (0);
@@ -96,7 +99,6 @@ int	main(int ret, char **cmd, char *envp[])
 		cmd = str_split(s, " ");
 		if (cmd[0])
 		{
-			printf("\n");
 			add_history(s);
 			free(s);
 			env_new_(cmd[0], &env);

@@ -25,3 +25,13 @@ unset : Supprime les variables globales indiqués en paramètre.
 	- "unset VAR" : que VAR existe ou non, n'affiche rien et return 0
 
 execeve : N'envoie que les variables d'environnement initialisé
+
+
+cd	: déplace le répertoire actuel par le répertoire indiqué
+	- Si aucun répertoire n'est indiqué, utiliser la variable d'environnement HOME si elle existe, sinon print "bash: cd: HOME not set" et return 1
+	- Si plus d'un argument est envoyé print "bash: cd: too many arguments\n" et return 1
+	- Si '-' est entré comme répertoire, il est remplacé par OLDPWD. Si OLDPWD n'existe pas, print "bash: cd: OLDPWD not set et return 1.
+	- Si aucun répertoire du nom indiqué n'est trouvé, essaie avec les path indiqué par la variable env CDPATH si elle existe (chaque path est séparé par ':'.
+	- Si CDPATH ou '-' est utilisé affiche le nom de répertoire absolu.
+	- Si aucun répertoire du nom n'est trouvé print "bash: cd: namedir: No such file or directory\n" et return 1
+	- Return 0 si réussi et 1 si échoué.
