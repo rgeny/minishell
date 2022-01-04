@@ -6,7 +6,7 @@
 #    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/01 18:29:06 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/04 15:11:26 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,10 +40,11 @@ MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
 UTILS_DIR		= $(SRC_DIR)utils/
 GLOBAL_DIR		= $(SRC_DIR)global/
+EXPANDER_DIR	= $(SRC_DIR)expander/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR)
 
 SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free printerr printfd split_first))
 OBJ_STR			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_STR))
@@ -52,6 +53,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix utils_,		bzero calloc min itoa ato isdigit readline) \
 					$(addprefix mem_,		cpy set) \
 					$(addprefix global_,	pwd) \
+					$(addprefix expander_, env) \
 					$(SRC_BUILTIN))
 
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC)) $(OBJ_STR)

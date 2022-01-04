@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 14:56:17 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 15:12:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,46 +88,6 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	return (WEXITSTATUS(ret));
 }
 
-static void	static_expand(char **cmd, t_env *env)
-{
-	int		i;
-	int		j;
-	t_env	*tmp;
-	char	*s;
-	char	*s2;
-
-	i = 1;
-	while (cmd[i])
-	{
-		j = 0;
-		while (cmd[i][j])
-		{
-			if (cmd[i][j] == '$')
-			{
-				tmp = env_find(env, &cmd[i][j + 1]);
-				if (tmp)
-				{
-					s = cmd[i];
-					cmd[i] = str_ndup(tmp->value, str_len(tmp->value, 0));
-					s[j + 1] = 0;
-					s[j] = 0;
-					s2 = cmd[i];
-					cmd[i] = str_join(s, cmd[i], 0);
-					free(s2);
-					free(s);
-				}
-				else
-				{
-					free(cmd[i]);
-					cmd[i] = strndup(" ", 1);
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
 int	main(int ret, char **cmd, char *envp[])
 {
 	t_env	*env;
@@ -145,7 +105,7 @@ int	main(int ret, char **cmd, char *envp[])
 		cmd = str_split(s, " ");
 		if (cmd[0])
 		{
-			static_expand(cmd, env);
+			expander_env(cmd, env);
 			add_history(s);
 			free(s);
 			env_new_(cmd[0], &env);
