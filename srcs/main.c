@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 15:12:55 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 17:13:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 #include <sys/wait.h>
 #include <readline/history.h>
 #include <string.h>
+#include <fcntl.h>
 #include "builtin.h"
 #include "env.h"
 #include "utils.h"
 #include "str.h"
 #include "global.h"
+#include "expander.h"
 
 static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
 {
@@ -88,6 +90,18 @@ static int	static_exec_out_process(char **cmd, t_env *env)
 	return (WEXITSTATUS(ret));
 }
 
+static void	static_fd(void)
+{
+	int	fd;
+
+	if (!isatty(0) || !isatty(1) || !isatty(2))
+	{
+		fd = open("/dev/null", O_WRONLY);
+		dup2(fd, 2);
+		close(fd);
+	}
+}
+
 int	main(int ret, char **cmd, char *envp[])
 {
 	t_env	*env;
@@ -95,6 +109,7 @@ int	main(int ret, char **cmd, char *envp[])
 	char	*s;
 
 	env = 0;
+	static_fd();
 	env_init(&env, envp);
 	tmp = env_find(env, "PWD");
 	if (tmp)
@@ -120,4 +135,5 @@ int	main(int ret, char **cmd, char *envp[])
 	free(s);
 	glo_pwd(0, 1);
 	env_del_all(env);
+	return (ret);
 }
