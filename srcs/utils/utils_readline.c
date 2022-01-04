@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 10:00:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 14:53:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,17 @@ char	*uti_readline(t_env *env)
 {
 	char	*prompt;
 	char	*ret;
+	int		fd;
 
-	prompt = static_prompt(env);
+	if (isatty(0) && isatty(1) && isatty(2))
+		prompt = static_prompt(env);
+	else
+		prompt = 0;
+	fd = dup(1);
+	dup2(2, 1);
 	ret = readline(prompt);
+	dup2(fd, 1);
+	close(fd);
 	free(prompt);
 	return (ret);
 }

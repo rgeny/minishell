@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 19:33:01 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 14:56:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,12 +140,12 @@ int	main(int ret, char **cmd, char *envp[])
 	if (tmp)
 		glo_pwd(str_ndup(tmp->value, str_len(tmp->value, 0)), 0);
 	s = uti_readline(env);
-	while (1)
+	while (s)
 	{
 		cmd = str_split(s, " ");
-		static_expand(cmd, env);
 		if (cmd[0])
 		{
+			static_expand(cmd, env);
 			add_history(s);
 			free(s);
 			env_new_(cmd[0], &env);
