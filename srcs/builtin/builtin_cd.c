@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 18:05:01 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 23:05:35 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	static_move(char *dir, char *pwd, t_env *env, int b)
 {
 	char	*path;
 	int		ret;
-	t_env	*tmp;
 
 	if (dir && pwd)
 		path = str_join(pwd, dir, '/');

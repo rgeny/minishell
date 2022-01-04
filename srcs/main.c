@@ -6,16 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 17:13:05 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 23:08:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <readline/history.h>
-#include <string.h>
 #include <fcntl.h>
 #include "builtin.h"
 #include "env.h"
@@ -23,76 +20,12 @@
 #include "str.h"
 #include "global.h"
 #include "expander.h"
+#include "exe.h"
 
-static int	static_exec_in_process(char **cmd, int *ret, t_env **env)
+static void	static_init(char *envp[], t_env **env)
 {
-	if (!str_cmp(cmd[0], "export"))
-		*ret = builtin_export(cmd, env);
-	else if (!str_cmp(cmd[0], "unset"))
-		*ret = builtin_unset(cmd, env);
-	else if (!str_cmp(cmd[0], "exit"))
-		*ret = builtin_exit(cmd, *env);
-	else if (!str_cmp(cmd[0], "cd"))
-		*ret = builtin_cd(cmd, *env);
-	else
-		return (1);
-	return (0);
-}
-
-static void	static_pathing(char **cmd, t_env *env)
-{
-	int		i;
-	char	**split;
-	char	*s;
-
-	if (!access(cmd[0], F_OK | X_OK))
-		return ;
-	env = env_find(env, "PATH");
-	if (!env)
-		return ;
-	split = str_split(env->value, ":");
-	i = 0;
-	while (split[i])
-	{
-		s = str_join(split[i], cmd[0], '/');
-		if (!access(s, F_OK | X_OK))
-		{
-			free(cmd[0]);
-			cmd[0] = s;
-			str_free_string(split);
-			return ;
-		}
-		free(s);
-		i++;
-	}
-	str_free_string(split);
-}
-
-static int	static_exec_out_process(char **cmd, t_env *env)
-{
-	pid_t	pid;
-	int		ret;
-	char	**env_cpy;
-
-	pid = fork();
-	if (!pid)
-	{
-		env_cpy = env_switch(&env, 0);
-		glo_pwd(0, 1);
-		static_pathing(cmd, env);
-		execve(cmd[0], cmd, env_cpy);
-		str_free_string(cmd);
-		str_free_string(env_cpy);
-		env_del_all(env);
-		exit (127);
-	}
-	waitpid(pid, &ret, 0);
-	return (WEXITSTATUS(ret));
-}
-
-static void	static_fd(void)
-{
-	int	fd;
+	int		fd;
+	t_env	*pwd;
 
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
@@ -100,40 +33,52 @@ static void	static_fd(void)
 		dup2(fd, 2);
 		close(fd);
 	}
+	*env = 0;
+	env_init(env, envp);
+	pwd = env_find(*env, "PWD");
+	if (pwd)
+		glo_pwd(str_ndup(pwd->value, str_len(pwd->value, 0)), 0);
 }
 
-int	main(int ret, char **cmd, char *envp[])
+static int	static_exe(t_env **env)
 {
-	t_env	*env;
-	t_env	*tmp;
-	char	*s;
+	char	*rl;
+	char	**cmd;
+	int		ret;
 
-	env = 0;
-	static_fd();
-	env_init(&env, envp);
-	tmp = env_find(env, "PWD");
-	if (tmp)
-		glo_pwd(str_ndup(tmp->value, str_len(tmp->value, 0)), 0);
-	s = uti_readline(env);
-	while (s)
+	ret = 0;
+	rl = uti_readline(*env);
+	while (rl)
 	{
-		cmd = str_split(s, " ");
+		cmd = str_split(rl, " ");
 		if (cmd[0])
 		{
-			expander_env(cmd, env);
-			add_history(s);
-			free(s);
-			env_new_(cmd[0], &env);
-			if (static_exec_in_process(cmd, &ret, &env))
-				ret = static_exec_out_process(cmd, env);
+			add_history(rl);
+			expander_env(cmd, *env);
+			env_new_(cmd[0], env);
+			ret = exe_builtin(cmd, env);
+			if (ret == -1)
+				ret = exe_out_process(cmd, *env);
 		}
-		else
-			free(s);
+		free(rl);
 		str_free_string(cmd);
-		s = uti_readline(env);
+		rl = uti_readline(*env);
 	}
-	free(s);
+	return (ret);
+}
+
+static void	static_free(t_env *env)
+{
 	glo_pwd(0, 1);
 	env_del_all(env);
+}
+
+int	main(int ret, __attribute__((unused)) char *argv[], char *envp[])
+{
+	t_env	*env;
+
+	static_init(envp, &env);
+	ret = static_exe(&env);
+	static_free(env);
 	return (ret);
 }

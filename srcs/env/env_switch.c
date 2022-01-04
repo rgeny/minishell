@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:18:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 18:08:08 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/04 23:05:11 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	**env_switch(t_env **env, int with_not_init)
 {
 	int		sz;
 	char	**ret;
-	int		i;
 	t_env	*tmp;
 
 	tmp = *env;
