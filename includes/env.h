@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 11:08:56 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 18:42:14 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_env
 ** Modify and create if not exist : PWD SHLVL
 ** Add builtin path in PATH if exist.
 */
-void	env_init(t_env **env, char *envp[]);
+void	env_init(t_env **env, char *envp[], char *exe);
 /*
 **	env_new
 ** Name and value parameter need to be malloc.

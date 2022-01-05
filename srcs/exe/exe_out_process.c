@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 22:37:53 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 21:09:38 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "env.h"
 #include "global.h"
 #include "str.h"

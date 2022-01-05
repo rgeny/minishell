@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 10:47:20 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 18:59:36 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ static void	static_cpy(t_env **env, char *envp[])
 	}
 }
 
-static void	static_actualize(t_env **env)
+static void	static_actualize(t_env **env, char *exe)
 {
 	t_env	*node;
 	char	*s;
+	char	*s2;
 	int		n;
 	char	path[PATH_CHAR_MAX + 1];
 
@@ -56,7 +57,16 @@ static void	static_actualize(t_env **env)
 	node = env_find(*env, "PATH");
 	if (node)
 	{
-		s = str_join(path, "builtin", '/');
+		if (str_len(exe, 0) > 10)
+		{
+			s = str_ndup(exe, str_len(exe, 0) - 10);
+			s2 = str_join(path, s, '/');
+			free(s);
+		}
+		else
+			s2 = str_ndup(path, str_len(path, 0));
+		s = str_join(s2, "builtin", '/');
+		free(s2);
 		env_assign(*env, "PATH", str_join(s, node->value, ':'));
 		free(s);
 	}
@@ -64,8 +74,8 @@ static void	static_actualize(t_env **env)
 		env_new(env, str_ndup("OLDPWD", str_len("OLDPWD", 0)), 0);
 }
 
-void	env_init(t_env **env, char *envp[])
+void	env_init(t_env **env, char *envp[], char *exe)
 {
 	static_cpy(env, envp);
-	static_actualize(env);
+	static_actualize(env, exe);
 }

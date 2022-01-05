@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 16:00:20 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 19:15:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@
 #include "expander.h"
 #include "exe.h"
 
-static void	static_init(char *envp[], t_env **env)
+#include <dirent.h>
+
+static void	static_init(char *envp[], t_env **env, char *exe)
 {
 	t_env	*pwd;
 
 	*env = 0;
-	env_init(env, envp);
+	env_init(env, envp, exe);
 	pwd = env_find(*env, "PWD");
 	if (pwd)
 		glo_pwd(str_ndup(pwd->value, str_len(pwd->value, 0)), 0);
@@ -70,7 +72,7 @@ int	main(int ret, __attribute__((unused)) char *argv[], char *envp[])
 {
 	t_env	*env;
 
-	static_init(envp, &env);
+	static_init(envp, &env, argv[0]);
 	ret = static_exe(&env);
 	static_free(env);
 	return (ret);

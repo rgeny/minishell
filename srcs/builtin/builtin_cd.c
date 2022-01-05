@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 14:49:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 21:30:22 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	static_error(char **cmd, t_env *env)
 	return (SUCCESS);
 }
 
-static void	static_replace(t_env *env)
+static void	static_replace_pwd_var(t_env *env)
 {
 	t_env	*tmp;
 	char	path[PATH_CHAR_MAX + 1];
@@ -65,6 +65,7 @@ static int	static_move(char *dir, char *pwd, t_env *env, int b)
 {
 	char	*path;
 	int		ret;
+	char	pathpwd[PATH_CHAR_MAX + 1];
 
 	if (dir && pwd)
 		path = str_join(pwd, dir, '/');
@@ -75,10 +76,11 @@ static int	static_move(char *dir, char *pwd, t_env *env, int b)
 	else
 		return (1);
 	ret = chdir(path);
+	getcwd(pathpwd, PATH_CHAR_MAX + 1);
 	if (!ret)
-		static_replace(env);
+		static_replace_pwd_var(env);
 	if (!ret && b)
-		str_printfd(path, 1);
+		str_printfd(pathpwd, 1);
 	free(path);
 	return (!!ret);
 }
