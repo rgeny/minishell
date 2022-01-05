@@ -16,22 +16,23 @@ function fct()
 	TEST_BASH=$(printf "$@" | $CMD bash 2>/dev/null)
 	RET_BASH=$?
 
-	printf "Test "$INDEX" : "
+#	printf "Test "$INDEX" : "
 	if [ "$TEST_MINISHELL" == "$TEST_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ]
 	then
-		printf $COLOR_GREEN"OK\n"
+		printf $COLOR_GREEN"$INDEX:OK "
 #		printf $COLOR_WHITE"CMD : \n$@\n"
 #		printf $COLOR_BLUE
 #		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
 #		printf $COLOR_GREEN
 #		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
 	else
-		printf $COLOR_RED"KO\n"
+		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
 		printf $COLOR_BLUE
 		printf "\nBash    (ret value : $RET_BASH) : \n$TEST_BASH"
 		printf $COLOR_RED
 		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
+		exit
 	fi
 	printf $COLOR_WHITE
 	INDEX=$((INDEX + 1))
@@ -40,7 +41,7 @@ function fct()
 ###########################################################
 ############################ CD ###########################
 ###########################################################
-printf "*****TEST CD*****\n"
+printf "***** TEST CD *****\n"
 fct "cd"
 fct "cd a a"
 fct "cd ../../../../../../../..\npwd"
@@ -61,10 +62,27 @@ fct "pwd\nexport CDPATH=\ncd .\npwd"
 fct "pwd\nexport CDPATH=\ncd ..\npwd"
 
 ###########################################################
+########################## ECHO ###########################
+###########################################################
+INDEX=0
+printf "\n\n***** TEST ECHO *****\n"
+fct "echo"
+fct "echo a b"
+fct "echo -n"
+fct "echo -n a"
+fct "echo a -n"
+fct "echo -nn a"
+fct "echo -nnnm"
+fct "echo -nnn -n -a"
+fct "echo -nn -a a -nn"
+fct "echo a\necho b"
+fct "echo -n a\necho b"
+
+###########################################################
 ########################### ENV ###########################
 ###########################################################
 INDEX=0
-printf "\n*****TEST ENV*****\n"
+printf "\n\n***** TEST ENV *****\n"
 CMD="env -i "
 fct "env"
 

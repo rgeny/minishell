@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 15:02:39 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 21:55:28 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "builtin.h"
 #include "error.h"
 
-static int	static_flag(int argc, char *argv[])
+static int	static_check_flag(int argc, char *argv[])
 {
 	int	i;
 	int	j;
@@ -43,7 +43,7 @@ int	main(int argc, char *argv[])
 	int		ret;
 	int		i;
 
-	ret = static_flag(argc, argv);
+	ret = static_check_flag(argc, argv);
 	i = ret;
 	while (i < argc)
 	{
