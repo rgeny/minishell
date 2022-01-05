@@ -11,9 +11,9 @@ make -C ../ > /dev/null
 
 function fct()
 {
-	TEST_MINISHELL=$(printf "$@" | ../minishell 2>/dev/null)
+	TEST_MINISHELL=$(printf "$@" | $CMD ../minishell 2>/dev/null)
 	RET_MINISHELL=$?
-	TEST_BASH=$(printf "$@" | bash 2>/dev/null)
+	TEST_BASH=$(printf "$@" | $CMD bash 2>/dev/null)
 	RET_BASH=$?
 
 	printf "Test "$INDEX" : "
@@ -23,9 +23,10 @@ function fct()
 	else
 		printf $COLOR_RED"KO\n"
 		printf $COLOR_BLUE
-		printf "Bash (ret value : $RET_BASH) : \n"$TEST_MINISHELL
+		printf "Bash (ret value : $RET_BASH) : \n$TEST_BASH"
 		printf $COLOR_RED
-		printf "\n\nMinishell (ret value : $RET_MINISHELL) : \n"$TEST_BASH"\n"
+		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
+		exit
 	fi
 	printf $COLOR_WHITE
 	INDEX=$((INDEX + 1))
@@ -34,7 +35,7 @@ function fct()
 ###########################################################
 ############################ CD ###########################
 ###########################################################
-printf "TEST CD\n"
+printf "*****TEST CD*****\n"
 fct "cd ../../../../../../../..\npwd"
 fct "cd /mnt/nfs/homes/rgeny\npwd"
 fct "cd $HOME/Desktop"
@@ -42,3 +43,13 @@ fct "unset HOME\ncd"
 fct "export HOME=\ncd"
 fct "cd too many arguments"
 fct "cd ./path_not_found"
+
+###########################################################
+########################### ENV ###########################
+###########################################################
+INDEX=0
+printf "\n*****TEST ENV*****\n"
+CMD="env -i "
+fct "env"
+
+unset CMD

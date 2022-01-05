@@ -6,19 +6,18 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 20:23:53 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 14:26:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(__attribute((unused)) int argc,
+		__attribute((unused)) char *argv[], char *envp[])
 {
 	int	i;
 
-	if (argc || argv)
-		i = 0;
 	i = 0;
 	while (envp[i])
 	{
