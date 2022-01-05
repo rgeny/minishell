@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 17:43:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 22:19:48 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,9 @@ static char	*static_find_pwd(char *envp[])
 	char	*ret;
 
 	i = 0;
-	while (envp[i])
-	{
-		if (envp[i][0] == 'P' && envp[i][1] == 'W'
-			&& envp[i][2] == 'D' && envp[i][3] == '=')
-			break ;
+	while (envp[i] && (envp[i][0] != 'P' || envp[i][1] != 'W'
+		|| envp[i][2] != 'D' || envp[i][3] != '='))
 		i++;
-	}
 	if (envp[i])
 	{
 		split = str_split(envp[i], "=");

@@ -29,7 +29,7 @@ function fct()
 		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
 		printf $COLOR_BLUE
-		printf "\nBash    (ret value : $RET_BASH) : \n$TEST_BASH"
+		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
 		printf $COLOR_RED
 		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
 		exit
@@ -79,7 +79,7 @@ fct "echo a\necho b"
 fct "echo -n a\necho b"
 
 ###########################################################
-########################## ECHO ###########################
+########################## PWD ############################
 ###########################################################
 INDEX=0
 printf "\n\n***** TEST PWD *****\n"
@@ -88,6 +88,13 @@ fct "pwd a"
 fct "pwd pwd"
 fct "pwd a b c d e f"
 fct "pwd ls"
+fct "unset PWD\npwd"
+fct "unset PWD\ncd ..\npwd"
+fct "pwd\ncd ..\npwd"
+fct "pwd -"
+fct "pwd -p"
+fct "pwd --"
+fct "pwd --p"
 
 ###########################################################
 ########################### ENV ###########################
