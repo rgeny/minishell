@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 17:02:08 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 16:18:14 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
+#include <fcntl.h>
 #include "str.h"
 #include "env.h"
 #include "global.h"
@@ -55,18 +56,40 @@ static char	*static_prompt(t_env *env)
 	return (prompt);
 }
 
+static void	static_non_interactive(void)
+{
+	static int	fdnull = -1;
+	static int	fderr = -1;
+
+	if ((!isatty(0) || !isatty(1) || !isatty(2)) && fderr < 0)
+	{
+		fdnull = open("/dev/null", O_WRONLY);
+		fderr = dup(2);
+		dup2(fdnull, 2);
+		close(fdnull);
+	}
+	else if (fderr >= 0)
+	{
+		dup2(fderr, 2);
+		close(fderr);
+		fderr = -1;
+	}
+}
+
 char	*uti_readline(t_env *env)
 {
 	char	*prompt;
 	char	*ret;
-	int		fd;
+	int		fdout;
 
 	prompt = static_prompt(env);
-	fd = dup(1);
+	fdout = dup(1);
+	static_non_interactive();
 	dup2(2, 1);
 	ret = readline(prompt);
-	dup2(fd, 1);
-	close(fd);
+	dup2(fdout, 1);
+	close(fdout);
+	static_non_interactive();
 	free(prompt);
 	return (ret);
 }

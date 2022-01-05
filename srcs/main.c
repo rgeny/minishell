@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 23:08:01 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 16:00:20 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,8 @@
 
 static void	static_init(char *envp[], t_env **env)
 {
-	int		fd;
 	t_env	*pwd;
 
-	if (!isatty(0) || !isatty(1) || !isatty(2))
-	{
-		fd = open("/dev/null", O_WRONLY);
-		dup2(fd, 2);
-		close(fd);
-	}
 	*env = 0;
 	env_init(env, envp);
 	pwd = env_find(*env, "PWD");
