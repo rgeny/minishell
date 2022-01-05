@@ -41,10 +41,11 @@ function fct()
 ############################ CD ###########################
 ###########################################################
 printf "*****TEST CD*****\n"
+fct "cd"
+fct "cd a a"
 fct "cd ../../../../../../../..\npwd"
 fct "cd /mnt/nfs/homes/rgeny\npwd"
 fct "cd $HOME/Desktop"
-fct "cd"
 fct "unset HOME\ncd"
 fct "export HOME=\ncd"
 fct "cd too many arguments"
