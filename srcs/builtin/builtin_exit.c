@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 09:38:58 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 15:01:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "env.h"
 #include "builtin.h"
 #include "global.h"
+#include "error.h"
 
 static void	static_exit(char **cmd, t_env *env, int ret)
 {
@@ -50,5 +51,5 @@ int	builtin_exit(char **cmd, t_env *env)
 	if (len < 3)
 		static_exit(cmd, env, ret);
 	str_printerr("minishell: exit: too many arguments\n", 0, 0, 0);
-	return (1);
+	return (BUILTIN_ERR_EXEC);
 }

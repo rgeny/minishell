@@ -6,15 +6,16 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 12:57:17 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 15:02:39 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "str.h"
 #include "builtin.h"
+#include "error.h"
 
-static t_echo	static_flag(int argc, char *argv[])
+static int	static_flag(int argc, char *argv[])
 {
 	int	i;
 	int	j;
@@ -53,5 +54,5 @@ int	main(int argc, char *argv[])
 	}
 	if (ret == 1)
 		write(1, "\n", 1);
-	return (0);
+	return (SUCCESS);
 }

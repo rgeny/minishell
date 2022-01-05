@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 18:09:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 15:02:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "str.h"
 #include "builtin.h"
 #include "global.h"
+#include "error.h"
 
 static void	check_arg(char *arg)
 {
@@ -24,13 +25,13 @@ static void	check_arg(char *arg)
 	{
 		str_printerr("minishell: pwd: ", arg,
 			": invalid option\npwd: usage: pwd\n", 0);
-		exit(2);
+		exit(BUILTIN_ERR_SYNTAX);
 	}
 	else if (arg[0] == '-' && arg[1] == '-' && arg[2])
 	{
 		str_printerr("minishell: pwd: --: invalid option\n",
 			"pwd: usage: pwd\n", 0, 0);
-		exit(2);
+		exit(BUILTIN_ERR_SYNTAX);
 	}
 }
 
@@ -55,7 +56,7 @@ static char	*static_find_pwd(char *envp[])
 		str_free_string(split);
 		return (ret);
 	}
-	return (0);
+	return (NULL);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -72,5 +73,5 @@ int	main(int argc, char *argv[], char *envp[])
 	str_printfd(path, 1);
 	if (path != tmp)
 		free(path);
-	return (PWD_DEFAULT);
+	return (SUCCESS);
 }

@@ -6,13 +6,14 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 15:32:16 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 15:00:51 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "env.h"
 #include "str.h"
+#include "error.h"
 
 static int	static_isdigitchar(char c)
 {
@@ -36,16 +37,16 @@ static int	static_isavailable(char *s)
 			{
 				str_printerr("bash: unset: '", s,
 					"': not a valid identifier\n", 0);
-				return (1);
+				return (BUILTIN_ERR_EXEC);
 			}
 			i++;
 		}
-		return (0);
+		return (SUCCESS);
 	}
 	else
 	{
 		str_printerr("bash: unset: '", s, "': not a valid identifier\n", 0);
-		return (1);
+		return (BUILTIN_ERR_EXEC);
 	}
 }
 
@@ -55,7 +56,7 @@ int	builtin_unset(char **cmd, t_env **env)
 	t_env	*to_del;
 	int		ret;
 
-	ret = 0;
+	ret = SUCCESS;
 	i = 1;
 	while (cmd[i])
 	{
@@ -70,7 +71,7 @@ int	builtin_unset(char **cmd, t_env **env)
 			}
 		}
 		else
-			ret = 1;
+			ret = BUILTIN_ERR_EXEC;
 		i++;
 	}
 	return (ret);

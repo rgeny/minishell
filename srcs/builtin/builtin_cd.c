@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 23:05:35 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 14:49:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "env.h"
 #include "str.h"
 #include "global.h"
+#include "error.h"
 
 static int	static_error(char **cmd, t_env *env)
 {
@@ -26,20 +27,20 @@ static int	static_error(char **cmd, t_env *env)
 	if (len == 1 && !env_find(env, "HOME"))
 	{
 		str_printerr("minishell: cd: HOME not set\n", 0, 0, 0);
-		return (1);
+		return (BUILTIN_ERR_EXEC);
 	}
 	else if (len > 2)
 	{
 		str_printerr("minishell: cd: too many arguments\n", 0, 0, 0);
-		return (1);
+		return (BUILTIN_ERR_EXEC);
 	}
 	else if (len > 1 && cmd[1][0] == '-'
 		&& !cmd[1][1] && !env_find(env, "OLDPWD"))
 	{
 		str_printerr("minishell: cd: OLDPWD not set\n", 0, 0, 0);
-		return (1);
+		return (BUILTIN_ERR_EXEC);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 static void	static_replace(t_env *env)
@@ -92,11 +93,11 @@ static int	static_env(t_env *env, char *name, char print_path, char *cmd)
 	if (print_path < 2)
 	{
 		if (!var || static_move(0, var->value, env, print_path))
-			return (1);
-		return (0);
+			return (BUILTIN_ERR_EXEC);
+		return (SUCCESS);
 	}
 	if (!var)
-		return (0);
+		return (SUCCESS);
 	split = str_split(var->value, ":");
 	i = -1;
 	while (split && split[++i])
@@ -104,25 +105,25 @@ static int	static_env(t_env *env, char *name, char print_path, char *cmd)
 		if (!static_move(cmd, split[i], env, 1))
 		{
 			str_free_string(split);
-			return (1);
+			return (BUILTIN_ERR_EXEC);
 		}
 	}
 	str_free_string(split);
-	return (0);
+	return (SUCCESS);
 }
 
 int	builtin_cd(char **cmd, t_env *env)
 {
 	if (static_error(cmd, env))
-		return (1);
+		return (BUILTIN_ERR_EXEC);
 	if (!cmd[1])
 		return (static_env(env, "HOME", 0, 0));
 	if (cmd[1][0] == '-' && !cmd[1][1])
 		return (static_env(env, "OLDPWD", 1, 0));
 	if (!static_move(cmd[1], 0, env, 0))
-		return (0);
+		return (SUCCESS);
 	if (static_env(env, "CDPATH", 2, cmd[1]))
-		return (0);
+		return (SUCCESS);
 	str_printerr("minishell: cd: ", cmd[1], ": No such file or directory\n", 0);
-	return (1);
+	return (BUILTIN_ERR_EXEC);
 }

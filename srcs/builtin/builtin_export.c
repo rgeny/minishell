@@ -6,14 +6,15 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 18:29:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/05 15:00:33 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "str.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "env.h"
+#include "str.h"
+#include "error.h"
 
 static void	static_sort(char **s)
 {
@@ -54,7 +55,7 @@ static int	static_print(t_env *env)
 		i++;
 	}
 	str_free_string(cpy);
-	return (0);
+	return (SUCCESS);
 }
 
 static int	static_isdigitchar(char c)
@@ -78,7 +79,7 @@ static int	static_new(char **cmd, t_env **env)
 		{
 			str_printerr("minishell: export: '", cmd[0],
 				"': not a valid identifier\n", 0);
-			return (1);
+			return (BUILTIN_ERR_EXEC);
 		}
 		j++;
 	}
@@ -86,7 +87,7 @@ static int	static_new(char **cmd, t_env **env)
 	env_new(env, str_ndup(var[0], str_len(var[0], 0)),
 		str_ndup(var[1], str_len(var[1], 0)));
 	str_free_string(var);
-	return (0);
+	return (SUCCESS);
 }
 
 int	builtin_export(char **cmd, t_env **env)
@@ -100,14 +101,14 @@ int	builtin_export(char **cmd, t_env **env)
 	else
 	{
 		i = 1;
-		ret = 0;
+		ret = SUCCESS;
 		while (cmd[i])
 		{
 			if (static_isdigitchar(cmd[i][0]) == 1)
 				ret |= static_new(&cmd[i], env);
 			else
 			{
-				ret = 1;
+				ret = BUILTIN_ERR_EXEC;
 				str_printerr("minishell: export: '", cmd[i],
 					"': not a valid identifier\n", 0);
 			}
