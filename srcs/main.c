@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:03:17 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:10:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "env.h"
 #include "utils.h"
 #include "str.h"
-#include "global.h"
 #include "expander.h"
 #include "exe.h"
 #include "lexer.h"
@@ -31,10 +30,11 @@ static void	static_init(char *envp[], t_data *data, char *exe)
 
 	data->env = 0;
 	data->ret = 0;
+	data->pwd = 0;
 	env_init(&data->env, envp, exe);
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
-		glo_pwd(str_ndup(pwd->value, str_len(pwd->value, 0)), 0);
+		data->pwd = str_ndup(pwd->value, str_len(pwd->value, 0));
 }
 
 static void	static_exe(t_data *data)
@@ -69,7 +69,7 @@ static void	static_exe(t_data *data)
 
 static void	static_free(t_data data)
 {
-	glo_pwd(0, 1);
+	free(data.pwd);
 	env_del_all(data.env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:01:11 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:18:42 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	exe_out_process(char **cmd, t_data *data)
 	pid = fork();
 	if (!pid)
 	{
-		env_cpy = env_switch(&data->env, 0);
+		env_cpy = env_switch(data, 0);
 		glo_pwd(0, 1);
 		parsing_path(cmd, data->env);
 		execve(cmd[0], cmd, env_cpy);

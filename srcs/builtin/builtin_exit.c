@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 17:48:27 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:13:12 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 #include "utils.h"
 #include "env.h"
 #include "builtin.h"
-#include "global.h"
 #include "error.h"
 
 static void	static_exit(char **cmd, t_data *data, int ret)
 {
 	str_free_string(cmd);
 	env_del_all(data->env);
-	glo_pwd(0, 1);
+	free(data->pwd);
 	exit(ret);
 }
 

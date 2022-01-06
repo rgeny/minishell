@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 17:42:23 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:15:20 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <fcntl.h>
 #include "str.h"
 #include "env.h"
-#include "global.h"
 
 static int	static_cmp(char *s1, char *s2)
 {
@@ -42,7 +41,7 @@ static char	*static_prompt(t_data *data)
 	tmp = getcwd(path, PATH_CHAR_MAX + 1);
 	prompt = path;
 	if (!tmp)
-		prompt = glo_pwd(0, 0);
+		prompt = data->pwd;
 	pwd = env_find(data->env, "HOME");
 	ret = 0;
 	if (pwd)

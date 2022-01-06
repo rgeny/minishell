@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 22:19:48 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 18:13:30 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "env.h"
 #include "str.h"
 #include "builtin.h"
-#include "global.h"
 #include "error.h"
 
 static void	check_arg(char *arg)

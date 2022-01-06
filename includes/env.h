@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:05:57 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:16:15 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	env_assign(t_env *env, char *name, char *new_value);
 **	env_switch
 ** cpy env in char ** and return this.
 */
-char	**env_switch(t_env **env, int with_not_init); //abc
+char	**env_switch(t_data *data, int with_not_init); //abc
 /*
 **	env_new_
 ** Save the path of the current script in the PATH environment variable.

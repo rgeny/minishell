@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 17:52:19 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:12:37 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include "env.h"
 #include "str.h"
-#include "global.h"
 #include "error.h"
 
 static int	static_error(char **cmd, t_env *env)
@@ -58,7 +57,10 @@ static void	static_replace_pwd_var(t_data *data)
 	else
 		env_del_one(env_find(data->env, "OLDPWD"));
 	if (path[0])
-		glo_pwd(str_ndup(path, str_len(path, 0)), 1);
+	{
+		free(data->pwd);
+		data->pwd = str_ndup(path, str_len(path, 0));
+	}
 }
 
 static int	static_move(char *dir, char *pwd, t_data *data, int b)

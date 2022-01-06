@@ -6,14 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:18:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 23:05:11 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 18:18:03 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "env.h"
 #include "str.h"
-#include "global.h"
 
 static int	static_size(t_env *env, int with_not_init)
 {
@@ -49,19 +48,17 @@ static void	static_assign(t_env *tmp, int with_not_init, char **ret)
 	ret[i] = 0;
 }
 
-char	**env_switch(t_env **env, int with_not_init)
+char	**env_switch(t_data *data, int with_not_init)
 {
 	int		sz;
 	char	**ret;
-	t_env	*tmp;
 
-	tmp = *env;
-	env_new(env, str_ndup("PWD", str_len("PWD", 0)),
-		str_ndup(glo_pwd(0, 0), str_len(glo_pwd(0, 0), 0)));
-	sz = static_size(tmp, with_not_init);
+	env_new(&data->env, str_ndup("PWD", str_len("PWD", 0)),
+		str_ndup(data->pwd, str_len(data->pwd, 0)));
+	sz = static_size(data->env, with_not_init);
 	ret = malloc(sizeof(char *) * (sz + 1));
 	if (!ret)
 		return (0);
-	static_assign(*env, with_not_init, ret);
+	static_assign(data->env, with_not_init, ret);
 	return (ret);
 }
