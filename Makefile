@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/06 19:45:30 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/06 22:05:05 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,10 +47,11 @@ GLOBAL_DIR		= $(SRC_DIR)global/
 EXPANDER_DIR	= $(SRC_DIR)expander/
 EXE_DIR			= $(SRC_DIR)exe/
 PARSING_DIR		= $(SRC_DIR)parsing/
+PRINT_DIR		= $(SRC_DIR)print/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR)
 
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
@@ -61,7 +62,8 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix exe_,		builtin out_process) \
 					$(addprefix parsing_,	path) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix str_,		cmp len ndup split join free printerr printfd split_first) \
+					$(addprefix str_,		cmp len ndup split join free printfd split_first) \
+					$(addprefix print_,		error) \
 					$(SRC_BUILTIN))
 
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
@@ -73,40 +75,27 @@ EXE				= minishell
 # ********************************** Builtin ********************************* #
 # **************************************************************************** #
 
-PATH_DIR		= $(shell /usr/bin/pwd)/
-BUILTIN_DIR		= builtin
 SRC_BUILTIN_DIR	= $(SRC_DIR)builtin/
 
 VPATH			+= $(SRC_BUILTIN_DIR)
 
 SRC_BUILTIN		= $(addprefix builtin_, export unset exit cd)
-SRC_ENV			= builtin_env.c
-OBJ_ENV			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ENV))
-SRC_ECHO		= $(addsuffix .c,builtin_echo str_cmp str_len)
-OBJ_ECHO		= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_ECHO))
-SRC_PWD			= $(addsuffix .c,builtin_pwd str_printfd str_printerr str_len global_pwd str_free str_split str_ndup utils_calloc utils_bzero utils_min str_cmp mem_cpy mem_set utils_itoa)
-OBJ_PWD			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_PWD))
-OBJ_BUILTIN		= $(OBJ_ENV) $(OBJ_ECHO) $(OBJ_PWD)
-
-EXE_ENV			= $(BUILTIN_DIR)/env
-EXE_ECHO		= $(BUILTIN_DIR)/echo
-EXE_PWD			= $(BUILTIN_DIR)/pwd
 
 # **************************************************************************** #
 # ******************************* Compilation ******************************** #
 # **************************************************************************** #
 
-all				: $(EXE) builtin
+all				: $(EXE) #builtin
 
 $(EXE)			: $(OBJ)
 				$(CC) $(FLAG) $^ -o $@ $(LIBF)
 
-builtin			: $(OBJ_BUILTIN)
-				$(NEW_DIR) $(BUILTIN_DIR)/
-				$(CC) $(FLAG) $(OBJ_ENV) -o $(EXE_ENV)
-				$(CC) $(FLAG) $(OBJ_ECHO) -o $(EXE_ECHO)
-				$(CC) $(FLAG) $(OBJ_PWD) -o $(EXE_PWD)
-				cp $(EXE) $(BUILTIN_DIR)/$(EXE)
+#builtin			: $(OBJ_BUILTIN)
+#				$(NEW_DIR) $(BUILTIN_DIR)/
+#				$(CC) $(FLAG) $(OBJ_ENV) -o $(EXE_ENV)
+#				$(CC) $(FLAG) $(OBJ_ECHO) -o $(EXE_ECHO)
+#				$(CC) $(FLAG) $(OBJ_PWD) -o $(EXE_PWD)
+#				cp $(EXE) $(BUILTIN_DIR)/$(EXE)
 
 $(OBJ_DIR)/%.o	: %.c
 				$(NEW_DIR) $(OBJ_DIR)

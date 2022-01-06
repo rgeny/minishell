@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:13:30 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:39:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@
 #include "str.h"
 #include "builtin.h"
 #include "error.h"
+#include "print.h"
 
 static void	check_arg(char *arg)
 {
 	if (arg[0] == '-' && arg[1] && arg[1] != '-')
 	{
-		str_printerr("minishell: pwd: ", arg,
-			": invalid option\npwd: usage: pwd\n", 0);
+		print_error("pwd: ", arg, ": invalid option\npwd: usage: pwd\n", data);
 		exit(BUILTIN_ERR_SYNTAX);
 	}
 	else if (arg[0] == '-' && arg[1] == '-' && arg[2])
 	{
-		str_printerr("minishell: pwd: --: invalid option\n",
-			"pwd: usage: pwd\n", 0, 0);
+		print_error("pwd: --: invalid option\npwd: usage: pwd\n", 0, 0, data);
 		exit(BUILTIN_ERR_SYNTAX);
 	}
 }

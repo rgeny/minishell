@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 15:00:51 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 22:03:19 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "env.h"
 #include "str.h"
 #include "error.h"
+#include "print.h"
+#include "struct.h"
 
 static int	static_isdigitchar(char c)
 {
@@ -24,7 +26,7 @@ static int	static_isdigitchar(char c)
 	return (0);
 }
 
-static int	static_isavailable(char *s)
+static int	static_isavailable(char *s, t_data *data)
 {
 	int	i;
 
@@ -35,8 +37,7 @@ static int	static_isavailable(char *s)
 		{
 			if (!static_isdigitchar(s[i]))
 			{
-				str_printerr("bash: unset: '", s,
-					"': not a valid identifier\n", 0);
+				print_error("unset: ", s, ": not a valid identifier\n", data);
 				return (BUILTIN_ERR_EXEC);
 			}
 			i++;
@@ -45,12 +46,12 @@ static int	static_isavailable(char *s)
 	}
 	else
 	{
-		str_printerr("bash: unset: '", s, "': not a valid identifier\n", 0);
+		print_error("unset: ", s, ": not a valid identifier\n", data);
 		return (BUILTIN_ERR_EXEC);
 	}
 }
 
-int	builtin_unset(char **cmd, t_env **env)
+int	builtin_unset(char **cmd, t_data *data)
 {
 	int		i;
 	t_env	*to_del;
@@ -60,13 +61,13 @@ int	builtin_unset(char **cmd, t_env **env)
 	i = 1;
 	while (cmd[i])
 	{
-		if (!static_isavailable(cmd[i]))
+		if (!static_isavailable(cmd[i], data))
 		{
-			to_del = env_find(*env, cmd[i]);
+			to_del = env_find(data->env, cmd[i]);
 			if (to_del)
 			{
-				if (*env == to_del)
-					*env = &(*to_del->next);
+				if (data->env == to_del)
+					data->env = &(*to_del->next);
 				env_del_one(to_del);
 			}
 		}

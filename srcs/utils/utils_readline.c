@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:58:22 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 20:30:17 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	static_non_interactive(t_interactive *interactive)
 	static int	fdnull = -1;
 	static int	fderr = -1;
 
-	if (interactive->is_interactive)
+	if (!interactive->is_interactive)
 	{
 		if (fderr < 0)
 		{

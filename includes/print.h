@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/31 17:27:20 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 21:32:32 by buschiix         ###   ########.fr       */
+/*   Created: 2022/01/06 21:18:20 by buschiix          #+#    #+#             */
+/*   Updated: 2022/01/06 21:19:17 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
-# include "env.h"
+#ifndef PRINT_H
+# define PRINT_H
+# include "struct.h"
 
-int	builtin_export(char **cmd, t_data *data);
-int	builtin_unset(char **cmd, t_data *data);
-int	builtin_exit(char **cmd, t_data *data);
-int	builtin_cd(char **cmd, t_data *data);
+void	print_error(char *cmd, char *message1, char *message2, t_data *data);
 #endif

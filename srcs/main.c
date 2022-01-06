@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 19:34:27 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 20:30:02 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	static_init(char *envp[], t_data *data, char *exe)
 	if (pwd)
 		data->pwd = str_ndup(pwd->value, str_len(pwd->value, 0));
 	data->interactive.line = 0;
-	if (!isatty(0) || !isatty(1) || isatty(2))
+	if (!isatty(0) || !isatty(1) || !isatty(2))
 		data->interactive.is_interactive = 0;
 	else
 		data->interactive.is_interactive = 1;

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:50:49 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:25:59 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,27 @@
 #include "env.h"
 #include "str.h"
 #include "error.h"
+#include "print.h"
 
-static int	static_error(char **cmd, t_env *env)
+static int	static_error(char **cmd, t_data *data)
 {
 	int	len;
 
 	len = str_llen(cmd);
-	if (len == 1 && !env_find(env, "HOME"))
+	if (len == 1 && !env_find(data->env, "HOME"))
 	{
-		str_printerr("minishell: cd: HOME not set\n", 0, 0, 0);
+		print_error("cd: ", "HOME not set\n", 0, data);
 		return (BUILTIN_ERR_EXEC);
 	}
 	else if (len > 2)
 	{
-		str_printerr("minishell: cd: too many arguments\n", 0, 0, 0);
+		print_error("cd: ", "too many arguments\n", 0, data);
 		return (BUILTIN_ERR_EXEC);
 	}
 	else if (len > 1 && cmd[1][0] == '-'
-		&& !cmd[1][1] && !env_find(env, "OLDPWD"))
+		&& !cmd[1][1] && !env_find(data->env, "OLDPWD"))
 	{
-		str_printerr("minishell: cd: OLDPWD not set\n", 0, 0, 0);
+		print_error("cd: ", "OLDPWD not set\n", 0, data);
 		return (BUILTIN_ERR_EXEC);
 	}
 	return (SUCCESS);
@@ -119,7 +120,7 @@ static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 
 int	builtin_cd(char **cmd, t_data *data)
 {
-	if (static_error(cmd, data->env))
+	if (static_error(cmd, data))
 		return (BUILTIN_ERR_EXEC);
 	if (!cmd[1])
 		return (static_env(data, "HOME", 0, 0));
@@ -129,6 +130,6 @@ int	builtin_cd(char **cmd, t_data *data)
 		return (SUCCESS);
 	if (static_env(data, "CDPATH", 2, cmd[1]))
 		return (SUCCESS);
-	str_printerr("minishell: cd: ", cmd[1], ": No such file or directory\n", 0);
+	print_error("cd: ", cmd[1], ": No such file or directory\n", data);
 	return (BUILTIN_ERR_EXEC);
 }

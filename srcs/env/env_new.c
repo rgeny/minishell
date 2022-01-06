@@ -6,12 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 15:13:04 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 21:34:48 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
+#include "struct.h"
 
 static void	static_add_back(t_env **env, t_env *new)
 {

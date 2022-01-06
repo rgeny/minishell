@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:20:10 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:01:37 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "env.h"
 #include "str.h"
 #include "error.h"
+#include "print.h"
+#include "struct.h"
 
 static void	static_sort(char **s)
 {
@@ -70,7 +72,7 @@ static int	static_isdigitchar(char c)
 	return (0);
 }
 
-static int	static_new(char **cmd, t_env **env)
+static int	static_new(char **cmd, t_data *data)
 {
 	int		j;
 	char	**var;
@@ -80,27 +82,26 @@ static int	static_new(char **cmd, t_env **env)
 	{
 		if (!static_isdigitchar(cmd[0][j]))
 		{
-			str_printerr("minishell: export: '", cmd[0],
-				"': not a valid identifier\n", 0);
+			print_error("export: ", cmd[0], ": not a valid identifier\n", data);
 			return (BUILTIN_ERR_EXEC);
 		}
 		j++;
 	}
 	var = str_split_first(cmd[0], '=');
-	env_new(env, str_ndup(var[0], str_len(var[0], 0)),
+	env_new(&data->env, str_ndup(var[0], str_len(var[0], 0)),
 		str_ndup(var[1], str_len(var[1], 0)));
 	str_free_string(var);
 	return (SUCCESS);
 }
 
-int	builtin_export(char **cmd, t_env **env)
+int	builtin_export(char **cmd, t_data *data)
 {
 	int	i;
 	int	ret;
 
 	ret = 0;
 	if (!cmd[1])
-		return (static_print(*env));
+		return (static_print(data->env));
 	else
 	{
 		i = 1;
@@ -108,12 +109,11 @@ int	builtin_export(char **cmd, t_env **env)
 		while (cmd[i])
 		{
 			if (static_isdigitchar(cmd[i][0]) == 1)
-				ret |= static_new(&cmd[i], env);
+				ret |= static_new(&cmd[i], data);
 			else
 			{
 				ret = BUILTIN_ERR_EXEC;
-				str_printerr("minishell: export: '", cmd[i],
-					"': not a valid identifier\n", 0);
+				print_error("export: ", cmd[i], ": not a valid identifier\n", data);
 			}
 			i++;
 		}

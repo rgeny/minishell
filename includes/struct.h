@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/06 18:45:09 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 20:17:36 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ typedef struct s_data
 	int				ret;
 	char			*pwd;
 	t_interactive	interactive;
-}			t_data;
+}					t_data;
 #endif
