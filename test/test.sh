@@ -32,7 +32,7 @@ function fct()
 		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
 		printf $COLOR_RED
 		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
-		exit
+#		exit
 	fi
 	printf $COLOR_WHITE
 	INDEX=$((INDEX + 1))

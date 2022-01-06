@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 18:48:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 17:42:23 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	static_cmp(char *s1, char *s2)
 	return (0);
 }
 
-static char	*static_prompt(t_env *env)
+static char	*static_prompt(t_data *data)
 {
 	char	path[PATH_CHAR_MAX + 1];
 	t_env	*pwd;
@@ -43,7 +43,7 @@ static char	*static_prompt(t_env *env)
 	prompt = path;
 	if (!tmp)
 		prompt = glo_pwd(0, 0);
-	pwd = env_find(env, "HOME");
+	pwd = env_find(data->env, "HOME");
 	ret = 0;
 	if (pwd)
 		ret = static_cmp(pwd->value, prompt);
@@ -76,13 +76,13 @@ static void	static_non_interactive(void)
 	}
 }
 
-char	*uti_readline(t_env *env)
+char	*uti_readline(t_data *data)
 {
 	char	*prompt;
 	char	*ret;
 	int		fdout;
 
-	prompt = static_prompt(env);
+	prompt = static_prompt(data);
 	fdout = dup(1);
 	static_non_interactive();
 	dup2(2, 1);

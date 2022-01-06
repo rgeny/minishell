@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 11:38:10 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:42:38 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*uti_itoa(int n);
 int		uti_ato_i(char *s);
 long	uti_ato_l(char *s);
 int		uti_isdigit(char *s);
-char	*uti_readline(t_env *env);
+char	*uti_readline(t_data *data);
 int		uti_is_in_charset(char c, char *charset);
 
 #endif

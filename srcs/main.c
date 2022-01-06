@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 11:20:14 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/06 17:44:24 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@
 
 #include <dirent.h>
 
-static void	static_init(char *envp[], t_env **env, char *exe)
+static void	static_init(char *envp[], t_data *data, char *exe)
 {
 	t_env	*pwd;
 
-	*env = 0;
-	env_init(env, envp, exe);
-	pwd = env_find(*env, "PWD");
+	data->env = 0;
+	env_init(&data->env, envp, exe);
+	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		glo_pwd(str_ndup(pwd->value, str_len(pwd->value, 0)), 0);
 }
 
-static int	static_exe(t_env **env)
+static int	static_exe(t_data *data)
 {
 	char	*rl;
 	char	**cmd;
@@ -45,7 +45,7 @@ static int	static_exe(t_env **env)
 
 	ret = 0;
 	tokens = NULL;
-	rl = uti_readline(*env);
+	rl = uti_readline(data);
 	while (rl)
 	{
 		// tokens = lexer_lex(rl);
@@ -54,33 +54,33 @@ static int	static_exe(t_env **env)
 		if (cmd[0])
 		{
 			add_history(rl);
-			expander_env(cmd, *env);
-			env_new_(cmd[0], env);
+			expander_env(cmd, data->env);
+			env_new_(cmd[0], &data->env);
 			lexer_free_tokens(&tokens);
-			ret = exe_builtin(cmd, env);
+			ret = exe_builtin(cmd, data);
 			if (ret == -1)
-				ret = exe_out_process(cmd, *env);
+				ret = exe_out_process(cmd, data->env);
 		}
 		lexer_free_tokens(&tokens);
 		free(rl);
 		str_free_string(cmd);
-		rl = uti_readline(*env);
+		rl = uti_readline(data);
 	}
 	return (ret);
 }
 
-static void	static_free(t_env *env)
+static void	static_free(t_data data)
 {
 	glo_pwd(0, 1);
-	env_del_all(env);
+	env_del_all(data.env);
 }
 
 int	main(int ret, __attribute__((unused)) char *argv[], char *envp[])
 {
-	t_env	*env;
+	t_data	data;
 
-	static_init(envp, &env, argv[0]);
-	ret = static_exe(&env);
-	static_free(env);
+	static_init(envp, &data, argv[0]);
+	ret = static_exe(&data);
+	static_free(data);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 21:30:22 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 17:52:19 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,25 @@ static int	static_error(char **cmd, t_env *env)
 	return (SUCCESS);
 }
 
-static void	static_replace_pwd_var(t_env *env)
+static void	static_replace_pwd_var(t_data *data)
 {
 	t_env	*tmp;
 	char	path[PATH_CHAR_MAX + 1];
 
 	getcwd(path, PATH_CHAR_MAX + 1);
-	tmp = env_find(env, "PWD");
+	tmp = env_find(data->env, "PWD");
 	if (tmp)
 	{
-		env_assign(env, "OLDPWD", str_ndup(tmp->value, str_len(tmp->value, 0)));
-		env_assign(env, "PWD", str_ndup(path, str_len(path, 0)));
+		env_assign(data->env, "OLDPWD", str_ndup(tmp->value, str_len(tmp->value, 0)));
+		env_assign(data->env, "PWD", str_ndup(path, str_len(path, 0)));
 	}
 	else
-		env_del_one(env_find(env, "OLDPWD"));
+		env_del_one(env_find(data->env, "OLDPWD"));
 	if (path[0])
 		glo_pwd(str_ndup(path, str_len(path, 0)), 1);
 }
 
-static int	static_move(char *dir, char *pwd, t_env *env, int b)
+static int	static_move(char *dir, char *pwd, t_data *data, int b)
 {
 	char	*path;
 	int		ret;
@@ -78,23 +78,23 @@ static int	static_move(char *dir, char *pwd, t_env *env, int b)
 	ret = chdir(path);
 	getcwd(pathpwd, PATH_CHAR_MAX + 1);
 	if (!ret)
-		static_replace_pwd_var(env);
+		static_replace_pwd_var(data);
 	if (!ret && b)
 		str_printfd(pathpwd, 1);
 	free(path);
 	return (!!ret);
 }
 
-static int	static_env(t_env *env, char *name, char print_path, char *cmd)
+static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 {
 	t_env	*var;
 	char	**split;
 	int		i;
 
-	var = env_find(env, name);
+	var = env_find(data->env, name);
 	if (print_path < 2)
 	{
-		if (!var || static_move(0, var->value, env, print_path))
+		if (!var || static_move(0, var->value, data, print_path))
 			return (BUILTIN_ERR_EXEC);
 		return (SUCCESS);
 	}
@@ -104,7 +104,7 @@ static int	static_env(t_env *env, char *name, char print_path, char *cmd)
 	i = -1;
 	while (split && split[++i])
 	{
-		if (!static_move(cmd, split[i], env, 1))
+		if (!static_move(cmd, split[i], data, 1))
 		{
 			str_free_string(split);
 			return (BUILTIN_ERR_EXEC);
@@ -114,17 +114,17 @@ static int	static_env(t_env *env, char *name, char print_path, char *cmd)
 	return (SUCCESS);
 }
 
-int	builtin_cd(char **cmd, t_env *env)
+int	builtin_cd(char **cmd, t_data *data)
 {
-	if (static_error(cmd, env))
+	if (static_error(cmd, data->env))
 		return (BUILTIN_ERR_EXEC);
 	if (!cmd[1])
-		return (static_env(env, "HOME", 0, 0));
+		return (static_env(data, "HOME", 0, 0));
 	if (cmd[1][0] == '-' && !cmd[1][1])
-		return (static_env(env, "OLDPWD", 1, 0));
-	if (!static_move(cmd[1], 0, env, 0))
+		return (static_env(data, "OLDPWD", 1, 0));
+	if (!static_move(cmd[1], 0, data, 0))
 		return (SUCCESS);
-	if (static_env(env, "CDPATH", 2, cmd[1]))
+	if (static_env(data, "CDPATH", 2, cmd[1]))
 		return (SUCCESS);
 	str_printerr("minishell: cd: ", cmd[1], ": No such file or directory\n", 0);
 	return (BUILTIN_ERR_EXEC);

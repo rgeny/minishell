@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 18:42:14 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 16:17:07 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 }				t_env;
+typedef struct s_data
+{
+	t_env	*env;
+}			t_data;
 /*
 **	env_init
 ** Initialize env list with all argument in envp.
