@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 21:55:28 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 22:28:07 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 #include "builtin.h"
 #include "error.h"
 
-static int	static_check_flag(int argc, char *argv[])
+static int	static_check_flag(char **cmd)
 {
 	int	i;
 	int	j;
 
 	i = 1;
-	while (i < argc)
+	while (cmd[i])
 	{
-		if (argv[i][0] == '-')
+		if (cmd[i][0] == '-')
 		{
 			j = 1;
-			while (argv[i][j] == 'n')
+			while (cmd[i][j] == 'n')
 				j++;
-			if (argv[i][j])
+			if (cmd[i][j])
 				return (i);
 		}
 		else
@@ -38,18 +38,18 @@ static int	static_check_flag(int argc, char *argv[])
 	return (i);
 }
 
-int	main(int argc, char *argv[])
+int	builtin_echo(char **cmd)
 {
-	int		ret;
-	int		i;
+	int	ret;
+	int	i;
 
-	ret = static_check_flag(argc, argv);
+	ret = static_check_flag(cmd);
 	i = ret;
-	while (i < argc)
+	while (cmd[i])
 	{
-		write(1, argv[i], str_len(argv[i], 0));
+		write(1, cmd[i], str_len(cmd[i], 0));
 		i++;
-		if (i < argc)
+		if (cmd[i])
 			write(1, " ", 1);
 	}
 	if (ret == 1)

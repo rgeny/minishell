@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/06 22:05:05 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/06 22:26:07 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,10 +48,11 @@ EXPANDER_DIR	= $(SRC_DIR)expander/
 EXE_DIR			= $(SRC_DIR)exe/
 PARSING_DIR		= $(SRC_DIR)parsing/
 PRINT_DIR		= $(SRC_DIR)print/
+BUILTIN_DIR		= $(SRC_DIR)builtin/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR) $(BUILTIN_DIR)
 
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
@@ -64,22 +65,13 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix str_,		cmp len ndup split join free printfd split_first) \
 					$(addprefix print_,		error) \
+					$(addprefix builtin_,	cd exit export unset echo) \
 					$(SRC_BUILTIN))
 
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)
 
 EXE				= minishell
-
-# **************************************************************************** #
-# ********************************** Builtin ********************************* #
-# **************************************************************************** #
-
-SRC_BUILTIN_DIR	= $(SRC_DIR)builtin/
-
-VPATH			+= $(SRC_BUILTIN_DIR)
-
-SRC_BUILTIN		= $(addprefix builtin_, export unset exit cd)
 
 # **************************************************************************** #
 # ******************************* Compilation ******************************** #
@@ -90,19 +82,12 @@ all				: $(EXE) #builtin
 $(EXE)			: $(OBJ)
 				$(CC) $(FLAG) $^ -o $@ $(LIBF)
 
-#builtin			: $(OBJ_BUILTIN)
-#				$(NEW_DIR) $(BUILTIN_DIR)/
-#				$(CC) $(FLAG) $(OBJ_ENV) -o $(EXE_ENV)
-#				$(CC) $(FLAG) $(OBJ_ECHO) -o $(EXE_ECHO)
-#				$(CC) $(FLAG) $(OBJ_PWD) -o $(EXE_PWD)
-#				cp $(EXE) $(BUILTIN_DIR)/$(EXE)
-
 $(OBJ_DIR)/%.o	: %.c
 				$(NEW_DIR) $(OBJ_DIR)
 				$(CC) $(FLAG) -c $< $(OBJ_FLAG) -o $@
 
 valgrind		: all
-				$(VALGRIND) $(VALGRINDF)  ./$(EXE)
+				$(VALGRIND) $(VALGRINDF) ./$(EXE)
 
 envi			: all	
 				$(ENV) $(VALGRIND) $(VALGRINDF) ./$(EXE)
@@ -111,7 +96,7 @@ clean			:
 				$(RM) $(OBJ_DIR)
 
 fclean			: clean
-				$(RM) $(EXE) $(BUILTIN_DIR)
+				$(RM) $(EXE)
 
 re				: fclean all
 

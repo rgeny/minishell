@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 19:38:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 21:34:17 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:25:49 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exe_builtin(char **cmd, t_data *data)
 		data->ret = builtin_exit(cmd, data);
 	else if (!str_cmp(cmd[0], "cd"))
 		data->ret = builtin_cd(cmd, data);
+	else if (!str_cmp(cmd[0], "echo"))
+		data->ret = builtin_echo(cmd);
 	else
 		data->ret = -1;
 }
