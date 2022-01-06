@@ -6,27 +6,15 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:16:15 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:30:27 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 # define PATH_CHAR_MAX 4096
+# include "struct.h"
 
-typedef struct s_env
-{
-	struct s_env	*next;
-	struct s_env	*prev;
-	char			*name;
-	char			*value;
-}				t_env;
-typedef struct s_data
-{
-	t_env	*env;
-	int		ret;
-	char	*pwd;
-}			t_data;
 /*
 **	env_init
 ** Initialize env list with all argument in envp.

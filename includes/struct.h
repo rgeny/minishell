@@ -1,17 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   global.h                                           :+:      :+:    :+:   */
+/*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/01 09:15:39 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 09:16:05 by rgeny            ###   ########.fr       */
+/*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
+/*   Updated: 2022/01/06 18:30:00 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GLOBAL_H
-# define GLOBAL_H
+#ifndef STRUCT_H
+# define STRUCT_H
 
-char	*glo_pwd(char *s, int b);
+typedef struct s_env
+{
+	struct s_env	*next;
+	struct s_env	*prev;
+	char			*name;
+	char			*value;
+}					t_env;
+typedef struct s_data
+{
+	t_env	*env;
+	int		ret;
+	char	*pwd;
+}			t_data;
 #endif

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:18:42 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:33:26 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "env.h"
-#include "global.h"
 #include "str.h"
 #include "parsing.h"
 
@@ -29,7 +28,7 @@ void	exe_out_process(char **cmd, t_data *data)
 	if (!pid)
 	{
 		env_cpy = env_switch(data, 0);
-		glo_pwd(0, 1);
+		free(data->pwd);
 		parsing_path(cmd, data->env);
 		execve(cmd[0], cmd, env_cpy);
 		str_free_string(cmd);
