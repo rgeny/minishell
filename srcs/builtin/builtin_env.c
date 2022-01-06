@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 15:02:07 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 22:33:42 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 #include <unistd.h>
 #include "error.h"
 
-int	main(__attribute((unused)) int argc,
-		__attribute((unused)) char *argv[], char *envp[])
+int	builtin_env(char **envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
 	{
-		printf("%s\n", envp[i]);
+		write(1, envp[i], str_len(envp[i]));
+		write(1, "\n", 1);
 		i++;
 	}
 	return (SUCCESS);
