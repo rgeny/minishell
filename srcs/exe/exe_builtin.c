@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 19:38:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:33:23 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:46:05 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	exe_builtin(char **cmd, t_data *data)
 		data->ret = builtin_echo(cmd);
 	else if (!str_cmp(cmd[0], "env"))
 		data->ret = builtin_env(env_switch(data, 0));
+	else if (!str_cmp(cmd[0], "pwd"))
+		data->ret = builtin_pwd(cmd, data);
 	else
 		data->ret = -1;
 }

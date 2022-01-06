@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 17:27:20 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:31:23 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:45:02 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ int	builtin_exit(char **cmd, t_data *data);
 int	builtin_cd(char **cmd, t_data *data);
 int	builtin_echo(char **cmd);
 int	builtin_env(char **envp);
+int	builtin_pwd(char **cmd, t_data *data);
 #endif
