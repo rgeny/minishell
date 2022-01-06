@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:12:37 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:50:49 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static void	static_replace_pwd_var(t_data *data)
 	tmp = env_find(data->env, "PWD");
 	if (tmp)
 	{
-		env_assign(data->env, "OLDPWD", str_ndup(tmp->value, str_len(tmp->value, 0)));
+		env_assign(data->env, "OLDPWD", str_ndup(tmp->value,
+				str_len(tmp->value, 0)));
 		env_assign(data->env, "PWD", str_ndup(path, str_len(path, 0)));
 	}
 	else

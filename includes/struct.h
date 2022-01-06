@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/06 18:30:00 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:45:09 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 }					t_env;
+typedef struct s_interactive
+{
+	unsigned long	line;
+	int				is_interactive;
+}					t_interactive;
 typedef struct s_data
 {
-	t_env	*env;
-	int		ret;
-	char	*pwd;
+	t_env			*env;
+	int				ret;
+	char			*pwd;
+	t_interactive	interactive;
 }			t_data;
 #endif

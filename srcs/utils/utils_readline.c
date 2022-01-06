@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:15:20 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:58:22 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,27 @@ static char	*static_prompt(t_data *data)
 	return (prompt);
 }
 
-static void	static_non_interactive(void)
+static void	static_non_interactive(t_interactive *interactive)
 {
 	static int	fdnull = -1;
 	static int	fderr = -1;
 
-	if ((!isatty(0) || !isatty(1) || !isatty(2)) && fderr < 0)
+	if (interactive->is_interactive)
 	{
-		fdnull = open("/dev/null", O_WRONLY);
-		fderr = dup(2);
-		dup2(fdnull, 2);
-		close(fdnull);
-	}
-	else if (fderr >= 0)
-	{
-		dup2(fderr, 2);
-		close(fderr);
-		fderr = -1;
+		if (fderr < 0)
+		{
+			fdnull = open("/dev/null", O_WRONLY);
+			fderr = dup(2);
+			dup2(fdnull, 2);
+			close(fdnull);
+			interactive->line++;
+		}
+		else
+		{
+			dup2(fderr, 2);
+			close(fderr);
+			fderr = -1;
+		}
 	}
 }
 
@@ -83,12 +87,12 @@ char	*uti_readline(t_data *data)
 
 	prompt = static_prompt(data);
 	fdout = dup(1);
-	static_non_interactive();
+	static_non_interactive(&data->interactive);
 	dup2(2, 1);
 	ret = readline(prompt);
 	dup2(fdout, 1);
 	close(fdout);
-	static_non_interactive();
+	static_non_interactive(&data->interactive);
 	free(prompt);
 	return (ret);
 }

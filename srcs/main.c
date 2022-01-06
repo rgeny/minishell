@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:10:50 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:48:38 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,17 @@ static void	static_init(char *envp[], t_data *data, char *exe)
 	t_env	*pwd;
 
 	data->env = 0;
+	env_init(&data->env, envp, exe);
 	data->ret = 0;
 	data->pwd = 0;
-	env_init(&data->env, envp, exe);
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		data->pwd = str_ndup(pwd->value, str_len(pwd->value, 0));
+	data->interactive.line = 0;
+	if (!isatty(0) || !isatty(1) || isatty(2))
+		data->interactive.is_interactive = 0;
+	else
+		data->interactive.is_interactive = 1;
 }
 
 static void	static_exe(t_data *data)
