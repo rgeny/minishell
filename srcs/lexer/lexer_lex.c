@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 10:38:53 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/06 11:28:48 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static int	static_process_char(t_tok_constructor *constructor, t_token **tokens, int i)
 {
-	int len;
-	
+	int	len;
+
 	if (constructor->mode == E_MODE_WORD)
 	{
-		if (lexer_get_char_type(constructor->str[i]) == E_CHAR_TYPE_BLANK)
+		if (lexer_get_chartype(constructor->str[i]) == E_CHAR_TYPE_BLANK)
 		{
 			lexer_terminate_token(constructor, tokens, i);
 			lexer_tok_constructor_new(constructor, i + 1);
 			return (1);
 		}
-		else if (lexer_get_char_type(constructor->str[i]) == E_CHAR_TYPE_OPERATOR)
+		else if (lexer_get_chartype(constructor->str[i]) == E_CHAR_TYPE_OPERATOR)
 		{
 			lexer_terminate_token(constructor, tokens, i);
 			lexer_tok_constructor_new(constructor, i + 1);
@@ -51,7 +51,7 @@ t_token	*lexer_lex(const char *str)
 	lexer_tok_constructor_new(&constructor, i);
 	while (str && str[i])
 		i += static_process_char(&constructor, &tokens, i);
-	if (constructor.current_token)
+	if (constructor.cur_token)
 		lexer_terminate_token(&constructor, &tokens, i);
 	lexer_tok_constructor_free(&constructor);
 	return (tokens);
