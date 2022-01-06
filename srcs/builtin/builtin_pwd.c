@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:50:54 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 23:01:40 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@ static int	check_arg(char *arg, t_data *data)
 
 static char	*static_find_pwd(t_env *env)
 {
-	char	**split;
 	char	*ret;
 	t_env	*pwd;
 
 	pwd = env_find(env, "PWD");
-	if (env && env->value)
+	if (pwd && pwd->value)
 	{
-		ret = str_ndup(env->value, str_len(env->value, 0));
+		ret = str_ndup(pwd->value, str_len(pwd->value, 0));
 		return (ret);
 	}
 	return (NULL);

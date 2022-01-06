@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 20:30:02 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:58:11 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 
 #include <dirent.h>
 
-static void	static_init(char *envp[], t_data *data, char *exe)
+static void	static_init(char *envp[], t_data *data)
 {
 	t_env	*pwd;
 
 	data->env = 0;
-	env_init(&data->env, envp, exe);
+	env_init(&data->env, envp);
 	data->ret = 0;
 	data->pwd = 0;
 	pwd = env_find(data->env, "PWD");
@@ -78,11 +78,12 @@ static void	static_free(t_data data)
 	env_del_all(data.env);
 }
 
-int	main(__attribute((unused)) int argc, __attribute__((unused)) char *argv[], char *envp[])
+int	main(__attribute((unused)) int argc,
+	__attribute__((unused)) char *argv[], char *envp[])
 {
 	t_data	data;
 
-	static_init(envp, &data, argv[0]);
+	static_init(envp, &data);
 	static_exe(&data);
 	static_free(data);
 	return (data.ret);

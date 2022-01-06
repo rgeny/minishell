@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/06 22:46:35 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/06 22:59:17 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,16 +26,14 @@ IGNORE_FILE		= $(shell pwd)/ignoreliberror
 # **************************************************************************** #
 
 CC				= cc
-FLAG			= $(DEPF) -g #-Wall -Werror -Wextra
-OBJ_FLAG		= $(INCLUDES) $(PROMPTF) $(PATH_BUILTINF)
+FLAG			= $(DEPF) -g -Wall -Werror -Wextra
+OBJ_FLAG		= $(INCLUDES) $(PROMPTF)
 LIBF			= -lreadline
 DEPF			= -MMD
 PATHF			= 
 INCLUDES		= -I$(INCLUDES_DIR)
 PROMPTF			= -D PROMPT=$(VPROMPT)
 VPROMPT			= \"$(shell whoami)@$(shell hostname -s):\"
-PATH_BUILTINF	= -D PATH_BUILTIN=\"$(shell pwd)/$(BUILTIN_DIR)\"
-VPATH_BUILTIN	= $(shell pwd)
 
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/

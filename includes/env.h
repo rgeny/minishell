@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:30:27 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:58:27 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** Modify and create if not exist : PWD SHLVL
 ** Add builtin path in PATH if exist.
 */
-void	env_init(t_env **env, char *envp[], char *exe);
+void	env_init(t_env **env, char *envp[]);
 /*
 **	env_new
 ** Name and value parameter need to be malloc.

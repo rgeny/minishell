@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 11:34:44 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/06 23:00:52 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	lexer_terminate_token(t_tok_constructor *constructor, t_token **tokens, int 
 		constructor->start_index++;
 		return (1);
 	}
-	str_start = constructor->str + constructor->start_index;
+	str_start = (char *)constructor->str + constructor->start_index;
 	token_len = stri - constructor->start_index;
 	constructor->cur_token->content = str_ndup(str_start, token_len);
 	constructor->cur_token->type = E_TOKEN_TYPE_WORD;
