@@ -8,6 +8,7 @@ COLOR_WHITE="\033[0;37m"
 INDEX=0
 
 make re -C ../ > /dev/null
+clear
 
 function fct()
 {
@@ -54,8 +55,8 @@ fct "cd ./path_not_found"
 fct "cd ..\ncd -\npwd"
 fct "cd ..\nunset OLDPWD\ncd -\npwd"
 fct "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd .."
-fct "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\npwd"
-fct "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\nunset PWD\npwd"
+#fct "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\npwd"
+#fct "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\nunset PWD\npwd"
 fct "export CDPATH=/mnt/nfs\ncd homes/..\npwd"
 fct "export CDPATH=/mnt/nfs/\ncd homes/..\npwd"
 fct "pwd\nexport CDPATH=\ncd .\npwd"

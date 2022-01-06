@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 17:44:24 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:03:17 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,19 @@ static void	static_init(char *envp[], t_data *data, char *exe)
 	t_env	*pwd;
 
 	data->env = 0;
+	data->ret = 0;
 	env_init(&data->env, envp, exe);
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		glo_pwd(str_ndup(pwd->value, str_len(pwd->value, 0)), 0);
 }
 
-static int	static_exe(t_data *data)
+static void	static_exe(t_data *data)
 {
 	char	*rl;
 	char	**cmd;
-	int		ret;
 	t_token	*tokens;
 
-	ret = 0;
 	tokens = NULL;
 	rl = uti_readline(data);
 	while (rl)
@@ -57,16 +56,15 @@ static int	static_exe(t_data *data)
 			expander_env(cmd, data->env);
 			env_new_(cmd[0], &data->env);
 			lexer_free_tokens(&tokens);
-			ret = exe_builtin(cmd, data);
-			if (ret == -1)
-				ret = exe_out_process(cmd, data->env);
+			exe_builtin(cmd, data);
+			if (data->ret == -1)
+				exe_out_process(cmd, data);
 		}
 		lexer_free_tokens(&tokens);
 		free(rl);
 		str_free_string(cmd);
 		rl = uti_readline(data);
 	}
-	return (ret);
 }
 
 static void	static_free(t_data data)
@@ -80,7 +78,7 @@ int	main(int ret, __attribute__((unused)) char *argv[], char *envp[])
 	t_data	data;
 
 	static_init(envp, &data, argv[0]);
-	ret = static_exe(&data);
+	static_exe(&data);
 	static_free(data);
-	return (ret);
+	return (data.ret);
 }

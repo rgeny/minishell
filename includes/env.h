@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 16:17:07 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:05:57 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct s_env
 typedef struct s_data
 {
 	t_env	*env;
+	int		ret;
+	char	*pwd;
 }			t_data;
 /*
 **	env_init

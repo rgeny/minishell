@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 21:09:38 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 18:01:11 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,23 @@
 #include "str.h"
 #include "parsing.h"
 
-int	exe_out_process(char **cmd, t_env *env)
+void	exe_out_process(char **cmd, t_data *data)
 {
 	pid_t	pid;
-	int		ret;
 	char	**env_cpy;
 
 	pid = fork();
 	if (!pid)
 	{
-		env_cpy = env_switch(&env, 0);
+		env_cpy = env_switch(&data->env, 0);
 		glo_pwd(0, 1);
-		parsing_path(cmd, env);
+		parsing_path(cmd, data->env);
 		execve(cmd[0], cmd, env_cpy);
 		str_free_string(cmd);
 		str_free_string(env_cpy);
-		env_del_all(env);
+		env_del_all(data->env);
 		exit(127);
 	}
-	waitpid(pid, &ret, 0);
-	return (WEXITSTATUS(ret));
+	waitpid(pid, &data->ret, 0);
+	data->ret = WEXITSTATUS(data->ret);
 }

@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:04:11 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 17:45:56 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 18:02:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXE_H
 # define EXE_H
 
-int	exe_builtin(char **cmd, t_data *data);
-int	exe_out_process(char **cmd, t_env *env);
+void	exe_builtin(char **cmd, t_data *data);
+void	exe_out_process(char **cmd, t_data *data);
 #endif
