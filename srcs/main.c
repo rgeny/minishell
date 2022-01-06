@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 19:15:23 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/06 11:20:14 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "global.h"
 #include "expander.h"
 #include "exe.h"
+#include "lexer.h"
 
 #include <dirent.h>
 
@@ -40,21 +41,27 @@ static int	static_exe(t_env **env)
 	char	*rl;
 	char	**cmd;
 	int		ret;
+	t_token	*tokens;
 
 	ret = 0;
+	tokens = NULL;
 	rl = uti_readline(*env);
 	while (rl)
 	{
+		// tokens = lexer_lex(rl);
+		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
 		if (cmd[0])
 		{
 			add_history(rl);
 			expander_env(cmd, *env);
 			env_new_(cmd[0], env);
+			lexer_free_tokens(&tokens);
 			ret = exe_builtin(cmd, env);
 			if (ret == -1)
 				ret = exe_out_process(cmd, *env);
 		}
+		lexer_free_tokens(&tokens);
 		free(rl);
 		str_free_string(cmd);
 		rl = uti_readline(*env);

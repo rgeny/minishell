@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgeny <marvin@42.fr>                       +#+  +:+       +#+         #
+#    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/05 18:30:58 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/06 11:11:31 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ VPATH_BUILTIN	= $(shell pwd)
 
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
+LEXER_DIR		= $(SRC_DIR)lexer/
 MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
 UTILS_DIR		= $(SRC_DIR)utils/
@@ -49,18 +50,19 @@ PARSING_DIR		= $(SRC_DIR)parsing/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR)
 
 SRC_STR			= $(addsuffix .c, $(addprefix str_, cmp len ndup split join free printerr printfd split_first))
 OBJ_STR			= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_STR))
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
-					$(addprefix utils_,		bzero calloc min itoa ato isdigit readline) \
+					$(addprefix utils_,		bzero calloc min itoa ato isdigit readline is_in_charset) \
 					$(addprefix mem_,		cpy set) \
 					$(addprefix global_,	pwd) \
 					$(addprefix expander_, env) \
 					$(addprefix exe_, builtin out_process) \
 					$(addprefix parsing_, path) \
+					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(SRC_BUILTIN))
 
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC)) $(OBJ_STR)
