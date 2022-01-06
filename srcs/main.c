@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:48:38 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 19:34:27 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	static_free(t_data data)
 	env_del_all(data.env);
 }
 
-int	main(int ret, __attribute__((unused)) char *argv[], char *envp[])
+int	main(__attribute((unused)) int argc, __attribute__((unused)) char *argv[], char *envp[])
 {
 	t_data	data;
 
