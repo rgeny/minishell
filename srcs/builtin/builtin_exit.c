@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 21:30:24 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/06 23:06:01 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	static_check_first(char **cmd, t_data *data)
 		print_error("exit: ", cmd[1], ": numbered argument is necessary\n", data);
 		static_exit(cmd, data, 2);
 	}
-	return (ret % 256);
+	return ((unsigned char)ret);
 }
 
 int	builtin_exit(char **cmd, t_data *data)
