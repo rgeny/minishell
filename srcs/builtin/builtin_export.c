@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:13:25 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:55:30 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,6 @@ static int	static_print(t_env *env)
 	return (SUCCESS);
 }
 
-static int	static_isdigitchar(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (2);
-	return (0);
-}
-
 static int	static_new(char **cmd, t_data *data)
 {
 	int		j;
@@ -64,7 +55,7 @@ static int	static_new(char **cmd, t_data *data)
 	j = 0;
 	while (cmd[0][j] && cmd[0][j] != '=')
 	{
-		if (!static_isdigitchar(cmd[0][j]))
+		if (uti_isalnum(cmd[0][j]) == IS_OTHER)
 		{
 			print_error("export: ", cmd[0], ": not a valid identifier\n", data);
 			return (BUILTIN_ERR_EXEC);
@@ -92,7 +83,7 @@ int	builtin_export(char **cmd, t_data *data)
 		ret = SUCCESS;
 		while (cmd[i])
 		{
-			if (static_isdigitchar(cmd[i][0]) == 1)
+			if (uti_isalnum(cmd[i][0]) == 1)
 				ret |= static_new(&cmd[i], data);
 			else
 			{

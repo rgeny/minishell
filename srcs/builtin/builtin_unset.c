@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:03:19 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:56:15 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,18 @@
 #include "error.h"
 #include "print.h"
 #include "struct.h"
-
-static int	static_isdigitchar(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
-		return (1);
-	if (c >= '0' && c <= '9')
-		return (2);
-	return (0);
-}
+#include "utils.h"
 
 static int	static_isavailable(char *s, t_data *data)
 {
 	int	i;
 
-	if (static_isdigitchar(s[0]) == 1)
+	if (uti_isalnum(s[0]) == IS_ALPHA)
 	{
 		i = 1;
 		while (s[i])
 		{
-			if (!static_isdigitchar(s[i]))
+			if (uti_isalnum(s[i]) == IS_OTHER)
 			{
 				print_error("unset: ", s, ": not a valid identifier\n", data);
 				return (BUILTIN_ERR_EXEC);

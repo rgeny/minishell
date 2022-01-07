@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:52:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/07 22:44:13 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:54:10 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**str_split(char *s, char *charset)
 	int		curr_w;
 	char	**ary;
 
-	if (s == NULL || charset == NULL)
+	if (s == NULL || charset == NULL)
 		return ((char **) 0);
 	ary = malloc(sizeof(char *) * (get_word_cnt(s, charset) + 1));
 	if (!ary)
