@@ -6,11 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:01:37 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 01:03:46 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include "env.h"
 #include "str.h"
@@ -56,7 +56,11 @@ static int	static_print(t_env *env)
 	while (cpy[i])
 	{
 		if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
-			printf("export %s\n", cpy[i]);
+		{
+			write(1, "export ", 7);
+			write(1, cpy[i], str_len(cpy[i], 0));
+			write(1, "\n", 1);
+		}
 		i++;
 	}
 	str_free_string(cpy);
@@ -113,7 +117,8 @@ int	builtin_export(char **cmd, t_data *data)
 			else
 			{
 				ret = BUILTIN_ERR_EXEC;
-				print_error("export: ", cmd[i], ": not a valid identifier\n", data);
+				print_error("export: ", cmd[i],
+					": not a valid identifier\n", data);
 			}
 			i++;
 		}

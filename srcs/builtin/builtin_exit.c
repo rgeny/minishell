@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 23:06:01 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 00:52:04 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ static int	static_check_first(char **cmd, t_data *data)
 	long	ret;
 
 	ret = uti_ato_l(cmd[1]);
-	if (uti_isdigit(cmd[1]) || ret == -1)
+	if ((uti_isdigit(cmd[1]) && cmd[1][0] != '-')
+		|| (cmd[1][1] && uti_isdigit(&cmd[1][1])))
 	{
-		print_error("exit: ", cmd[1], ": numbered argument is necessary\n", data);
+		print_error("exit: ", cmd[1],
+			": numbered argument is necessary\n", data);
 		static_exit(cmd, data, 2);
 	}
 	return ((unsigned char)ret);
