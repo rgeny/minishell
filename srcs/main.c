@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 20:08:28 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 21:34:20 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	static_exe(t_data *data)
 		// tokens = lexer_lex(rl);
 		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
-		if (cmd[0])
+		if (cmd && cmd[0])
 		{
 			add_history(rl);
 			expander_cmd(cmd, data->env);
@@ -76,10 +76,24 @@ static void	static_free(t_data data)
 	env_del_all(data.env);
 }
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+
 int	main(__attribute((unused)) int argc,
 	__attribute__((unused)) char *argv[], char *envp[])
 {
+	struct rlimit	l;
 	t_data	data;
+
+	getrlimit(RLIMIT_MEMLOCK, &l);
+	printf("%ld\n", l.rlim_cur);
+	l.rlim_cur = 1;
+	setrlimit(RLIMIT_MEMLOCK, &l);
+	printf("%ld\n", l.rlim_cur);
+	getrlimit(RLIMIT_MEMLOCK, &l);
+	printf("%ld\n", l.rlim_cur);
 
 	static_init(envp, &data);
 	static_exe(&data);

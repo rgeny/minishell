@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:59:33 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 21:12:55 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "utils.h"
 #include <stdlib.h>
 #include <unistd.h>
+
+#include <stdio.h>
 
 static void	static_cpy(t_env **env, char *envp[])
 {
@@ -31,8 +33,11 @@ static void	static_cpy(t_env **env, char *envp[])
 			j++;
 		name = str_ndup(envp[i], j);
 		j++;
-		value = str_ndup(&envp[i][j], str_len(&envp[i][j], 0));
-		env_new(env, name, value);
+		if (name)
+		{
+			value = str_ndup(&envp[i][j], str_len(&envp[i][j], 0));
+			env_new(env, name, value);
+		}
 		i++;
 	}
 }
@@ -52,7 +57,8 @@ static void	static_actualize(t_env **env)
 	else
 		n = 1;
 	s = uti_itoa(n);
-	env_new(env, str_ndup("SHLVL", 5), s);
+	if (s)
+		env_new(env, str_ndup("SHLVL", 5), s);
 	if (!env_find(*env, "OLDPWD"))
 		env_new(env, str_ndup("OLDPWD", str_len("OLDPWD", 0)), 0);
 }

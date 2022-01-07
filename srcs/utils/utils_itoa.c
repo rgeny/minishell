@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:07:01 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 19:35:51 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 21:12:13 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*uti_itoa(int n)
 
 	sz = static_size(n);
 	s = uti_calloc(sz + 1, sizeof(char));
+	if (!s)
+		return (0);
 	s[sz] = 0;
 	while (sz)
 	{
