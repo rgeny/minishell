@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:55:30 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:13:13 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	static_print(t_env *env)
 			i++;
 		}
 	}
-	str_free_string(cpy);
+	str_free_list(cpy);
 	return (SUCCESS);
 }
 
@@ -65,7 +65,7 @@ static int	static_new(char **cmd, t_data *data)
 	var = str_split_first(cmd[0], '=');
 	env_new(&data->env, str_ndup(var[0], str_len(var[0], 0)),
 		str_ndup(var[1], str_len(var[1], 0)));
-	str_free_string(var);
+	str_free_list(var);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:52:50 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:13:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static void	static_replace_pwd_var(t_data *data)
 		env_del_one(env_find(data->env, "OLDPWD"));
 	if (path[0])
 	{
-		if (data->pwd)
-			free(data->pwd);
+		str_free(data->pwd);
 		data->pwd = str_ndup(path, str_len(path, 0));
 	}
 }
@@ -86,8 +85,7 @@ static int	static_move(char *dir, char *pwd, t_data *data, int b)
 		static_replace_pwd_var(data);
 	if (!ret && b)
 		print_fd(pathpwd, 1);
-	if (path)
-		free(path);
+	str_free(path);
 	return (!!ret);
 }
 
@@ -112,11 +110,11 @@ static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 	{
 		if (!static_move(cmd, split[i], data, 1))
 		{
-			str_free_string(split);
+			str_free_list(split);
 			return (BUILTIN_ERR_EXEC);
 		}
 	}
-	str_free_string(split);
+	str_free_list(split);
 	return (SUCCESS);
 }
 

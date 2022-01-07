@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 19:55:01 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:14:26 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ int	builtin_pwd(char **cmd, t_data *data)
 		path = tmp;
 	print_fd(path, 1);
 	if (path != tmp)
-		free(path);
+		str_free(path);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 19:49:20 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:10:46 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ char	**str_split(char *s, char *charset);
 char	**str_split_first(char *s, char c);
 int		str_len(const char *s, char c);
 int		str_llen(char **s);
-void	str_free_string(char **s);
+void	str_free(char *s);
+void	str_free_list(char **s);
 #endif

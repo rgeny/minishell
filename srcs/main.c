@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:18:50 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:13:34 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,15 @@ static void	static_exe(t_data *data)
 				exe_out_process(cmd, data);
 		}
 		lexer_free_tokens(&tokens);
-		free(rl);
-		str_free_string(cmd);
+		str_free(rl);
+		str_free_list(cmd);
 		rl = exe_readline(data);
 	}
 }
 
 static void	static_free(t_data data)
 {
-	if (data.pwd)
-		free(data.pwd);
+	str_free(data.pwd);
 	env_del_all(data.env);
 }
 

@@ -6,11 +6,12 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 10:11:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 11:28:51 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/07 23:23:07 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "str.h"
 
 void	lexer_free_tokens(t_token **tokens)
 {

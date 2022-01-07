@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:42:46 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:19:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	parsing_path(char **cmd, t_env *env)
 		s = str_join(split[i], cmd[0], '/');
 		if (!access(s, F_OK | X_OK))
 		{
-			free(cmd[0]);
+			str_free(cmd[0]);
 			cmd[0] = s;
-			str_free_string(split);
+			str_free_list(split);
 			return ;
 		}
-		free(s);
+		str_free(s);
 		i++;
 	}
-	str_free_string(split);
+	str_free_list(split);
 }

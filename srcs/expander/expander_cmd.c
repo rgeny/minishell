@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 20:07:47 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:17:14 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static void	static_expand(char **splt, t_env *env, int i)
 		if (tmp)
 		{
 			s = str_ndup(tmp->value, str_len(tmp->value, 0));
-			free(splt[i]);
+			str_free(splt[i]);
 			splt[i] = s;
 		}
 		else
 		{
 			s = uti_calloc(5, sizeof(1));
-			free(splt[i]);
+			str_free(splt[i]);
 			splt[i] = s;
 		}
 		i++;
@@ -50,7 +50,7 @@ static char	*static_join(char **splt)
 	while (splt[i])
 	{
 		tmp = str_join(ret, splt[i], 0);
-		free(ret);
+		str_free(ret);
 		ret = tmp;
 		i++;
 	}
@@ -98,8 +98,8 @@ void	expander_cmd(char **cmd, t_env *env)
 			splt = str_split(cmd[i], "$");
 			static_expand(splt, env, cmd[i][0] != '$');
 			join = static_join(splt);
-			str_free_string(splt);
-			free(cmd[i]);
+			str_free_list(splt);
+			str_free(cmd[i]);
 			cmd[i] = join;
 		}
 		i++;

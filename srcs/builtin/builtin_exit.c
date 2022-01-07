@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 00:52:04 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:12:58 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 
 static void	static_exit(char **cmd, t_data *data, int ret)
 {
-	str_free_string(cmd);
+	str_free_list(cmd);
 	env_del_all(data->env);
-	free(data->pwd);
+	str_free(data->pwd);
 	exit(ret);
 }
 

@@ -6,13 +6,19 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:50:54 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:23:24 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void	str_free_string(char **s)
+void	str_free(char *s)
+{
+	if (!s)
+		free(s);
+}
+
+void	str_free_list(char **s)
 {
 	int	i;
 
@@ -21,7 +27,7 @@ void	str_free_string(char **s)
 	i = 0;
 	while (s[i])
 	{
-		free(s[i]);
+		str_free(s[i]);
 		i++;
 	}
 	free(s);

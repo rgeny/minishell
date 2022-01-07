@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:55:39 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:12:45 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_env(char **envp)
 			write(1, "\n", 1);
 			i++;
 		}
-		str_free_string(envp);
+		str_free_list(envp);
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:52:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/07 22:54:10 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:21:41 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,7 @@ static int	get_word_cnt(char const *s, char *charset)
 
 static void	*free_ary(char **ary)
 {
-	int	i;
-
-	i = -1;
-	while (ary[++i])
-		free(ary[i]);
-	free(ary);
+	str_free_list(ary);
 	return (NULL);
 }
 

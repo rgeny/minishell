@@ -6,12 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/30 15:17:13 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/07 23:22:38 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include <stdlib.h>
+#include "env.h"
+#include "str.h"
 
 void	env_del_one(t_env *env)
 {
@@ -21,10 +22,10 @@ void	env_del_one(t_env *env)
 		env->prev->next = env->next;
 	if (env->next)
 		env->next->prev = env->prev;
-	free(env->name);
-	if (env->value)
-		free(env->value);
-	free(env);
+	str_free(env->name);
+	str_free(env->value);
+	if (env)
+		free(env);
 }
 
 void	env_del_all(t_env *env)

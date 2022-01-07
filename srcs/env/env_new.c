@@ -6,12 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:38:08 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:24:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include <stdlib.h>
+#include "str.h"
+#include "env.h"
 #include "struct.h"
 
 static void	static_add_back(t_env **env, t_env *new)
@@ -38,7 +39,7 @@ void	env_new(t_env **env, char *name, char *value)
 	if (new)
 	{
 		env_assign(*env, name, value);
-		free(name);
+		str_free(name);
 		return ;
 	}
 	new = malloc(sizeof(t_env));
