@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 14:28:30 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 18:10:37 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,23 @@
 #include "struct.h"
 
 #include <stdio.h>
+int	n = 0;
+int	n2 = 0;
+int	n3 = 0;
+
+static int	strcmpp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s1[i] == s2[i])
+	{
+		i++;
+		n += 3;
+	}
+	n += 4;
+	return (s1[i] - s2[i]);
+}
 
 static void	static_sort(char **s)
 {
@@ -26,8 +43,6 @@ static void	static_sort(char **s)
 	int		j;
 	int		imin;
 	char	*tmp;
-	int		n;
-	int		n2;
 
 	n = 0;
 	n2 = 0;
@@ -40,7 +55,7 @@ static void	static_sort(char **s)
 			j = i + 1;
 			while (s[j])
 			{
-				if (str_cmp(s[imin], s[j]) > 0)
+				if (strcmpp(s[imin], s[j]) > 0)
 				{
 					imin = j;
 					n++;
@@ -58,7 +73,7 @@ static void	static_sort(char **s)
 		n += 3;
 	}
 	n++;
-	printf("tri par selection\t: %d:%d\n", n, n2);
+	printf("tri par selection\t: % 8d:% 8d\n", n, n2);
 }
 
 static void	static_sort2(char **s)
@@ -67,8 +82,6 @@ static void	static_sort2(char **s)
 	int		j;
 	char	*tmp;
 	int		b;
-	int		n;
-	int		n2;
 
 	b = 1;
 	n = 2;
@@ -82,7 +95,7 @@ static void	static_sort2(char **s)
 		{
 			while (s[i + j])
 			{
-				if (str_cmp(s[i], s[i + 1]) > 0)
+				if (strcmpp(s[i], s[i + 1]) > 0)
 				{
 					tmp = s[i];
 					s[i] = s[i + 1];
@@ -100,7 +113,7 @@ static void	static_sort2(char **s)
 		n += 4;
 	}
 	n++;
-	printf("tri à bulle\t\t: %d:%d\n", n, n2);
+	printf("tri à bulle\t\t: % 8d:% 8d\n", n, n2);
 }
 
 static void	static_sort3(char **s)
@@ -109,9 +122,6 @@ static void	static_sort3(char **s)
 	int		j;
 	int		k;
 	char	*tmp;
-
-	int		n;
-	int		n2;
 
 	n = 0;
 	n2 = 0;
@@ -122,7 +132,7 @@ static void	static_sort3(char **s)
 		{
 			j = i;
 			k = j - 1;
-			while (j && str_cmp(s[k], s[j]) > 0)
+			while (j && strcmpp(s[k], s[j]) > 0)
 			{
 				tmp = s[k];
 				s[k] = s[j];
@@ -142,7 +152,214 @@ static void	static_sort3(char **s)
 		n += 2;
 	}
 	n++;
-	printf("tri par insertion\t: %d:%d\n", n, n2);
+	printf("tri par insertion\t: % 8d:% 8d\n", n, n2);
+}
+
+static void	static_sort4_recursif(int start, int end, char **s, char **tmp)
+{
+	int	middle;
+	int	i;
+	int	left;
+	int	right;
+
+	if (end <= start)
+	{
+		n++;
+		return ;
+	}
+	middle = (start + end) / 2;
+	left = start;
+	right = middle + 1;
+
+	static_sort4_recursif(start, middle, s, tmp);
+	static_sort4_recursif(right, end, s, tmp);
+
+	i = start;
+	while (i <= end)
+	{
+		if (left > middle)
+		{
+			tmp[i] = s[right];
+			right++;
+			n++;
+		}
+		else if (right > end)
+		{
+			tmp[i] = s[left];
+			left++;
+			n += 2;
+		}
+		else if (strcmpp(s[left], s[right]) > 0)
+		{
+			tmp[i] = s[right];
+			right++;
+			n += 3;
+			n2++;
+		}
+		else
+		{
+			tmp[i] = s[left];
+			left++;
+			n += 3;
+			n2++;
+		}
+		i++;
+		n += 2;
+	}
+	while (start <= end)
+	{
+		s[start] = tmp[start];
+		start++;
+		n += 3;
+	}
+	n += 10;
+	n3 += 2;
+}
+
+static void	static_sort4(char **s)
+{
+	int		len;
+	char	**tmp;
+
+	n = 0;
+	n2 = 0;
+	len = str_llen(s);
+	n += len;
+	tmp = malloc(sizeof(char *) * (len + 1));
+	static_sort4_recursif(0, len - 1, s, tmp);
+	free(tmp);
+	n2 += 2;
+	printf("tri par fusion\t\t: % 8d:% 8d:% 8d\n", n, n2, n3);
+}
+
+static void	static_sort5_recursif(int start, int end, char **s)
+{
+	int		i;
+	char	*tmp;
+	int		pivot;
+
+	if (end <= start)
+	{
+		n++;
+		return ;
+	}
+	pivot = start;
+	while (pivot < end && strcmpp(s[pivot], s[end]) < 0)
+	{
+		pivot++;
+		n += 3;
+		n2++;
+	}
+	i = pivot;
+	while (i < end)
+	{
+		if (strcmpp(s[i], s[end]) < 0)
+		{
+			tmp = s[i];
+			s[i] = s[pivot];
+			s[pivot] = tmp;
+			pivot++;
+			n += 4;
+		}
+		i++;
+		n2++;
+		n += 3;
+	}
+	tmp = s[pivot];
+	s[pivot] = s[end];
+	s[end] = tmp;
+	static_sort5_recursif(start, pivot - 1, s);
+	static_sort5_recursif(pivot + 1, end, s);
+	n3 += 2;
+	n += 9;
+}
+
+static void	static_sort5(char **s)
+{
+	int	len;
+
+	len = str_llen(s);
+	n = len;
+	n2 = 0;
+	n3 = 0;
+	
+	static_sort5_recursif(0, len - 1, s);
+	n2++;
+	printf("tri rapide\t\t: % 8d:% 8d:% 8d\n", n, n2, n3);
+}
+
+static void	static_sort6_sort(char **s, int len, int i)
+{
+	int		maxval;
+	int		left;
+	int		right;
+	char	*tmp;
+
+	maxval = i;
+	left = (2 * i) + 1;
+	right = (2 * i) + 2;
+
+	if (left < len && strcmpp(s[maxval], s[left]) < 0)
+	{
+		maxval = left;
+		n++;
+	}
+	if (right < len && strcmpp(s[maxval], s[right]) < 0)
+	{
+		maxval = right;
+		n++;
+	}
+	if (maxval != i)
+	{
+		tmp = s[maxval];
+		s[maxval] = s[i];
+		s[i] = tmp;
+		static_sort6_sort(s, len, maxval);
+		n += 3;
+		n3++;
+	}
+	n += 14;
+}
+
+static void	static_sort6_recursif(int len, char **s)
+{
+	int		i;
+	int		j;
+	int		left;
+	int		right;
+	char	*tmp;
+
+	i = (len / 2) - 1;
+	while (i >= 0)
+	{
+		static_sort6_sort(s, len, i);
+		i--;
+		n += 2;
+		n3++;
+	}
+	i = len - 1;
+	while (i)
+	{
+		tmp = s[0];
+		s[0] = s[i];
+		s[i] = tmp;
+		static_sort6_sort(s, i, 0);
+		i--;
+		n += 5;
+		n3++;
+	}
+	n += 7;
+}
+
+static void	static_sort6(char **s)
+{
+	int	len;
+
+	len = str_llen(s);
+	n = len;
+	n3 = 0;
+	static_sort6_recursif(len, s);
+	printf("tri par tas\t\t: % 8d:% 8d:% 8d\n", n, n2, n3);
 }
 
 static int	static_print(t_env *env)
@@ -155,15 +372,29 @@ static int	static_print(t_env *env)
 	data.pwd = 0;
 	
 	cpy = env_switch(&data, 1);
-	static_sort(cpy);
-	str_free_string(cpy);
-
-	cpy = env_switch(&data, 1);
 	static_sort2(cpy);
 	str_free_string(cpy);
 
 	cpy = env_switch(&data, 1);
+	static_sort(cpy);
+	str_free_string(cpy);
+
+	cpy = env_switch(&data, 1);
 	static_sort3(cpy);
+	str_free_string(cpy);
+
+	cpy = env_switch(&data, 1);
+	static_sort4(cpy);
+	str_free_string(cpy);
+
+	cpy = env_switch(&data, 1);
+	static_sort5(cpy);
+	str_free_string(cpy);
+
+	cpy = env_switch(&data, 1);
+	static_sort6(cpy);
+	str_free_string(cpy);
+
 	exit(1);
 	i = 0;
 	while (cpy[i])
@@ -176,6 +407,7 @@ static int	static_print(t_env *env)
 		}
 		i++;
 	}
+	exit(1);
 	str_free_string(cpy);
 	return (SUCCESS);
 }
