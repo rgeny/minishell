@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:12:55 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 23:06:04 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static void	static_cpy(t_env **env, char *envp[])
 	i = 0;
 	while (envp[i])
 	{
-		j = 0;
-		while (envp[i][j] && envp[i][j] != '=')
-			j++;
+		j = str_len(envp[i], '=');
 		name = str_ndup(envp[i], j);
 		j++;
 		if (name)
