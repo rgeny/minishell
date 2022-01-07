@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:16:45 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 00:41:45 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static char	*static_prompt(t_data *data)
 		tmp = str_join(PROMPT, &prompt[ret], '~');
 	else
 		tmp = str_join(PROMPT, prompt, 0);
-	prompt = str_join(tmp, "$ ", 0);
+	if (!data->ret)
+		prompt = str_join(tmp, "\033[32m\033[01m >\033[37m\033[00m", 0);
+	else
+		prompt = str_join(tmp, "\033[31m\033[01m >\033[37m\033[00m", 0);
 	str_free(tmp);
 	return (prompt);
 }
