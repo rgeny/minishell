@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_readline.c                                   :+:      :+:    :+:   */
+/*   exe_readline.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 19:06:56 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 20:01:16 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	static_non_interactive(t_interactive *interactive)
 	}
 }
 
-char	*uti_readline(t_data *data)
+char	*exe_readline(t_data *data)
 {
 	char	*prompt;
 	char	*ret;

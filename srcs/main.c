@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 19:15:11 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 20:02:27 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 #include "expander.h"
 #include "exe.h"
 #include "lexer.h"
-
-#include <dirent.h>
 
 static void	static_init(char *envp[], t_data *data)
 {
@@ -49,7 +47,7 @@ static void	static_exe(t_data *data)
 	t_token	*tokens;
 
 	tokens = NULL;
-	rl = uti_readline(data);
+	rl = exe_readline(data);
 	while (rl)
 	{
 		// tokens = lexer_lex(rl);
@@ -68,7 +66,7 @@ static void	static_exe(t_data *data)
 		lexer_free_tokens(&tokens);
 		free(rl);
 		str_free_string(cmd);
-		rl = uti_readline(data);
+		rl = exe_readline(data);
 	}
 }
 
