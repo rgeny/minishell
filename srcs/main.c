@@ -6,18 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:13:34 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 00:00:13 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <sys/wait.h>
 #include <readline/history.h>
-#include <fcntl.h>
-#include "builtin.h"
 #include "env.h"
-#include "utils.h"
-#include "str.h"
 #include "expander.h"
 #include "exe.h"
 #include "lexer.h"
@@ -76,20 +71,20 @@ static void	static_free(t_data data)
 	env_del_all(data.env);
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <sys/resource.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <sys/time.h>
+//#include <sys/resource.h>
 
 int	main(__attribute((unused)) int argc,
 	__attribute__((unused)) char *argv[], char *envp[])
 {
-	struct rlimit	l;
+//	struct rlimit	l;
 	t_data	data;
 
-	getrlimit(RLIMIT_MEMLOCK, &l);
-	l.rlim_cur = 1;
-	setrlimit(RLIMIT_MEMLOCK, &l);
+//	getrlimit(RLIMIT_MEMLOCK, &l);
+//	l.rlim_cur = 1;
+//	setrlimit(RLIMIT_MEMLOCK, &l);
 
 	static_init(envp, &data);
 	static_exe(&data);

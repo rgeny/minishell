@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/07 22:53:08 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/07 23:59:49 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,27 +14,37 @@
 # ************************************ cmd *********************************** #
 # **************************************************************************** #
 
-RM				= rm -rf
-NEW_DIR			= mkdir -p
+# ******************************** Compilation ******************************* #
+CC				= cc
+
+# ******************************** COMPIL FLAG ******************************* #
+COMPILF			= $(DEPF) -g -Wall -Werror -Wextra
+LIBF			= -lreadline
+DEPF			= -MMD
+
+# ********************************** OBJ FLAG ******************************** #
+OBJF			= $(INCLUDESF) $(PROMPTF)
+INCLUDESF		= -I$(INCLUDES_DIR)
+PROMPTF			= -D PROMPT=$(VPROMPT)
+VPROMPT			= \"$(shell whoami)@$(shell hostname -s):\"
+
+# ******************************* Valgrind flag ****************************** #
 VALGRIND		= valgrind
 VALGRINDF		= --trace-children=yes --suppressions=$(IGNORE_FILE) --leak-check=full --show-leak-kinds=all
 ENV				= env -i
 IGNORE_FILE		= $(shell pwd)/ignoreliberror
 
+# *********************************** others ********************************* #
+RM				= rm -rf
+NEW_DIR			= mkdir -p
+
+
+
 # **************************************************************************** #
 # ********************************* Minishell ******************************** #
 # **************************************************************************** #
 
-CC				= cc
-FLAG			= $(DEPF) -g #-Wall -Werror -Wextra
-OBJ_FLAG		= $(INCLUDES) $(PROMPTF)
-LIBF			= -lreadline
-DEPF			= -MMD
-PATHF			= 
-INCLUDES		= -I$(INCLUDES_DIR)
-PROMPTF			= -D PROMPT=$(VPROMPT)
-VPROMPT			= \"$(shell whoami)@$(shell hostname -s):\"
-
+# ********************************* Directory ******************************** #
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
 LEXER_DIR		= $(SRC_DIR)lexer/
@@ -52,6 +62,8 @@ INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR) $(BUILTIN_DIR)
 
+# *********************************** sources ******************************** #
+
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
 					$(addprefix utils_,		bzero calloc min itoa ato quicksort is) \
@@ -65,10 +77,12 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
 					$(SRC_BUILTIN))
 
+# *********************************** others ********************************* #
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP				= $(OBJ:.o=.d)
-
 EXE				= minishell
+
+
 
 # **************************************************************************** #
 # ******************************* Compilation ******************************** #
@@ -77,11 +91,11 @@ EXE				= minishell
 all				: $(EXE) #builtin
 
 $(EXE)			: $(OBJ)
-				$(CC) $(FLAG) $^ -o $@ $(LIBF)
+				$(CC) $(COMPILEF) $^ -o $@ $(LIBF)
 
 $(OBJ_DIR)/%.o	: %.c
 				$(NEW_DIR) $(OBJ_DIR)
-				$(CC) $(FLAG) -c $< $(OBJ_FLAG) -o $@
+				$(CC) $(COMPILF) -c $< $(OBJF) -o $@
 
 valgrind		: all
 				$(VALGRIND) $(VALGRINDF) ./$(EXE)
