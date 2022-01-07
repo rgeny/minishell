@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_isdigit.c                                    :+:      :+:    :+:   */
+/*   utils_iswhat.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/31 22:21:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 18:57:27 by buschiix         ###   ########.fr       */
+/*   Created: 2022/01/07 18:56:00 by buschiix          #+#    #+#             */
+/*   Updated: 2022/01/07 18:58:49 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	uti_isdigit(char *s)
+int	uti_iswhat(char c)
 {
-	int	i;
-
-	i = 0;
-	if (!s[0])
-		return (1);
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (1);
-		i++;
-	}
-	return (0);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (IS_ALPHA);
+	else if (c == '_')
+		return (IS_UNDER);
+	else if (c >= '0' && c <= '9')
+		return (IS_NUM);
+	else
+		return (IS_OTHER);
 }

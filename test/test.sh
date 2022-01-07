@@ -29,9 +29,9 @@ function test_ret_stdout()
 		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
 		printf $COLOR_BLUE
-		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
+		printf "\nBash      (ret value : $RET_BASH) :\n$TEST_BASH"
 		printf $COLOR_RED
-		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
+		printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n"
 #		exit
 	fi
 	printf $COLOR_WHITE
@@ -59,9 +59,9 @@ function test_env()
 		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
 		printf $COLOR_BLUE
-		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
+		printf "\nBash      (ret value : $RET_BASH) :\nBash n line      : $LINE_BASH"
 		printf $COLOR_RED
-		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
+		printf "\nMinishell (ret value : $RET_MINISHELL) :\nMinishell n line : $LINE_MINISHELL\n"
 #		exit
 	fi
 	printf $COLOR_WHITE
@@ -205,7 +205,7 @@ then
 		test_env "export var\nexport var=q\nexport"
 		test_ret_stdout "export \"'\" test=a"
 		test_env "export \"'\" test=a\nenv"
-		test_ret_stdout "unset PATH\nexport"
+		test_env "unset PATH\nexport"
 		test_ret_stdout "export 0A"
 		test_ret_stdout "export 0B=4"
 		test_ret_stdout "export _ABC=17"
@@ -222,7 +222,7 @@ then
 		test_env "export var\nexport var=q\nexport"
 		test_ret_stdout "export \"'\" test=a"
 		test_env "export \"'\" test=a\nenv"
-		test_ret_stdout "unset PATH\nexport"
+		test_env "unset PATH\nexport"
 		test_ret_stdout "export 0A"
 		test_ret_stdout "export 0B=4"
 		test_ret_stdout "export _ABC=17"

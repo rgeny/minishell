@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/07 18:41:32 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/07 18:57:42 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
 
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
-					$(addprefix utils_,		bzero calloc min itoa ato isdigit readline is_in_charset quicksort) \
+					$(addprefix utils_,		bzero calloc min itoa ato isdigit readline is_in_charset quicksort iswhat) \
 					$(addprefix mem_,		cpy set) \
 					$(addprefix global_,	pwd) \
 					$(addprefix expander_,	env) \
