@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 01:03:46 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:45:26 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,27 @@ static void	static_sort(char **s)
 {
 	int		i;
 	int		j;
+	int		imin;
 	char	*tmp;
 
-	i = 0;
-	while (s[i])
+	if (s[0])
 	{
-		j = i + 1;
-		while (s[j])
+		i = 0;
+		while (s[i + 1])
 		{
-			if (str_cmp(s[i], s[j]) > 0)
+			imin = i;
+			j = i + 1;
+			while (s[j])
 			{
-				tmp = s[i];
-				s[i] = s[j];
-				s[j] = tmp;
+				if (str_cmp(s[imin], s[j]) > 0)
+					imin = j;
+				j++;
 			}
-			j++;
+			tmp = s[i];
+			s[i] = s[imin];
+			s[imin] = tmp;
+			i++;
 		}
-		i++;
 	}
 }
 
