@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:34:20 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:18:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static void	static_exe(t_data *data)
 
 static void	static_free(t_data data)
 {
-	free(data.pwd);
+	if (data.pwd)
+		free(data.pwd);
 	env_del_all(data.env);
 }
 
@@ -88,12 +89,8 @@ int	main(__attribute((unused)) int argc,
 	t_data	data;
 
 	getrlimit(RLIMIT_MEMLOCK, &l);
-	printf("%ld\n", l.rlim_cur);
 	l.rlim_cur = 1;
 	setrlimit(RLIMIT_MEMLOCK, &l);
-	printf("%ld\n", l.rlim_cur);
-	getrlimit(RLIMIT_MEMLOCK, &l);
-	printf("%ld\n", l.rlim_cur);
 
 	static_init(envp, &data);
 	static_exe(&data);

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 18:42:57 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:13:25 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,20 @@ static int	static_print(t_env *env)
 	data.env = env;
 	data.pwd = 0;
 	cpy = env_switch(&data, 1);
-	uti_quicksort(0, str_llen(cpy) - 1, cpy);
-	i = 0;
-	while (cpy[i])
+	if (cpy)
 	{
-		if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
+		uti_quicksort(0, str_llen(cpy) - 1, cpy);
+		i = 0;
+		while (cpy[i])
 		{
-			write(1, "export ", 7);
-			write(1, cpy[i], str_len(cpy[i], 0));
-			write(1, "\n", 1);
+			if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
+			{
+				write(1, "export ", 7);
+				write(1, cpy[i], str_len(cpy[i], 0));
+				write(1, "\n", 1);
+			}
+			i++;
 		}
-		i++;
 	}
 	str_free_string(cpy);
 	return (SUCCESS);
