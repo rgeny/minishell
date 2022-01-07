@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/06 22:59:17 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/07 13:17:15 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ IGNORE_FILE		= $(shell pwd)/ignoreliberror
 # **************************************************************************** #
 
 CC				= cc
-FLAG			= $(DEPF) -g -Wall -Werror -Wextra
+FLAG			= $(DEPF) -g #-Wall -Werror -Wextra
 OBJ_FLAG		= $(INCLUDES) $(PROMPTF)
 LIBF			= -lreadline
 DEPF			= -MMD

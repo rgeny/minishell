@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 12:45:26 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:28:30 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@
 #include "print.h"
 #include "struct.h"
 
+#include <stdio.h>
+
 static void	static_sort(char **s)
 {
 	int		i;
 	int		j;
 	int		imin;
 	char	*tmp;
+	int		n;
+	int		n2;
 
+	n = 0;
+	n2 = 0;
 	if (s[0])
 	{
 		i = 0;
@@ -35,15 +41,108 @@ static void	static_sort(char **s)
 			while (s[j])
 			{
 				if (str_cmp(s[imin], s[j]) > 0)
+				{
 					imin = j;
+					n++;
+				}
+				n2++;
 				j++;
+				n += 3;
 			}
 			tmp = s[i];
 			s[i] = s[imin];
 			s[imin] = tmp;
 			i++;
+			n += 10;
 		}
+		n += 3;
 	}
+	n++;
+	printf("tri par selection\t: %d:%d\n", n, n2);
+}
+
+static void	static_sort2(char **s)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	int		b;
+	int		n;
+	int		n2;
+
+	b = 1;
+	n = 2;
+	n2 = 0;
+	j = 1;
+	while (b)
+	{
+		i = 0;
+		b = 0;
+		if (s[0])
+		{
+			while (s[i + j])
+			{
+				if (str_cmp(s[i], s[i + 1]) > 0)
+				{
+					tmp = s[i];
+					s[i] = s[i + 1];
+					s[i + 1] = tmp;
+					b = 1;
+					n += 6;
+				}
+				n2++;
+				i++;
+				n += 5;
+			}
+			j++;
+			n += 3;
+		}
+		n += 4;
+	}
+	n++;
+	printf("tri à bulle\t\t: %d:%d\n", n, n2);
+}
+
+static void	static_sort3(char **s)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*tmp;
+
+	int		n;
+	int		n2;
+
+	n = 0;
+	n2 = 0;
+	if (s[0])
+	{
+		i = 1;
+		while (s[i])
+		{
+			j = i;
+			k = j - 1;
+			while (j && str_cmp(s[k], s[j]) > 0)
+			{
+				tmp = s[k];
+				s[k] = s[j];
+				s[j] = tmp;
+				j--;
+				k--;
+				n += 7;
+				n2++;
+			}
+			i++;
+			if (!j)
+				n += 6;
+			else
+				n += 7;
+			n2++;
+		}
+		n += 2;
+	}
+	n++;
+	printf("tri par insertion\t: %d:%d\n", n, n2);
 }
 
 static int	static_print(t_env *env)
@@ -54,8 +153,18 @@ static int	static_print(t_env *env)
 
 	data.env = env;
 	data.pwd = 0;
+	
 	cpy = env_switch(&data, 1);
 	static_sort(cpy);
+	str_free_string(cpy);
+
+	cpy = env_switch(&data, 1);
+	static_sort2(cpy);
+	str_free_string(cpy);
+
+	cpy = env_switch(&data, 1);
+	static_sort3(cpy);
+	exit(1);
 	i = 0;
 	while (cpy[i])
 	{
