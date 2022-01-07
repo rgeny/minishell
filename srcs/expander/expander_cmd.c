@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_env.c                                     :+:      :+:    :+:   */
+/*   expander_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/04 15:17:02 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/07 20:07:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	static_move(char **cmd, int sz)
 	}
 }
 
-void	expander_env(char **cmd, t_env *env)
+void	expander_cmd(char **cmd, t_env *env)
 {
 	int		i;
 	int		j;
