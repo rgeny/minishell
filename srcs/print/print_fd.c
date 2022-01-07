@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_printfd.c                                      :+:      :+:    :+:   */
+/*   print_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 21:57:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/01 17:38:28 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/07 19:48:36 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "str.h"
 
-void	str_printfd(const char *s, int fd)
+void	print_fd(const char *s, int fd)
 {
 	write(fd, s, str_len(s, 0));
 	write(fd, "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 21:25:59 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 19:54:40 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	static_move(char *dir, char *pwd, t_data *data, int b)
 	if (!ret)
 		static_replace_pwd_var(data);
 	if (!ret && b)
-		str_printfd(pathpwd, 1);
+		print_fd(pathpwd, 1);
 	free(path);
 	return (!!ret);
 }

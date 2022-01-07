@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 23:01:40 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/07 19:55:01 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	builtin_pwd(char **cmd, t_data *data)
 		path = static_find_pwd(data->env);
 	else
 		path = tmp;
-	str_printfd(path, 1);
+	print_fd(path, 1);
 	if (path != tmp)
 		free(path);
 	return (SUCCESS);
