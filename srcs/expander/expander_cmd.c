@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 19:24:33 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/08 21:14:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "str.h"
 #include "utils.h"
 
-static void	static_expand(char **splt, t_env *env, int i)
+static void	static_expand(char **splt, t_data *data, int i)
 {
 	t_env	*tmp;
 	char	*s;
@@ -27,12 +27,21 @@ static void	static_expand(char **splt, t_env *env, int i)
 	{
 		len = str_len_alnum(splt[i]);
 		s = str_ndup(splt[i], len);
-		tmp = env_find(env, s);
+		tmp = env_find(data->env, s);
 		free(s);
 		if (tmp)
 		{
 			s = str_ndup(tmp->value, str_len(tmp->value, 0));
 			s2 = str_ndup(&splt[i][len], str_len(&splt[i][len], 0));
+			str_free(splt[i]);
+			splt[i] = str_join(s, s2, 0);
+			str_free(s);
+			str_free(s2);
+		}
+		else if (splt[i][0] == '?')
+		{
+			s = uti_itoa(data->ret);
+			s2 = str_ndup(&splt[i][1], str_len(&splt[i][1], 0));
 			str_free(splt[i]);
 			splt[i] = str_join(s, s2, 0);
 			str_free(s);
@@ -88,7 +97,7 @@ static void	static_move(char **cmd, int sz)
 	}
 }
 
-void	expander_cmd(char **cmd, t_env *env)
+void	expander_cmd(char **cmd, t_data *data)
 {
 	int		i;
 	int		j;
@@ -101,10 +110,10 @@ void	expander_cmd(char **cmd, t_env *env)
 		j = 0;
 		while (cmd[i][j] && cmd[i][j] != '$')
 			j++;
-		if (cmd[i][j] && uti_isalnum(cmd[i][j + 1]))
+		if (cmd[i][j] && (uti_isalnum(cmd[i][j + 1]) || cmd[i][j + 1] == '?'))
 		{
 			splt = str_split(cmd[i], "$");
-			static_expand(splt, env, cmd[i][0] != '$');
+			static_expand(splt, data, cmd[i][0] != '$');
 			join = static_join(splt);
 			str_free_list(splt);
 			str_free(cmd[i]);

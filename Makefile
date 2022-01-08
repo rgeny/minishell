@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/08 20:26:13 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/08 20:57:27 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,10 +64,11 @@ EXE_DIR			= $(SRC_DIR)exe/
 PARSING_DIR		= $(SRC_DIR)parsing/
 PRINT_DIR		= $(SRC_DIR)print/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
+SIGNAL_DIR		= $(SRC_DIR)signal/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR) $(BUILTIN_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR) $(BUILTIN_DIR) $(SIGNAL_DIR)
 
 # *********************************** sources ******************************** #
 
@@ -82,6 +83,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix str_,		cmp len ndup split join free split_first) \
 					$(addprefix print_,		error fd) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
+					$(addprefix signal_,	current) \
 					$(SRC_BUILTIN))
 
 # *********************************** others ********************************* #

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 18:48:26 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/08 22:45:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "expander.h"
 #include "exe.h"
 #include "lexer.h"
+#include "minishell_signal.h"
 
 static void	static_init(char *envp[], t_data *data)
 {
@@ -86,8 +87,10 @@ int	main(__attribute((unused)) int argc,
 //	l.rlim_cur = 1;
 //	setrlimit(RLIMIT_MEMLOCK, &l);
 
+	signal_current(&data);
 	static_init(envp, &data);
 	static_exe(&data);
+	write(1, "exit\n", 5);
 	static_free(data);
 	return (data.ret);
 }
