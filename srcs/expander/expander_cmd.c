@@ -6,10 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 17:15:48 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/08 19:24:33 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "env.h"
 #include "str.h"
@@ -39,9 +40,8 @@ static void	static_expand(char **splt, t_env *env, int i)
 		}
 		else
 		{
-			s = uti_calloc(5, sizeof(1));
 			str_free(splt[i]);
-			splt[i] = s;
+			splt[i] = uti_calloc(1, sizeof(char));;
 		}
 		i++;
 	}

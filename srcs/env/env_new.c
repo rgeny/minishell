@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 15:17:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/08 17:45:59 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static void	static_add_back(t_env **env, t_env *new)
 		new->prev = tmp;
 	}
 }
-
-#include <stdio.h>
 
 void	env_new(t_env **env, char *name, char *value)
 {

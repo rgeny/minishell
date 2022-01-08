@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/08 16:27:15 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/08 20:26:13 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BOLD_CYAN		= "\033[01m\033[36m"
 CC				= cc
 
 # ******************************** COMPIL FLAG ******************************* #
-COMPILF			= $(DEPF) -g -Wall -Werror -Wextra
+COMPILF			= $(DEPF) -g #-Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 
@@ -114,7 +114,7 @@ clean			:
 				$(RM) $(OBJ_DIR)
 
 fclean			: clean
-				$(RM) $(EXE)
+				$(RM) $(NAME)
 
 re				: fclean all
 
