@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:18:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 18:18:03 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 15:42:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	**env_switch(t_data *data, int with_not_init)
 	int		sz;
 	char	**ret;
 
-	env_new(&data->env, str_ndup("PWD", str_len("PWD", 0)),
-		str_ndup(data->pwd, str_len(data->pwd, 0)));
+	env_assign(data->env, "PWD", str_ndup(data->pwd, str_len(data->pwd, 0)));
 	sz = static_size(data->env, with_not_init);
 	ret = malloc(sizeof(char *) * (sz + 1));
 	if (!ret)
