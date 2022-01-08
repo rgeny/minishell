@@ -41,10 +41,10 @@ function test_ret_stdout()
 function test_env()
 {
 	TEST_MINISHELL=$(printf "$@" | $CMD ../minishell 2>/dev/null)
-	LINE_MINISHELL=$(printf "$TEST_MINISHELL" | wc -l)
+	LINE_MINISHELL=$(echo "$TEST_MINISHELL" | wc -l)
 	RET_MINISHELL=$?
 	TEST_BASH=$(printf "$@" | $CMD bash 2>/dev/null)
-	LINE_BASH=$(printf "$TEST_BASH" | wc -l)
+	LINE_BASH=$(echo "$TEST_BASH" | wc -l)
 	RET_BASH=$?
 
 	if [ "$LINE_MINISHELL" == "$LINE_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ]
@@ -59,9 +59,9 @@ function test_env()
 		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
 		printf $COLOR_BLUE
-		printf "\nBash      (ret value : $RET_BASH) :\nBash n line      : $LINE_BASH"
+		printf "\nBash      (ret value : $RET_BASH) :\nBash n line      : $LINE_BASH\nTest bash      :\n$TEST_BASH\n"
 		printf $COLOR_RED
-		printf "\nMinishell (ret value : $RET_MINISHELL) :\nMinishell n line : $LINE_MINISHELL\n"
+		printf "\nMinishell (ret value : $RET_MINISHELL) :\nMinishell n line : $LINE_MINISHELL\nTest minishell :\n$TEST_MINISHELL\n"
 #		exit
 	fi
 	printf $COLOR_WHITE
@@ -88,8 +88,8 @@ then
 		test_ret_stdout "cd ..\nunset OLDPWD\ncd -"
 		test_ret_stdout "cd ..\nunset OLDPWD\ncd -\npwd"
 		test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd .."
-		#test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\npwd"
-		#test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\nunset PWD\npwd"
+		test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\npwd"
+		test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\nunset PWD\npwd"
 		test_ret_stdout "export CDPATH=/mnt/nfs\ncd homes/..\npwd"
 		test_ret_stdout "export CDPATH=/mnt/nfs/\ncd homes/..\npwd"
 		test_ret_stdout "pwd\nexport CDPATH=\ncd .\npwd"
@@ -108,9 +108,9 @@ then
 		test_ret_stdout "cd ..\ncd -\npwd"
 		test_ret_stdout "cd ..\nunset OLDPWD\ncd -"
 		test_ret_stdout "cd ..\nunset OLDPWD\ncd -\npwd"
-		test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd .."
-		#test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\npwd"
-		#test_ret_stdout "mkdir t1\nmkdir t1/t2\ncd t1/t2\nrm -rf ../../t1\ncd ..\nunset PWD\npwd"
+		test_ret_stdout "/bin/mkdir t1\n/bin/mkdir t1/t2\ncd t1/t2\n/bin/rm -rf ../../t1\ncd .."
+		test_ret_stdout "/bin/mkdir t1\n/bin/mkdir t1/t2\ncd t1/t2\n/bin/rm -rf ../../t1\ncd ..\npwd"
+		test_ret_stdout "/bin/mkdir t1\n/bin/mkdir t1/t2\ncd t1/t2\n/bin/rm -rf ../../t1\ncd ..\nunset PWD\npwd"
 		test_ret_stdout "export CDPATH=/mnt/nfs\ncd homes/..\npwd"
 		test_ret_stdout "export CDPATH=/mnt/nfs/\ncd homes/..\npwd"
 		test_ret_stdout "pwd\nexport CDPATH=\ncd .\npwd"
@@ -150,16 +150,14 @@ then
 		printf "\n\n***** TEST ENV *****\n"
 		test_env "env"
 		test_env "env\nexport ABC\nenv"
-		#test_env "env\nexport ABC=\nenv"
+		test_env "env\nexport ABC=\nenv"
 		test_env "env\nexport ABC=4\nenv"
-		test_env "unset PATH\nenv"
 		CMD="env -i"
 		test_env "env"
 		test_env "env\nexport ABC\nenv"
-		#test_env "env\nexport ABC=\nenv"
+		test_env "env\nexport ABC=\nenv"
 		test_env "env\nexport ABC=4\nenv"
 		test_env "unset PWD SHLVL _\nenv"
-		test_env "unset PATH\nenv"
 
 		unset CMD
 fi
@@ -195,7 +193,6 @@ if [ ! $1 ] || [ "$1" == "export" ]
 then
 		INDEX=0
 		printf "\n\n***** TEST EXPORT *****\n"
-		test_env "export"
 		test_ret_stdout "export var=a\nexport $var=test\necho $var $a"
 		test_ret_stdout "export $var=test"
 		test_ret_stdout "export ABC=4\nexport ABC\necho $ABC"

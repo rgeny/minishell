@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:13:50 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 13:12:24 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,7 @@ static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 	var = env_find(data->env, name);
 	if (print_path < 2)
 	{
-		if (!var || static_move(0, var->value, data, print_path))
-			return (BUILTIN_ERR_EXEC);
+		static_move(0, var->value, data, print_path);
 		return (SUCCESS);
 	}
 	if (!var)

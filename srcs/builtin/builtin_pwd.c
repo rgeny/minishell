@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:14:26 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 13:29:16 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,20 @@ static int	check_arg(char *arg, t_data *data)
 	return (SUCCESS);
 }
 
-static char	*static_find_pwd(t_env *env)
+static char	*static_find_pwd(t_data *data)
 {
 	char	*ret;
 	t_env	*pwd;
 
-	pwd = env_find(env, "PWD");
+	pwd = env_find(data->env, "PWD");
 	if (pwd && pwd->value)
 	{
 		ret = str_ndup(pwd->value, str_len(pwd->value, 0));
+		return (ret);
+	}
+	else if (data->pwd)
+	{
+		ret = str_ndup(data->pwd, str_len(data->pwd, 0));
 		return (ret);
 	}
 	return (NULL);
@@ -57,7 +62,7 @@ int	builtin_pwd(char **cmd, t_data *data)
 	if (cmd[1] && check_arg(cmd[1], data) == BUILTIN_ERR_SYNTAX)
 		return (BUILTIN_ERR_SYNTAX);
 	if (!getcwd(tmp, PATH_CHAR_MAX + 1))
-		path = static_find_pwd(data->env);
+		path = static_find_pwd(data);
 	else
 		path = tmp;
 	print_fd(path, 1);
