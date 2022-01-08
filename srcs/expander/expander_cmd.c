@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:17:14 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:15:48 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,23 @@ static void	static_expand(char **splt, t_env *env, int i)
 {
 	t_env	*tmp;
 	char	*s;
+	int		len;
+	char	*s2;
 
 	while (splt[i])
 	{
-		tmp = env_find(env, splt[i]);
+		len = str_len_alnum(splt[i]);
+		s = str_ndup(splt[i], len);
+		tmp = env_find(env, s);
+		free(s);
 		if (tmp)
 		{
 			s = str_ndup(tmp->value, str_len(tmp->value, 0));
+			s2 = str_ndup(&splt[i][len], str_len(&splt[i][len], 0));
 			str_free(splt[i]);
-			splt[i] = s;
+			splt[i] = str_join(s, s2, 0);
+			str_free(s);
+			str_free(s2);
 		}
 		else
 		{
@@ -93,7 +101,7 @@ void	expander_cmd(char **cmd, t_env *env)
 		j = 0;
 		while (cmd[i][j] && cmd[i][j] != '$')
 			j++;
-		if (cmd[i][j])
+		if (cmd[i][j] && uti_isalnum(cmd[i][j + 1]))
 		{
 			splt = str_split(cmd[i], "$");
 			static_expand(splt, env, cmd[i][0] != '$');

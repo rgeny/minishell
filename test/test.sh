@@ -139,6 +139,13 @@ then
 		test_ret_stdout "echo a\necho b"
 		test_ret_stdout "echo -n a\necho b"
 		test_ret_stdout "unset PATH\necho"
+		test_ret_stdout "echo $?"
+		test_ret_stdout "echo \$HOME?"
+		test_ret_stdout "echo $?a"
+		test_ret_stdout "echo $??"
+		test_ret_stdout "echo $ ?"
+		test_ret_stdout "echo $^"
+		test_ret_stdout "echo $9"
 fi
 
 ###########################################################

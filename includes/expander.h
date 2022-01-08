@@ -6,12 +6,12 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 20:08:06 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 16:21:46 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-void	expander_cmd(char **cmd, t_env *env);
+void	expander_cmd(char **cmd, t_data *data);
 #endif

@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/08 16:16:07 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/08 16:27:15 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,10 +105,10 @@ $(OBJ_DIR)/%.o	: %.c
 				$(CC) $(COMPILF) -c $< $(OBJF) -o $@
 
 valgrind		: all
-				$(VALGRIND) $(VALGRINDF) ./$(EXE)
+				$(VALGRIND) $(VALGRINDF) ./$(NAME)
 
 envi			: all	
-				$(ENV) $(VALGRIND) $(VALGRINDF) ./$(EXE)
+				$(ENV) $(VALGRIND) $(VALGRINDF) ./$(NAME)
 
 clean			:
 				$(RM) $(OBJ_DIR)
