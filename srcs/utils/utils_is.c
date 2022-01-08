@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 22:47:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/07 22:53:48 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:38:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,23 @@ int	uti_isdigit(char *s)
 		i++;
 	}
 	return (0);
+}
+
+int	uti_is_valid_var_name(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != '=')
+	{
+		if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
+			|| s[i] == '_' || (i && s[i] >= '0' && s[i] <= '9')))
+			return (0);
+		i++;
+	}
+	if (!i)
+		return (0);
+	return (1);
 }
 
 int	uti_isalnum(char c)

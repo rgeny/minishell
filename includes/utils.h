@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:53:30 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:32:04 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ long	uti_ato_l(char *s);
 int		uti_isdigit(char *s);
 int		uti_isalnum(char c);
 int		uti_is_in_charset(char c, char *charset);
+int		uti_is_valid_var_name(char *s);
 void	uti_quicksort(int start, int end, char **s);
 #endif

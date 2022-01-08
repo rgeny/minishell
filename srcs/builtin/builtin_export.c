@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 16:05:43 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/08 17:39:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,8 @@ static int	static_print(t_env *env)
 
 static int	static_new(char **cmd, t_data *data)
 {
-	int		j;
 	char	**var;
 
-	j = 0;
-	while (cmd[0][j] && cmd[0][j] != '=')
-	{
-		if (uti_isalnum(cmd[0][j]) == IS_OTHER)
-		{
-			print_error("export: ", cmd[0], ": not a valid identifier\n", data);
-			return (BUILTIN_ERR_EXEC);
-		}
-		j++;
-	}
 	var = str_split_first(cmd[0], '=');
 	env_new(&data->env, str_ndup(var[0], str_len(var[0], 0)),
 		str_ndup(var[1], str_len(var[1], 0)));
@@ -83,7 +72,7 @@ int	builtin_export(char **cmd, t_data *data)
 		ret = SUCCESS;
 		while (cmd[i])
 		{
-			if (uti_isalnum(cmd[i][0]) == 1)
+			if (uti_is_valid_var_name(cmd[i]))
 				ret |= static_new(&cmd[i], data);
 			else
 			{

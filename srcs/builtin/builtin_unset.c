@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:56:15 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:37:13 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,8 @@
 
 static int	static_isavailable(char *s, t_data *data)
 {
-	int	i;
-
-	if (uti_isalnum(s[0]) == IS_ALPHA)
-	{
-		i = 1;
-		while (s[i])
-		{
-			if (uti_isalnum(s[i]) == IS_OTHER)
-			{
-				print_error("unset: ", s, ": not a valid identifier\n", data);
-				return (BUILTIN_ERR_EXEC);
-			}
-			i++;
-		}
+	if (uti_is_valid_var_name(s))
 		return (SUCCESS);
-	}
 	else
 	{
 		print_error("unset: ", s, ": not a valid identifier\n", data);
