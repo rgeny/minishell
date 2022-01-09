@@ -44,13 +44,26 @@ static void	_exe(t_data *data)
 	int		i;
 	int		in;
 	int		heredoc;
+	char	*tmp;
 
 	rl = exe_readline(data);
 	while (rl)
 	{
 		data->tokens = lexer_lex(rl);
 		lexer_print_tokens(data->tokens);
+		add_history(rl);
+		tmp = expander_asterisk(rl);
+		if (tmp)
+		{
+			printf("rl : %s\n", tmp);
+			free(rl);
+			rl = tmp;
+		}
+//		printf("rl : %s\n", rl);
+		// tokens = lexer_lex(rl);
+		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
+		str_free(rl);
 		if (!str_cmp("<<", cmd[0]))
 		{
 			heredoc = exe_heredoc(cmd[1]);
@@ -66,7 +79,6 @@ static void	_exe(t_data *data)
 		}
 		if (cmd && cmd[i])
 		{
-			add_history(rl);
 			expander_cmd(&cmd[i], data);
 			env_new_(cmd[i], &data->env);
 			lexer_free_tokens(&data->tokens);
@@ -81,7 +93,6 @@ static void	_exe(t_data *data)
 			close(heredoc);
 		}
 		lexer_free_tokens(&data->tokens);
-		str_free(rl);
 		str_free_list(cmd);
 		rl = exe_readline(data);
 	}

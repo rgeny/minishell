@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 17:45:59 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 05:18:54 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	env_new(t_env **env, char *name, char *value)
 	}
 	new = malloc(sizeof(t_env));
 	if (!new)
+	{
+		printf("t1\n");
 		return ;
+	}
 	new->name = name;
 	new->value = value;
 	new->next = 0;

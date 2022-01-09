@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 21:14:01 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/09 13:33:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	_expand(char **splt, t_data *data, int i)
 		else
 		{
 			str_free(splt[i]);
-			splt[i] = uti_calloc(1, sizeof(char));;
+			splt[i] = uti_calloc(1, sizeof(char));
 		}
 		i++;
 	}

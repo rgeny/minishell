@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:47:50 by rgeny             #+#    #+#             */
-/*   Updated: 2021/12/15 18:47:53 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/09 17:01:42 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	*str_join(const char *s1, const char *s2, char c)
 	dst = malloc(sizeof(char) * (sz1 + sz2 + 1 + !(!c)));
 	if (!dst)
 		return (0);
-	dst[sz1 + sz2] = 0;
-	mem_cpy(dst, s1, sz1 + 1);
+	dst[sz1 + sz2 + !!c] = 0;
+	mem_cpy(dst, s1, sz1);
 	dst[sz1] = c;
-	mem_cpy(dst + sz1 + !(!c), s2, sz2 + 1);
+	mem_cpy(dst + sz1 + !(!c), s2, sz2);
 	return (dst);
 }
