@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 01:19:40 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/09 13:23:26 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ static void	static_exe(t_data *data)
 	char	*rl;
 	char	**cmd;
 	t_token	*tokens;
+	int		i;
+	int		in;
+	int		heredoc;
 
 	tokens = NULL;
 	rl = exe_readline(data);
@@ -49,15 +52,34 @@ static void	static_exe(t_data *data)
 		// tokens = lexer_lex(rl);
 		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
-		if (cmd && cmd[0])
+		if (!str_cmp("<<", cmd[0]))
+		{
+			heredoc = exe_heredoc(cmd[1]);
+			in = dup(0);
+			dup2(heredoc, 0);
+			i = 2;
+		}
+		else
+		{
+			heredoc = -1;
+			in = -1;
+			i = 0;
+		}
+		if (cmd && cmd[i])
 		{
 			add_history(rl);
-			expander_cmd(cmd, data);
-			env_new_(cmd[0], &data->env);
+			expander_cmd(&cmd[i], data);
+			env_new_(cmd[i], &data->env);
 			lexer_free_tokens(&tokens);
-			exe_builtin(cmd, data);
+			exe_builtin(&cmd[i], data);
 			if (data->ret == -1)
-				exe_out_process(cmd, data);
+				exe_out_process(&cmd[i], data);
+		}
+		if (heredoc >= 0)
+		{
+			dup2(in, 0);
+			close(in);
+			close(heredoc);
 		}
 		lexer_free_tokens(&tokens);
 		str_free(rl);
