@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 13:23:26 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/09 17:23:15 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,25 @@ static void	static_exe(t_data *data)
 	int		i;
 	int		in;
 	int		heredoc;
+	char	*tmp;
 
 	tokens = NULL;
 	rl = exe_readline(data);
 	while (rl)
 	{
+		add_history(rl);
+		tmp = expander_asterisk(rl);
+		if (tmp)
+		{
+			printf("rl : %s\n", tmp);
+			free(rl);
+			rl = tmp;
+		}
+//		printf("rl : %s\n", rl);
 		// tokens = lexer_lex(rl);
 		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
+		str_free(rl);
 		if (!str_cmp("<<", cmd[0]))
 		{
 			heredoc = exe_heredoc(cmd[1]);
@@ -67,7 +78,6 @@ static void	static_exe(t_data *data)
 		}
 		if (cmd && cmd[i])
 		{
-			add_history(rl);
 			expander_cmd(&cmd[i], data);
 			env_new_(cmd[i], &data->env);
 			lexer_free_tokens(&tokens);
@@ -82,7 +92,6 @@ static void	static_exe(t_data *data)
 			close(heredoc);
 		}
 		lexer_free_tokens(&tokens);
-		str_free(rl);
 		str_free_list(cmd);
 		rl = exe_readline(data);
 	}

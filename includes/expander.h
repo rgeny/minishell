@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 16:21:46 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/09 16:38:26 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,4 +14,5 @@
 # define EXPANDER_H
 
 void	expander_cmd(char **cmd, t_data *data);
+char	*expander_asterisk(char *rl);
 #endif
