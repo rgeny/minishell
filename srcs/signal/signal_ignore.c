@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_signal.h                                 :+:      :+:    :+:   */
+/*   signal_ignore.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/08 20:37:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 23:52:08 by buschiix         ###   ########.fr       */
+/*   Created: 2022/01/09 00:56:29 by buschiix          #+#    #+#             */
+/*   Updated: 2022/01/09 00:57:11 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_SIGNAL_H
-# define MINISHELL_SIGNAL_H
+#include <signal.h>
 
-void	signal_current(t_data *data);
-void	signal_ignore(void);
-void	signal_fork(void);
-#endif
+void	signal_ignore(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}

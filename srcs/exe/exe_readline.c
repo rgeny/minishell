@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 22:20:44 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/09 01:18:55 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ static char	*static_prompt(t_data *data)
 	else
 		tmp = str_join(PROMPT, prompt, 0);
 	prompt = str_join(tmp, " \033[37m\033[00m", 0);
-	if (!data->ret)
-		write(1, "\033[32m\033[01m> ", 12);
-	else
-		write(1, "\033[31m\033[01m> ", 12);
+	if (data->interactive.is_interactive)
+	{
+		if (!data->ret)
+			write(1, "\033[32m\033[01m> ", 12);
+		else
+			write(1, "\033[31m\033[01m> ", 12);
+	}
 	str_free(tmp);
 	return (prompt);
 }

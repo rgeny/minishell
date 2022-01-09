@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:23:55 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/09 01:01:33 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,18 @@
 #include "str.h"
 #include "parsing.h"
 #include "print.h"
+#include "minishell_signal.h"
 
 void	exe_out_process(char **cmd, t_data *data)
 {
 	pid_t	pid;
 	char	**env_cpy;
+	int		tmp;
 
 	pid = fork();
 	if (!pid)
 	{
+		signal_fork();
 		env_cpy = env_switch(data, 0);
 		str_free(data->pwd);
 		parsing_path(cmd, data->env);
@@ -38,6 +41,11 @@ void	exe_out_process(char **cmd, t_data *data)
 		env_del_all(data->env);
 		exit(127);
 	}
+	signal_ignore();
 	waitpid(pid, &data->ret, 0);
-	data->ret = WEXITSTATUS(data->ret);
+	signal_current(0);
+	if (WIFSIGNALED(data->ret))
+		data->ret = WTERMSIG(data->ret) + 128;
+	else
+		data->ret = WEXITSTATUS(data->ret);
 }

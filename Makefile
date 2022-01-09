@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/08 20:57:27 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/09 00:57:49 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix str_,		cmp len ndup split join free split_first) \
 					$(addprefix print_,		error fd) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
-					$(addprefix signal_,	current) \
+					$(addprefix signal_,	current fork ignore) \
 					$(SRC_BUILTIN))
 
 # *********************************** others ********************************* #

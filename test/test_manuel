@@ -1,2 +1,51 @@
 EXPORT :
-- export
+	- test 1 : N'est pas exécuté avec le testeur à cause d'un résultat étrange.. Testé pour savoir !
+		./minishell
+		export			(à comparer avec bash)
+
+
+SIGNAUX :
+	- test 1 :
+		./minishell
+		ctrl+c			(retourne à la ligne en affichant le prompt)
+		echo $?			(affiche "130\n")
+	
+	- test 2 :
+		./minishell
+		ctrl + d		(Ferme minishell et affiche "exit")
+		echo $?			(Affiche 0)
+
+	- test 3 :
+		./minishell
+		ctrl + \		(Ne fait rien)
+
+	- test 4 :
+		./minishell
+		make re
+		ctrl + c		(Si lancé pendant la recompilation, l'interrompt sans interrompre minishell)
+		echo $?			(affiche 130)
+
+	- test 6 :
+		./minishell
+		make re
+		ctrl + d		(Si lancé pendant la recompilation, ne fait rien)
+	
+	- test 7 :
+		./minishell
+		make re
+		ctrl + \		(si lancé pendant la recompilation, l'interrompt sans interrompre minishell)
+		echo $?			affiche 1
+
+	- test 7 :
+		printf "make re" | ./minishell
+		ctrl + c		(interrompt minishell, minishell ne doit pas afficher de prompt ni exit à la fin)
+		echo $?			(affiche 130)
+	
+	- test 8 :
+		printf "make re" | ./minishell
+		ctrl + d		(ne fait rien)
+	
+	- test 9 :
+		printf "make re" | ./minishell
+		ctrl + \		(interrompt minishell)
+		echo $?			(affiche 1)

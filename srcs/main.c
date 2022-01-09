@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 22:45:02 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/09 01:19:40 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	main(__attribute((unused)) int argc,
 	signal_current(&data);
 	static_init(envp, &data);
 	static_exe(&data);
-	write(1, "exit\n", 5);
+	if (data.interactive.is_interactive)
+		write(1, "exit\n", 5);
 	static_free(data);
 	return (data.ret);
 }
