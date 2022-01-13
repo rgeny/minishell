@@ -14,12 +14,12 @@
 
 #include "utils.h"
 
-static int	static_size(int n)
+static int	_size(int n)
 {
 	if (n < 10)
 		return (1);
 	else
-		return (1 + static_size(n / 10));
+		return (1 + _size(n / 10));
 }
 
 char	*uti_itoa(int n)
@@ -27,7 +27,7 @@ char	*uti_itoa(int n)
 	int		sz;
 	char	*s;
 
-	sz = static_size(n);
+	sz = _size(n);
 	s = uti_calloc(sz + 1, sizeof(char));
 	if (!s)
 		return (0);

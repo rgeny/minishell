@@ -15,7 +15,7 @@
 #include "builtin.h"
 #include "error.h"
 
-static int	static_check_flag(char **cmd)
+static int	_check_flag(char **cmd)
 {
 	int	i;
 	int	j;
@@ -43,7 +43,7 @@ int	builtin_echo(char **cmd)
 	int	ret;
 	int	i;
 
-	ret = static_check_flag(cmd);
+	ret = _check_flag(cmd);
 	i = ret;
 	while (cmd[i])
 	{

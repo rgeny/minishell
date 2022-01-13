@@ -18,7 +18,7 @@
 #include "lexer.h"
 #include "minishell_signal.h"
 
-static void	static_init(char *envp[], t_data *data)
+static void	_init(char *envp[], t_data *data)
 {
 	t_env	*pwd;
 
@@ -36,7 +36,7 @@ static void	static_init(char *envp[], t_data *data)
 		data->interactive.is_interactive = 1;
 }
 
-static void	static_exe(t_data *data)
+static void	_exe(t_data *data)
 {
 	char	*rl;
 	char	**cmd;
@@ -88,7 +88,7 @@ static void	static_exe(t_data *data)
 	}
 }
 
-static void	static_free(t_data data)
+static void	_free(t_data data)
 {
 	str_free(data.pwd);
 	env_del_all(data.env);
@@ -110,10 +110,10 @@ int	main(__attribute((unused)) int argc,
 //	setrlimit(RLIMIT_MEMLOCK, &l);
 
 	signal_current(&data);
-	static_init(envp, &data);
-	static_exe(&data);
+	_init(envp, &data);
+	_exe(&data);
 	if (data.interactive.is_interactive)
 		write(1, "exit\n", 5);
-	static_free(data);
+	_free(data);
 	return (data.ret);
 }

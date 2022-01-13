@@ -19,7 +19,7 @@
 #include "error.h"
 #include "print.h"
 
-static int	static_error(char **cmd, t_data *data)
+static int	_error(char **cmd, t_data *data)
 {
 	int	len;
 
@@ -43,7 +43,7 @@ static int	static_error(char **cmd, t_data *data)
 	return (SUCCESS);
 }
 
-static void	static_replace_pwd_var(t_data *data)
+static void	_replace_pwd_var(t_data *data)
 {
 	t_env	*tmp;
 	char	path[PATH_CHAR_MAX + 1];
@@ -65,7 +65,7 @@ static void	static_replace_pwd_var(t_data *data)
 	}
 }
 
-static int	static_move(char *dir, char *pwd, t_data *data, int b)
+static int	_move(char *dir, char *pwd, t_data *data, int b)
 {
 	char	*path;
 	int		ret;
@@ -82,14 +82,14 @@ static int	static_move(char *dir, char *pwd, t_data *data, int b)
 	ret = chdir(path);
 	getcwd(pathpwd, PATH_CHAR_MAX + 1);
 	if (!ret)
-		static_replace_pwd_var(data);
+		_replace_pwd_var(data);
 	if (!ret && b)
 		print_fd(pathpwd, 1);
 	str_free(path);
 	return (!!ret);
 }
 
-static int	static_env(t_data *data, char *name, char print_path, char *cmd)
+static int	_env(t_data *data, char *name, char print_path, char *cmd)
 {
 	t_env	*var;
 	char	**split;
@@ -98,7 +98,7 @@ static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 	var = env_find(data->env, name);
 	if (print_path < 2)
 	{
-		static_move(0, var->value, data, print_path);
+		_move(0, var->value, data, print_path);
 		return (SUCCESS);
 	}
 	if (!var)
@@ -107,7 +107,7 @@ static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 	i = -1;
 	while (split && split[++i])
 	{
-		if (!static_move(cmd, split[i], data, 1))
+		if (!_move(cmd, split[i], data, 1))
 		{
 			str_free_list(split);
 			return (BUILTIN_ERR_EXEC);
@@ -119,15 +119,15 @@ static int	static_env(t_data *data, char *name, char print_path, char *cmd)
 
 int	builtin_cd(char **cmd, t_data *data)
 {
-	if (static_error(cmd, data))
+	if (_error(cmd, data))
 		return (BUILTIN_ERR_EXEC);
 	if (!cmd[1])
-		return (static_env(data, "HOME", 0, 0));
+		return (_env(data, "HOME", 0, 0));
 	if (cmd[1][0] == '-' && !cmd[1][1])
-		return (static_env(data, "OLDPWD", 1, 0));
-	if (!static_move(cmd[1], 0, data, 0))
+		return (_env(data, "OLDPWD", 1, 0));
+	if (!_move(cmd[1], 0, data, 0))
 		return (SUCCESS);
-	if (static_env(data, "CDPATH", 2, cmd[1]))
+	if (_env(data, "CDPATH", 2, cmd[1]))
 		return (SUCCESS);
 	print_error("cd: ", cmd[1], ": No such file or directory\n", data);
 	return (BUILTIN_ERR_EXEC);

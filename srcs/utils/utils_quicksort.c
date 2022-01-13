@@ -12,14 +12,14 @@
 
 #include "str.h"
 
-static int	static_find_pivot(int start, int end, char **s)
+static int	_find_pivot(int start, int end, char **s)
 {
 	while (start < end && str_cmp(s[start], s[end]) < 0)
 		start++;
 	return (start);
 }
 
-static int	static_sort(int pivot, int end, char **s)
+static int	_sort(int pivot, int end, char **s)
 {
 	int		i;
 	char	*tmp;
@@ -48,8 +48,8 @@ void	uti_quicksort(int start, int end, char **s)
 
 	if (end <= start)
 		return ;
-	pivot = static_find_pivot(start, end, s);
-	pivot = static_sort(pivot, end, s);
+	pivot = _find_pivot(start, end, s);
+	pivot = _sort(pivot, end, s);
 	uti_quicksort(start, pivot - 1, s);
 	uti_quicksort(pivot + 1, end, s);
 }

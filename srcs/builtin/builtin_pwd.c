@@ -35,7 +35,7 @@ static int	check_arg(char *arg, t_data *data)
 	return (SUCCESS);
 }
 
-static char	*static_find_pwd(t_data *data)
+static char	*_find_pwd(t_data *data)
 {
 	char	*ret;
 	t_env	*pwd;
@@ -62,7 +62,7 @@ int	builtin_pwd(char **cmd, t_data *data)
 	if (cmd[1] && check_arg(cmd[1], data) == BUILTIN_ERR_SYNTAX)
 		return (BUILTIN_ERR_SYNTAX);
 	if (!getcwd(tmp, PATH_CHAR_MAX + 1))
-		path = static_find_pwd(data);
+		path = _find_pwd(data);
 	else
 		path = tmp;
 	print_fd(path, 1);

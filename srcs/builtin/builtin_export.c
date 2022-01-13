@@ -19,7 +19,7 @@
 #include "struct.h"
 #include "utils.h"
 
-static int	static_print(t_env *env)
+static int	_print(t_env *env)
 {
 	char	**cpy;
 	int		i;
@@ -47,7 +47,7 @@ static int	static_print(t_env *env)
 	return (SUCCESS);
 }
 
-static int	static_new(char **cmd, t_data *data)
+static int	_new(char **cmd, t_data *data)
 {
 	char	**var;
 
@@ -65,7 +65,7 @@ int	builtin_export(char **cmd, t_data *data)
 
 	ret = 0;
 	if (!cmd[1])
-		return (static_print(data->env));
+		return (_print(data->env));
 	else
 	{
 		i = 1;
@@ -73,7 +73,7 @@ int	builtin_export(char **cmd, t_data *data)
 		while (cmd[i])
 		{
 			if (uti_is_valid_var_name(cmd[i]))
-				ret |= static_new(&cmd[i], data);
+				ret |= _new(&cmd[i], data);
 			else
 			{
 				ret = BUILTIN_ERR_EXEC;

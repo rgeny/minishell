@@ -18,7 +18,7 @@
 #include "struct.h"
 #include "utils.h"
 
-static int	static_isavailable(char *s, t_data *data)
+static int	_isavailable(char *s, t_data *data)
 {
 	if (uti_is_valid_var_name(s))
 		return (SUCCESS);
@@ -39,7 +39,7 @@ int	builtin_unset(char **cmd, t_data *data)
 	i = 1;
 	while (cmd[i])
 	{
-		if (!static_isavailable(cmd[i], data))
+		if (!_isavailable(cmd[i], data))
 		{
 			to_del = env_find(data->env, cmd[i]);
 			if (to_del)

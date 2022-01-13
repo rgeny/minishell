@@ -15,7 +15,7 @@
 #include "env.h"
 #include "struct.h"
 
-static void	static_add_back(t_env **env, t_env *new)
+static void	_add_back(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
@@ -49,5 +49,5 @@ void	env_new(t_env **env, char *name, char *value)
 	new->value = value;
 	new->next = 0;
 	new->prev = 0;
-	static_add_back(env, new);
+	_add_back(env, new);
 }

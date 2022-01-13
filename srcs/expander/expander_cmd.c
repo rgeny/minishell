@@ -16,7 +16,7 @@
 #include "str.h"
 #include "utils.h"
 
-static void	static_expand(char **splt, t_data *data, int i)
+static void	_expand(char **splt, t_data *data, int i)
 {
 	t_env	*tmp;
 	char	*s;
@@ -56,7 +56,7 @@ static void	static_expand(char **splt, t_data *data, int i)
 	}
 }
 
-static char	*static_join(char **splt)
+static char	*_join(char **splt)
 {
 	int		i;
 	char	*ret;
@@ -74,7 +74,7 @@ static char	*static_join(char **splt)
 	return (ret);
 }
 
-static void	static_move(char **cmd, int sz)
+static void	_move(char **cmd, int sz)
 {
 	int	i;
 	int	j;
@@ -113,13 +113,13 @@ void	expander_cmd(char **cmd, t_data *data)
 		if (cmd[i][j] && (uti_isalnum(cmd[i][j + 1]) || cmd[i][j + 1] == '?'))
 		{
 			splt = str_split(cmd[i], "$");
-			static_expand(splt, data, cmd[i][0] != '$');
-			join = static_join(splt);
+			_expand(splt, data, cmd[i][0] != '$');
+			join = _join(splt);
 			str_free_list(splt);
 			str_free(cmd[i]);
 			cmd[i] = join;
 		}
 		i++;
 	}
-	static_move(cmd, i);
+	_move(cmd, i);
 }

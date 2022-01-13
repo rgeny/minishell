@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-static void	static_cpy(t_env **env, char *envp[])
+static void	_cpy(t_env **env, char *envp[])
 {
 	char	*name;
 	char	*value;
@@ -40,7 +40,7 @@ static void	static_cpy(t_env **env, char *envp[])
 	}
 }
 
-static void	static_actualize(t_env **env)
+static void	_actualize(t_env **env)
 {
 	t_env	*node;
 	char	*s;
@@ -63,6 +63,6 @@ static void	static_actualize(t_env **env)
 
 void	env_init(t_env **env, char *envp[])
 {
-	static_cpy(env, envp);
-	static_actualize(env);
+	_cpy(env, envp);
+	_actualize(env);
 }

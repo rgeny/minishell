@@ -14,7 +14,7 @@
 #include "env.h"
 #include "str.h"
 
-static int	static_size(t_env *env, int with_not_init)
+static int	_size(t_env *env, int with_not_init)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ static int	static_size(t_env *env, int with_not_init)
 	return (i);
 }
 
-static void	static_assign(t_env *tmp, int with_not_init, char **ret)
+static void	_assign(t_env *tmp, int with_not_init, char **ret)
 {
 	int	i;
 
@@ -54,10 +54,10 @@ char	**env_switch(t_data *data, int with_not_init)
 	char	**ret;
 
 	env_assign(data->env, "PWD", str_ndup(data->pwd, str_len(data->pwd, 0)));
-	sz = static_size(data->env, with_not_init);
+	sz = _size(data->env, with_not_init);
 	ret = malloc(sizeof(char *) * (sz + 1));
 	if (!ret)
 		return (0);
-	static_assign(data->env, with_not_init, ret);
+	_assign(data->env, with_not_init, ret);
 	return (ret);
 }

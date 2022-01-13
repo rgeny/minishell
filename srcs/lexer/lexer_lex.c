@@ -12,7 +12,7 @@
 
 #include "lexer.h"
 
-static int	static_process_char(t_tok_constructor *constructor, t_token **tokens, int i)
+static int	_process_char(t_tok_constructor *constructor, t_token **tokens, int i)
 {
 	int	len;
 
@@ -50,7 +50,7 @@ t_token	*lexer_lex(const char *str)
 	i = 0;
 	lexer_tok_constructor_new(&constructor, i);
 	while (str && str[i])
-		i += static_process_char(&constructor, &tokens, i);
+		i += _process_char(&constructor, &tokens, i);
 	if (constructor.cur_token)
 		lexer_terminate_token(&constructor, &tokens, i);
 	lexer_tok_constructor_free(&constructor);

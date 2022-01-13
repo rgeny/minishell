@@ -18,7 +18,7 @@
 #include "str.h"
 #include "env.h"
 
-static int	static_cmp(char *s1, char *s2)
+static int	_cmp(char *s1, char *s2)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ static int	static_cmp(char *s1, char *s2)
 	return (0);
 }
 
-static char	*static_prompt(t_data *data)
+static char	*_prompt(t_data *data)
 {
 	char	path[PATH_CHAR_MAX + 1];
 	t_env	*pwd;
@@ -47,7 +47,7 @@ static char	*static_prompt(t_data *data)
 	pwd = env_find(data->env, "HOME");
 	ret = 0;
 	if (pwd)
-		ret = static_cmp(pwd->value, prompt);
+		ret = _cmp(pwd->value, prompt);
 	if (ret)
 		tmp = str_join(PROMPT, &prompt[ret], '~');
 	else
@@ -64,7 +64,7 @@ static char	*static_prompt(t_data *data)
 	return (prompt);
 }
 
-static void	static_non_interactive(t_interactive *interactive)
+static void	_non_interactive(t_interactive *interactive)
 {
 	static int	fdnull = -1;
 	static int	fderr = -1;
@@ -94,14 +94,14 @@ char	*exe_readline(t_data *data)
 	char	*ret;
 	int		fdout;
 
-	prompt = static_prompt(data);
+	prompt = _prompt(data);
 	fdout = dup(1);
-	static_non_interactive(&data->interactive);
+	_non_interactive(&data->interactive);
 	dup2(2, 1);
 	ret = readline(prompt);
 	dup2(fdout, 1);
 	close(fdout);
-	static_non_interactive(&data->interactive);
+	_non_interactive(&data->interactive);
 	str_free(prompt);
 	return (ret);
 }

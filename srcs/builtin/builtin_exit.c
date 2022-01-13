@@ -18,7 +18,7 @@
 #include "error.h"
 #include "print.h"
 
-static void	static_exit(char **cmd, t_data *data, int ret)
+static void	_exit(char **cmd, t_data *data, int ret)
 {
 	str_free_list(cmd);
 	env_del_all(data->env);
@@ -26,7 +26,7 @@ static void	static_exit(char **cmd, t_data *data, int ret)
 	exit(ret);
 }
 
-static int	static_check_first(char **cmd, t_data *data)
+static int	_check_first(char **cmd, t_data *data)
 {
 	long	ret;
 
@@ -36,7 +36,7 @@ static int	static_check_first(char **cmd, t_data *data)
 	{
 		print_error("exit: ", cmd[1],
 			": numbered argument is necessary\n", data);
-		static_exit(cmd, data, 2);
+		_exit(cmd, data, 2);
 	}
 	return ((unsigned char)ret);
 }
@@ -49,9 +49,9 @@ int	builtin_exit(char **cmd, t_data *data)
 	ret = 0;
 	len = str_llen(cmd);
 	if (len > 1)
-		ret = static_check_first(cmd, data);
+		ret = _check_first(cmd, data);
 	if (len < 3)
-		static_exit(cmd, data, ret);
+		_exit(cmd, data, ret);
 	print_error("exit: ", "too many arguments\n", 0, data);
 	return (BUILTIN_ERR_EXEC);
 }
