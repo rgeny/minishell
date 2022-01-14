@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 01:01:33 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/14 04:16:10 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exe_out_process(char **cmd, t_data *data)
 {
 	pid_t	pid;
 	char	**env_cpy;
-	int		tmp;
+	char	*path;
 
 	pid = fork();
 	if (!pid)
@@ -33,11 +33,13 @@ void	exe_out_process(char **cmd, t_data *data)
 		signal_fork();
 		env_cpy = env_switch(data, 0);
 		str_free(data->pwd);
-		parsing_path(cmd, data->env);
-		execve(cmd[0], cmd, env_cpy);
+		path = parsing_path(cmd, data->env);
+		printf("path : %s\ncmd : %s\n", path, cmd[0]);
+		execve(path, cmd, env_cpy);
 		print_error(cmd[0], ": command not found\n", 0, data);
 		str_free_list(cmd);
 		str_free_list(env_cpy);
+		str_free(path);
 		env_del_all(data->env);
 		exit(127);
 	}

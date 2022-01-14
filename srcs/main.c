@@ -55,7 +55,6 @@ static void	_exe(t_data *data)
 		tmp = expander_asterisk(rl);
 		if (tmp)
 		{
-			printf("rl : %s\n", tmp);
 			free(rl);
 			rl = tmp;
 		}
