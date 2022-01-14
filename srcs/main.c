@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 17:23:15 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:01:09 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	static_exe(t_data *data)
 		tmp = expander_asterisk(rl);
 		if (tmp)
 		{
-			printf("rl : %s\n", tmp);
 			free(rl);
 			rl = tmp;
 		}

@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/09 17:18:04 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/14 04:19:48 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	_size_dir(void)
 	dir = readdir(cur_dir);
 	while (dir)
 	{
-		if (str_cmp(".", dir->d_name) && str_cmp("..", dir->d_name))
+		if (dir->d_name[0] != '.')
 			i++;
 		dir = readdir(cur_dir);
 	}
@@ -56,7 +56,7 @@ static char	**_dir_list(void)
 	dir_list[len] = 0;
 	while (len)
 	{
-		if (str_cmp(".", dir->d_name) && str_cmp("..", dir->d_name))
+		if (dir->d_name[0] != '.')
 		{
 			len--;
 			dir_list[len] = str_ndup(dir->d_name, str_len(dir->d_name, 0));
@@ -66,50 +66,101 @@ static char	**_dir_list(void)
 	closedir(cur_dir);
 	return (dir_list);
 }
-/*
-char			*getcwd(char *buf, size_t size);
-DIR				*opendir(const char *name);
-struct dirent	*readdir(DIR *dir);
-int				closedir(DIR *dir);
 
-struct dirent
+static int	_cmp(char *word, char *dir)
 {
-	ino_t			d_ino;		numéro d'inoeud
-	off_t			d_off;		décalage jusqu'à la dirent suivante
-	unsigned short	d_reclen;	longueur de cet enregistrement
-	unsigned char	d_type;		type du fichier
-	char			d_name[256]	nom du fichier
+	int	i;
+	int	j;
+	int	k;
+	int	l;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while ((dir[i + j] || word[i + k]) && (word[i + k] == dir[i + j] || word[i + k] == '*'))
+	{
+		if (word[i + k] == '*')
+		{
+			while (word[i + k] == '*')
+				k++;
+			while (word[i + k] != '*' && dir[i + j])
+			{
+				l = 0;
+				while (word[i + k + l] && word[i + k + l] == dir[i + j + l])
+					l++;
+				if ((!word[i + k + l] && !dir[i + j + l]) || word[i + k + l] == '*')
+					i += l;
+				else
+					j++;
+			}
+		}
+		if (word[i + k] && dir[i + j] && word[i + k] != '*')
+			i++;
+	}
+	if (!word[i + k] && !dir[i + j])
+		return (1);
+	return (0);
 }
-*/
 
 static char	*_expand(char *word, char **dir_list)
 {
 	int		i;
-	char	cp[2];
-	char	*new_value;
-
+	char	*new_word;
+	char	*tmp;
+	
+	new_word = 0;
+	tmp = 0;
 	i = 0;
 	while (dir_list[i])
 	{
-		if (dir_list[i][0] == word[0])
+		if (_cmp(word, dir_list[i]))
 		{
-			cp[0] = word[0];
-			cp[1] = 0;
-			new_value = str_join(cp, &dir_list[i][1], 0);
-			return (new_value);
+			if (new_word)	
+				tmp = str_join(new_word, dir_list[i], ' ');
+			else
+				tmp = str_ndup(dir_list[i], str_len(dir_list[i], 0));
+			str_free(new_word);
+			new_word = tmp;
 		}
 		i++;
 	}
-	return (0);
+	return (new_word);
 }
 
 char	*expander_asterisk(char *rl)
 {
 	char	**dir_list;
+	char	**split;
 	char	*tmp;
+	char	*tmp2;
 
 	dir_list = _dir_list();
-	tmp = _expand(rl, dir_list);
+	split = str_split(rl, " ");
+	for (int i = 0; split[i]; i++)
+	{
+		tmp = _expand(split[i], dir_list);
+		if (tmp)
+		{
+			str_free(split[i]);
+			split[i] = tmp;
+		}
+	}
+	tmp = 0;
+	tmp2 = 0;
+	for (int i = 0; split[i]; i++)
+	{
+		if (tmp)
+		{
+			tmp2 = str_join(tmp, split[i], ' ');
+			free(tmp);
+			tmp = tmp2;
+		}
+		else
+		{
+			tmp = str_ndup(split[i], str_len(split[i], 0));
+		}
+	}
 	str_free_list(dir_list);
+	str_free_list(split);
 	return (tmp);
 }
