@@ -3,16 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/06 20:17:36 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/15 13:02:22 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
+// LEXER STRUCTS
+typedef enum e_token_type {
+	E_TOKEN_TYPE_WORD,
+	E_TOKEN_TYPE_OPERATOR
+}	t_token_type;
+
+typedef struct s_token {
+	char			*content;
+	t_token_type	type;
+	struct s_token	*next;
+}	t_token;
+
+// ENV STRUCT
 typedef struct s_env
 {
 	struct s_env	*next;
@@ -20,16 +33,20 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 }					t_env;
+
 typedef struct s_interactive
 {
 	unsigned long	line;
 	int				is_interactive;
 }					t_interactive;
+
 typedef struct s_data
 {
 	t_env			*env;
+	t_token			*tokens;
 	int				ret;
 	char			*pwd;
 	t_interactive	interactive;
 }					t_data;
+
 #endif

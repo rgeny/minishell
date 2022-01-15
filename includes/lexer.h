@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:48:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 11:37:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/15 13:02:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@
 
 # include "str.h"
 # include "utils.h"
-
-typedef enum e_token_type {
-	E_TOKEN_TYPE_WORD,
-	E_TOKEN_TYPE_OPERATOR
-}	t_token_type;
+# include "struct.h"
 
 typedef enum e_mode {
 	E_MODE_WORD,
@@ -37,12 +33,6 @@ enum e_char_type {
 	E_CHAR_TYPE_SQUOTE,
 	E_CHAR_TYPE_OPERATOR
 };
-
-typedef struct s_token {
-	char			*content;
-	t_token_type	type;
-	struct s_token	*next;
-}	t_token;
 
 typedef struct s_token_constructor {
 	t_mode		mode;

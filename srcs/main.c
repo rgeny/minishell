@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 13:23:26 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/15 15:22:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	_init(char *envp[], t_data *data)
 	env_init(&data->env, envp);
 	data->ret = 0;
 	data->pwd = 0;
+	data->tokens = NULL;
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		data->pwd = str_ndup(pwd->value, str_len(pwd->value, 0));
@@ -40,17 +41,15 @@ static void	_exe(t_data *data)
 {
 	char	*rl;
 	char	**cmd;
-	t_token	*tokens;
 	int		i;
 	int		in;
 	int		heredoc;
 
-	tokens = NULL;
 	rl = exe_readline(data);
 	while (rl)
 	{
-		// tokens = lexer_lex(rl);
-		// lexer_print_tokens(tokens);
+		data->tokens = lexer_lex(rl);
+		lexer_print_tokens(data->tokens);
 		cmd = str_split(rl, " ");
 		if (!str_cmp("<<", cmd[0]))
 		{
@@ -70,7 +69,7 @@ static void	_exe(t_data *data)
 			add_history(rl);
 			expander_cmd(&cmd[i], data);
 			env_new_(cmd[i], &data->env);
-			lexer_free_tokens(&tokens);
+			lexer_free_tokens(&data->tokens);
 			exe_builtin(&cmd[i], data);
 			if (data->ret == -1)
 				exe_out_process(&cmd[i], data);
@@ -81,7 +80,7 @@ static void	_exe(t_data *data)
 			close(in);
 			close(heredoc);
 		}
-		lexer_free_tokens(&tokens);
+		lexer_free_tokens(&data->tokens);
 		str_free(rl);
 		str_free_list(cmd);
 		rl = exe_readline(data);
@@ -92,6 +91,7 @@ static void	_free(t_data data)
 {
 	str_free(data.pwd);
 	env_del_all(data.env);
+	lexer_free_tokens(&data.tokens);
 }
 
 //#include <stdio.h>
