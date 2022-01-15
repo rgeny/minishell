@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/11 15:01:09 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/14 19:38:07 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,24 @@ static void	static_exe(t_data *data)
 			free(rl);
 			rl = tmp;
 		}
-//		printf("rl : %s\n", rl);
 		// tokens = lexer_lex(rl);
 		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
 		str_free(rl);
-		if (!str_cmp("<<", cmd[0]))
+		if (cmd && cmd[0] && !str_cmp("<<", cmd[0]))
 		{
-			heredoc = exe_heredoc(cmd[1]);
-			in = dup(0);
-			dup2(heredoc, 0);
-			i = 2;
+			heredoc = exe_heredoc(cmd[1], data);
+			if (heredoc == -1)
+			{
+				str_free_list(cmd);
+				cmd = 0;
+			}
+			else
+			{
+				in = dup(0);
+				dup2(heredoc, 0);
+				i = 2;
+			}
 		}
 		else
 		{
