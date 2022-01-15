@@ -6,11 +6,18 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 11:28:48 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/15 15:20:46 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+static void	_terminate_token_and_create_a_new_one(t_tok_constructor *constructor, t_token **tokens, int i)
+{
+	lexer_terminate_token(constructor, tokens, i);
+	if (constructor->cur_token == NULL)
+		lexer_tok_constructor_new(constructor, i + 1);
+}
 
 static int	_process_char(t_tok_constructor *constructor, t_token **tokens, int i)
 {
@@ -20,14 +27,12 @@ static int	_process_char(t_tok_constructor *constructor, t_token **tokens, int i
 	{
 		if (lexer_get_chartype(constructor->str[i]) == E_CHAR_TYPE_BLANK)
 		{
-			lexer_terminate_token(constructor, tokens, i);
-			lexer_tok_constructor_new(constructor, i + 1);
+			_terminate_token_and_create_a_new_one(constructor, tokens, i);
 			return (1);
 		}
 		else if (lexer_get_chartype(constructor->str[i]) == E_CHAR_TYPE_OPERATOR)
 		{
-			lexer_terminate_token(constructor, tokens, i);
-			lexer_tok_constructor_new(constructor, i + 1);
+			_terminate_token_and_create_a_new_one(constructor, tokens, i);
 			len = lexer_create_operator_token(constructor, tokens, i);
 			lexer_tok_constructor_new(constructor, i + len);
 			return (len);
