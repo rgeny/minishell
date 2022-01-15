@@ -58,17 +58,24 @@ static void	_exe(t_data *data)
 			free(rl);
 			rl = tmp;
 		}
-//		printf("rl : %s\n", rl);
 		// tokens = lexer_lex(rl);
 		// lexer_print_tokens(tokens);
 		cmd = str_split(rl, " ");
 		str_free(rl);
-		if (!str_cmp("<<", cmd[0]))
+		if (cmd && cmd[0] && !str_cmp("<<", cmd[0]))
 		{
-			heredoc = exe_heredoc(cmd[1]);
-			in = dup(0);
-			dup2(heredoc, 0);
-			i = 2;
+			heredoc = exe_heredoc(cmd[1], data);
+			if (heredoc == -1)
+			{
+				str_free_list(cmd);
+				cmd = 0;
+			}
+			else
+			{
+				in = dup(0);
+				dup2(heredoc, 0);
+				i = 2;
+			}
 		}
 		else
 		{

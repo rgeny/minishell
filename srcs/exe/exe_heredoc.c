@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/09 13:29:58 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/15 02:54:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include "str.h"
+#include <signal.h>
+#include "minishell_signal.h"
 
 static void	_son(int pipefd[2], char *delimiter)
 {
@@ -35,16 +37,32 @@ static void	_son(int pipefd[2], char *delimiter)
 	exit(0);
 }
 
-int	exe_heredoc(char *delimiter)
+int	exe_heredoc(char *delimiter, t_data *data)
 {
 	int		pipefd[2];
 	pid_t	pid;
+	int		status;
 
 	pipe(pipefd);
 	pid = fork();
 	if (!pid)
+	{
+		signal(SIGINT, SIG_DFL);
 		_son(pipefd, delimiter);
-	waitpid(pid, 0, 0);
+	}
+	signal_ignore();
+	waitpid(pid, &status, 0);
+	signal_current(0);
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			data->ret = WTERMSIG(status) + 128;
+			close(pipefd[0]);
+			pipefd[0] = -1;
+		}
+		write(1, "\n", 1);
+	}
 	close(pipefd[1]);
 	return (pipefd[0]);
 }

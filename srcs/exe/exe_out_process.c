@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/14 04:16:10 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/14 15:44:33 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	exe_out_process(char **cmd, t_data *data)
 		env_cpy = env_switch(data, 0);
 		str_free(data->pwd);
 		path = parsing_path(cmd, data->env);
-		printf("path : %s\ncmd : %s\n", path, cmd[0]);
 		execve(path, cmd, env_cpy);
 		print_error(cmd[0], ": command not found\n", 0, data);
 		str_free_list(cmd);
