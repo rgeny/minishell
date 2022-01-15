@@ -6,18 +6,18 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:18:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 11:27:55 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/15 15:23:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static t_token	*lexer_token_create(char *content)
+static t_token	*_lexer_token_create()
 {
 	t_token	*token;
 
 	token = (t_token *)malloc(sizeof(t_token));
-	token->content = content;
+	token->content = NULL;
 	token->next = NULL;
 	return (token);
 }
@@ -26,7 +26,7 @@ void	lexer_tok_constructor_new(t_tok_constructor *constructor, int stri)
 {
 	t_token	*token;
 
-	token = lexer_token_create(NULL);
+	token = _lexer_token_create();
 	constructor->cur_token = token;
 	constructor->mode = E_MODE_WORD;
 	constructor->start_index = stri;
@@ -44,6 +44,4 @@ void	lexer_tok_constructor_free(t_tok_constructor *constructor)
 {
 	if (constructor->cur_token)
 		lexer_free_tokens(&constructor->cur_token);
-	else
-		printf("No tok constructor to free\n");
 }

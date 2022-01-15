@@ -6,13 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 23:00:52 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/15 15:23:57 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static void	token_add_back(t_token **tokens, t_token *token)
+static void	_token_add_back(t_token **tokens, t_token *token)
 {
 	t_token	*current_token;
 
@@ -37,7 +37,7 @@ int	lexer_create_operator_token(t_tok_constructor *constructor, t_token **tokens
 		len = 1;
 	constructor->cur_token->content = str_ndup(&str[stri], len);
 	constructor->cur_token->type = E_TOKEN_TYPE_OPERATOR;
-	token_add_back(tokens, constructor->cur_token);
+	_token_add_back(tokens, constructor->cur_token);
 	return (len);
 }
 
@@ -55,7 +55,7 @@ int	lexer_terminate_token(t_tok_constructor *constructor, t_token **tokens, int 
 	token_len = stri - constructor->start_index;
 	constructor->cur_token->content = str_ndup(str_start, token_len);
 	constructor->cur_token->type = E_TOKEN_TYPE_WORD;
-	token_add_back(tokens, constructor->cur_token);
+	_token_add_back(tokens, constructor->cur_token);
 	constructor->cur_token = NULL;
 	return (1);
 }
