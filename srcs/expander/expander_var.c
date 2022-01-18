@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_cmd.c                                     :+:      :+:    :+:   */
+/*   expander_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 10:06:47 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:50:11 by buschiix         ###   ########.fr       */
 /*   Updated: 2022/01/09 13:33:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -54,7 +54,7 @@ static char	*_switch_name_to_value(char *prev, char *find, char *cmd, int len)
 	return (ret);
 }
 
-static char	*_expand(char **cmd, t_data *data, int i)
+static void	_expand(char **cmd, t_data *data, int i)
 {
 	int		len;
 	char	*prev;
