@@ -6,7 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 20:36:37 by rgeny             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/01/18 05:26:17 by buschiix         ###   ########.fr       */
+=======
+/*   Updated: 2022/01/14 19:33:35 by buschiix         ###   ########.fr       */
+>>>>>>> 04f73bbad60a81c69f99fba12a7d24cd76b360c0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +31,12 @@ void	_sigint(int sig)
 	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();
+<<<<<<< HEAD
 	while (next_history())
 		;
+=======
+	while (next_history());
+>>>>>>> 04f73bbad60a81c69f99fba12a7d24cd76b360c0
 }
 
 void	signal_current(t_data *data)

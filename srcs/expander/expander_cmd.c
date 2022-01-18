@@ -6,7 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/01/18 07:08:45 by buschiix         ###   ########.fr       */
+=======
+/*   Updated: 2022/01/09 13:33:47 by buschiix         ###   ########.fr       */
+>>>>>>> 04f73bbad60a81c69f99fba12a7d24cd76b360c0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +47,7 @@ static void	_expand(char **splt, t_data *data, int i)
 		{
 			str_free(splt[i]);
 			splt[i] = uti_calloc(1, sizeof(char));
+<<<<<<< HEAD
 		}
 		if (tmp || splt[i][0] == '?')
 		{
@@ -50,6 +55,8 @@ static void	_expand(char **splt, t_data *data, int i)
 			splt[i] = str_join(s, s2, 0);
 			str_free(s);
 			str_free(s2);
+=======
+>>>>>>> 04f73bbad60a81c69f99fba12a7d24cd76b360c0
 		}
 		i++;
 	}
