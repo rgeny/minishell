@@ -6,11 +6,8 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/01/18 07:08:45 by buschiix         ###   ########.fr       */
-=======
+/*   Updated: 2022/01/18 10:06:47 by buschiix         ###   ########.fr       */
 /*   Updated: 2022/01/09 13:33:47 by buschiix         ###   ########.fr       */
->>>>>>> 04f73bbad60a81c69f99fba12a7d24cd76b360c0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,120 +17,79 @@
 #include "str.h"
 #include "utils.h"
 
-static void	_expand(char **splt, t_data *data, int i)
+static char	*_find_var_value(char *cmd, t_data *data)
 {
-	t_env	*tmp;
-	char	*s;
-	int		len;
-	char	*s2;
+	t_env	*env;
+	char	*name;
 
-	while (splt[i])
-	{
-		len = str_len_alnum(splt[i]);
-		s = str_ndup(splt[i], len);
-		tmp = env_find(data->env, s);
-		str_free(s);
-		if (tmp)
-		{
-			s = str_ndup(tmp->value, str_len(tmp->value, 0));
-			s2 = str_ndup(&splt[i][len], str_len(&splt[i][len], 0));
-		}
-		else if (splt[i][0] == '?')
-		{
-			s = uti_itoa(data->ret);
-			s2 = str_ndup(&splt[i][1], str_len(&splt[i][1], 0));
-		}
-		else
-		{
-			str_free(splt[i]);
-			splt[i] = uti_calloc(1, sizeof(char));
-<<<<<<< HEAD
-		}
-		if (tmp || splt[i][0] == '?')
-		{
-			str_free(splt[i]);
-			splt[i] = str_join(s, s2, 0);
-			str_free(s);
-			str_free(s2);
-=======
->>>>>>> 04f73bbad60a81c69f99fba12a7d24cd76b360c0
-		}
-		i++;
-	}
+	if (cmd[0] == '?')
+		return (uti_itoa(data->ret));
+	name = str_ndup(cmd, str_len_alnum(cmd));
+	env = env_find(data->env, name);
+	str_free(name);
+	if (env)
+		return (str_ndup(env->value, str_len(env->value, 0)));
+	return (0);
 }
 
-static char	*_join(char **splt)
+static char	*_switch_name_to_value(char *prev, char *find, char *cmd, int len)
 {
-	int		i;
-	char	*ret;
 	char	*tmp;
+	char	*ret;
 
-	i = 1;
-	ret = str_ndup(splt[0], str_len(splt[0], 0));
-	while (splt[i])
+	if (prev)
 	{
-		tmp = str_join(ret, splt[i], 0);
-		str_free(ret);
-		ret = tmp;
-		i++;
+		if (find)
+			tmp = str_join(prev, find, 0);
+		else
+			tmp = str_join(prev, &cmd[len], 0);
 	}
+	else if (find)
+		tmp = str_ndup(find, str_len(find, 0));
+	else
+		tmp = str_ndup(&cmd[len], str_len(&cmd[len], 0));
+	ret = str_join(tmp, &cmd[len], 0);
+	str_free(tmp);
+	str_free(find);
 	return (ret);
 }
 
-static void	_move(char **cmd, int sz)
+static char	*_expand(char **cmd, t_data *data, int i)
 {
-	int	i;
-	int	j;
+	int		len;
+	char	*prev;
+	char	*ret;
+	char	*find;
 
-	i = 0;
-	while (i < sz)
+	prev = str_ndup(cmd[0], i);
+	len = str_len_alnum(&cmd[0][i + 1]);
+	if (cmd[0][i + 1] == '?')
+		len++;
+	find = _find_var_value(&cmd[0][i + 1], data);
+	if (find || len)
 	{
-		if (!cmd[i])
-		{
-			j = i + 1;
-			while (j < sz && !cmd[j])
-				j++;
-			if (cmd[j])
-			{
-				cmd[i] = cmd[j];
-				cmd[j] = 0;
-			}
-		}
-		i++;
+		ret = _switch_name_to_value(prev, find, &cmd[0][i + 1], len);
+		str_free(cmd[0]);
+		cmd[0] = ret;
 	}
+	str_free(prev);
 }
 
-void	expander_cmd(char **cmd, t_data *data)
+void	expander_var(char **cmd, t_data *data)
 {
 	int		i;
 	int		j;
-	char	**splt;
-	char	*join;
 
 	i = 0;
 	while (cmd[i])
 	{
 		j = 0;
-		while (cmd[i][j] && cmd[i][j] != '$')
-			j++;
-		if (cmd[i][j] && (uti_isalnum(cmd[i][j + 1]) || cmd[i][j + 1] == '?'))
+		while (cmd[i][j])
 		{
-			splt = str_split(cmd[i], "$");
-			_expand(splt, data, cmd[i][0] != '$');
-			join = _join(splt);
-			str_free_list(splt);
-			str_free(cmd[i]);
-			cmd[i] = join;
+			if (cmd[i][j] == '$')
+				_expand(&cmd[i], data, j);
+			j++;
 		}
 		i++;
 	}
-	_move(cmd, i);
 }
-/*
-void	expander_cmd(char **cmd, t_data *data)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-}*/

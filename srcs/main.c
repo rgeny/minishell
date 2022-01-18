@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 05:46:45 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:07:14 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	_exe(t_data *data)
 		}
 		if (cmd && cmd[i])
 		{
-			expander_cmd(&cmd[i], data);
+			expander_var(&cmd[i], data);
 			env_new_(cmd[i], &data->env);
 			lexer_free_tokens(&data->tokens);
 			exe_builtin(&cmd[i], data);
