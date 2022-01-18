@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 10:55:25 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 11:20:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <readline/readline.h>
-#include "str.h"
 #include <signal.h>
+#include "str.h"
+#include "error.h"
 #include "minishell_signal.h"
+#include "print.h"
 
 static void	_son(int pipefd[2], char *delimiter)
 {
@@ -38,16 +40,19 @@ static void	_son(int pipefd[2], char *delimiter)
 	exit(0);
 }
 
-static void	_ret_son(int *fd_in, int status, t_data *data)
+static void	_ret_son(int *fd_in, int status, char *delimiter, t_data *data)
 {
 	if (WIFSIGNALED(status))
 	{
-		if (WTERMSIG(status) == SIGINT)
+		status = WTERMSIG(status);
+		if (status == SIGINT)
 		{
-			data->ret = WTERMSIG(status) + 128;
+			data->ret = status + SIGNAL_ERROR;
 			close(*fd_in);
 			*fd_in = -1;
 		}
+		else if (status == SIGNAL_EOF)
+			print_error("heredoc: ", "delimited by the signal EOF instead of word: ", delimiter, data);
 		write(1, "\n", 1);
 	}
 }
@@ -65,7 +70,7 @@ int	exe_heredoc(char *delimiter, t_data *data)
 	signal_ignore();
 	waitpid(pid, &status, 0);
 	signal_current(0);
-	_ret_son(&pipefd[0], status, data);
+	_ret_son(&pipefd[0], status, delimiter, data);
 	close(pipefd[1]);
 	return (pipefd[0]);
 }
