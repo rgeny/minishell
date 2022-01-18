@@ -7,8 +7,31 @@ COLOR_GREEN="\033[0;32m"
 COLOR_BLUE="\033[0;34m"
 COLOR_WHITE="\033[0;37m"
 
+FLAG_PRINT_OK="print"
+
+ARG=$*
+
 make re -C ../ > /dev/null
 clear
+
+function in_arg()
+{
+	if [ "$ARG" == "" ]
+	then
+		return 1
+	fi
+	for i in $ARG
+	do
+		for j in $*
+		do
+			if [ "$j" == "$i" ]
+			then
+				return 1
+			fi
+		done
+	done
+	return 0
+}
 
 function test_ret_stdout()
 {
@@ -20,11 +43,15 @@ function test_ret_stdout()
 	if [ "$TEST_MINISHELL" == "$TEST_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ]
 	then
 		printf $COLOR_GREEN"$INDEX:OK "
-#		printf $COLOR_WHITE"CMD : \n$@\n"
-#		printf $COLOR_BLUE
-#		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
-#		printf $COLOR_GREEN
-#		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
+		in_arg "-p"
+		if [ $? == 1 ]
+		then
+			printf $COLOR_WHITE"CMD : \n$@\n"
+			printf $COLOR_BLUE
+			printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
+			printf $COLOR_GREEN
+			printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
+		fi
 	else
 		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
@@ -50,11 +77,15 @@ function test_env()
 	if [ "$LINE_MINISHELL" == "$LINE_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ]
 	then
 		printf $COLOR_GREEN"$INDEX:OK "
-#		printf $COLOR_WHITE"CMD : \n$@\n"
-#		printf $COLOR_BLUE
-#		printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
-#		printf $COLOR_GREEN
-#		printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
+		in_arg "\-p"
+		if [ $? == 1 ]
+		then
+			printf $COLOR_WHITE"CMD : \n$@\n"
+			printf $COLOR_BLUE
+			printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH"
+			printf $COLOR_GREEN
+			printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
+		fi
 	else
 		printf $COLOR_RED"$INDEX:KO\n"
 		printf $COLOR_WHITE"CMD : \n$@\n"
@@ -71,7 +102,8 @@ function test_env()
 ###########################################################
 ############################ CD ###########################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "cd" ]
+in_arg "cd"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "***** TEST CD *****\n"
@@ -123,7 +155,8 @@ fi
 ###########################################################
 ########################## ECHO ###########################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "echo" ]
+in_arg "echo"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "\n\n***** TEST ECHO *****\n"
@@ -151,7 +184,8 @@ fi
 ###########################################################
 ########################## ENV ############################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "env" ]
+in_arg "env"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "\n\n***** TEST ENV *****\n"
@@ -172,7 +206,8 @@ fi
 ###########################################################
 ######################### EXIT ############################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "exit" ]
+in_arg "exit"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "\n\n***** TEST EXIT *****\n"
@@ -196,7 +231,8 @@ fi
 ###########################################################
 ######################### EXPORT ##########################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "export" ]
+in_arg "export"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "\n\n***** TEST EXPORT *****\n"
@@ -239,7 +275,8 @@ fi
 ###########################################################
 ########################## PWD ############################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "pwd" ]
+in_arg "pwd"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "\n\n***** TEST PWD *****\n"
@@ -273,7 +310,8 @@ fi
 ###########################################################
 ######################### UNSET ###########################
 ###########################################################
-if [ ! $1 ] || [ "$1" == "unset" ]
+in_arg "unset"
+if [ $? == 1 ]
 then
 		INDEX=0
 		printf "\n\n***** TEST UNSET *****\n"
@@ -287,6 +325,31 @@ then
 		test_env "export var=1\nexport var1=2\nunset var\nenv"
 
 		unset CMD
+fi
+
+
+###########################################################
+###################### EXPAND VAR #########################
+###########################################################
+in_arg "expand_var"
+if [ $? == 1 ]
+then
+		INDEX=0
+		printf "\n\n***** TEST EXPAND VAR *****\n"
+		test_ret_stdout "echo \$PATH"
+		test_ret_stdout "echo \$PATH\$ q"
+		test_ret_stdout "echo \$QBC"
+		test_ret_stdout "echo \$?"
+		test_ret_stdout "dzdq\necho \$?"
+		test_ret_stdout "echo \$HOME\nunset HOME\necho \$HOME"
+		test_ret_stdout "echo \$ \$q"
+		test_ret_stdout "echo \$"
+		test_ret_stdout "echo \$   \$a"
+		test_ret_stdout "echo \$é"
+		test_ret_stdout "echo \$é \$q"
+		test_ret_stdout "echo \$abc f\$PWD"
+		test_ret_stdout "export ABC=echo\n\$ABC a"
+		test_ret_stdout "export ABC=cho\ne\$ABC b"
 fi
 
 printf "\n"

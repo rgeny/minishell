@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 13:33:47 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 07:08:45 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,28 @@ static void	_expand(char **splt, t_data *data, int i)
 		len = str_len_alnum(splt[i]);
 		s = str_ndup(splt[i], len);
 		tmp = env_find(data->env, s);
-		free(s);
+		str_free(s);
 		if (tmp)
 		{
 			s = str_ndup(tmp->value, str_len(tmp->value, 0));
 			s2 = str_ndup(&splt[i][len], str_len(&splt[i][len], 0));
-			str_free(splt[i]);
-			splt[i] = str_join(s, s2, 0);
-			str_free(s);
-			str_free(s2);
 		}
 		else if (splt[i][0] == '?')
 		{
 			s = uti_itoa(data->ret);
 			s2 = str_ndup(&splt[i][1], str_len(&splt[i][1], 0));
-			str_free(splt[i]);
-			splt[i] = str_join(s, s2, 0);
-			str_free(s);
-			str_free(s2);
 		}
 		else
 		{
 			str_free(splt[i]);
 			splt[i] = uti_calloc(1, sizeof(char));
+		}
+		if (tmp || splt[i][0] == '?')
+		{
+			str_free(splt[i]);
+			splt[i] = str_join(s, s2, 0);
+			str_free(s);
+			str_free(s2);
 		}
 		i++;
 	}
@@ -123,3 +122,11 @@ void	expander_cmd(char **cmd, t_data *data)
 	}
 	_move(cmd, i);
 }
+/*
+void	expander_cmd(char **cmd, t_data *data)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+}*/
