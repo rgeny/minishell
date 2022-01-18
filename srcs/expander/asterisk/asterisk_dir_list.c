@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:33:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 11:55:41 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:07:57 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**asterisk_dir_list(void)
 		if (dir->d_name[0] != '.')
 		{
 			len--;
-			dir_list[len] = str_ndup(dir->d_name, str_len(dir->d_name, 0));
+			dir_list[len] = str_ndup(dir->d_name, str_len(dir->d_name));
 		}
 		dir = readdir(cur_dir);
 	}

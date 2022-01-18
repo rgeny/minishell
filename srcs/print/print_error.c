@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/07 23:20:05 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:03:25 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	print_error(char *cmd, char *message1, char *message2, t_data *data)
 	{
 		write(2, "line ", 5);
 		line = uti_itoa(data->interactive.line);
-		write(2, line, str_len(line, 0));
+		write(2, line, str_len(line));
 		write(2, ": ", 2);
 		str_free(line);
 	}
-	write(2, cmd, str_len(cmd, 0));
+	write(2, cmd, str_len(cmd));
 	if (message1)
-		write(2, message1, str_len(message1, 0));
+		write(2, message1, str_len(message1));
 	if (message2)
-		write(2, message2, str_len(message2, 0));
+		write(2, message2, str_len(message2));
 }

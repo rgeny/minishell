@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 08:38:51 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:04:31 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_echo(char **cmd)
 	i = ret;
 	while (cmd[i])
 	{
-		write(1, cmd[i], str_len(cmd[i], 0));
+		write(1, cmd[i], str_len(cmd[i]));
 		i++;
 		if (cmd[i] && cmd[i][0] && cmd[i - 1][0])
 			write(1, " ", 1);

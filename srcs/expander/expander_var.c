@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 10:50:11 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:07:19 by buschiix         ###   ########.fr       */
 /*   Updated: 2022/01/09 13:33:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -28,7 +28,7 @@ static char	*_find_var_value(char *cmd, t_data *data)
 	env = env_find(data->env, name);
 	str_free(name);
 	if (env)
-		return (str_ndup(env->value, str_len(env->value, 0)));
+		return (str_ndup(env->value, str_len(env->value)));
 	return (0);
 }
 
@@ -45,9 +45,9 @@ static char	*_switch_name_to_value(char *prev, char *find, char *cmd, int len)
 			tmp = str_join(prev, &cmd[len], 0);
 	}
 	else if (find)
-		tmp = str_ndup(find, str_len(find, 0));
+		tmp = str_ndup(find, str_len(find));
 	else
-		tmp = str_ndup(&cmd[len], str_len(&cmd[len], 0));
+		tmp = str_ndup(&cmd[len], str_len(&cmd[len]));
 	ret = str_join(tmp, &cmd[len], 0);
 	str_free(tmp);
 	str_free(find);

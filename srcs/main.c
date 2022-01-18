@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 10:07:14 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:05:35 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	_init(char *envp[], t_data *data)
 	data->tokens = NULL;
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
-		data->pwd = str_ndup(pwd->value, str_len(pwd->value, 0));
+		data->pwd = str_ndup(pwd->value, str_len(pwd->value));
 	data->interactive.line = 0;
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 		data->interactive.is_interactive = 0;

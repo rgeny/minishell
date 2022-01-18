@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 11:25:10 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:08:12 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	_son(int pipefd[2], char *delimiter)
 	s = readline("> ");
 	while (str_cmp(s, delimiter))
 	{
-		write(pipefd[1], s, str_len(s, 0));
+		write(pipefd[1], s, str_len(s));
 		write(pipefd[1], "\n", 1);
 		free(s);
 		s = readline("> ");

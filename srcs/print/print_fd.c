@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 21:57:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 22:29:39 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:03:34 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 void	print_fd(const char *s, int fd)
 {
-	write(fd, s, str_len(s, 0));
+	write(fd, s, str_len(s));
 	write(fd, "\n", 1);
 }

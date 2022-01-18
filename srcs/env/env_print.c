@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:22:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 14:16:57 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 18:06:26 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	env_print_one(t_env *env)
 {
 	if (env && env->value)
 	{
-		write(1, env->name, str_len(env->name, 0));
+		write(1, env->name, str_len(env->name));
 		write(1, "=", 1);
-		write(1, env->value, str_len(env->value, 0));
+		write(1, env->value, str_len(env->value));
 		write(1, "\n", 1);
 	}
 }
