@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/09 01:18:55 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:42:28 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ static int	_cmp(char *s1, char *s2)
 	return (0);
 }
 
+static void	_curse_error(t_data *data)
+{
+	if (data->interactive.is_interactive)
+	{
+		if (!data->ret)
+			write(1, "\033[32m\033[01m> ", 12);
+		else
+			write(1, "\033[31m\033[01m> ", 12);
+	}
+}
+
 static char	*_prompt(t_data *data)
 {
 	char	path[PATH_CHAR_MAX + 1];
@@ -53,13 +64,6 @@ static char	*_prompt(t_data *data)
 	else
 		tmp = str_join(PROMPT, prompt, 0);
 	prompt = str_join(tmp, " \033[37m\033[00m", 0);
-	if (data->interactive.is_interactive)
-	{
-		if (!data->ret)
-			write(1, "\033[32m\033[01m> ", 12);
-		else
-			write(1, "\033[31m\033[01m> ", 12);
-	}
 	str_free(tmp);
 	return (prompt);
 }
@@ -94,6 +98,7 @@ char	*exe_readline(t_data *data)
 	char	*ret;
 	int		fdout;
 
+	_curse_error(data);
 	prompt = _prompt(data);
 	fdout = dup(1);
 	_non_interactive(&data->interactive);
