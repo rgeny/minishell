@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 10:42:28 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 11:47:57 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include "str.h"
 #include "env.h"
 
@@ -45,13 +46,13 @@ static void	_curse_error(t_data *data)
 
 static char	*_prompt(t_data *data)
 {
-	char	path[PATH_CHAR_MAX + 1];
+	char	path[PATH_MAX + 1];
 	t_env	*pwd;
 	int		ret;
 	char	*tmp;
 	char	*prompt;
 
-	tmp = getcwd(path, PATH_CHAR_MAX + 1);
+	tmp = getcwd(path, PATH_MAX + 1);
 	prompt = path;
 	if (!tmp)
 		prompt = data->pwd;

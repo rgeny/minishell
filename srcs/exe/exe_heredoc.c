@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 11:20:47 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 11:25:10 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ static void	_ret_son(int *fd_in, int status, char *delimiter, t_data *data)
 			*fd_in = -1;
 		}
 		else if (status == SIGNAL_EOF)
-			print_error("heredoc: ", "delimited by the signal EOF instead of word: ", delimiter, data);
+			print_error("heredoc: ",
+				"delimited by the signal EOF instead of word: ",
+				delimiter, data);
 		write(1, "\n", 1);
 	}
 }
