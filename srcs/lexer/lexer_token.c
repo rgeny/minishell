@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/15 15:23:57 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/18 14:34:39 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ static void	_token_add_back(t_token **tokens, t_token *token)
 		*tokens = token;
 }
 
+static t_token_type _get_ope_token_type(t_token *token)
+{
+	if (uti_is_in_charset(token->content[0], "<>"))
+		return (E_TOKEN_TYPE_REDIRECTION);
+	else if (!str_cmp(token->content, "|"))
+		return (E_TOKEN_TYPE_PIPE);
+	else if (!str_cmp(token->content, "||"))
+		return (E_TOKEN_TYPE_OR);
+	else if (!str_cmp(token->content, "&&"))
+		return (E_TOKEN_TYPE_AND);
+	else
+		return (E_TOKEN_TYPE_OPERATOR);
+}
+
 int	lexer_create_operator_token(t_tok_constructor *constructor, t_token **tokens, int stri)
 {
 	int			len;
@@ -36,7 +50,7 @@ int	lexer_create_operator_token(t_tok_constructor *constructor, t_token **tokens
 	else
 		len = 1;
 	constructor->cur_token->content = str_ndup(&str[stri], len);
-	constructor->cur_token->type = E_TOKEN_TYPE_OPERATOR;
+	constructor->cur_token->type = _get_ope_token_type(constructor->cur_token);
 	_token_add_back(tokens, constructor->cur_token);
 	return (len);
 }

@@ -16,7 +16,11 @@
 // LEXER STRUCTS
 typedef enum e_token_type {
 	E_TOKEN_TYPE_WORD,
-	E_TOKEN_TYPE_OPERATOR
+	E_TOKEN_TYPE_OPERATOR,
+	E_TOKEN_TYPE_REDIRECTION,
+	E_TOKEN_TYPE_PIPE,
+	E_TOKEN_TYPE_OR,
+	E_TOKEN_TYPE_AND
 }	t_token_type;
 
 typedef struct s_token {
