@@ -25,6 +25,27 @@ typedef struct s_token {
 	struct s_token	*next;
 }	t_token;
 
+// COMMAND STRUCTS
+
+typedef enum e_redir_type {
+	E_REDIR_TYPE_STDIN,
+	E_REDIR_TYPE_STDOUT,
+	E_REDIR_TYPE_HEREDOC,
+	E_REDIR_TYPE_APPEND
+}	t_redir_type;
+
+typedef struct s_redir
+{
+	t_redir_type	type;
+	char			*path;
+}	t_redir;
+
+typedef struct s_command {
+	char	**args;
+	t_redir	**redirections;
+}	t_command;
+
+
 // ENV STRUCT
 typedef struct s_env
 {

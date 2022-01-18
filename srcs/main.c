@@ -16,6 +16,7 @@
 #include "expander.h"
 #include "exe.h"
 #include "lexer.h"
+#include "parser.h"
 #include "minishell_signal.h"
 #include "cleaner.h"
 
@@ -51,6 +52,9 @@ static void	_exe(t_data *data)
 	{
 		data->tokens = lexer_lex(rl);
 		lexer_print_tokens(data->tokens);
+
+		parse_tokens(data->tokens);
+
 		cmd = str_split(rl, " ");
 		if (!str_cmp("<<", cmd[0]))
 		{
