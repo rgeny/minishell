@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 12:06:38 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 12:32:34 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,29 @@ static int	_cmp(char *word, char *dir)
 {
 	int	i;
 	int	j;
-	int	k;
-	int	l;
 
 	i = 0;
-	j = 0;
-	k = 0;
-	while ((dir[i + j] || word[i + k]) && (word[i + k] == dir[i + j] || word[i + k] == '*'))
+	while ((dir[i] || word[i]) && (word[i] == dir[i] || word[i] == '*'))
 	{
-		if (word[i + k] == '*')
+		if (word[i] == '*')
 		{
-			while (word[i + k] == '*')
-				k++;
-			while (word[i + k] != '*' && dir[i + j])
+			while (word[i] == '*')
+				word++;
+			while (word[i] != '*' && dir[i])
 			{
-				l = 0;
-				while (word[i + k + l] && word[i + k + l] == dir[i + j + l])
-					l++;
-				if ((!word[i + k + l] && !dir[i + j + l]) || word[i + k + l] == '*')
-					i += l;
-				else
+				j = 0;
+				while (word[i + j] && word[i + j] == dir[i + j])
 					j++;
+				if ((!word[i + j] && !dir[i + j]) || word[i + j] == '*')
+					i += j;
+				else
+					dir++;
 			}
 		}
-		if (word[i + k] && dir[i + j] && word[i + k] != '*')
+		if (word[i] && dir[i] && word[i] != '*')
 			i++;
 	}
-	if (!word[i + k] && !dir[i + j])
-		return (1);
-	return (0);
+	return (!word[i] && !dir[i]);
 }
 
 static char	*_expand(char *word, char **dir_list)
@@ -58,7 +52,7 @@ static char	*_expand(char *word, char **dir_list)
 	int		i;
 	char	*new_word;
 	char	*tmp;
-	
+
 	new_word = 0;
 	tmp = 0;
 	i = 0;
@@ -66,7 +60,7 @@ static char	*_expand(char *word, char **dir_list)
 	{
 		if (_cmp(word, dir_list[i]))
 		{
-			if (new_word)	
+			if (new_word)
 				tmp = str_join(new_word, dir_list[i], ' ');
 			else
 				tmp = str_ndup(dir_list[i], str_len(dir_list[i], 0));
@@ -107,10 +101,12 @@ char	*expander_asterisk(char *rl)
 	char	**split;
 	char	*tmp;
 	char	*ret;
+	int		i;
 
 	dir_list = asterisk_dir_list();
 	split = str_split(rl, " ");
-	for (int i = 0; split[i]; i++)
+	i = 0;
+	while (split[i])
 	{
 		tmp = _expand(split[i], dir_list);
 		if (tmp)
@@ -118,6 +114,7 @@ char	*expander_asterisk(char *rl)
 			str_free(split[i]);
 			split[i] = tmp;
 		}
+		i++;
 	}
 	str_free_list(dir_list);
 	ret = _join(split);
