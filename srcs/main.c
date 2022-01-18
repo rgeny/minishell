@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/15 15:22:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/18 15:01:58 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "exe.h"
 #include "lexer.h"
 #include "minishell_signal.h"
+#include "cleaner.h"
 
 static void	_init(char *envp[], t_data *data)
 {
@@ -87,13 +88,6 @@ static void	_exe(t_data *data)
 	}
 }
 
-static void	_free(t_data data)
-{
-	str_free(data.pwd);
-	env_del_all(data.env);
-	lexer_free_tokens(&data.tokens);
-}
-
 //#include <stdio.h>
 //#include <stdlib.h>
 //#include <sys/time.h>
@@ -114,6 +108,6 @@ int	main(__attribute((unused)) int argc,
 	_exe(&data);
 	if (data.interactive.is_interactive)
 		write(1, "exit\n", 5);
-	_free(data);
+	clean_all(data);
 	return (data.ret);
 }

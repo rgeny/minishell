@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/09 13:18:25 by buschiix         ###   ########.fr        #
+#    Updated: 2022/01/18 14:55:19 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,8 @@ NEW_DIR			= mkdir -p
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
 LEXER_DIR		= $(SRC_DIR)lexer/
+PARSER_DIR		= $(SRC_DIR)parser/
+CLEANER_DIR		= $(SRC_DIR)cleaner/
 MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
 UTILS_DIR		= $(SRC_DIR)utils/
@@ -68,7 +70,7 @@ SIGNAL_DIR		= $(SRC_DIR)signal/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR) $(BUILTIN_DIR) $(SIGNAL_DIR)
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR) $(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PARSER_DIR) $(PRINT_DIR) $(BUILTIN_DIR) $(SIGNAL_DIR) $(CLEANER_DIR)
 
 # *********************************** sources ******************************** #
 
@@ -80,6 +82,8 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix exe_,		builtin out_process readline heredoc) \
 					$(addprefix parsing_,	path) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
+					$(addprefix parser_,	tokens) \
+					$(addprefix cleaner_,	all) \
 					$(addprefix str_,		cmp len ndup split join free split_first) \
 					$(addprefix print_,		error fd) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
