@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/24 15:15:54 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:26:43 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,18 @@ int	parse_tokens(t_data *data, t_token *tokens)
 		
 		if (current_token)
 		{
-			parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-			parent_node->left = command_node;
+			if (!parent_node)
+			{
+				parent_node = create_node(E_AST_NODE_TYPE_PIPE);
+				parent_node->left = command_node;
+			}
+			else 
+			{
+				t_ast_node *new_parent_node;
+				new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
+				new_parent_node->left = parent_node;
+				parent_node = new_parent_node;
+			}
 			current_token = current_token->next;
 		}
 
