@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/24 15:26:43 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 21:24:09 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,51 @@ void print_ast(t_ast_node *node, int depth)
 		print_ast(node->right, depth++);
 }
 
+int	print_syntax_error(t_token *token)
+{
+	char *msg;
+
+	msg = "Syntax error near unexpected token ";
+	write(2, msg, str_len(msg));
+	write(2, token->content, str_len(token->content));
+	write(2, "\n", 1);
+	return (1);
+}
+
+t_ast_node *create_command_node(t_token **current_token)
+{
+	t_ast_node	*command_node;
+
+	command_node = create_node(E_AST_NODE_TYPE_COMMAND);
+	int command_size = _get_command_size(*current_token);
+	command_node->command->args = (char **)uti_calloc(command_size + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
+	command_node->command->redirections = (t_redir *)uti_calloc(command_size + 1, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
+	// printf("command_size=%d\n", command_size);
+	int arg_nb = 0;
+	int redir_nb = 0;
+	while (arg_nb + redir_nb * 2 < command_size)
+	{
+		// printf("type: %d, token: %s\n", current_token->type, current_token->content);
+		if ((*current_token)->type == E_TOKEN_TYPE_WORD)
+		{
+			// printf("This token is a arg of a command\n");
+			command_node->command->args[arg_nb] = str_ndup((*current_token)->content, str_len((*current_token)->content));
+			arg_nb++;
+		}
+		else if ((*current_token)->type == E_TOKEN_TYPE_REDIRECTION)
+		{
+			command_node->command->redirections[redir_nb].type = _get_redirection_type((*current_token)->content);
+			*current_token = (*current_token)->next;
+			// printf("This token is a redirection of a command with path %s\n", (*current_token)->content);
+			command_node->command->redirections[redir_nb].path = str_ndup((*current_token)->content, str_len((*current_token)->content));
+			redir_nb++;
+		}
+		*current_token = (*current_token)->next;
+	}
+	command_node->command->redirection_nb = redir_nb;
+	return (command_node);
+}
+
 #include <stdio.h>
 int	parse_tokens(t_data *data, t_token *tokens)
 {
@@ -132,65 +177,61 @@ int	parse_tokens(t_data *data, t_token *tokens)
 
 	current_token = tokens;
 	parent_node = NULL;
-	// TODO : Add syntax error if 1st token is not part of a command
+
+
+	// Syntax error if 1st token is not part of a command
+	if (current_token->type != E_TOKEN_TYPE_WORD && current_token->type != E_TOKEN_TYPE_REDIRECTION)
+		return (print_syntax_error(current_token));
+
+	// printf("type: %d, token: %s\n", current_token->type, current_token->content);
+	// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
+
+	command_node = create_command_node(&current_token);
+
+	if (parent_node)
+		parent_node->right = command_node;
+
+
+	
 	while(current_token)
 	{
-		// printf("type: %d, token: %s\n", current_token->type, current_token->content);
-		// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
-		command_node = create_node(E_AST_NODE_TYPE_COMMAND);
-		if (parent_node)
-			parent_node->right = command_node;
-		int command_size = _get_command_size(current_token);
-		command_node->command->args = (char **)uti_calloc(command_size + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
-		command_node->command->redirections = (t_redir *)uti_calloc(command_size + 1, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
-		// printf("command_size=%d\n", command_size);
-		int arg_nb = 0;
-		int redir_nb = 0;
-		while (arg_nb + redir_nb * 2 < command_size)
+		// PIPE NODE
+		if (!parent_node)
 		{
-			// Add word to command args
-			// printf("type: %d, token: %s\n", current_token->type, current_token->content);
-			if (current_token->type == E_TOKEN_TYPE_WORD)
-			{
-				// printf("This token is a arg of a command\n");
-				command_node->command->args[arg_nb] = str_ndup(current_token->content, str_len(current_token->content));
-				arg_nb++;
-			}
-			else if (current_token->type == E_TOKEN_TYPE_REDIRECTION)
-			{
-				command_node->command->redirections[redir_nb].type = _get_redirection_type(current_token->content);
-				current_token = current_token->next;
-				// printf("This token is a redirection of a command with path %s\n", current_token->content);
-				command_node->command->redirections[redir_nb].path = str_ndup(current_token->content, str_len(current_token->content));
-				redir_nb++;
-			}
-			current_token = current_token->next;
+			parent_node = create_node(E_AST_NODE_TYPE_PIPE);
+			parent_node->left = command_node;
 		}
-		command_node->command->redirection_nb = redir_nb;
-		
-		if (current_token)
+		else 
 		{
-			if (!parent_node)
-			{
-				parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-				parent_node->left = command_node;
-			}
-			else 
-			{
-				t_ast_node *new_parent_node;
-				new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-				new_parent_node->left = parent_node;
-				parent_node = new_parent_node;
-			}
-			current_token = current_token->next;
+			t_ast_node *new_parent_node;
+			new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
+			new_parent_node->left = parent_node;
+			parent_node = new_parent_node;
 		}
+		if (current_token->next) 
+		{
+			current_token = current_token->next;
+			// COMMAND NODE
+			// Syntax error if 1st token is not part of a command
+			if (current_token->type != E_TOKEN_TYPE_WORD && current_token->type != E_TOKEN_TYPE_REDIRECTION)
+				return (print_syntax_error(current_token));
 
+			// printf("type: %d, token: %s\n", current_token->type, current_token->content);
+			// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
+
+			command_node = create_command_node(&current_token);
+
+			if (parent_node)
+				parent_node->right = command_node;
+		}
+		else
+			return (print_syntax_error(current_token));
 	}
 	if (parent_node)
 		data->ast_root = parent_node;
 	else
 		data->ast_root = command_node;
 
-	// print_ast(data->ast_root, 0);
-	return (1);
+	print_ast(data->ast_root, 0);
+	return (0);
 }
