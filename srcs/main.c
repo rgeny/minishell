@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/24 15:09:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:17:25 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	_exe(t_data *data)
 	int		i;
 	int		in;
 	int		heredoc;
-	// char	*tmp;
+	char	*tmp;
 
 	rl = exe_readline(data);
 	while (rl)
@@ -58,12 +58,12 @@ static void	_exe(t_data *data)
 		{
 			add_history(rl);
 			// TODO : move expander inside command (ast leaves)
-			// tmp = expander_asterisk(rl);
-			// if (tmp)
-			// {
-			// 	free(rl);
-			// 	rl = tmp;
-			// }
+			tmp = expander_asterisk(rl);
+			if (tmp)
+			{
+				free(rl);
+				rl = tmp;
+			}
 
 			cmd = str_split(rl, " ");
 			str_free(rl);
