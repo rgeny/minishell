@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:10:24 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/30 14:22:55 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 19:02:19 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@
 char	*str_ndup(const char *s, int n)
 {
 	char	*dup;
+	int		len;
 
 	if (!s)
 		return (0);
 	dup = uti_calloc(n + 1, sizeof(char));
 	if (dup == NULL)
 		return (NULL);
-	mem_cpy(dup, s, uti_min(n, str_len(s, 0)));
-	if (n > str_len(s, 0))
-		mem_set(dup + str_len(s, 0), '\0', n - str_len(s, 0));
+	len = str_len(s);
+	mem_cpy(dup, s, uti_min(n, len));
+	if (n > len)
+		mem_set(dup + len, '\0', n - len);
 	return (dup);
 }

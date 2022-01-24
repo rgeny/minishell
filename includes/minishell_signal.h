@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 20:37:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 23:52:08 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/14 19:24:18 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,5 @@
 void	signal_current(t_data *data);
 void	signal_ignore(void);
 void	signal_fork(void);
+void	signal_heredoc(void);
 #endif

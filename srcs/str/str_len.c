@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 14:13:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/08 18:41:15 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 18:04:44 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	str_llen(const char **s)
 	return (i);
 }
 
-int	str_len(const char *s, char c)
+int	str_clen(const char *s, char c)
 {
 	int	i;
 
@@ -34,6 +34,11 @@ int	str_len(const char *s, char c)
 	while (s[i] && s[i] != c)
 		i++;
 	return (i);
+}
+
+int	str_len(const char *s)
+{
+	return (str_clen(s, 0));
 }
 
 int	str_len_alnum(const char *s)

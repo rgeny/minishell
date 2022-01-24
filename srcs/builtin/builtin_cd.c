@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 13:12:24 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 19:04:07 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,22 @@ static int	_error(char **cmd, t_data *data)
 static void	_replace_pwd_var(t_data *data)
 {
 	t_env	*tmp;
-	char	path[PATH_CHAR_MAX + 1];
+	char	path[PATH_MAX + 1];
 
-	getcwd(path, PATH_CHAR_MAX + 1);
+	getcwd(path, PATH_MAX + 1);
 	tmp = env_find(data->env, "PWD");
 	if (tmp)
 	{
 		env_assign(data->env, "OLDPWD", str_ndup(tmp->value,
-				str_len(tmp->value, 0)));
-		env_assign(data->env, "PWD", str_ndup(path, str_len(path, 0)));
+				str_len(tmp->value)));
+		env_assign(data->env, "PWD", str_ndup(path, str_len(path)));
 	}
 	else
 		env_del_one(env_find(data->env, "OLDPWD"));
 	if (path[0])
 	{
 		str_free(data->pwd);
-		data->pwd = str_ndup(path, str_len(path, 0));
+		data->pwd = str_ndup(path, str_len(path));
 	}
 }
 
@@ -69,18 +69,18 @@ static int	_move(char *dir, char *pwd, t_data *data, int b)
 {
 	char	*path;
 	int		ret;
-	char	pathpwd[PATH_CHAR_MAX + 1];
+	char	pathpwd[PATH_MAX + 1];
 
 	if (dir && pwd)
 		path = str_join(pwd, dir, '/');
 	else if (dir)
-		path = str_ndup(dir, str_len(dir, 0));
+		path = str_ndup(dir, str_len(dir));
 	else if (pwd)
-		path = str_ndup(pwd, str_len(pwd, 0));
+		path = str_ndup(pwd, str_len(pwd));
 	else
 		return (1);
 	ret = chdir(path);
-	getcwd(pathpwd, PATH_CHAR_MAX + 1);
+	getcwd(pathpwd, PATH_MAX + 1);
 	if (!ret)
 		_replace_pwd_var(data);
 	if (!ret && b)

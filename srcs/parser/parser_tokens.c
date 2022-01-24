@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/24 14:34:37 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 14:58:49 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	_print_unspec_msg(char *token)
 
 	msg = " token is unspecified for minishell. Please dont use it\n";
 	write(2, "The ", 4);
-	write(2, token, str_len(token, '\0'));
-	write(2, msg, str_len(msg, '\0'));
+	write(2, token, str_len(token));
+	write(2, msg, str_len(msg));
 	return (0);
 }
 
@@ -69,9 +69,8 @@ t_redir_type _get_redirection_type(char *token_content)
 		return (E_REDIR_TYPE_STDOUT);
 	else if (!str_cmp(token_content, ">>"))
 		return (E_REDIR_TYPE_APPEND);
-	else if (!str_cmp(token_content, "<<"))
+	else //if (!str_cmp(token_content, "<<"))
 		return (E_REDIR_TYPE_HEREDOC);
-		
 }
 
 #include <stdio.h>
@@ -154,7 +153,7 @@ int	parse_tokens(t_data *data, t_token *tokens)
 			if (current_token->type == E_TOKEN_TYPE_WORD)
 			{
 				// printf("This token is a arg of a command\n");
-				command_node->command->args[arg_nb] = str_ndup(current_token->content, str_len(current_token->content, 0));
+				command_node->command->args[arg_nb] = str_ndup(current_token->content, str_len(current_token->content));
 				arg_nb++;
 			}
 			else if (current_token->type == E_TOKEN_TYPE_REDIRECTION)
@@ -162,7 +161,7 @@ int	parse_tokens(t_data *data, t_token *tokens)
 				command_node->command->redirections[redir_nb].type = _get_redirection_type(current_token->content);
 				current_token = current_token->next;
 				// printf("This token is a redirection of a command with path %s\n", current_token->content);
-				command_node->command->redirections[redir_nb].path = str_ndup(current_token->content, str_len(current_token->content, 0));
+				command_node->command->redirections[redir_nb].path = str_ndup(current_token->content, str_len(current_token->content));
 				redir_nb++;
 			}
 			current_token = current_token->next;

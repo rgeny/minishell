@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 17:39:15 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 19:04:23 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	_print(t_env *env)
 			if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
 			{
 				write(1, "export ", 7);
-				write(1, cpy[i], str_len(cpy[i], 0));
+				write(1, cpy[i], str_len(cpy[i]));
 				write(1, "\n", 1);
 			}
 			i++;
@@ -52,8 +52,8 @@ static int	_new(char **cmd, t_data *data)
 	char	**var;
 
 	var = str_split_first(cmd[0], '=');
-	env_new(&data->env, str_ndup(var[0], str_len(var[0], 0)),
-		str_ndup(var[1], str_len(var[1], 0)));
+	env_new(&data->env, str_ndup(var[0], str_len(var[0])),
+		str_ndup(var[1], str_len(var[1])));
 	str_free_list(var);
 	return (SUCCESS);
 }

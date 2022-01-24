@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:19:47 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:34:14 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 #include "env.h"
 #include "str.h"
 
-void	parsing_path(char **cmd, t_env *env)
+char	*parsing_path(char **cmd, t_env *env)
 {
 	int		i;
 	char	**split;
 	char	*s;
 
 	if (!access(cmd[0], F_OK | X_OK))
-		return ;
+		return (0);
 	env = env_find(env, "PATH");
 	if (!env)
-		return ;
+		return (0);
 	split = str_split(env->value, ":");
 	i = 0;
 	while (split && split[i])
@@ -33,13 +33,12 @@ void	parsing_path(char **cmd, t_env *env)
 		s = str_join(split[i], cmd[0], '/');
 		if (!access(s, F_OK | X_OK))
 		{
-			str_free(cmd[0]);
-			cmd[0] = s;
 			str_free_list(split);
-			return ;
+			return (s);
 		}
 		str_free(s);
 		i++;
 	}
 	str_free_list(split);
+	return (0);
 }

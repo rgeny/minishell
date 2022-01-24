@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/24 14:32:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:09:09 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	_init(char *envp[], t_data *data)
 	data->tokens = NULL;
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
-		data->pwd = str_ndup(pwd->value, str_len(pwd->value, 0));
+		data->pwd = str_ndup(pwd->value, str_len(pwd->value));
 	data->interactive.line = 0;
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 		data->interactive.is_interactive = 0;
@@ -46,6 +46,7 @@ static void	_exe(t_data *data)
 	int		i;
 	int		in;
 	int		heredoc;
+	// char	*tmp;
 
 	rl = exe_readline(data);
 	while (rl)
@@ -55,13 +56,31 @@ static void	_exe(t_data *data)
 
 		if (parse_tokens(data, data->tokens))
 		{
+			add_history(rl);
+			// TODO : move expander inside command (ast leaves)
+			// tmp = expander_asterisk(rl);
+			// if (tmp)
+			// {
+			// 	free(rl);
+			// 	rl = tmp;
+			// }
+
 			cmd = str_split(rl, " ");
-			if (!str_cmp("<<", cmd[0]))
+			str_free(rl);
+			if (cmd && cmd[0] && !str_cmp("<<", cmd[0]))
 			{
-				heredoc = exe_heredoc(cmd[1]);
-				in = dup(0);
-				dup2(heredoc, 0);
-				i = 2;
+				heredoc = exe_heredoc(cmd[1], data);
+				if (heredoc == -1)
+				{
+					str_free_list(cmd);
+					cmd = 0;
+				}
+				else
+				{
+					in = dup(0);
+					dup2(heredoc, 0);
+					i = 2;
+				}
 			}
 			else
 			{
@@ -71,8 +90,7 @@ static void	_exe(t_data *data)
 			}
 			if (cmd && cmd[i])
 			{
-				add_history(rl);
-				expander_cmd(&cmd[i], data);
+				expander_var(&cmd[i], data);
 				env_new_(cmd[i], &data->env);
 				lexer_free_tokens(&data->tokens);
 				exe_builtin(&cmd[i], data);
@@ -85,11 +103,10 @@ static void	_exe(t_data *data)
 				close(in);
 				close(heredoc);
 			}
+			lexer_free_tokens(&data->tokens);
 			str_free_list(cmd);
+			rl = exe_readline(data);
 		}
-		lexer_free_tokens(&data->tokens);
-		str_free(rl);
-		rl = exe_readline(data);
 	}
 }
 

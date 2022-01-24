@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:34:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/05 16:46:59 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/18 11:14:00 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define ERROR_H
 # define SUCCESS 0
 
+typedef enum e_signal
+{
+	SIGNAL_EOF=11,
+	SIGNAL_ERROR=128
+}	t_signal;
 typedef enum e_builtin
 {
 	BUILTIN_ERR_EXEC=1,

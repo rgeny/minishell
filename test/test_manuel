@@ -49,3 +49,32 @@ SIGNAUX :
 		printf "make re" | ./minishell
 		ctrl + \		(interrompt minishell)
 		echo $?			(affiche 1)
+
+	- test 10 :
+		./minishell
+		<< end
+		ctrl + c		(interrompt heredoc et les commandes)
+		echo $?			(affiche 130)
+	
+	- test 11 :
+		./minishell
+		<< end
+		ctrl + c
+		ls				(affiche le résultat normal de ls)
+
+	- test 12 :
+		./minishell
+		<< end
+		ctrl + d		(interrompt heredoc, affiche un message d'erreur et exécute quand même les commandes)
+	
+	- test 13 :
+		./minishell
+		<< end cat
+		a
+		b
+		ctrl + d		(Interrompt heredoc, affiche un message d'erreur et affiche "a\nb")
+
+	- test 14 :
+		./minishell
+		<< end
+		ctrl + \		(ne fait rien)
