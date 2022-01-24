@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 15:05:25 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 14:36:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ typedef struct s_redir
 }	t_redir;
 
 typedef struct s_command {
-	char	**args;
-	t_redir	**redirections;
+	char	**args; // NULL terminated
+	t_redir	*redirections;
+	int		redirection_nb;
 }	t_command;
 
 
@@ -53,7 +54,7 @@ typedef struct s_command {
 typedef enum s_ast_node_type {
 	E_AST_NODE_TYPE_COMMAND,
 	E_AST_NODE_TYPE_PIPE
-	// TODO : Add &&/|| type for bonuses
+	// TODO : Add &&/|| types for bonuses
 }	t_ast_node_type;
 
 typedef struct s_ast_node {
@@ -82,6 +83,7 @@ typedef struct s_data
 {
 	t_env			*env;
 	t_token			*tokens;
+	t_ast_node		*ast_root;
 	int				ret;
 	char			*pwd;
 	t_interactive	interactive;

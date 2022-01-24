@@ -6,15 +6,19 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/18 14:15:24 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 14:32:55 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "struct.h"
+# include <unistd.h>
 
-void	parse_tokens(t_token *tokens);
+# include "struct.h"
+# include "str.h"
+# include "utils.h"
+
+int	parse_tokens(t_data *data, t_token *tokens);
 
 #endif

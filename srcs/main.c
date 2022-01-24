@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 15:01:58 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/24 14:32:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,43 +51,44 @@ static void	_exe(t_data *data)
 	while (rl)
 	{
 		data->tokens = lexer_lex(rl);
-		lexer_print_tokens(data->tokens);
+		// lexer_print_tokens(data->tokens);
 
-		parse_tokens(data->tokens);
-
-		cmd = str_split(rl, " ");
-		if (!str_cmp("<<", cmd[0]))
+		if (parse_tokens(data, data->tokens))
 		{
-			heredoc = exe_heredoc(cmd[1]);
-			in = dup(0);
-			dup2(heredoc, 0);
-			i = 2;
-		}
-		else
-		{
-			heredoc = -1;
-			in = -1;
-			i = 0;
-		}
-		if (cmd && cmd[i])
-		{
-			add_history(rl);
-			expander_cmd(&cmd[i], data);
-			env_new_(cmd[i], &data->env);
-			lexer_free_tokens(&data->tokens);
-			exe_builtin(&cmd[i], data);
-			if (data->ret == -1)
-				exe_out_process(&cmd[i], data);
-		}
-		if (heredoc >= 0)
-		{
-			dup2(in, 0);
-			close(in);
-			close(heredoc);
+			cmd = str_split(rl, " ");
+			if (!str_cmp("<<", cmd[0]))
+			{
+				heredoc = exe_heredoc(cmd[1]);
+				in = dup(0);
+				dup2(heredoc, 0);
+				i = 2;
+			}
+			else
+			{
+				heredoc = -1;
+				in = -1;
+				i = 0;
+			}
+			if (cmd && cmd[i])
+			{
+				add_history(rl);
+				expander_cmd(&cmd[i], data);
+				env_new_(cmd[i], &data->env);
+				lexer_free_tokens(&data->tokens);
+				exe_builtin(&cmd[i], data);
+				if (data->ret == -1)
+					exe_out_process(&cmd[i], data);
+			}
+			if (heredoc >= 0)
+			{
+				dup2(in, 0);
+				close(in);
+				close(heredoc);
+			}
+			str_free_list(cmd);
 		}
 		lexer_free_tokens(&data->tokens);
 		str_free(rl);
-		str_free_list(cmd);
 		rl = exe_readline(data);
 	}
 }
@@ -112,6 +113,6 @@ int	main(__attribute((unused)) int argc,
 	_exe(&data);
 	if (data.interactive.is_interactive)
 		write(1, "exit\n", 5);
-	clean_all(data);
+	clean_all(&data);
 	return (data.ret);
 }
