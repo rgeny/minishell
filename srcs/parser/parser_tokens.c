@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 12:51:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 17:19:26 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,8 @@ int	print_syntax_error(t_token *token)
 	return (1);
 }
 
-t_ast_node *create_command_node(t_token **current_token)
+int	set_command_node(t_token **current_token, t_ast_node *command_node)
 {
-	t_ast_node	*command_node;
-
-	command_node = create_node(E_AST_NODE_TYPE_COMMAND);
 	int command_size = _get_command_size(*current_token);
 	command_node->command->args = (char **)uti_calloc(command_size + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
 	command_node->command->redirections = (t_redir *)uti_calloc(command_size + 1, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
@@ -165,7 +162,7 @@ t_ast_node *create_command_node(t_token **current_token)
 		*current_token = (*current_token)->next;
 	}
 	command_node->command->redirection_nb = redir_nb;
-	return (command_node);
+	return (0);
 }
 
 bool _is_command_token(t_token_type type)
@@ -173,17 +170,18 @@ bool _is_command_token(t_token_type type)
 	return (type == E_TOKEN_TYPE_WORD || type == E_TOKEN_TYPE_REDIRECTION);
 }
 
-int	create_and_set_command_node(t_token **current_token, t_ast_node **command_node, t_ast_node **parent_node)
+int	create_and_set_command_node(t_token **current_token, t_ast_node **command_node, t_ast_node *separator_node)
 {
 	if (!_is_command_token((*current_token)->type))
-		return (1);
+		return (1); // Error : command start by a separator (case of several separator in a row)
 
 	// printf("type: %d, token: %s\n", current_token->type, current_token->content);
 	// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
 
-	*command_node = create_command_node(current_token);
-	if (*parent_node)
-		(*parent_node)->right = *command_node;
+	*command_node = create_node(E_AST_NODE_TYPE_COMMAND);
+	set_command_node(current_token, *command_node);
+	if (separator_node)
+		separator_node->right = *command_node;
 	return (0);
 }
 
@@ -192,40 +190,37 @@ int	parse_tokens(t_data *data, t_token *tokens)
 {
 	t_token		*current_token;
 	t_ast_node	*command_node;
-	t_ast_node	*parent_node;
+	t_ast_node	*separator_node;
 
 	current_token = tokens;
-	parent_node = NULL;
+	separator_node = NULL;
 
-	if (create_and_set_command_node(&current_token, &command_node, &parent_node))
+	if (create_and_set_command_node(&current_token, &command_node, separator_node))
 		return (print_syntax_error(current_token));
 	
 	while(current_token)
 	{
 		// PIPE NODE
-		if (!parent_node)
+		if (!separator_node)
 		{
-			parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-			parent_node->left = command_node;
+			separator_node = create_node(E_AST_NODE_TYPE_PIPE);
+			separator_node->left = command_node;
 		}
 		else 
 		{
 			t_ast_node *new_parent_node;
 			new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-			new_parent_node->left = parent_node;
-			parent_node = new_parent_node;
+			new_parent_node->left = separator_node;
+			separator_node = new_parent_node;
 		}
-		if (current_token->next)
-		{
-			current_token = current_token->next;
-			if (create_and_set_command_node(&current_token, &command_node, &parent_node))
-				return (print_syntax_error(current_token));
-		}
-		else
+		if (!current_token->next) // Error : line terminate by a separator (|, ||, &&)
+			return (print_syntax_error(current_token));
+		current_token = current_token->next;
+		if (create_and_set_command_node(&current_token, &command_node, separator_node))
 			return (print_syntax_error(current_token));
 	}
-	if (parent_node)
-		data->ast_root = parent_node;
+	if (separator_node)
+		data->ast_root = separator_node;
 	else
 		data->ast_root = command_node;
 
