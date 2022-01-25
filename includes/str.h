@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 18:05:17 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:21:56 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STR_H
 # include "struct.h"
 
+char	*str_dup(const char *s);
 char	*str_ndup(const char *s, int n);
 int		str_cmp(char *s1, char *s2);
 int		str_ncmp(const char *s1, const char *s2, unsigned int n);

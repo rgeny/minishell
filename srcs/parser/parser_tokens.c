@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/24 21:24:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 11:21:42 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ t_ast_node *create_command_node(t_token **current_token)
 		if ((*current_token)->type == E_TOKEN_TYPE_WORD)
 		{
 			// printf("This token is a arg of a command\n");
-			command_node->command->args[arg_nb] = str_ndup((*current_token)->content, str_len((*current_token)->content));
+			command_node->command->args[arg_nb] = str_dup((*current_token)->content);
 			arg_nb++;
 		}
 		else if ((*current_token)->type == E_TOKEN_TYPE_REDIRECTION)
@@ -159,7 +159,7 @@ t_ast_node *create_command_node(t_token **current_token)
 			command_node->command->redirections[redir_nb].type = _get_redirection_type((*current_token)->content);
 			*current_token = (*current_token)->next;
 			// printf("This token is a redirection of a command with path %s\n", (*current_token)->content);
-			command_node->command->redirections[redir_nb].path = str_ndup((*current_token)->content, str_len((*current_token)->content));
+			command_node->command->redirections[redir_nb].path = str_dup((*current_token)->content);
 			redir_nb++;
 		}
 		*current_token = (*current_token)->next;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_ndup.c                                         :+:      :+:    :+:   */
+/*   str_dup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:10:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/18 19:02:19 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:20:59 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,18 @@ char	*str_ndup(const char *s, int n)
 	mem_cpy(dup, s, uti_min(n, len));
 	if (n > len)
 		mem_set(dup + len, '\0', n - len);
+	return (dup);
+}
+
+char	*str_dup(const char *s)
+{
+	char	*dup;
+	int		len;
+
+	len = str_len(s);
+	dup = (char *)uti_calloc(len + 1, sizeof(char));
+	if (dup == NULL)
+		return (NULL);
+	mem_cpy(dup, s, len);
 	return (dup);
 }
