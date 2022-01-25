@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 17:19:26 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 17:44:21 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,17 @@ t_ast_node *create_node(t_ast_node_type type)
 	return (node);
 }
 
+bool _is_command_token(t_token_type type)
+{
+	return (type == E_TOKEN_TYPE_WORD || type == E_TOKEN_TYPE_REDIRECTION);
+}
+
 int _get_command_size(t_token *current_token)
 {
 	int size;
 
 	size = 0;
-	while (current_token && (current_token->type == E_TOKEN_TYPE_WORD || current_token->type == E_TOKEN_TYPE_REDIRECTION))
+	while (current_token && _is_command_token(current_token->type))
 	{
 		size++;
 		current_token = current_token->next;
@@ -165,12 +170,9 @@ int	set_command_node(t_token **current_token, t_ast_node *command_node)
 	return (0);
 }
 
-bool _is_command_token(t_token_type type)
-{
-	return (type == E_TOKEN_TYPE_WORD || type == E_TOKEN_TYPE_REDIRECTION);
-}
 
-int	create_and_set_command_node(t_token **current_token, t_ast_node **command_node, t_ast_node *separator_node)
+
+int	create_and_set_n_command(t_token **current_token, t_ast_node **command_node, t_ast_node *separator_node)
 {
 	if (!_is_command_token((*current_token)->type))
 		return (1); // Error : command start by a separator (case of several separator in a row)
@@ -185,45 +187,46 @@ int	create_and_set_command_node(t_token **current_token, t_ast_node **command_no
 	return (0);
 }
 
-#include <stdio.h>
+int	create_and_set_n_separator(t_ast_node **n_separator, t_ast_node *n_command)
+{
+	t_ast_node	*new_parent_node;
+	if (!*n_separator)
+	{
+		*n_separator = create_node(E_AST_NODE_TYPE_PIPE);
+		(*n_separator)->left = n_command;
+	}
+	else
+	{
+		new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
+		new_parent_node->left = *n_separator;
+		*n_separator = new_parent_node;
+	}
+	return (0);
+}
+
 int	parse_tokens(t_data *data, t_token *tokens)
 {
 	t_token		*current_token;
-	t_ast_node	*command_node;
-	t_ast_node	*separator_node;
+	t_ast_node	*n_command;
+	t_ast_node	*n_separator;
 
 	current_token = tokens;
-	separator_node = NULL;
-
-	if (create_and_set_command_node(&current_token, &command_node, separator_node))
+	n_separator = NULL;
+	if (create_and_set_n_command(&current_token, &n_command, n_separator))
 		return (print_syntax_error(current_token));
-	
-	while(current_token)
+	while (current_token)
 	{
-		// PIPE NODE
-		if (!separator_node)
-		{
-			separator_node = create_node(E_AST_NODE_TYPE_PIPE);
-			separator_node->left = command_node;
-		}
-		else 
-		{
-			t_ast_node *new_parent_node;
-			new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-			new_parent_node->left = separator_node;
-			separator_node = new_parent_node;
-		}
-		if (!current_token->next) // Error : line terminate by a separator (|, ||, &&)
+		create_and_set_n_separator(&n_separator, n_command);
+		if (!current_token->next) // Line terminate by a separator (|, ||, &&)
 			return (print_syntax_error(current_token));
 		current_token = current_token->next;
-		if (create_and_set_command_node(&current_token, &command_node, separator_node))
+		if (create_and_set_n_command(&current_token, &n_command, n_separator))
 			return (print_syntax_error(current_token));
 	}
-	if (separator_node)
-		data->ast_root = separator_node;
+	if (n_separator)
+		data->ast_root = n_separator;
 	else
-		data->ast_root = command_node;
-
+		data->ast_root = n_command;
 	print_ast(data->ast_root, 0);
 	return (0);
 }
