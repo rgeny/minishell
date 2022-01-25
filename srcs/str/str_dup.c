@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:10:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 11:20:59 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 11:27:34 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*str_ndup(const char *s, int n)
 	int		len;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	dup = uti_calloc(n + 1, sizeof(char));
 	if (dup == NULL)
 		return (NULL);
@@ -36,6 +36,8 @@ char	*str_dup(const char *s)
 	char	*dup;
 	int		len;
 
+	if (!s)
+		return (NULL);
 	len = str_len(s);
 	dup = (char *)uti_calloc(len + 1, sizeof(char));
 	if (dup == NULL)

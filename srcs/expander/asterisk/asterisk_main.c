@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asterisk_main.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 18:07:43 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:41:49 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*_expand(char *word, char **dir_list)
 			if (new_word)
 				tmp = str_join(new_word, dir_list[i], ' ');
 			else
-				tmp = str_ndup(dir_list[i], str_len(dir_list[i]));
+				tmp = str_dup(dir_list[i]);
 			str_free(new_word);
 			new_word = tmp;
 		}
@@ -89,7 +89,7 @@ static char	*_join(char **split)
 			ret = tmp;
 		}
 		else
-			ret = str_ndup(split[i], str_len(split[i]));
+			ret = str_dup(split[i]);
 		i++;
 	}
 	return (ret);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_new_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 12:55:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 18:06:52 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:39:38 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 void	env_new_(char *value, t_env **env)
 {
-	env_new(env, str_ndup("_", 1), str_ndup(value, str_len(value)));
+	env_new(env, str_dup("_"), str_dup(value));
 }

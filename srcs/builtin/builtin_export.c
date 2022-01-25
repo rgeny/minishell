@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 19:04:23 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:37:48 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static int	_new(char **cmd, t_data *data)
 	char	**var;
 
 	var = str_split_first(cmd[0], '=');
-	env_new(&data->env, str_ndup(var[0], str_len(var[0])),
-		str_ndup(var[1], str_len(var[1])));
+	env_new(&data->env, str_dup(var[0]), str_dup(var[1]));
 	str_free_list(var);
 	return (SUCCESS);
 }

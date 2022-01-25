@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asterisk_dir_list.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:33:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 18:07:57 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:41:25 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**asterisk_dir_list(void)
 		if (dir->d_name[0] != '.')
 		{
 			len--;
-			dir_list[len] = str_ndup(dir->d_name, str_len(dir->d_name));
+			dir_list[len] = str_dup(dir->d_name);
 		}
 		dir = readdir(cur_dir);
 	}

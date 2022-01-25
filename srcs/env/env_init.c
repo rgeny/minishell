@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 18:06:09 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:39:18 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	_cpy(t_env **env, char *envp[])
 		j++;
 		if (name)
 		{
-			value = str_ndup(&envp[i][j], str_len(&envp[i][j]));
+			value = str_dup(&envp[i][j]);
 			env_new(env, name, value);
 		}
 		i++;
@@ -48,7 +48,7 @@ static void	_actualize(t_env **env)
 	char	path[PATH_MAX + 1];
 
 	getcwd(path, PATH_MAX + 1);
-	env_new(env, str_ndup("PWD", 3), str_ndup(path, str_len(path)));
+	env_new(env, str_dup("PWD"), str_dup(path));
 	node = env_find(*env, "SHLVL");
 	if (node && node->value)
 		n = uti_ato_i(node->value) + 1;
@@ -56,9 +56,9 @@ static void	_actualize(t_env **env)
 		n = 1;
 	s = uti_itoa(n);
 	if (s)
-		env_new(env, str_ndup("SHLVL", 5), s);
+		env_new(env, str_dup("SHLVL"), s);
 	if (!env_find(*env, "OLDPWD"))
-		env_new(env, str_ndup("OLDPWD", str_len("OLDPWD")), 0);
+		env_new(env, str_dup("OLDPWD"), 0);
 }
 
 void	env_init(t_env **env, char *envp[])

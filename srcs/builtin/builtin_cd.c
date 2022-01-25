@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 19:04:07 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:37:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,15 @@ static void	_replace_pwd_var(t_data *data)
 	tmp = env_find(data->env, "PWD");
 	if (tmp)
 	{
-		env_assign(data->env, "OLDPWD", str_ndup(tmp->value,
-				str_len(tmp->value)));
-		env_assign(data->env, "PWD", str_ndup(path, str_len(path)));
+		env_assign(data->env, "OLDPWD", str_dup(tmp->value));
+		env_assign(data->env, "PWD", str_dup(path));
 	}
 	else
 		env_del_one(env_find(data->env, "OLDPWD"));
 	if (path[0])
 	{
 		str_free(data->pwd);
-		data->pwd = str_ndup(path, str_len(path));
+		data->pwd = str_dup(path);
 	}
 }
 
@@ -74,9 +73,9 @@ static int	_move(char *dir, char *pwd, t_data *data, int b)
 	if (dir && pwd)
 		path = str_join(pwd, dir, '/');
 	else if (dir)
-		path = str_ndup(dir, str_len(dir));
+		path = str_dup(dir);
 	else if (pwd)
-		path = str_ndup(pwd, str_len(pwd));
+		path = str_dup(pwd);
 	else
 		return (1);
 	ret = chdir(path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 19:04:55 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/25 11:38:07 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ static char	*_find_pwd(t_data *data)
 	pwd = env_find(data->env, "PWD");
 	if (pwd && pwd->value)
 	{
-		ret = str_ndup(pwd->value, str_len(pwd->value));
+		ret = str_dup(pwd->value);
 		return (ret);
 	}
 	else if (data->pwd)
 	{
-		ret = str_ndup(data->pwd, str_len(data->pwd));
+		ret = str_dup(data->pwd);
 		return (ret);
 	}
 	return (NULL);

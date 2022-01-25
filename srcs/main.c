@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/24 20:25:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 11:45:58 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	_init(char *envp[], t_data *data)
 	data->tokens = NULL;
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
-		data->pwd = str_ndup(pwd->value, str_len(pwd->value));
+		data->pwd = str_dup(pwd->value);
 	data->interactive.line = 0;
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 		data->interactive.is_interactive = 0;
@@ -51,11 +51,11 @@ static void	_exe(t_data *data)
 	rl = exe_readline(data);
 	while (rl)
 	{
-		data->tokens = lexer_lex(rl);
+		// data->tokens = lexer_lex(rl);
 		// lexer_print_tokens(data->tokens);
 
-		if (parse_tokens(data, data->tokens) == 0)
-		{
+		// if (parse_tokens(data, data->tokens) == 0)
+		// {
 			add_history(rl);
 			// TODO : move expander inside command (ast leaves)
 			tmp = expander_asterisk(rl);
@@ -105,12 +105,12 @@ static void	_exe(t_data *data)
 			}
 			lexer_free_tokens(&data->tokens);
 			str_free_list(cmd);
-		}
-		else // Something went wrong during parsing
-		{
-			lexer_free_tokens(&data->tokens);
-			str_free(rl);
-		}
+		// }
+		// else // Something went wrong during parsing
+		// {
+		// 	lexer_free_tokens(&data->tokens);
+		// 	str_free(rl);
+		// }
 		rl = exe_readline(data);
 
 	}
