@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 11:21:42 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 12:51:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,25 @@ t_ast_node *create_command_node(t_token **current_token)
 	return (command_node);
 }
 
+bool _is_command_token(t_token_type type)
+{
+	return (type == E_TOKEN_TYPE_WORD || type == E_TOKEN_TYPE_REDIRECTION);
+}
+
+int	create_and_set_command_node(t_token **current_token, t_ast_node **command_node, t_ast_node **parent_node)
+{
+	if (!_is_command_token((*current_token)->type))
+		return (1);
+
+	// printf("type: %d, token: %s\n", current_token->type, current_token->content);
+	// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
+
+	*command_node = create_command_node(current_token);
+	if (*parent_node)
+		(*parent_node)->right = *command_node;
+	return (0);
+}
+
 #include <stdio.h>
 int	parse_tokens(t_data *data, t_token *tokens)
 {
@@ -178,20 +197,8 @@ int	parse_tokens(t_data *data, t_token *tokens)
 	current_token = tokens;
 	parent_node = NULL;
 
-
-	// Syntax error if 1st token is not part of a command
-	if (current_token->type != E_TOKEN_TYPE_WORD && current_token->type != E_TOKEN_TYPE_REDIRECTION)
+	if (create_and_set_command_node(&current_token, &command_node, &parent_node))
 		return (print_syntax_error(current_token));
-
-	// printf("type: %d, token: %s\n", current_token->type, current_token->content);
-	// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
-
-	command_node = create_command_node(&current_token);
-
-	if (parent_node)
-		parent_node->right = command_node;
-
-
 	
 	while(current_token)
 	{
@@ -208,21 +215,11 @@ int	parse_tokens(t_data *data, t_token *tokens)
 			new_parent_node->left = parent_node;
 			parent_node = new_parent_node;
 		}
-		if (current_token->next) 
+		if (current_token->next)
 		{
 			current_token = current_token->next;
-			// COMMAND NODE
-			// Syntax error if 1st token is not part of a command
-			if (current_token->type != E_TOKEN_TYPE_WORD && current_token->type != E_TOKEN_TYPE_REDIRECTION)
+			if (create_and_set_command_node(&current_token, &command_node, &parent_node))
 				return (print_syntax_error(current_token));
-
-			// printf("type: %d, token: %s\n", current_token->type, current_token->content);
-			// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
-
-			command_node = create_command_node(&current_token);
-
-			if (parent_node)
-				parent_node->right = command_node;
 		}
 		else
 			return (print_syntax_error(current_token));
