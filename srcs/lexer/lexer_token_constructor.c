@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:18:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 13:01:02 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/15 15:23:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static t_token	*_lexer_token_create()
 	token = (t_token *)malloc(sizeof(t_token));
 	token->content = NULL;
 	token->next = NULL;
-	token->prev = NULL;
 	return (token);
 }
 
