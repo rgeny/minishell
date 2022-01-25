@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/18 14:34:39 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/25 13:02:06 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	_token_add_back(t_token **tokens, t_token *token)
 	while (current_token && current_token->next)
 		current_token = current_token->next;
 	if (current_token)
+	{
 		current_token->next = token;
+		current_token->next->prev = current_token;
+	}
 	else
 		*tokens = token;
 }
