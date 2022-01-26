@@ -6,11 +6,38 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:36:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:44:07 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void	_print_command(t_command *command)
+{
+	int	i;
+
+	i = 0;
+	printf("Command arguments (%d): ", command->arg_nb);
+	while (command->args[i] != NULL)
+		printf("%s ", command->args[i++]);
+	printf("\n");
+	printf("Command redirections (%d): \n", command->redir_nb);
+	i = 0;
+	while (i < command->redir_nb)
+	{
+		printf("    - ");
+		if (command->redirections[i].type == E_REDIR_TYPE_STDIN)
+			printf("< ");
+		else if (command->redirections[i].type == E_REDIR_TYPE_STDOUT)
+			printf("> ");
+		else if (command->redirections[i].type == E_REDIR_TYPE_APPEND)
+			printf(">> ");
+		else if (command->redirections[i].type == E_REDIR_TYPE_HEREDOC)
+			printf("<< ");
+		printf("%s \n", command->redirections[i].path);
+		i++;
+	}
+}
 
 void	print_node(t_node *n)
 {
@@ -25,27 +52,7 @@ void	print_node(t_node *n)
 	else if (n->type == E_NODE_TYPE_COMMAND)
 	{
 		printf("AST Node of type COMMAND at %p:\n", n);
-		printf("Command arguments (%d): ", n->command->arg_nb);
-		i = 0;
-		while (n->command->args[i] != NULL)
-			printf("%s ", n->command->args[i++]);
-		printf("\n");
-		printf("Command redirections (%d): \n", n->command->redir_nb);
-		i = 0;
-		while (i < n->command->redir_nb)
-		{
-			printf("    - ");
-			if (n->command->redirections[i].type == E_REDIR_TYPE_STDIN)
-				printf("< ");
-			else if (n->command->redirections[i].type == E_REDIR_TYPE_STDOUT)
-				printf("> ");
-			else if (n->command->redirections[i].type == E_REDIR_TYPE_APPEND)
-				printf(">> ");
-			else if (n->command->redirections[i].type == E_REDIR_TYPE_HEREDOC)
-				printf("<< ");
-			printf("%s \n", n->command->redirections[i].path);
-			i++;
-		}
+		_print_command(n->command);
 		printf("Left child is at %p (should be nil)\n", n->left);
 		printf("Right child is at %p (should be nil)\n", n->right);
 	}

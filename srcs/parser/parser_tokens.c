@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:36:40 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:46:50 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ int	parse_tokens(t_data *data, t_token *tokens)
 	current_token = tokens;
 	n_separator = NULL;
 	if (create_and_set_n_command(&current_token, &n_command, n_separator))
-		return (print_syntax_error(current_token)); // Error in command syntax or line start by a separator
+		return (print_syntax_error(current_token)); // TODO - Manage malloc error
 	while (current_token)
 	{
 		create_and_set_n_separator(&n_separator, n_command);
-		if (!current_token->next) // Line terminate by a separator (|, ||, &&)
+		if (!current_token->next)
 			return (print_syntax_error(current_token));
 		current_token = current_token->next;
 		if (create_and_set_n_command(&current_token, &n_command, n_separator))
-			return (print_syntax_error(current_token)); // Error in command syntax or 2 consecutives separators
+			return (print_syntax_error(current_token)); // TODO - Manage malloc error
 	}
 	if (n_separator)
 		data->ast_root = n_separator;

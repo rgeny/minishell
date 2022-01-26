@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:36:24 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:40:44 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_redir_type	_get_redirection_type(char *token_content)
 		return (E_REDIR_TYPE_STDOUT);
 	else if (!str_cmp(token_content, ">>"))
 		return (E_REDIR_TYPE_APPEND);
-	else //if (!str_cmp(token_content, "<<"))
+	else
 		return (E_REDIR_TYPE_HEREDOC);
 }
 
@@ -85,7 +85,7 @@ static int	_get_size_and_check_syntax(t_token **token, t_command *command)
 	return (OK);
 }
 
-int	create_and_set_n_command(t_token **token, t_node **n_command, t_node *n_separator)
+int	create_and_set_n_command(t_token **token, t_node **n_command, t_node *n_sep)
 {
 	t_command	*command;
 
@@ -103,7 +103,7 @@ int	create_and_set_n_command(t_token **token, t_node **n_command, t_node *n_sepa
 		return (MALLOC_ERROR_CODE);
 	if (_set_n_command(token, command) == MALLOC_ERROR_CODE)
 		return (MALLOC_ERROR_CODE);
-	if (n_separator)
-		n_separator->right = *n_command;
+	if (n_sep)
+		n_sep->right = *n_command;
 	return (OK);
 }
