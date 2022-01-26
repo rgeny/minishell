@@ -6,17 +6,17 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:27 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:23:21 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:36:27 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	create_and_set_n_separator(t_ast_node **n_separator, t_ast_node *n_command)
+int	create_and_set_n_separator(t_node **n_separator, t_node *n_command)
 {
-	t_ast_node	*new_n_separator;
+	t_node	*new_n_separator;
 
-	new_n_separator = n_create(E_AST_NODE_TYPE_PIPE);
+	new_n_separator = n_create(E_NODE_TYPE_PIPE);
 	if (new_n_separator == NULL)
 		return (MALLOC_ERROR_CODE);
 	if (!*n_separator)

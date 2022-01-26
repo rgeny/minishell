@@ -6,23 +6,23 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:09:12 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:36:28 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	print_node(t_ast_node *n)
+void	print_node(t_node *n)
 {
 	int	i;
 
-	if (n->type == E_AST_NODE_TYPE_PIPE)
+	if (n->type == E_NODE_TYPE_PIPE)
 	{
 		printf("AST Node of type PIPE at %p:\n", n);
 		printf("Left child is at %p (should not be nil)\n", n->left);
 		printf("Right child is at %p (should not be nil)\n", n->right);
 	}
-	else if (n->type == E_AST_NODE_TYPE_COMMAND)
+	else if (n->type == E_NODE_TYPE_COMMAND)
 	{
 		printf("AST Node of type COMMAND at %p:\n", n);
 		printf("Command arguments (%d): ", n->command->arg_nb);
@@ -52,7 +52,7 @@ void	print_node(t_ast_node *n)
 	printf("\n");
 }
 
-void	print_ast(t_ast_node *node, int depth)
+void	print_ast(t_node *node, int depth)
 {
 	if (!node)
 		return ;

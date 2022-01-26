@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/26 17:09:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:36:15 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ typedef struct s_command {
 
 
 // AST
-typedef enum s_ast_node_type {
-	E_AST_NODE_TYPE_COMMAND,
-	E_AST_NODE_TYPE_PIPE
+typedef enum s_node_type {
+	E_NODE_TYPE_COMMAND,
+	E_NODE_TYPE_PIPE
 	// TODO : Add &&/|| types for bonuses
-}	t_ast_node_type;
+}	t_node_type;
 
-typedef struct s_ast_node {
-	t_ast_node_type		type;
+typedef struct s_node {
+	t_node_type		type;
 	t_command			*command; // NULL except for leaf
-	struct s_ast_node	*left; // NULL if leaf
-	struct s_ast_node	*right; // NULL if leaf
-}	t_ast_node;
+	struct s_node	*left; // NULL if leaf
+	struct s_node	*right; // NULL if leaf
+}	t_node;
 
 // ENV STRUCT
 typedef struct s_env
@@ -84,7 +84,7 @@ typedef struct s_data
 {
 	t_env			*env;
 	t_token			*tokens;
-	t_ast_node		*ast_root;
+	t_node		*ast_root;
 	int				ret;
 	char			*pwd;
 	t_interactive	interactive;

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:34:12 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:36:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ bool	is_command_token(t_token_type type)
 
 int	parse_tokens(t_data *data, t_token *tokens)
 {
-	t_token		*current_token;
-	t_ast_node	*n_command;
-	t_ast_node	*n_separator;
+	t_token	*current_token;
+	t_node	*n_command;
+	t_node	*n_separator;
 
 	current_token = tokens;
 	n_separator = NULL;

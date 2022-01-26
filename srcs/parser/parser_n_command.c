@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:29:00 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:36:24 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ static int	_get_size_and_check_syntax(t_token **token, t_command *command)
 	return (OK);
 }
 
-int	create_and_set_n_command(t_token **token, t_ast_node **n_command, t_ast_node *n_separator)
+int	create_and_set_n_command(t_token **token, t_node **n_command, t_node *n_separator)
 {
 	t_command	*command;
 
 	if (!is_command_token((*token)->type))
 		return (SYNTAX_ERROR_CODE);
-	*n_command = n_create(E_AST_NODE_TYPE_COMMAND);
+	*n_command = n_create(E_NODE_TYPE_COMMAND);
 	if (*n_command == NULL)
 		return (MALLOC_ERROR_CODE);
 	command = (*n_command)->command;
