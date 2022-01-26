@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 11:55:39 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 14:17:21 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,13 @@ int	print_syntax_error(t_token *token)
 {
 	char	*msg;
 
-	msg = "Syntax error near unexpected token ";
+	msg = "Syntax error near unexpected token '";
 	write(2, msg, str_len(msg));
-	write(2, token->content, str_len(token->content));
-	write(2, "\n", 1);
+	if (token)
+		write(2, token->content, str_len(token->content));
+	else
+		write(2, "newline", 7);
+	write(2, "'\n", 2);
 	return (1);
 }
 
