@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 14:17:21 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:09:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	print_node(t_ast_node *n)
 	else if (n->type == E_AST_NODE_TYPE_COMMAND)
 	{
 		printf("AST Node of type COMMAND at %p:\n", n);
-		printf("Command arguments : ");
+		printf("Command arguments (%d): ", n->command->arg_nb);
 		i = 0;
 		while (n->command->args[i] != NULL)
 			printf("%s ", n->command->args[i++]);
 		printf("\n");
-		printf("Command redirections (%d): \n", n->command->redirection_nb);
+		printf("Command redirections (%d): \n", n->command->redir_nb);
 		i = 0;
-		while (i < n->command->redirection_nb)
+		while (i < n->command->redir_nb)
 		{
 			printf("    - ");
 			if (n->command->redirections[i].type == E_REDIR_TYPE_STDIN)
