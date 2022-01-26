@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:33:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/25 11:41:25 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 19:47:52 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	_size_dir(char *buf)
 	int				i;
 
 	cur_dir = opendir(buf);
+	if (!cur_dir)
+		return (0);
 	i = 0;
 	dir = readdir(cur_dir);
 	while (dir)
@@ -43,8 +45,11 @@ char	**asterisk_dir_list(void)
 	struct dirent	*dir;
 	char			**dir_list;
 
-	getcwd(buf, PATH_MAX + 1);
+	if (!getcwd(buf, PATH_MAX + 1))
+		return (0);
 	len = _size_dir(buf);
+	if (!len)
+		return (0);
 	cur_dir = opendir(buf);
 	dir = readdir(cur_dir);
 	dir_list = malloc(sizeof(char *) * (len + 1));

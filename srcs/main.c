@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/26 18:12:41 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 19:39:11 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	_exe(t_data *data)
 
 		if (data->tokens && parse_tokens(data, data->tokens) == 0)
 		{
-			print_ast(data->ast_root, 0);
+//			print_ast(data->ast_root, 0);
 			add_history(rl);
 			// TODO : move expander inside command (ast leaves)
 			tmp = expander_asterisk(rl);

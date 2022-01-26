@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/25 11:41:49 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 19:44:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char	*expander_asterisk(char *rl)
 	int		i;
 
 	dir_list = asterisk_dir_list();
+	if (!dir_list)
+		return (0);
 	split = str_split(rl, " ");
 	i = 0;
 	while (split[i])
