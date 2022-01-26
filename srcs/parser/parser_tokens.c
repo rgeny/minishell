@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 17:44:21 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 11:28:25 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,11 @@ int	print_syntax_error(t_token *token)
 	return (1);
 }
 
-int	set_command_node(t_token **current_token, t_ast_node *command_node)
+int	set_command_node(t_token **current_token, t_command *command)
 {
 	int command_size = _get_command_size(*current_token);
-	command_node->command->args = (char **)uti_calloc(command_size + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
-	command_node->command->redirections = (t_redir *)uti_calloc(command_size + 1, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
+	command->args = (char **)uti_calloc(command_size + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
+	command->redirections = (t_redir *)uti_calloc(command_size + 1, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
 	// printf("command_size=%d\n", command_size);
 	int arg_nb = 0;
 	int redir_nb = 0;
@@ -153,26 +153,24 @@ int	set_command_node(t_token **current_token, t_ast_node *command_node)
 		if ((*current_token)->type == E_TOKEN_TYPE_WORD)
 		{
 			// printf("This token is a arg of a command\n");
-			command_node->command->args[arg_nb] = str_dup((*current_token)->content);
+			command->args[arg_nb] = str_dup((*current_token)->content);
 			arg_nb++;
 		}
 		else if ((*current_token)->type == E_TOKEN_TYPE_REDIRECTION)
 		{
-			command_node->command->redirections[redir_nb].type = _get_redirection_type((*current_token)->content);
+			command->redirections[redir_nb].type = _get_redirection_type((*current_token)->content);
 			*current_token = (*current_token)->next;
 			// printf("This token is a redirection of a command with path %s\n", (*current_token)->content);
-			command_node->command->redirections[redir_nb].path = str_dup((*current_token)->content);
+			command->redirections[redir_nb].path = str_dup((*current_token)->content);
 			redir_nb++;
 		}
 		*current_token = (*current_token)->next;
 	}
-	command_node->command->redirection_nb = redir_nb;
+	command->redirection_nb = redir_nb;
 	return (0);
 }
 
-
-
-int	create_and_set_n_command(t_token **current_token, t_ast_node **command_node, t_ast_node *separator_node)
+int	create_and_set_n_command(t_token **current_token, t_ast_node **n_command, t_ast_node *n_separator)
 {
 	if (!_is_command_token((*current_token)->type))
 		return (1); // Error : command start by a separator (case of several separator in a row)
@@ -180,27 +178,23 @@ int	create_and_set_n_command(t_token **current_token, t_ast_node **command_node,
 	// printf("type: %d, token: %s\n", current_token->type, current_token->content);
 	// TODO : Add syntax error if error inside command (example : redirection without path/limiter)
 
-	*command_node = create_node(E_AST_NODE_TYPE_COMMAND);
-	set_command_node(current_token, *command_node);
-	if (separator_node)
-		separator_node->right = *command_node;
+	*n_command = create_node(E_AST_NODE_TYPE_COMMAND);
+	set_command_node(current_token, (*n_command)->command);
+	if (n_separator)
+		n_separator->right = *n_command;
 	return (0);
 }
 
 int	create_and_set_n_separator(t_ast_node **n_separator, t_ast_node *n_command)
 {
-	t_ast_node	*new_parent_node;
+	t_ast_node	*new_n_separator;
+
+	new_n_separator = create_node(E_AST_NODE_TYPE_PIPE);
 	if (!*n_separator)
-	{
-		*n_separator = create_node(E_AST_NODE_TYPE_PIPE);
-		(*n_separator)->left = n_command;
-	}
+		new_n_separator->left = n_command;
 	else
-	{
-		new_parent_node = create_node(E_AST_NODE_TYPE_PIPE);
-		new_parent_node->left = *n_separator;
-		*n_separator = new_parent_node;
-	}
+		new_n_separator->left = *n_separator;
+	*n_separator = new_n_separator;
 	return (0);
 }
 
@@ -213,7 +207,7 @@ int	parse_tokens(t_data *data, t_token *tokens)
 	current_token = tokens;
 	n_separator = NULL;
 	if (create_and_set_n_command(&current_token, &n_command, n_separator))
-		return (print_syntax_error(current_token));
+		return (print_syntax_error(current_token)); // Error in command syntax or line start by a separator
 	while (current_token)
 	{
 		create_and_set_n_separator(&n_separator, n_command);
@@ -221,7 +215,7 @@ int	parse_tokens(t_data *data, t_token *tokens)
 			return (print_syntax_error(current_token));
 		current_token = current_token->next;
 		if (create_and_set_n_command(&current_token, &n_command, n_separator))
-			return (print_syntax_error(current_token));
+			return (print_syntax_error(current_token)); // Error in command syntax or 2 consecutives separators
 	}
 	if (n_separator)
 		data->ast_root = n_separator;
