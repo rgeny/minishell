@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/26 11:50:35 by tokino           ###   ########.fr        #
+#    Updated: 2022/01/26 20:05:17 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,6 @@ GLOBAL_DIR		= $(SRC_DIR)global/
 EXPANDER_DIR	= $(SRC_DIR)expander/
 ASTERISK_DIR	= $(EXPANDER_DIR)asterisk/
 EXE_DIR			= $(SRC_DIR)exe/
-PARSING_DIR		= $(SRC_DIR)parsing/
 PRINT_DIR		= $(SRC_DIR)print/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
@@ -72,7 +71,7 @@ OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(PARSING_DIR) $(LEXER_DIR) $(PRINT_DIR)
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR)
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_DIR)
 
 # *********************************** sources ******************************** #
@@ -81,10 +80,9 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
 					$(addprefix utils_,		bzero calloc min itoa ato quicksort is) \
 					$(addprefix mem_,		cpy set) \
-					$(addprefix expander_,	var) \
+					$(addprefix expander_,	var path) \
 					$(addprefix asterisk_,	main dir_list) \
 					$(addprefix exe_,		builtin out_process readline heredoc) \
-					$(addprefix parsing_,	path) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix parser_,	tokens print n_create n_command n_separator) \
 					$(addprefix cleaner_,	all) \

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/26 19:59:16 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/26 20:05:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include <stdio.h>
 #include "env.h"
 #include "str.h"
-#include "parsing.h"
 #include "print.h"
 #include "minishell_signal.h"
+#include "expander.h"
 
 static void	_son(char **cmd, t_data *data)
 {
@@ -29,7 +29,7 @@ static void	_son(char **cmd, t_data *data)
 	signal_fork();
 	env_cpy = env_switch(data, 0);
 	str_free(data->pwd);
-	path = parsing_path(cmd, data->env);
+	path = expander_path(cmd, data->env);
 	execve(path, cmd, env_cpy);
 	print_error(cmd[0], ": command not found\n", 0, data);
 	str_free_list(cmd);
