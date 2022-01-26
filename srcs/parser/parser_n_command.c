@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 15:01:04 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 15:06:15 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	_set_n_command(t_token **current_token, t_command *command)
 
 	arg_count = 0;
 	redir_count = 0;
+	command->args = (char **)uti_calloc(command->arg_nb + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
+	command->redirections = (t_redir *)uti_calloc(command->redirection_nb, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
 	while (arg_count + redir_count < command->arg_nb + command->redirection_nb)
 	{
 		if ((*current_token)->type == E_TOKEN_TYPE_WORD)
@@ -80,15 +82,11 @@ static int	_preset_n_command(t_token **current_token, t_command *command)
 
 int	create_and_set_n_command(t_token **current_token, t_ast_node **n_command, t_ast_node *n_separator)
 {
-	t_command *command;
-	
 	if (!is_command_token((*current_token)->type))
 		return (1); // Error : command start by a separator (case of several separator in a row)
 	*n_command = n_create(E_AST_NODE_TYPE_COMMAND);
 	if (_preset_n_command(current_token, (*n_command)->command))
 		return (1);
-	command->args = (char **)uti_calloc(command->arg_nb + 1, sizeof(char*)); // TODO, alloc only necessary size (here is size of command + redir)
-	command->redirections = (t_redir *)uti_calloc(command->redirection_nb, sizeof(t_redir)); // TODO, alloc only necessary size (here is size of command + redir)
 	_set_n_command(current_token, (*n_command)->command);
 	if (n_separator)
 		n_separator->right = *n_command;
