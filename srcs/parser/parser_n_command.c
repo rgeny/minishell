@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:09:34 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:29:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	_set_redirection(t_redir *redirection, t_token **token)
 	*token = (*token)->next;
 	redirection->path = str_dup((*token)->content);
 	if (redirection->path == NULL)
-		return (2);
-	return (0);
+		return (MALLOC_ERROR_CODE);
+	return (OK);
 }
 
 static int	_set_n_command(t_token **token, t_command *command)
@@ -47,18 +47,18 @@ static int	_set_n_command(t_token **token, t_command *command)
 		{
 			command->args[arg_count] = str_dup((*token)->content);
 			if (command->args[arg_count] == NULL)
-				return (2);
+				return (MALLOC_ERROR_CODE);
 			arg_count++;
 		}
 		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)
 		{
 			if (_set_redirection(&command->redirections[redir_count], token))
-				return (2);
+				return (MALLOC_ERROR_CODE);
 			redir_count++;
 		}
 		*token = (*token)->next;
 	}
-	return (0);
+	return (OK);
 }
 
 static int	_get_size_and_check_syntax(t_token **token, t_command *command)
@@ -76,13 +76,13 @@ static int	_get_size_and_check_syntax(t_token **token, t_command *command)
 		{
 			*token = (*token)->next;
 			if (!*token || (*token)->type != E_TOKEN_TYPE_WORD)
-				return (1);
+				return (SYNTAX_ERROR_CODE);
 			command->redir_nb++;
 		}
 		*token = (*token)->next;
 	}
 	*token = start_token;
-	return (0);
+	return (OK);
 }
 
 int	create_and_set_n_command(t_token **token, t_ast_node **n_command, t_ast_node *n_separator)
@@ -90,15 +90,20 @@ int	create_and_set_n_command(t_token **token, t_ast_node **n_command, t_ast_node
 	t_command	*command;
 
 	if (!is_command_token((*token)->type))
-		return (1); // Error : command start by a separator (several separator in a row)
+		return (SYNTAX_ERROR_CODE);
 	*n_command = n_create(E_AST_NODE_TYPE_COMMAND);
+	if (*n_command == NULL)
+		return (MALLOC_ERROR_CODE);
 	command = (*n_command)->command;
-	if (_get_size_and_check_syntax(token, command))
-		return (1); // Error : redirection without path or limiter
+	if (_get_size_and_check_syntax(token, command) == SYNTAX_ERROR_CODE)
+		return (SYNTAX_ERROR_CODE);
 	command->args = uti_calloc(command->arg_nb + 1, sizeof(char *));
 	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
-	_set_n_command(token, command);
+	if (command->redirections == NULL || command->args == NULL)
+		return (MALLOC_ERROR_CODE);
+	if (_set_n_command(token, command) == MALLOC_ERROR_CODE)
+		return (MALLOC_ERROR_CODE);
 	if (n_separator)
 		n_separator->right = *n_command;
-	return (0);
+	return (OK);
 }

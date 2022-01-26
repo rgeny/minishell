@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 11:50:02 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:19:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include "struct.h"
 # include "str.h"
 # include "utils.h"
+
+# define OK 0
+# define SYNTAX_ERROR_CODE 1
+# define MALLOC_ERROR_CODE 2
 
 int	parse_tokens(t_data *data, t_token *tokens);
 

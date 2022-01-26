@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 11:55:03 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/26 17:34:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ int	parse_tokens(t_data *data, t_token *tokens)
 	else
 		data->ast_root = n_command;
 	print_ast(data->ast_root, 0);
-	return (0);
+	return (OK);
 }
