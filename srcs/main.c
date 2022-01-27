@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/26 19:39:11 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/27 18:39:16 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,40 @@ static void	_exe(t_data *data)
 	char	**cmd;
 	int		i;
 	int		in;
+	int		out;
 	int		heredoc;
 	char	*tmp;
 
 	rl = exe_readline(data);
-	while (rl)
+	while (str_cmp(rl, "exit"))
 	{
 		data->tokens = lexer_lex(rl);
 		// lexer_print_tokens(data->tokens);
-
 		if (data->tokens && parse_tokens(data, data->tokens) == 0)
 		{
-//			print_ast(data->ast_root, 0);
+			expander_main(data, data->ast_root);
+			in = dup(0);
+			out = dup(1);
+	//		exe_main(data->ast_root, data);
+			dup2(in, 0);
+			dup2(out, 1);
+			print_ast(data->ast_root, 0);
 			add_history(rl);
 			// TODO : move expander inside command (ast leaves)
-			tmp = expander_asterisk(rl);
+/*			tmp = expander_asterisk(rl);
 			if (tmp)
 			{
 				free(rl);
 				rl = tmp;
 			}
-
+			expander_main(data, data->ast_root);
+			printf("t1\n");
+			exe_main(data->ast_root, data);
 			cmd = str_split(rl, " ");
 			str_free(rl);
 			if (cmd && cmd[0] && !str_cmp("<<", cmd[0]))
 			{
-				heredoc = exe_heredoc(cmd[1], data);
+				heredoc = expander_heredoc(cmd[1], data);
 				if (heredoc == -1)
 				{
 					str_free_list(cmd);
@@ -89,7 +97,7 @@ static void	_exe(t_data *data)
 				in = -1;
 				i = 0;
 			}
-			if (cmd && cmd[i])
+			if (0 && cmd && cmd[i])
 			{
 				expander_var(&cmd[i], data);
 				env_new_(cmd[i], &data->env);
@@ -103,9 +111,9 @@ static void	_exe(t_data *data)
 				dup2(in, 0);
 				close(in);
 				close(heredoc);
-			}
+			}*/
 			lexer_free_tokens(&data->tokens);
-			str_free_list(cmd);
+	//		str_free_list(cmd);
 		}
 		else // Something went wrong during parsing
 		{

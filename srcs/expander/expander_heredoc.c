@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_heredoc.c                                      :+:      :+:    :+:   */
+/*   expander_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 18:08:12 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/27 17:34:21 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	_ret_son(int *fd_in, int status, char *delimiter, t_data *data)
 	}
 }
 
-int	exe_heredoc(char *delimiter, t_data *data)
+int	expander_heredoc(char *delimiter, t_data *data)
 {
 	int		pipefd[2];
 	pid_t	pid;

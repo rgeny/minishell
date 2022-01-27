@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/26 20:05:17 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/27 17:54:24 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BOLD_CYAN		= "\033[01m\033[36m"
 CC				= cc
 
 # ******************************** COMPIL FLAG ******************************* #
-COMPILF			= $(DEPF) -g -Wall -Werror -Wextra
+COMPILF			= $(DEPF) -g #-Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 
@@ -80,9 +80,9 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
 					$(addprefix utils_,		bzero calloc min itoa ato quicksort is) \
 					$(addprefix mem_,		cpy set) \
-					$(addprefix expander_,	var path) \
+					$(addprefix expander_,	var path heredoc main) \
 					$(addprefix asterisk_,	main dir_list) \
-					$(addprefix exe_,		builtin out_process readline heredoc) \
+					$(addprefix exe_,		builtin out_process readline main) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix parser_,	tokens print n_create n_command n_separator) \
 					$(addprefix cleaner_,	all) \
