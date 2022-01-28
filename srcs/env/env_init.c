@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/25 11:39:18 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/28 18:43:57 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	_actualize(t_env **env)
 	char	path[PATH_MAX + 1];
 
 	getcwd(path, PATH_MAX + 1);
+	env_new_(path, env);
 	env_new(env, str_dup("PWD"), str_dup(path));
 	node = env_find(*env, "SHLVL");
 	if (node && node->value)

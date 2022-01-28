@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exe_main.c                                         :+:      :+:    :+:   */
+/*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/28 10:39:39 by rgeny            ###   ########.fr       */
+/*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
+/*   Updated: 2022/01/28 10:39:44 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "struct.h"
 #include "exe.h"
-
-void	exe_main(t_node *cmd, t_data *data)
+#include <stdio.h>
+void	exe_cmd(t_node *cmd, t_data *data)
 {
-	if (cmd->type == E_NODE_TYPE_PIPE)
-		exe_pipe(cmd, data);
-	else if (cmd->type == E_NODE_TYPE_COMMAND)
-		exe_cmd(cmd, data);
+	exe_redir(cmd->command);
+	if (cmd->command->arg_nb)
+	{
+		exe_builtin(cmd->command->args, data);
+		if (data->ret == -1)
+			exe_out_process(cmd->command->args, data);
+	}
 }

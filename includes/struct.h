@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/27 18:43:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/28 08:40:40 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_redir
 	t_redir_type	type;
 	char			*path;
 }	t_redir;
-r	
+
 typedef struct s_command {
 	char	**args; // NULL terminated
 	t_redir	*redirections;
