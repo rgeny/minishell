@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/25 11:40:59 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/29 17:10:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,23 @@ static char	*_switch_name_to_value(char *prev, char *find, char *cmd, int len)
 	char	*tmp;
 	char	*ret;
 
+	ret = 0;
+	tmp = 0;
 	if (prev)
 	{
 		if (find)
 			tmp = str_join(prev, find, 0);
 		else
-			tmp = str_join(prev, &cmd[len], 0);
+			ret = str_join(prev, &cmd[len], 0);
 	}
 	else if (find)
 		tmp = str_dup(find);
 	else
 		tmp = str_dup(&cmd[len]);
-	ret = str_join(tmp, &cmd[len], 0);
+	if (!ret)
+		ret = str_join(tmp, &cmd[len], 0);
+	if (!ret)
+		ret = uti_calloc(2, 1);
 	str_free(tmp);
 	str_free(find);
 	return (ret);
@@ -88,7 +93,8 @@ void	expander_var(char **cmd, t_data *data)
 		{
 			if (cmd[i][j] == '$')
 				_expand(&cmd[i], data, j);
-			j++;
+			if (cmd[i][j] && cmd[i][j] != '$' || !uti_isalnum(cmd[i][j + 1]))
+				j++;
 		}
 		i++;
 	}

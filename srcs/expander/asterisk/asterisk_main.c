@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/27 17:30:10 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/29 17:18:30 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,32 +98,14 @@ static char	*_join(char **split)
 char	*expander_asterisk(char *rl)
 {
 	char	**dir_list;
-//	char	**split;
-	char	*tmp;
-//	char	*ret;
-//	int		i;
+	char	*ret;
 
-	dir_list = asterisk_dir_list();
+	dir_list = asterisk_dir_list(rl[0] == '.');
 	if (!dir_list)
 		return (0);
-//	split = str_split(rl, " ");
-//	i = 0;
-//	while (split[i])
-//	{
-	tmp = 0;
+	ret = 0;
 	if (str_len(rl) == str_clen(rl, '='))
-		tmp = _expand(rl, dir_list);
-//		tmp = _expand(split[i], dir_list);
-//		if (tmp)
-//		{
-//			str_free(split[i]);
-//			split[i] = tmp;
-//		}
-//		i++;
-//	}
+		ret = _expand(rl, dir_list);
 	str_free_list(dir_list);
-//	ret = _join(split);
-//	str_free_list(split);
-//	return (ret);
-	return (tmp);
+	return (ret);
 }

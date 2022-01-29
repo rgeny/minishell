@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:47:50 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 19:02:43 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/29 16:07:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*str_join(const char *s1, const char *s2, char c)
 	int		sz2;
 	char	*dst;
 
-	if (!s1 || !s2)
+	if (!s1 || !s2 || (!s1[0] && !s2[0]))
 		return (0);
 	sz1 = str_len((char *)s1);
 	sz2 = str_len((char *)s2);

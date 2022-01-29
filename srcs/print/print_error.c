@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/18 19:03:25 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/01/29 17:34:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	print_error(char *cmd, char *message1, char *message2, t_data *data)
 		write(2, ": ", 2);
 		str_free(line);
 	}
-	write(2, cmd, str_len(cmd));
+	if (cmd)
+		write(2, cmd, str_len(cmd));
 	if (message1)
 		write(2, message1, str_len(message1));
 	if (message2)

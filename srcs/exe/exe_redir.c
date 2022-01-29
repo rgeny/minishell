@@ -6,42 +6,49 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 08:52:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/28 10:39:29 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/29 19:08:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include "struct.h"
-
-#include <stdio.h>
+#include "print.h"
 
 static int	_last_heredoc(t_redir *redir, int size)
 {
-	while (size && redir[size].type != E_REDIR_TYPE_HEREDOC)
+	while (size >= 0 && redir[size].type != E_REDIR_TYPE_HEREDOC)
 		size--;
 	return (size);
 }
 
+static void	_open(int *fd, char *path, int flag, mode_t mode)
+{
+	int	b;
+
+	b = 0;
+	if (*fd > 1)
+		close(*fd);
+	if (!mode)
+		b = access(path, F_OK);
+	*fd = open(path, flag, mode);
+}
+
 static void	_open_redir(t_command *cmd, int last_heredoc)
 {
-	int	i;
+	static mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	static int		o_write = O_WRONLY | O_CREAT;
+	int				i;
 
 	i = 0;
 	while (i < cmd->redir_nb)
 	{
 		if (cmd->redirections[i].type == E_REDIR_TYPE_STDIN && i > last_heredoc)
-		{
-			if (cmd->fd_in != 0)
-				close(cmd->fd_in);
-			cmd->fd_in = open(cmd->redirections[i].path, O_RDONLY);
-		}
+			_open(&cmd->fd_in, cmd->redirections[i].path, O_RDONLY, 0);
+		else if (cmd->redirections[i].type == E_REDIR_TYPE_APPEND && i > last_heredoc)
+			_open(&cmd->fd_out, cmd->redirections[i].path, o_write | O_APPEND, mode);
 		else if (cmd->redirections[i].type == E_REDIR_TYPE_STDOUT)
-		{
-			if (cmd->fd_in != 1)
-				close(cmd->fd_in);
-			cmd->fd_in = open(cmd->redirections[i].path, O_WRONLY);
-		}
+			_open(&cmd->fd_out, cmd->redirections[i].path, o_write | O_TRUNC, mode);
 		i++;
 	}
 }

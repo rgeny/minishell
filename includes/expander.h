@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/27 17:58:08 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/29 17:27:24 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,9 @@ int		expander_heredoc(char *delimiter, t_data *data);
 char *	expander_path(char *cmd, t_env *env);
 void	expander_var(char **cmd, t_data *data);
 char	*expander_asterisk(char *rl);
-char	**asterisk_dir_list(void);
+char	**asterisk_dir_list(int b);
 #endif
+
+/*
+511
+*/

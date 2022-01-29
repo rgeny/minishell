@@ -6,13 +6,14 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/27 18:13:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/29 12:44:45 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "expander.h"
+#include "str.h"
 
 static void	_heredoc(t_data *data, t_command *cmd)
 {
@@ -35,7 +36,7 @@ static void	_heredoc(t_data *data, t_command *cmd)
 	}
 }
 
-static void	_asterisk(char **cmd)
+static void	_asterisk_cmd(char **cmd)
 {
 	char	*tmp;
 	int		i;
@@ -54,6 +55,27 @@ static void	_asterisk(char **cmd)
 	}
 }
 
+static void	_join_and_split_cmd(char ***cmd)
+{
+	int		i;
+	char	*join;
+	char	*tmp;
+	char	**split;
+
+	join = str_ndup(cmd[0][0], str_len(cmd[0][0]));
+	i = 1;
+	while (cmd[0][i])
+	{
+		tmp = str_join(join, cmd[0][i], ' ');
+		str_free(join);
+		join = tmp;
+		i++;
+	}
+	split = str_split(join, " ");
+	str_free_list(cmd[0]);
+	cmd[0] = split;
+}
+
 void	expander_main(t_data *data, t_node *ast)
 {
 	if (!ast)
@@ -63,7 +85,8 @@ void	expander_main(t_data *data, t_node *ast)
 	{
 		_heredoc(data, ast->command);
 		expander_var(ast->command->args, data);
-		_asterisk(ast->command->args);
+		_asterisk_cmd(ast->command->args);
+		_join_and_split_cmd(&ast->command->args);
 	}
 	expander_main(data, ast->left);
 	expander_main(data, ast->right);

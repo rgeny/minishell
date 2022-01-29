@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:33:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/26 19:47:52 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/29 17:22:45 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "env.h"
 #include "str.h"
 
-static int	_size_dir(char *buf)
+static int	_size_dir(char *buf, int b)
 {
 	DIR				*cur_dir;
 	struct dirent	*dir;
@@ -29,7 +29,7 @@ static int	_size_dir(char *buf)
 	dir = readdir(cur_dir);
 	while (dir)
 	{
-		if (dir->d_name[0] != '.')
+		if ((!b && dir->d_name[0] != '.') || (b && dir->d_name[0] == '.'))
 			i++;
 		dir = readdir(cur_dir);
 	}
@@ -37,7 +37,7 @@ static int	_size_dir(char *buf)
 	return (i);
 }
 
-char	**asterisk_dir_list(void)
+char	**asterisk_dir_list(int b)
 {
 	int				len;
 	char			buf[PATH_MAX + 1];
@@ -47,7 +47,7 @@ char	**asterisk_dir_list(void)
 
 	if (!getcwd(buf, PATH_MAX + 1))
 		return (0);
-	len = _size_dir(buf);
+	len = _size_dir(buf, b);
 	if (!len)
 		return (0);
 	cur_dir = opendir(buf);
@@ -56,7 +56,7 @@ char	**asterisk_dir_list(void)
 	dir_list[len] = 0;
 	while (len)
 	{
-		if (dir->d_name[0] != '.')
+		if ((!b && dir->d_name[0] != '.') || (b && dir->d_name[0] == '.'))
 		{
 			len--;
 			dir_list[len] = str_dup(dir->d_name);
