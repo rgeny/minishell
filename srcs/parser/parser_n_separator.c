@@ -6,13 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:49:27 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:36:27 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 13:46:04 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	create_and_set_n_separator(t_node **n_separator, t_node *n_command)
+int	init_n_separator(t_node **n_separator, t_node *n_command)
 {
 	t_node	*new_n_separator;
 

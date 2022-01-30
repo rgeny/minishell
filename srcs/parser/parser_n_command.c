@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 17:40:44 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 13:45:50 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	_get_size_and_check_syntax(t_token **token, t_command *command)
 	return (OK);
 }
 
-int	create_and_set_n_command(t_token **token, t_node **n_command, t_node *n_sep)
+int	init_n_command(t_token **token, t_node **n_command, t_node *n_sep)
 {
 	t_command	*command;
 
