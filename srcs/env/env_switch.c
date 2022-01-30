@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:18:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/25 11:40:11 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 10:02:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ static void	_assign(t_env *tmp, int with_not_init, char **ret)
 	{
 		if (with_not_init || tmp->value)
 		{
-			if (tmp->value)
-				ret[i] = str_join(tmp->name, tmp->value, '=');
-			else
-				ret[i] = str_dup(tmp->name);
+			ret[i] = str_join(tmp->name, tmp->value, '=');
 			i++;
 		}
 		tmp = tmp->next;

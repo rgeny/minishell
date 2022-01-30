@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/29 17:18:30 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/30 10:16:38 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ static char	*_expand(char *word, char **dir_list)
 	{
 		if (_cmp(word, dir_list[i]))
 		{
-			if (new_word)
-				tmp = str_join(new_word, dir_list[i], ' ');
-			else
-				tmp = str_dup(dir_list[i]);
+			tmp = str_join(new_word, dir_list[i], ' ');
 			str_free(new_word);
 			new_word = tmp;
 		}

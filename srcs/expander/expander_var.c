@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/29 17:10:00 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/30 10:15:53 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,8 @@ static char	*_switch_name_to_value(char *prev, char *find, char *cmd, int len)
 
 	ret = 0;
 	tmp = 0;
-	if (prev)
-	{
-		if (find)
-			tmp = str_join(prev, find, 0);
-		else
-			ret = str_join(prev, &cmd[len], 0);
-	}
-	else if (find)
-		tmp = str_dup(find);
-	else
-		tmp = str_dup(&cmd[len]);
-	if (!ret)
-		ret = str_join(tmp, &cmd[len], 0);
+	tmp = str_join(prev, find, 0);
+	ret = str_join(tmp, &cmd[len], 0);
 	if (!ret)
 		ret = uti_calloc(2, 1);
 	str_free(tmp);

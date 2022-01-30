@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_main.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/29 12:44:45 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/30 11:00:13 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static void	_join_and_split_cmd(char ***cmd)
 	char	*tmp;
 	char	**split;
 
-	join = str_ndup(cmd[0][0], str_len(cmd[0][0]));
-	i = 1;
+	join = NULL;
+	i = 0;
 	while (cmd[0][i])
 	{
 		tmp = str_join(join, cmd[0][i], ' ');

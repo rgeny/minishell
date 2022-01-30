@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/25 11:37:00 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 11:43:41 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,9 @@ static int	_move(char *dir, char *pwd, t_data *data, int b)
 	int		ret;
 	char	pathpwd[PATH_MAX + 1];
 
-	if (dir && pwd)
-		path = str_join(pwd, dir, '/');
-	else if (dir)
-		path = str_dup(dir);
-	else if (pwd)
-		path = str_dup(pwd);
-	else
-		return (1);
+	path = str_join(pwd, dir, '/');
+	if (!path)
+		return (BUILTIN_ERR_EXEC);
 	ret = chdir(path);
 	getcwd(pathpwd, PATH_MAX + 1);
 	if (!ret)
