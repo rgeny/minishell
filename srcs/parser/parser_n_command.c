@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 14:14:27 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 15:20:13 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ static int	_set_redirection(t_redir *redirection, t_token **token)
 	return (OK);
 }
 
-static void	_carg_add_back(t_carg **cargs, t_carg *carg)
-{
-	t_carg	*current_carg;
-
-	current_carg = *cargs;
-	while (current_carg && current_carg->next)
-		current_carg = current_carg->next;
-	if (current_carg)
-		current_carg->next = carg;
-	else
-		*cargs = carg;
-}
-
 static int	_set_n_command(t_token **token, t_command *command)
 {
 	int		arg_count;
@@ -68,7 +55,7 @@ static int	_set_n_command(t_token **token, t_command *command)
 			carg->next = NULL;
 			if (carg->content == NULL)
 				return (MALLOC_ERROR_CODE);
-			_carg_add_back(&command->cargs, carg);
+			lst_carg_add_back(&command->cargs, carg);
 			arg_count++;
 		}
 		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)

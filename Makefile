@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/28 18:26:48 by rgeny            ###   ########.fr        #
+#    Updated: 2022/01/30 15:03:51 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,11 +67,12 @@ EXE_DIR			= $(SRC_DIR)exe/
 PRINT_DIR		= $(SRC_DIR)print/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
+LST_DIR			= $(SRC_DIR)lst/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR)
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR)
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_DIR)
 
 # *********************************** sources ******************************** #
@@ -90,6 +91,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix print_,		error fd) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
 					$(addprefix signal_,	current fork ignore) \
+					$(addprefix lst_,		carg) \
 					$(SRC_BUILTIN))
 
 # *********************************** others ********************************* #
