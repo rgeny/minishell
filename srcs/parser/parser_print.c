@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 14:14:53 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 17:28:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,32 @@ void	print_ast(t_node *node, int depth)
 		print_ast(node->right, depth++);
 }
 
-int	print_syntax_error(t_token *token)
+int	print_syntax_error(t_data *data, t_token *token)
 {
 	char	*msg;
+	char	*token_content;
 
 	msg = "Syntax error near unexpected token '";
-	write(2, msg, str_len(msg));
 	if (token)
-		write(2, token->content, str_len(token->content));
+		token_content = token->content;
 	else
-		write(2, "newline", 7);
-	write(2, "'\n", 2);
+		token_content = "newline";
+	print_error(msg, token_content, "'\n", data);
 	return (1);
 }
+
+int print_parser_error(t_data *data, int error_code, t_token *token)
+{
+	if (error_code == SYNTAX_ERROR_CODE)
+	{
+		print_syntax_error(data, token);
+	}
+	else if (error_code == MALLOC_ERROR_CODE)
+	{
+		print_error("Cannot allocate memory\n", NULL, NULL, data);
+	}
+	return (error_code);
+} 
 
 int	print_unspec_msg(char *token)
 {

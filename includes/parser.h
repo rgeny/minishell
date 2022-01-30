@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 15:23:23 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 17:14:36 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "str.h"
 # include "utils.h"
 # include "lst.h"
+# include "print.h"
 
 # define OK 0
 # define SYNTAX_ERROR_CODE 1
@@ -37,6 +38,7 @@ bool	is_command_token(t_token_type type);
 int		print_unspec_msg(char *token);
 void	print_node(t_node *n);
 void	print_ast(t_node *node, int depth);
-int		print_syntax_error(t_token *token);
+int		print_syntax_error(t_data *data, t_token *token);
+int 	print_parser_error(t_data *data, int error_code, t_token *token);
 
 #endif
