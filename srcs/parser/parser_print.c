@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/26 19:37:53 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/30 14:14:53 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 void	_print_command(t_command *command)
 {
-	int	i;
+	int		i;
+	t_carg	*carg;
 
 	i = 0;
 	printf("Command arguments (%d): ", command->arg_nb);
-	while (command->args[i] != NULL)
-		printf("%s ", command->args[i++]);
+	carg = command->cargs;
+	while (carg)
+	{
+		printf("%s ", carg->content);
+		carg = carg->next;
+	}
 	printf("\n");
 	printf("Command redirections (%d): \n", command->redir_nb);
 	i = 0;

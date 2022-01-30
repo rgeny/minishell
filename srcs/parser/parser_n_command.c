@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 13:45:50 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 14:14:27 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,41 @@ static int	_set_redirection(t_redir *redirection, t_token **token)
 	return (OK);
 }
 
+static void	_carg_add_back(t_carg **cargs, t_carg *carg)
+{
+	t_carg	*current_carg;
+
+	current_carg = *cargs;
+	while (current_carg && current_carg->next)
+		current_carg = current_carg->next;
+	if (current_carg)
+		current_carg->next = carg;
+	else
+		*cargs = carg;
+}
+
 static int	_set_n_command(t_token **token, t_command *command)
 {
-	int	arg_count;
-	int	redir_count;
+	int		arg_count;
+	int		redir_count;
+	t_carg	*carg;
 
 	arg_count = 0;
 	redir_count = 0;
+	carg = NULL;
 	while (arg_count + redir_count < command->arg_nb + command->redir_nb)
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 		{
 			command->args[arg_count] = str_dup((*token)->content);
-			if (command->args[arg_count] == NULL)
+			carg = uti_calloc(1, sizeof(t_carg));
+			if (carg == NULL)
 				return (MALLOC_ERROR_CODE);
+			carg->content = str_dup((*token)->content);
+			carg->next = NULL;
+			if (carg->content == NULL)
+				return (MALLOC_ERROR_CODE);
+			_carg_add_back(&command->cargs, carg);
 			arg_count++;
 		}
 		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)
@@ -97,7 +118,8 @@ int	init_n_command(t_token **token, t_node **n_command, t_node *n_sep)
 	command = (*n_command)->command;
 	if (_get_size_and_check_syntax(token, command) == SYNTAX_ERROR_CODE)
 		return (SYNTAX_ERROR_CODE);
-	command->args = uti_calloc(command->arg_nb + 1, sizeof(char *));
+	command->args = uti_calloc(command->arg_nb, sizeof(t_carg));
+	command->cargs = NULL;
 	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
 	if (command->redirections == NULL || command->args == NULL)
 		return (MALLOC_ERROR_CODE);

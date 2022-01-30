@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/28 08:40:40 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/01/30 14:13:27 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,25 @@ typedef enum e_redir_type {
 	E_REDIR_TYPE_APPEND
 }	t_redir_type;
 
-typedef struct s_redir
-{
+typedef struct s_redir{
 	t_redir_type	type;
 	char			*path;
 }	t_redir;
 
+typedef struct s_carg {
+	char			*content;
+	struct s_carg	*next;
+}	t_carg;
+
 typedef struct s_command {
-	char	**args; // NULL terminated
+	char	**args; // NULL terminated // TODO transformer en liste chainee
+	t_carg	*cargs;
 	t_redir	*redirections;
 	int		redir_nb;
 	int		arg_nb;
 	int		fd_in;
 	int		fd_out;
 }	t_command;
-
 
 // AST
 typedef enum s_node_type {
@@ -62,7 +66,7 @@ typedef enum s_node_type {
 
 typedef struct s_node {
 	t_node_type		type;
-	t_command			*command; // NULL except for leaf
+	t_command		*command; // NULL except for leaf
 	struct s_node	*left; // NULL if leaf
 	struct s_node	*right; // NULL if leaf
 }	t_node;
