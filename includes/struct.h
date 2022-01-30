@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/30 14:13:27 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 18:02:09 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_carg {
 }	t_carg;
 
 typedef struct s_command {
-	char	**args; // NULL terminated // TODO transformer en liste chainee
+	char	**args; // NULL terminated // TO DEL
 	t_carg	*cargs;
 	t_redir	*redirections;
 	int		redir_nb;

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 17:14:36 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 18:35:03 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void	print_node(t_node *n);
 void	print_ast(t_node *node, int depth);
 int		print_syntax_error(t_data *data, t_token *token);
 int 	print_parser_error(t_data *data, int error_code, t_token *token);
+
+void	free_ast(t_node *root);
 
 #endif
