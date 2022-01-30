@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 15:20:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/01/30 15:52:38 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,36 @@ static int	_set_redirection(t_redir *redirection, t_token **token)
 	return (OK);
 }
 
-static int	_set_n_command(t_token **token, t_command *command)
+static int	_set_arg(t_carg **cargs, t_token *token)
 {
-	int		arg_count;
-	int		redir_count;
 	t_carg	*carg;
 
-	arg_count = 0;
+	carg = uti_calloc(1, sizeof(t_carg));
+	if (carg == NULL)
+		return (MALLOC_ERROR_CODE);
+	carg->content = str_dup(token->content);
+	carg->next = NULL;
+	if (carg->content == NULL)
+		return (MALLOC_ERROR_CODE);
+	lst_carg_add_back(cargs, carg);
+	return (0);
+}
+
+static int	_set_n_command(t_token **token, t_command *command)
+{
+	int		arg_count; // TO REMOVE with command->args
+	int		redir_count;
+
+	arg_count = 0; // TO REMOVE with command->args
 	redir_count = 0;
-	carg = NULL;
-	while (arg_count + redir_count < command->arg_nb + command->redir_nb)
+	while (*token && is_command_token((*token)->type))
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 		{
-			command->args[arg_count] = str_dup((*token)->content);
-			carg = uti_calloc(1, sizeof(t_carg));
-			if (carg == NULL)
+			command->args[arg_count] = str_dup((*token)->content); // TO REMOVE with command->args
+			if (_set_arg(&command->cargs, *token))
 				return (MALLOC_ERROR_CODE);
-			carg->content = str_dup((*token)->content);
-			carg->next = NULL;
-			if (carg->content == NULL)
-				return (MALLOC_ERROR_CODE);
-			lst_carg_add_back(&command->cargs, carg);
-			arg_count++;
+			arg_count++; // TO REMOVE with command->args
 		}
 		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)
 		{
