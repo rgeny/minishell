@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:41:26 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 19:50:55 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@ void	free_ascii_tree(t_anode *node)
 	node = NULL;
 }
 
+void	_set_xmin(t_ast_printer *printer, t_anode *proot)
+{
+	int	i;
+
+	i = 0;
+	printer->xmin = 0;
+	while (i < proot->height && i < MAX_HEIGHT)
+	{
+		printer->xmin = uti_min(printer->xmin, printer->left_profile[i]);
+		i++;
+	}
+	printer->xmin = -printer->xmin;
+}
+
 void	print_ast_the_fancy_way(t_node *root)
 {
 	t_anode			*proot;
@@ -35,17 +49,15 @@ void	print_ast_the_fancy_way(t_node *root)
 	proot = build_ascii_tree(root);
 	compute_edge_lengths(&printer, proot);
 	set_proot_left_profile(&printer, proot);
-	xmin = 0;
-	for (i = 0; i < proot->height && i < MAX_HEIGHT; i++)
-	{
-		xmin = uti_min(xmin, printer.left_profile[i]);
-	}
-	printf("xmin = %d\n\n", xmin);
-	for (i = 0; i < proot->height; i++)
+	_set_xmin(&printer, proot);
+	printf("xmin = %d\n\n", printer.xmin);
+	i = 0;
+	while (i < proot->height)
 	{
 		printer.print_next = 0;
-		print_level(&printer, proot, -xmin, i);
+		print_level(&printer, proot, printer.xmin, i);
 		printf("\n");
+		i++;
 	}
 	if (proot->height >= MAX_HEIGHT)
 	{
