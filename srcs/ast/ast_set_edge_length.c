@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:27:50 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:38:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 20:16:36 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,35 @@ void	compute_edge_lengths(t_ast_printer *p, t_anode *anode)
 		anode->edge_length = 0;
 	else
 	{
+		hmin = 0;
 		if (anode->left != NULL)
 		{
-			for (i = 0; i < anode->left->height && i < MAX_HEIGHT; i++)
+			i = 0;
+			while (i < anode->left->height && i < MAX_HEIGHT)
 			{
 				p->right_profile[i] = INT_MIN;
+				i++;
 			}
 			set_right_profile(p, anode->left, 0, 0);
 			hmin = anode->left->height + anode->left->lab_height;
 		}
-		else
-		{
-			hmin = 0;
-		}
 		if (anode->right != NULL)
 		{
-			for (i = 0; i < anode->right->height && i < MAX_HEIGHT; i++)
+			i = 0;
+			while (i < anode->right->height && i < MAX_HEIGHT)
 			{
 				p->left_profile[i] = INT_MAX;
+				i++;
 			}
 			set_left_profile(p, anode->right, 0, 0);
 			hmin = uti_min(anode->right->height + anode->right->lab_height, hmin);
 		}
-		else
-		{
-			hmin = 0;
-		}
 		delta = 4;
-		for (i = 0; i < hmin; i++)
+		i = 0;
+		while (i < hmin)
 		{
 			delta = uti_max(delta, 4 + p->right_profile[i] - p->left_profile[i]);
+			i++;
 		}
 		anode->edge_length = ((delta + 1) / 2) - 1;
 	}
