@@ -1,128 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_fancy_print.c                               :+:      :+:    :+:   */
+/*   ast_fancy_printer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 16:28:04 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 19:10:09 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_print.h"
 
-char *cargs_to_str(t_carg *cargs)
-{
-	int len;
-	int i;
-	t_carg *tmp;
-	char *str;
-
-	len = 0;
-	tmp = cargs;
-	while (tmp)
-	{
-		len += str_len(tmp->content) + 1;
-		tmp = tmp->next;
-	}
-	len--;
-	str = uti_calloc(len + 1, sizeof(char));
-	i = 0;
-	tmp = cargs;
-	while (tmp)
-	{
-		len = str_len(tmp->content);
-		mem_cpy(str + i, tmp->content, len);
-		i += len;
-		tmp = tmp->next;
-		if (tmp)
-		{
-			mem_cpy(str + i, " ", 1);        
-			i++;
-		}
-	}
-	return (str);
-}
-
-char *redir_to_str(t_redir redir)
-{
-	char *str;
-	int i;
-	
-	i = 2;
-	str = uti_calloc(str_len(redir.path) + 4, sizeof(char));
-	if (redir.type == E_REDIR_TYPE_APPEND)
-	{
-		i++;
-		mem_cpy(str, ">> ", 3);
-	}
-	else if (redir.type == E_REDIR_TYPE_HEREDOC)
-	{
-		i++;
-		mem_cpy(str, "<< ", 3);
-	}
-	else if (redir.type == E_REDIR_TYPE_STDIN)
-		mem_cpy(str, "< ", 2);
-	else //if (redir.type == E_REDIR_TYPE_STDOUT)
-		mem_cpy(str, "> ", 2);
-	mem_cpy(str + i, redir.path, str_len(redir.path));
-	return (str);
-}
-
-t_asciinode *build_ascii_tree_recursive(t_node *tree) {
-	t_asciinode *anode;
-
-	if (tree == NULL)
-		return NULL;
-
-	anode = malloc(sizeof(t_asciinode));
-	anode->left = build_ascii_tree_recursive(tree->left);
-	anode->right = build_ascii_tree_recursive(tree->right);
-	anode->line_nb = 0;
-	if (anode->left != NULL)
-		anode->left->parent_dir = -1;
-	if (anode->right != NULL)
-		anode->right->parent_dir = 1;
-	if (tree->type == E_NODE_TYPE_COMMAND)
-	{
-		anode->label = uti_calloc(tree->command->redir_nb + 2, sizeof(char *));
-		anode->label[0] = cargs_to_str(tree->command->cargs);
-		anode->lab_width = str_len(anode->label[0]);
-		int redir;
-
-		redir = 0;
-		while (redir < tree->command->redir_nb)
-		{
-			anode->label[redir + 1] = redir_to_str(tree->command->redirections[redir]);
-			anode->lab_width = uti_max(anode->lab_width, str_len(anode->label[redir + 1]));
-			redir++;
-		}
-		anode->lab_height = tree->command->redir_nb + 1;
-	}
-	else if (tree->type == E_NODE_TYPE_PIPE)
-	{
-		anode->label = uti_calloc(2, sizeof(char *));
-		anode->label[0] = str_dup("PIPE");
-		anode->lab_width = str_len(anode->label[0]);
-		anode->lab_height = 1;
-	}
-	return anode;
-}
-
-//Copy the tree into the ascii node structre
-t_asciinode *build_ascii_tree(t_node *t) {
-	t_asciinode *node;
-
-	if (t == NULL)
-		return NULL;
-	node = build_ascii_tree_recursive(t);
-	node->parent_dir = 0;
-	return node;
-}
-
 //Free all the nodes of the given tree
-void free_ascii_tree(t_asciinode *node) {
+void free_ascii_tree(t_anode *node) {
 	if (node == NULL)
 		return;
 	free_ascii_tree(node->left);
@@ -136,7 +27,7 @@ void free_ascii_tree(t_asciinode *node) {
 //It assumes that the center of the label of the root of this tree
 //is located at a position (x,y).  It assumes that the edge_length
 //fields have been computed for this tree.
-void compute_lprofile(t_ast_printer *printer, t_asciinode *node, int x, int y) {
+void compute_lprofile(t_ast_printer *printer, t_anode *node, int x, int y) {
 	int i, isleft;
 	if (node == NULL) return;
 	isleft = (node->parent_dir == -1);
@@ -150,7 +41,7 @@ void compute_lprofile(t_ast_printer *printer, t_asciinode *node, int x, int y) {
 	compute_lprofile(printer, node->right, x + node->edge_length + 1, y + node->edge_length + 1);
 }
 
-void compute_rprofile(t_ast_printer *printer, t_asciinode *node, int x, int y) {
+void compute_rprofile(t_ast_printer *printer, t_anode *node, int x, int y) {
 	int i, notleft;
 	if (node == NULL) return;
 	notleft = (node->parent_dir != -1);
@@ -166,7 +57,7 @@ void compute_rprofile(t_ast_printer *printer, t_asciinode *node, int x, int y) {
 
 //This function fills in the edge_length and
 //height fields of the specified tree
-void compute_edge_lengths(t_ast_printer *printer, t_asciinode *node) {
+void compute_edge_lengths(t_ast_printer *printer, t_anode *node) {
 	int h, hmin, i, delta;
 	if (node == NULL) return;
 	compute_edge_lengths(printer, node->left);
@@ -215,7 +106,7 @@ void compute_edge_lengths(t_ast_printer *printer, t_asciinode *node) {
 
 //This function prints the given level of the given tree, assuming
 //that the node has the given x cordinate.
-void print_level(t_ast_printer *printer, t_asciinode *node, int x, int level) {
+void print_level(t_ast_printer *printer, t_anode *node, int x, int level) {
 	int i, isleft;
 	if (node == NULL) return;
 	isleft = (node->parent_dir == -1);
@@ -259,7 +150,7 @@ void print_level(t_ast_printer *printer, t_asciinode *node, int x, int level) {
 
 void	print_ast_the_fancy_way(t_node *root)
 {
-	t_asciinode *proot;
+	t_anode *proot;
 	t_ast_printer printer;
 	int xmin, i;
 	

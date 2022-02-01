@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/01 15:56:34 by tokino           ###   ########.fr        #
+#    Updated: 2022/02/01 19:12:00 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,11 +68,12 @@ PRINT_DIR		= $(SRC_DIR)print/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
 LST_DIR			= $(SRC_DIR)lst/
+AST_DIR			= $(SRC_DIR)ast/
 OBJ_DIR			= objs
 INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR)
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR) $(AST_DIR)
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_DIR)
 
 # *********************************** sources ******************************** #
@@ -85,13 +86,14 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix asterisk_,	main dir_list) \
 					$(addprefix exe_,		builtin out_process readline main redir pipe cmd) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix parser_,	tokens print n_create n_command n_separator free_ast fancy_print) \
+					$(addprefix parser_,	tokens print n_create n_command n_separator free_ast) \
 					$(addprefix cleaner_,	all) \
 					$(addprefix str_,		cmp len dup split join free split_first) \
 					$(addprefix print_,		error fd) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
 					$(addprefix signal_,	current fork ignore) \
 					$(addprefix lst_,		carg) \
+					$(addprefix ast_,		fancy_printer asciitree_builder)\
 					$(SRC_BUILTIN))
 
 # *********************************** others ********************************* #

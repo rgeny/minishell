@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:15:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 16:18:52 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 19:10:07 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_asciinode {
 	int					lab_width;
 	int					lab_height;
 	int					line_nb;
-}	t_asciinode;
+}	t_anode;
+
+t_anode *build_ascii_tree(t_node *t);
 
 #endif
