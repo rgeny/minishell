@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/30 10:15:53 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 14:19:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,20 @@ static void	_expand(char **cmd, t_data *data, int i)
 	str_free(prev);
 }
 
-void	expander_var(char **cmd, t_data *data)
+void	expander_var(t_carg *cmd, t_data *data)
 {
 	int		i;
-	int		j;
 
-	i = 0;
-	while (cmd[i])
+	while (cmd)
 	{
-		j = 0;
-		while (cmd[i][j])
+		i = 0;
+		while (cmd->content[i])
 		{
-			if (cmd[i][j] == '$')
-				_expand(&cmd[i], data, j);
-			if (cmd[i][j] && cmd[i][j] != '$' || !uti_isalnum(cmd[i][j + 1]))
-				j++;
+			if (cmd->content[i] == '$')
+				_expand(&cmd->content[i], data, i);
+			if (cmd->content[i] && cmd->content[i] != '$' || !uti_isalnum(cmd->content[i + 1]))
+				i++;
 		}
-		i++;
+		cmd = cmd->next;
 	}
 }

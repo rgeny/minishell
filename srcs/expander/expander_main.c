@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/30 11:00:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 14:24:12 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,49 @@ static void	_heredoc(t_data *data, t_command *cmd)
 	}
 }
 
-static void	_asterisk_cmd(char **cmd)
+static void	_asterisk_cmd(t_carg *cmd)
 {
 	char	*tmp;
-	int		i;
 
-	tmp = 0;
-	i = 0;
-	while (cmd[i])
+	while (cmd)
 	{
-		tmp = expander_asterisk(cmd[i]);
+		tmp = expander_asterisk(cmd->content);
 		if (tmp)
 		{
-			free(cmd[i]);
-			cmd[i] = tmp;
+			free(cmd->content);
+			cmd->content = tmp;
 		}
-		i++;
+		cmd = cmd->next;
 	}
 }
 
-static void	_join_and_split_cmd(char ***cmd)
+static void	_join_and_split_cmd(t_command *cmd)
 {
+	t_carg	*tmp;
+	int		len;
+	char	**ret;
 	int		i;
+
+	tmp = cmd->cargs;
+	len = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		len++;
+	}
+	str_free_list(cmd->args);
+	ret = malloc(sizeof(char *) * (len + 1));
+	ret[len] = 0;
+	tmp = cmd->cargs;
+	i = 0;
+	while (i < len)
+	{
+		ret[i] = str_dup(tmp->content);
+		i++;
+		tmp = tmp->next;
+	}
+	cmd->args = ret;
+/*	int		i;
 	char	*join;
 	char	*tmp;
 	char	**split;
@@ -73,7 +94,7 @@ static void	_join_and_split_cmd(char ***cmd)
 	}
 	split = str_split(join, " ");
 	str_free_list(cmd[0]);
-	cmd[0] = split;
+	cmd[0] = split;*/
 }
 
 void	expander_main(t_data *data, t_node *ast)
@@ -84,9 +105,9 @@ void	expander_main(t_data *data, t_node *ast)
 	if (ast->command)
 	{
 		_heredoc(data, ast->command);
-		expander_var(ast->command->args, data);
-		_asterisk_cmd(ast->command->args);
-		_join_and_split_cmd(&ast->command->args);
+		expander_var(ast->command->cargs, data);
+		_asterisk_cmd(ast->command->cargs);
+		_join_and_split_cmd(ast->command);
 	}
 	expander_main(data, ast->left);
 	expander_main(data, ast->right);
