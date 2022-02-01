@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:10:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 19:21:07 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,6 @@ void free_ascii_tree(t_anode *node) {
 	node = NULL;
 }
 
-//The following function fills in the lprofile array for the given tree.
-//It assumes that the center of the label of the root of this tree
-//is located at a position (x,y).  It assumes that the edge_length
-//fields have been computed for this tree.
-void compute_lprofile(t_ast_printer *printer, t_anode *node, int x, int y) {
-	int i, isleft;
-	if (node == NULL) return;
-	isleft = (node->parent_dir == -1);
-	printer->lprofile[y] = uti_min(printer->lprofile[y], x - ((node->lab_width - isleft) / 2));
-	if (node->left != NULL) {
-		for (i = 1; i <= node->edge_length && y + i < MAX_HEIGHT; i++) {
-			printer->lprofile[y + i] = uti_min(printer->lprofile[y + i], x - i);
-		}
-	}
-	compute_lprofile(printer, node->left, x - node->edge_length - 1, y + node->edge_length + 1);
-	compute_lprofile(printer, node->right, x + node->edge_length + 1, y + node->edge_length + 1);
-}
-
-void compute_rprofile(t_ast_printer *printer, t_anode *node, int x, int y) {
-	int i, notleft;
-	if (node == NULL) return;
-	notleft = (node->parent_dir != -1);
-	printer->rprofile[y] = uti_max(printer->rprofile[y], x + ((node->lab_width - notleft) / 2));
-	if (node->right != NULL) {
-		for (i = 1; i <= node->edge_length && y + i < MAX_HEIGHT; i++) {
-			printer->rprofile[y + i] = uti_max(printer->rprofile[y + i], x + i);
-		}
-	}
-	compute_rprofile(printer, node->left, x - node->edge_length - 1, y + node->edge_length + 1);
-	compute_rprofile(printer, node->right, x + node->edge_length + 1, y + node->edge_length + 1);
-}
-
 //This function fills in the edge_length and
 //height fields of the specified tree
 void compute_edge_lengths(t_ast_printer *printer, t_anode *node) {
@@ -69,25 +37,25 @@ void compute_edge_lengths(t_ast_printer *printer, t_anode *node) {
 	 else {
 		if (node->left != NULL) {
 			for (i = 0; i < node->left->height && i < MAX_HEIGHT; i++) {
-				printer->rprofile[i] = INT_MIN;
+				printer->right_profile[i] = INT_MIN;
 			}
-			compute_rprofile(printer, node->left, 0, 0);
+			set_right_profile(printer, node->left, 0, 0);
 			hmin = node->left->height + node->left->lab_height;
 		} else {
 			hmin = 0;
 		}
 		if (node->right != NULL) {
 			for (i = 0; i < node->right->height && i < MAX_HEIGHT; i++) {
-				printer->lprofile[i] = INT_MAX;
+				printer->left_profile[i] = INT_MAX;
 			}
-			compute_lprofile(printer, node->right, 0, 0);
+			set_left_profile(printer, node->right, 0, 0);
 			hmin = uti_min(node->right->height + node->right->lab_height, hmin);
 		} else {
 			hmin = 0;
 		}
 		delta = 4;
 		for (i = 0; i < hmin; i++) {
-			delta = uti_max(delta, 4 + printer->rprofile[i] - printer->lprofile[i]);
+			delta = uti_max(delta, 4 + printer->right_profile[i] - printer->left_profile[i]);
 		}
 		node->edge_length = ((delta + 1) / 2) - 1;
 	}
@@ -158,13 +126,10 @@ void	print_ast_the_fancy_way(t_node *root)
 		return;
 	proot = build_ascii_tree(root);
 	compute_edge_lengths(&printer, proot);
-	for (i = 0; i < proot->height && i < MAX_HEIGHT; i++) {
-		printer.lprofile[i] = INT_MAX;
-	}
-	compute_lprofile(&printer, proot, 0, 0);
+	set_proot_left_profile(&printer, proot);
 	xmin = 0;
 	for (i = 0; i < proot->height && i < MAX_HEIGHT; i++) {
-		xmin = uti_min(xmin, printer.lprofile[i]);
+		xmin = uti_min(xmin, printer.left_profile[i]);
 	}
 	printf("xmin = %d\n\n", xmin);
 	for (i = 0; i < proot->height; i++) {

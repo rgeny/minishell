@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:15:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:10:07 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 19:21:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define MAX_HEIGHT 1000
 
 typedef struct s_ast_printer {
-	int	lprofile[MAX_HEIGHT];
-	int	rprofile[MAX_HEIGHT];
+	int	left_profile[MAX_HEIGHT];
+	int	right_profile[MAX_HEIGHT];
 	int	print_next;
 }	t_ast_printer;
 
@@ -38,5 +38,8 @@ typedef struct s_asciinode {
 }	t_anode;
 
 t_anode *build_ascii_tree(t_node *t);
+void	set_left_profile(t_ast_printer *p, t_anode *anode, int x, int y);
+void	set_right_profile(t_ast_printer *p, t_anode *anode, int x, int y);
+void	set_proot_left_profile(t_ast_printer *p, t_anode *anode);
 
 #endif
