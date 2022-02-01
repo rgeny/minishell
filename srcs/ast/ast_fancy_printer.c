@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:50:55 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 21:39:49 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,26 @@ void	_set_xmin(t_ast_printer *printer, t_anode *proot)
 
 	i = 0;
 	printer->xmin = 0;
-	while (i < proot->height && i < MAX_HEIGHT)
+	while (i < proot->height && i < AST_MAX_HEIGHT)
 	{
 		printer->xmin = uti_min(printer->xmin, printer->left_profile[i]);
 		i++;
 	}
 	printer->xmin = -printer->xmin;
 }
+
+// void	_init_printer(t_ast_printer *p)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (i < AST_MAX_HEIGHT)
+// 	{
+// 		p->left_profile[i] = 0;
+// 		p->right_profile[i] = 0;
+// 		i++;
+// 	}
+// }
 
 void	print_ast_the_fancy_way(t_node *root)
 {
@@ -46,6 +59,7 @@ void	print_ast_the_fancy_way(t_node *root)
 
 	if (root == NULL)
 		return ;
+	// _init_printer(&printer);
 	proot = build_ascii_tree(root);
 	compute_edge_lengths(&printer, proot);
 	set_proot_left_profile(&printer, proot);
@@ -59,9 +73,9 @@ void	print_ast_the_fancy_way(t_node *root)
 		printf("\n");
 		i++;
 	}
-	if (proot->height >= MAX_HEIGHT)
+	if (proot->height >= AST_MAX_HEIGHT)
 	{
-		printf("(This tree is taller than %d, and may be drawn incorrectly.)\n", MAX_HEIGHT);
+		printf("(This tree is taller than %d, and may be drawn incorrectly.)\n", AST_MAX_HEIGHT);
 	}
 	free_ascii_tree(proot);
 }

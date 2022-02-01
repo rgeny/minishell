@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 18:28:23 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:24:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 21:19:10 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_left_profile(t_ast_printer *p, t_anode *anode, int x, int y)
 	if (anode->left != NULL)
 	{
 		i = 1;
-		while (i <= anode->edge_length && y + i < MAX_HEIGHT)
+		while (i <= anode->edge_length && y + i < AST_MAX_HEIGHT)
 		{
 			p->left_profile[y + i] = uti_min(p->left_profile[y + i], x - i);
 			i++;
@@ -52,7 +52,7 @@ void	set_right_profile(t_ast_printer *p, t_anode *anode, int x, int y)
 	if (anode->right != NULL)
 	{
 		i = 1;
-		while (i <= anode->edge_length && y + i < MAX_HEIGHT)
+		while (i <= anode->edge_length && y + i < AST_MAX_HEIGHT)
 		{
 			p->right_profile[y + i] = uti_max(p->right_profile[y + i], x + i);
 			i++;
@@ -71,7 +71,7 @@ void	set_proot_left_profile(t_ast_printer *p, t_anode *anode)
 	int	i;
 
 	i = 0;
-	while (i < anode->height && i < MAX_HEIGHT)
+	while (i < anode->height && i < AST_MAX_HEIGHT)
 	{
 		p->left_profile[i] = INT_MAX;
 		i++;

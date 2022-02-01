@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:15:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:46:05 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 21:01:32 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <limits.h>
 # include "mem.h"
 
-# define MAX_HEIGHT 1000
+# define AST_MAX_HEIGHT 1000
 
 typedef struct s_ast_printer {
-	int	left_profile[MAX_HEIGHT];
-	int	right_profile[MAX_HEIGHT];
+	int	left_profile[AST_MAX_HEIGHT];
+	int	right_profile[AST_MAX_HEIGHT];
 	int	print_next;
 	int	xmin;
 }	t_ast_printer;
