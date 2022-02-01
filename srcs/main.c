@@ -29,6 +29,7 @@ static void	_init(char *envp[], t_data *data)
 	data->ret = 0;
 	data->pwd = 0;
 	data->tokens = NULL;
+	data->ast_root = NULL;
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		data->pwd = str_dup(pwd->value);
