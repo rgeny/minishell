@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/29 12:43:13 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/01 14:57:04 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "print.h"
 #include "minishell_signal.h"
 #include "expander.h"
+#include "error.h"
 
 static void	_son(char **cmd, t_data *data)
 {
@@ -47,10 +48,10 @@ void	exe_out_process(char **cmd, t_data *data)
 	if (!pid)
 		_son(cmd, data);
 	signal_ignore();
-	waitpid(pid, &data->ret, 0);
-	signal_current(0);
-	if (WIFSIGNALED(data->ret))
-		data->ret = WTERMSIG(data->ret) + 128;
+	waitpid(pid, &g_last_return, 0);
+	signal_current();
+	if (WIFSIGNALED(g_last_return))
+		g_last_return = WTERMSIG(g_last_return) + 128;
 	else
-		data->ret = WEXITSTATUS(data->ret);
+		g_last_return = WEXITSTATUS(g_last_return);
 }

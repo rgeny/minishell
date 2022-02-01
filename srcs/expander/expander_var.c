@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 14:29:46 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/01 14:56:12 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "env.h"
 #include "str.h"
 #include "utils.h"
+#include "error.h"
 
 static char	*_find_var_value(char *cmd, t_data *data)
 {
@@ -23,7 +24,7 @@ static char	*_find_var_value(char *cmd, t_data *data)
 	char	*name;
 
 	if (cmd[0] == '?')
-		return (uti_itoa(data->ret));
+		return (uti_itoa(g_last_return));
 	name = str_ndup(cmd, str_len_alnum(cmd));
 	env = env_find(data->env, name);
 	str_free(name);

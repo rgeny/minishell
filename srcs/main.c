@@ -6,12 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 14:07:58 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/01 14:58:59 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <readline/history.h>
+#include "error.h"
 #include "env.h"
 #include "expander.h"
 #include "exe.h"
@@ -20,13 +21,15 @@
 #include "minishell_signal.h"
 #include "cleaner.h"
 
+
+int	g_last_return;
 static void	_init(char *envp[], t_data *data)
 {
 	t_env	*pwd;
 
+	g_last_return = 0;
 	data->env = 0;
 	env_init(&data->env, envp);
-	data->ret = 0;
 	data->pwd = 0;
 	data->tokens = NULL;
 	data->ast_root = NULL;
@@ -83,12 +86,11 @@ int	main(__attribute((unused)) int argc,
 //	getrlimit(RLIMIT_MEMLOCK, &l);
 //	l.rlim_cur = 1;
 //	setrlimit(RLIMIT_MEMLOCK, &l);
-
-	signal_current(&data);
+	signal_current();
 	_init(envp, &data);
 	_exe(&data);
 	if (data.interactive.is_interactive)
 		write(1, "exit\n", 5);
 	clean_all(&data);
-	return (data.ret);
+	return (g_last_return);
 }

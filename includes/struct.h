@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/30 18:02:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 14:47:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_data
 	t_env			*env;
 	t_token			*tokens;
 	t_node		*ast_root;
-	int				ret;
 	char			*pwd;
 	t_interactive	interactive;
 }					t_data;
