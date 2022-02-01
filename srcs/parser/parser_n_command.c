@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 15:52:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 18:47:06 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	_set_n_command(t_token **token, t_command *command)
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 		{
-			command->args[arg_count] = str_dup((*token)->content); // TO REMOVE with command->args
+		//	command->args[arg_count] = str_dup((*token)->content); // TO REMOVE with command->args
 			if (_set_arg(&command->cargs, *token))
 				return (MALLOC_ERROR_CODE);
 			arg_count++; // TO REMOVE with command->args
@@ -112,10 +112,10 @@ int	init_n_command(t_token **token, t_node **n_command, t_node *n_sep)
 	command = (*n_command)->command;
 	if (_get_size_and_check_syntax(token, command) == SYNTAX_ERROR_CODE)
 		return (SYNTAX_ERROR_CODE);
-	command->args = uti_calloc(command->arg_nb, sizeof(t_carg));
+	//command->args = uti_calloc(command->arg_nb, sizeof(t_carg));
 	command->cargs = NULL;
 	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
-	if (command->redirections == NULL || command->args == NULL)
+	if (command->redirections == NULL)// || command->args == NULL)
 		return (MALLOC_ERROR_CODE);
 	if (_set_n_command(token, command) == MALLOC_ERROR_CODE)
 		return (MALLOC_ERROR_CODE);

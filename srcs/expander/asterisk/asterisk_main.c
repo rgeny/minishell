@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/30 10:16:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 15:51:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,49 @@ static int	_cmp(char *word, char *dir)
 {
 	int	i;
 	int	j;
+	int	k;
+	int	b;
 
 	i = 0;
-	while ((dir[i] || word[i]) && (word[i] == dir[i] || word[i] == '*'))
+	k = 0;
+	b = 0;
+	while (word[i + k]
+		&& (word[i + k] == dir[i] || word[i + k] == '*'
+			|| (!b && (word[i + k] == '\'' || word[i + k] == '\"'))
+			|| word[i + k] == b))
 	{
-		if (word[i] == '*')
+		if (word[i + k] == '*' && !b)
 		{
-			while (word[i] == '*')
+			while (word[i + k] == '*')
 				word++;
-			while (word[i] != '*' && dir[i])
+			while (word[i + k] != '*' && dir[i])
 			{
 				j = 0;
-				while (word[i + j] && word[i + j] == dir[i + j])
+				while (word[i + j + k] && word[i + j + k] == dir[i + j])
 					j++;
-				if ((!word[i + j] && !dir[i + j]) || word[i + j] == '*')
+				if ((!word[i + j + k] && !dir[i + j]) || word[i + j + k] == '*')
 					i += j;
 				else
 					dir++;
 			}
 		}
-		if (word[i] && dir[i] && word[i] != '*')
-			i++;
+		if (word[i + k] && dir[i] && (word[i + k] != '*' || b))
+		{
+			if (!b && (word[i + k] == '\'' || word[i + k] == '\"'))
+			{
+				b = word[i + k];
+				k++;
+			}
+			else if (word[i + k] == b)
+			{
+				b = 0;
+				k++;
+			}
+			else
+				i++;
+		}
 	}
-	return (!word[i] && !dir[i]);
+	return (!word[i + k] && !dir[i]);
 }
 
 static char	*_expand(char *word, char **dir_list)
@@ -99,7 +119,7 @@ char	*expander_asterisk(char *rl)
 
 	dir_list = asterisk_dir_list(rl[0] == '.');
 	if (!dir_list)
-		return (0);
+		return (NULL);
 	ret = 0;
 	if (str_len(rl) == str_clen(rl, '='))
 		ret = _expand(rl, dir_list);
