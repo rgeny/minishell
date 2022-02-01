@@ -6,64 +6,87 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:30:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:41:18 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 20:08:06 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_print.h"
 
-void	print_level(t_ast_printer *printer, t_anode *node, int x, int level)
+void	_print_left_edge(t_ast_printer *p, t_anode *anode, int x, int level)
+{
+	int	i;
+
+	i = 0;
+	while (i < (x - p->print_next - (level)))
+	{
+		printf(" ");
+		i++;
+	}
+	p->print_next += i;
+	printf("/");
+	p->print_next++;
+}
+
+void	_print_right_edge(t_ast_printer *p, t_anode *anode, int x, int level)
+{
+	int	i;
+
+	i = 0;
+	while (i < (x - p->print_next + (level)))
+	{
+		printf(" ");
+		i++;
+	}
+	p->print_next += i;
+	printf("\\");
+	p->print_next++;
+}
+
+void	_print_label(t_ast_printer *p, t_anode *anode, int x)
 {
 	int	i;
 	int	isleft;
 
-	if (node == NULL)
-		return ;
-	isleft = (node->parent_dir == -1);
-	if (level < node->lab_height)
+	isleft = (anode->parent_dir == -1);
+	i = 0;
+	while (i < (x - p->print_next - ((anode->lab_width - isleft) / 2)))
 	{
-		for (i = 0; i < (x - printer->print_next - ((node->lab_width - isleft) / 2)); i++)
-		{
-			printf(" ");
-		}
-		printer->print_next += i;
-		if (node->line_nb < node->lab_height)
-		{
-			printf("%s", node->label[node->line_nb]);
-			printer->print_next += str_len(node->label[node->line_nb]);
-			node->line_nb++;
-		}
+		printf(" ");
+		i++;
 	}
-	else if (node->edge_length >= level + node->lab_height - 1)
+	p->print_next += i;
+	if (anode->line_nb < anode->lab_height)
 	{
-		if (node->left != NULL)
-		{
-			for (i = 0; i < (x - printer->print_next - (level)); i++)
-			{
-				printf(" ");
-			}
-			printer->print_next += i;
-			printf("/");
-			printer->print_next++;
-		}
-		if (node->right != NULL)
-		{
-			for (i = 0; i < (x - printer->print_next + (level)); i++)
-			{
-				printf(" ");
-			}
-			printer->print_next += i;
-			printf("\\");
-			printer->print_next++;
-		}
+		printf("%s", anode->label[anode->line_nb]);
+		p->print_next += str_len(anode->label[anode->line_nb]);
+		anode->line_nb++;
+	}
+}
+
+void	print_level(t_ast_printer *p, t_anode *anode, int x, int level)
+{
+	int	i;
+	int	isleft;
+
+	if (anode == NULL)
+		return ;
+	isleft = (anode->parent_dir == -1);
+	if (level < anode->lab_height)
+		_print_label(p, anode, x);
+	else if (anode->edge_length >= level + anode->lab_height - 1)
+	{
+		if (anode->left != NULL)
+			_print_left_edge(p, anode, x, level);
+		if (anode->right != NULL)
+			_print_right_edge(p, anode, x, level);
 	}
 	else
 	{
-		print_level(printer, node->left,
-			x - node->edge_length - 1,
-			level - node->edge_length - 1);
-		print_level(printer, node->right,
-			x + node->edge_length + 1,
-			level - node->edge_length - 1);
+		print_level(p, anode->left,
+			x - anode->edge_length - 1,
+			level - anode->edge_length - 1);
+		print_level(p, anode->right,
+			x + anode->edge_length + 1,
+			level - anode->edge_length - 1);
 	}
 }
