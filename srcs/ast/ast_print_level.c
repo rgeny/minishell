@@ -6,18 +6,18 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:30:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 20:08:06 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 21:59:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_print.h"
 
-void	_print_left_edge(t_ast_printer *p, t_anode *anode, int x, int level)
+static void	_print_left_edge(t_ast_printer *p, t_anode *anode, int x, int lvl)
 {
 	int	i;
 
 	i = 0;
-	while (i < (x - p->print_next - (level)))
+	while (i < (x - p->print_next - (lvl)))
 	{
 		printf(" ");
 		i++;
@@ -27,12 +27,12 @@ void	_print_left_edge(t_ast_printer *p, t_anode *anode, int x, int level)
 	p->print_next++;
 }
 
-void	_print_right_edge(t_ast_printer *p, t_anode *anode, int x, int level)
+static void	_print_right_edge(t_ast_printer *p, t_anode *anode, int x, int lvl)
 {
 	int	i;
 
 	i = 0;
-	while (i < (x - p->print_next + (level)))
+	while (i < (x - p->print_next + (lvl)))
 	{
 		printf(" ");
 		i++;
@@ -42,7 +42,7 @@ void	_print_right_edge(t_ast_printer *p, t_anode *anode, int x, int level)
 	p->print_next++;
 }
 
-void	_print_label(t_ast_printer *p, t_anode *anode, int x)
+static void	_print_label(t_ast_printer *p, t_anode *anode, int x)
 {
 	int	i;
 	int	isleft;
@@ -63,7 +63,7 @@ void	_print_label(t_ast_printer *p, t_anode *anode, int x)
 	}
 }
 
-void	print_level(t_ast_printer *p, t_anode *anode, int x, int level)
+void	print_level(t_ast_printer *p, t_anode *anode, int x, int lvl)
 {
 	int	i;
 	int	isleft;
@@ -71,22 +71,22 @@ void	print_level(t_ast_printer *p, t_anode *anode, int x, int level)
 	if (anode == NULL)
 		return ;
 	isleft = (anode->parent_dir == -1);
-	if (level < anode->lab_height)
+	if (lvl < anode->lab_height)
 		_print_label(p, anode, x);
-	else if (anode->edge_length >= level + anode->lab_height - 1)
+	else if (anode->edge_length >= lvl + anode->lab_height - 1)
 	{
 		if (anode->left != NULL)
-			_print_left_edge(p, anode, x, level);
+			_print_left_edge(p, anode, x, lvl);
 		if (anode->right != NULL)
-			_print_right_edge(p, anode, x, level);
+			_print_right_edge(p, anode, x, lvl);
 	}
 	else
 	{
 		print_level(p, anode->left,
 			x - anode->edge_length - 1,
-			level - anode->edge_length - 1);
+			lvl - anode->edge_length - 1);
 		print_level(p, anode->right,
 			x + anode->edge_length + 1,
-			level - anode->edge_length - 1);
+			lvl - anode->edge_length - 1);
 	}
 }
