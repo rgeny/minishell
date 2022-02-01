@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_print_layer.c                                  :+:      :+:    :+:   */
+/*   ast_print_level.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:30:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:31:27 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/01 19:41:18 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_print.h"
 
-void print_level(t_ast_printer *printer, t_anode *node, int x, int level) {
-	int i, isleft;
-	if (node == NULL) return;
+void	print_level(t_ast_printer *printer, t_anode *node, int x, int level)
+{
+	int	i;
+	int	isleft;
+
+	if (node == NULL)
+		return ;
 	isleft = (node->parent_dir == -1);
-	if (level < node->lab_height) {
-		for (i = 0; i < (x - printer->print_next - ((node->lab_width - isleft) / 2)); i++) {
+	if (level < node->lab_height)
+	{
+		for (i = 0; i < (x - printer->print_next - ((node->lab_width - isleft) / 2)); i++)
+		{
 			printf(" ");
 		}
 		printer->print_next += i;
@@ -27,29 +33,37 @@ void print_level(t_ast_printer *printer, t_anode *node, int x, int level) {
 			printer->print_next += str_len(node->label[node->line_nb]);
 			node->line_nb++;
 		}
-	} else if (node->edge_length >= level + node->lab_height - 1) {
-		if (node->left != NULL) {
-			for (i = 0; i < (x - printer->print_next - (level)); i++) {
+	}
+	else if (node->edge_length >= level + node->lab_height - 1)
+	{
+		if (node->left != NULL)
+		{
+			for (i = 0; i < (x - printer->print_next - (level)); i++)
+			{
 				printf(" ");
 			}
 			printer->print_next += i;
 			printf("/");
 			printer->print_next++;
 		}
-		if (node->right != NULL) {
-			for (i = 0; i < (x - printer->print_next + (level)); i++) {
+		if (node->right != NULL)
+		{
+			for (i = 0; i < (x - printer->print_next + (level)); i++)
+			{
 				printf(" ");
 			}
 			printer->print_next += i;
 			printf("\\");
 			printer->print_next++;
 		}
-	} else {
+	}
+	else
+	{
 		print_level(printer, node->left,
-					x - node->edge_length - 1,
-					level - node->edge_length - 1);
+			x - node->edge_length - 1,
+			level - node->edge_length - 1);
 		print_level(printer, node->right,
-					x + node->edge_length + 1,
-					level - node->edge_length - 1);
+			x + node->edge_length + 1,
+			level - node->edge_length - 1);
 	}
 }
