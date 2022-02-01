@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 17:32:04 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/01 15:58:14 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum e_iswhat
 	IS_NUM,
 }	t_iswhat;
 int		uti_min(int a, int b);
+int		uti_max(int a, int b);
 void	*uti_calloc(size_t count, size_t size);
 void	uti_bzero(void *s, size_t n);
 char	*uti_itoa(int n);
