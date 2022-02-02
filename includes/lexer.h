@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:48:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/02 13:56:10 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 14:19:21 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include "str.h"
 # include "utils.h"
 # include "struct.h"
+# include "print.h"
 
 # define OK 0
-# define SYNTAX_ERROR_CODE -1
-# define MALLOC_ERROR_CODE -2
+# define SYNTAX_ERROR_CODE	-1
+# define MALLOC_ERROR_CODE	-2
+# define QUOTE_ERROR_CODE	-3
 
 typedef enum e_mode {
 	E_MODE_WORD,
@@ -45,7 +47,7 @@ typedef struct s_token_constructor {
 	t_token		*cur_token;
 }	t_tok_constructor;
 
-t_token	*lexer_lex(const char *str);
+t_token	*lexer_lex(t_data *data, const char *str);
 int		lexer_create_operator_tok(
 			t_tok_constructor *c, t_token **tokens, int stri);
 int		lexer_terminate_token(t_tok_constructor *c, t_token **tokens, int stri);

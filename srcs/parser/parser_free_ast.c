@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:43:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 18:37:52 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 14:45:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ void	free_n_command(t_command *command)
 	free(command);
 }
 
-void	free_ast(t_node *root)
+void	free_ast(t_node **root)
 {
-	if (!root)
+	if (!*root)
 		return ;
-	if (root->left)
-		free_ast(root->left);
-	if (root->right)
-		free_ast(root->right);
-	if (root->command)
+	if ((*root)->left)
+		free_ast(&(*root)->left);
+	if ((*root)->right)
+		free_ast(&(*root)->right);
+	if ((*root)->command)
 	{
-		free_n_command(root->command);
-		root->command = NULL;
+		free_n_command((*root)->command);
+		(*root)->command = NULL;
 	}
-	free(root);
-	root = NULL;
+	free(*root);
+	*root = NULL;
 }

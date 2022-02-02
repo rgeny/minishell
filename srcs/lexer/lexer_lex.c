@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/02 13:56:35 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 14:29:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,24 @@ static int	_process_char(t_tok_constructor *c, t_token **tokens, int i)
 		return (lexer_update_token_mode(c, c->str[i]));
 }
 
-t_token	*lexer_lex(const char *str)
+void *_print_lexer_error(t_data *data, int error_code, t_token **tokens)
+{
+	char *msg;
+
+	if (error_code == QUOTE_ERROR_CODE)
+	{
+		msg = "Syntax error: Please close all your quotes\n";
+		print_error(msg, NULL, NULL, data);
+	}
+	else if (error_code == MALLOC_ERROR_CODE)
+	{
+		print_error("Error: Cannot allocate memory\n", NULL, NULL, data);
+	}
+	lexer_free_tokens(tokens);
+	return (NULL);
+} 
+
+t_token	*lexer_lex(t_data *data, const char *str)
 {
 	int					i;
 	int					len;
@@ -63,16 +80,20 @@ t_token	*lexer_lex(const char *str)
 	i = 0;
 	lexer_tok_constructor_new(&constructor, i);
 	if (constructor.cur_token == NULL)
-		return (lexer_free_tokens(&tokens));
+		return (_print_lexer_error(data, MALLOC_ERROR_CODE, &tokens));
 	while (str && str[i])
 	{
 		len = _process_char(&constructor, &tokens, i);
 		if (len == MALLOC_ERROR_CODE)
-			return (lexer_free_tokens(&tokens));
+			return (_print_lexer_error(data, MALLOC_ERROR_CODE, &tokens));
 		i += len;
 	}
 	if (constructor.cur_token)
+	{
+		if (constructor.mode != E_MODE_WORD)
+			return (_print_lexer_error(data, QUOTE_ERROR_CODE, &tokens));
 		lexer_terminate_token(&constructor, &tokens, i);
+	}
 	lexer_tok_constructor_free(&constructor);
 	return (tokens);
 }

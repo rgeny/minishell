@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 17:28:40 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 14:15:53 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int print_parser_error(t_data *data, int error_code, t_token *token)
 	}
 	else if (error_code == MALLOC_ERROR_CODE)
 	{
-		print_error("Cannot allocate memory\n", NULL, NULL, data);
+		print_error("Error: Cannot allocate memory\n", NULL, NULL, data);
 	}
 	return (error_code);
 } 
