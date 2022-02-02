@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 14:24:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:41:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,43 +58,101 @@ static void	_join_and_split_cmd(t_command *cmd)
 	int		len;
 	char	**ret;
 	int		i;
+	int		j;
+	int		k;
+	int		b;
+	char	*t1;
+	char	*t2;
 
 	tmp = cmd->cargs;
 	len = 0;
-	while (tmp)
+	while (tmp) //count arg
 	{
+		i = 0;
+		b = 0;
+		while (tmp->content[i])
+		{
+			if (!b && (tmp->content[i] == '\'' || tmp->content[i] == '\"'))
+				b = tmp->content[i];
+			else if (b && tmp->content[i] == b)
+				b = 0;
+			else if (!b && tmp->content[i] == ' ')
+			{
+				while (tmp->content[i + 1] == ' ')
+					i++;
+				if (tmp->content[i + 1])
+					len++;
+			}
+			i++;
+		}
+		if (tmp->content[0] || tmp->next)
+			len++;
 		tmp = tmp->next;
-		len++;
 	}
 	str_free_list(cmd->args);
 	ret = malloc(sizeof(char *) * (len + 1));
-	ret[len] = 0;
+	ret[len] = NULL;
 	tmp = cmd->cargs;
 	i = 0;
-	while (i < len)
+//	printf("len : %d\n", len);
+	while (tmp && i < len) //split
 	{
-		ret[i] = str_dup(tmp->content);
+		j = 0;
+		k = 0;
+		b = 0;
+		while (tmp->content[j] && i < len)
+		{
+			if (!b && (tmp->content[j] == '\'' || tmp->content[j] == '\"'))
+				b = tmp->content[j];
+			else if (b && tmp->content[j] == b)
+				b = 0;
+			else if (!b && tmp->content[j] == ' ')
+			{
+				ret[i] = str_ndup(&tmp->content[k], j - k);
+				i++;
+				while (tmp->content[j + 1] == ' ')
+					j++;
+				k = j + 1;
+			}
+			j++;
+		}
+		ret[i] = str_ndup(&tmp->content[k], j - k);
 		i++;
 		tmp = tmp->next;
 	}
 	cmd->args = ret;
-/*	int		i;
-	char	*join;
-	char	*tmp;
-	char	**split;
 
-	join = NULL;
 	i = 0;
-	while (cmd[0][i])
+	while (i < len) //delete quote
 	{
-		tmp = str_join(join, cmd[0][i], ' ');
-		str_free(join);
-		join = tmp;
+		j = 0;
+		b = 0;
+		while (cmd->args[i][j])
+		{
+			if (!b && (cmd->args[i][j] == '\'' || cmd->args[i][j] == '\"'))
+			{
+				b = cmd->args[i][j];
+				t1 = str_ndup(cmd->args[i], j);
+				t2 = str_join(t1, &cmd->args[i][j + 1], 0);
+				str_free(t1);
+				str_free(cmd->args[i]);
+				cmd->args[i] = t2;
+			}
+			else if (b && cmd->args[i][j] == b)
+			{
+				b = 0;
+				t1 = str_ndup(cmd->args[i], j);
+				t2 = str_join(t1, &cmd->args[i][j + 1], 0);
+				str_free(t1);
+				str_free(cmd->args[i]);
+				cmd->args[i] = t2;
+			}
+			else
+				j++;
+		}
 		i++;
 	}
-	split = str_split(join, " ");
-	str_free_list(cmd[0]);
-	cmd[0] = split;*/
+	ret[len] = NULL;
 }
 
 void	expander_main(t_data *data, t_node *ast)

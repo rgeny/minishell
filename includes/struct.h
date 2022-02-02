@@ -6,13 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/30 18:02:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 11:04:09 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
-
+# include <sys/types.h>
 // LEXER STRUCTS
 typedef enum e_token_type {
 	E_TOKEN_TYPE_WORD,
@@ -51,6 +51,7 @@ typedef struct s_command {
 	char	**args; // NULL terminated // TO DEL
 	t_carg	*cargs;
 	t_redir	*redirections;
+	pid_t	pid;
 	int		redir_nb;
 	int		arg_nb;
 	int		fd_in;
@@ -91,7 +92,6 @@ typedef struct s_data
 	t_env			*env;
 	t_token			*tokens;
 	t_node		*ast_root;
-	int				ret;
 	char			*pwd;
 	t_interactive	interactive;
 }					t_data;

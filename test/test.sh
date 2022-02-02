@@ -285,8 +285,8 @@ then
     test_ret_stdout "export _ABC=17"
     test_ret_stdout "export _A0=17"
     test_ret_stdout "export _0A"
-	test_ret_stdout "export var=\"abc \"\nenv | grep var"
-	test_ret_stdout "export var=\" abc\"\nenv | grep var"
+	test_env "export var=\"abc \"\nenv | grep var"
+	test_env "export var=\" abc\"\nenv | grep var"
 
     CMD="env -i"
     test_env "export"
@@ -305,8 +305,6 @@ then
     test_ret_stdout "export _ABC=17"
     test_ret_stdout "export _A0=17"
     test_ret_stdout "export _0A"
-	test_env "export var=\"abc \"\nenv | grep var"
-	test_env "export var=\" abc\"\nenv | grep var"
     echo
     unset CMD
 fi
@@ -466,7 +464,6 @@ then
 #	INDEX=0
 	printf "***** TEST PARSING *****"
 	test_ret_stdout "\"\""
-	test_ret_stdout "echo \"12\"\""
 	test_ret_stdout ".."
 	test_ret_stdout "\"\"abc\"\""
 	test_ret_stdout "\"\'abc\'\""

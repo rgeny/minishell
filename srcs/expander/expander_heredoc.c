@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/28 10:24:04 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/01 14:56:26 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	_ret_son(int *fd_in, int status, char *delimiter, t_data *data)
 		status = WTERMSIG(status);
 		if (status == SIGINT)
 		{
-			data->ret = status + SIGNAL_ERROR;
+			g_last_return = status + SIGNAL_ERROR;
 			close(*fd_in);
 			*fd_in = -1;
 		}
@@ -72,7 +72,7 @@ int	expander_heredoc(char *delimiter, t_data *data)
 		_son(pipefd, delimiter);
 	signal_ignore();
 	waitpid(pid, &status, 0);
-	signal_current(0);
+	signal_current();
 	_ret_son(&pipefd[0], status, delimiter, data);
 	close(pipefd[1]);
 	return (pipefd[0]);

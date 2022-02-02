@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:34:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 11:14:00 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:53:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ERROR_H
 # define SUCCESS 0
 
+extern int	g_last_return;
 typedef enum e_signal
 {
 	SIGNAL_EOF=11,

@@ -6,12 +6,14 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 22:10:34 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 14:41:13 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/02 13:52:46 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <readline/history.h>
+#include "error.h"
 #include "env.h"
 #include "expander.h"
 #include "exe.h"
@@ -20,13 +22,15 @@
 #include "minishell_signal.h"
 #include "cleaner.h"
 
+
+int	g_last_return;
 static void	_init(char *envp[], t_data *data)
 {
 	t_env	*pwd;
 
+	g_last_return = 0;
 	data->env = 0;
 	env_init(&data->env, envp);
-	data->ret = 0;
 	data->pwd = 0;
 	data->tokens = NULL;
 	data->ast_root = NULL;
@@ -38,6 +42,16 @@ static void	_init(char *envp[], t_data *data)
 		data->interactive.is_interactive = 0;
 	else
 		data->interactive.is_interactive = 1;
+}
+
+static void	_t1(t_carg *args)
+{
+	while (args)
+	{
+		printf("%s\n", args->content);
+		args = args->next;
+	}
+	printf("\n\n");
 }
 
 static void	_exe(t_data *data)
@@ -53,6 +67,7 @@ static void	_exe(t_data *data)
 		data->tokens = lexer_lex(rl);
 		if (data->tokens && parse_tokens(data, data->tokens) == 0)
 		{
+//			_t1(data->ast_root->command->cargs);
 			// lexer_print_tokens(data->tokens); 
 			print_ast_the_fancy_way(data->ast_root);
 			expander_main(data, data->ast_root);
@@ -61,6 +76,8 @@ static void	_exe(t_data *data)
 			exe_main(data->ast_root, data);
 			dup2(in, 0);
 			dup2(out, 1);
+			close(in);
+			close(out);
 		}
 		str_free(rl);
 		lexer_free_tokens(&data->tokens);
@@ -83,12 +100,11 @@ int	main(__attribute((unused)) int argc,
 //	getrlimit(RLIMIT_MEMLOCK, &l);
 //	l.rlim_cur = 1;
 //	setrlimit(RLIMIT_MEMLOCK, &l);
-
-	signal_current(&data);
+	signal_current();
 	_init(envp, &data);
 	_exe(&data);
 	if (data.interactive.is_interactive)
 		write(1, "exit\n", 5);
 	clean_all(&data);
-	return (data.ret);
+	return (g_last_return);
 }

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 11:47:57 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:57:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <dirent.h>
 #include "str.h"
 #include "env.h"
+#include "error.h"
 
 static int	_cmp(char *s1, char *s2)
 {
@@ -37,7 +38,7 @@ static void	_curse_error(t_data *data)
 {
 	if (data->interactive.is_interactive)
 	{
-		if (!data->ret)
+		if (!g_last_return)
 			write(1, "\033[32m\033[01m> ", 12);
 		else
 			write(1, "\033[31m\033[01m> ", 12);

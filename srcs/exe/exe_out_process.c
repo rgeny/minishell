@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/29 12:43:13 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/02 14:27:31 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "print.h"
 #include "minishell_signal.h"
 #include "expander.h"
+#include "error.h"
 
 static void	_son(char **cmd, t_data *data)
 {
@@ -39,18 +40,16 @@ static void	_son(char **cmd, t_data *data)
 	exit(127);
 }
 
-void	exe_out_process(char **cmd, t_data *data)
+void	exe_out_process(t_command *cmd, t_data *data)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (!pid)
-		_son(cmd, data);
+	cmd->pid = fork();
+	if (!cmd->pid)
+		_son(cmd->args, data);
 	signal_ignore();
-	waitpid(pid, &data->ret, 0);
-	signal_current(0);
-	if (WIFSIGNALED(data->ret))
-		data->ret = WTERMSIG(data->ret) + 128;
-	else
-		data->ret = WEXITSTATUS(data->ret);
+//	waitpid(cmd->pid, &g_last_return, 0);
+//	signal_current();
+//	if (WIFSIGNALED(g_last_return))
+//		g_last_return = WTERMSIG(g_last_return) + 128;
+//	else
+//		g_last_return = WEXITSTATUS(g_last_return);
 }
