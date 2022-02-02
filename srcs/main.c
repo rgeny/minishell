@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 18:59:25 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/02 13:52:46 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	_exe(t_data *data)
 		data->tokens = lexer_lex(rl);
 		if (data->tokens && parse_tokens(data, data->tokens) == 0)
 		{
-			_t1(data->ast_root->command->cargs);
+//			_t1(data->ast_root->command->cargs);
 			// lexer_print_tokens(data->tokens); 
 			// print_ast(data->ast_root, 0);
 			expander_main(data, data->ast_root);
@@ -75,6 +75,8 @@ static void	_exe(t_data *data)
 			exe_main(data->ast_root, data);
 			dup2(in, 0);
 			dup2(out, 1);
+			close(in);
+			close(out);
 		}
 		str_free(rl);
 		lexer_free_tokens(&data->tokens);
