@@ -6,14 +6,14 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 10:11:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/07 23:23:07 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/02 13:55:11 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "str.h"
 
-void	lexer_free_tokens(t_token **tokens)
+void	*lexer_free_tokens(t_token **tokens)
 {
 	t_token	*next_token;
 	t_token	*cur_token;
@@ -28,4 +28,5 @@ void	lexer_free_tokens(t_token **tokens)
 		cur_token = next_token;
 	}
 	*tokens = NULL;
+	return (NULL);
 }

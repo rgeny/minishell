@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:48:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/15 13:02:17 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 13:56:10 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include "str.h"
 # include "utils.h"
 # include "struct.h"
+
+# define OK 0
+# define SYNTAX_ERROR_CODE -1
+# define MALLOC_ERROR_CODE -2
 
 typedef enum e_mode {
 	E_MODE_WORD,
@@ -42,14 +46,15 @@ typedef struct s_token_constructor {
 }	t_tok_constructor;
 
 t_token	*lexer_lex(const char *str);
-int		lexer_create_operator_token(t_tok_constructor *constructor, t_token **tokens, int stri);
-int		lexer_terminate_token(t_tok_constructor *constructor, t_token **tokens, int stri);
+int		lexer_create_operator_tok(
+			t_tok_constructor *c, t_token **tokens, int stri);
+int		lexer_terminate_token(t_tok_constructor *c, t_token **tokens, int stri);
 int		lexer_update_token_mode(t_tok_constructor *constructor, char c);
 int		lexer_print_tokens(t_token *token);
-void	lexer_tok_constructor_new(t_tok_constructor *constructor, int start_idx);
-void	lexer_tok_constructor_init(t_tok_constructor *constructor, const char *str);
+void	lexer_tok_constructor_new(t_tok_constructor *c, int start_idx);
+void	lexer_tok_constructor_init(t_tok_constructor *c, const char *str);
 int		lexer_get_chartype(char c);
 void	lexer_tok_constructor_free(t_tok_constructor *constructor);
-void	lexer_free_tokens(t_token **tokens);
+void	*lexer_free_tokens(t_token **tokens);
 
 #endif

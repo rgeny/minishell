@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 11:15:40 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/02 13:43:23 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "print.h"
 
 # define OK 0
-# define SYNTAX_ERROR_CODE 1
-# define MALLOC_ERROR_CODE 2
+# define SYNTAX_ERROR_CODE -1
+# define MALLOC_ERROR_CODE -2
 
 int		parse_tokens(t_data *data, t_token *tokens);
 
@@ -39,7 +39,7 @@ int		print_unspec_msg(char *token);
 void	print_node(t_node *n);
 void	print_ast(t_node *node, int depth);
 int		print_syntax_error(t_data *data, t_token *token);
-int 	print_parser_error(t_data *data, int error_code, t_token *token);
+int		print_parser_error(t_data *data, int error_code, t_token *token);
 
 void	free_ast(t_node *root);
 void	print_ast_the_fancy_way(t_node *root);
