@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 14:45:27 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:50:09 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,12 @@ static int	_error(char **cmd, t_data *data)
 
 	len = str_llen(cmd);
 	if (len == 1 && !env_find(data->env, "HOME"))
-	{
-		print_error("cd: ", "HOME not set\n", 0, data);
-		return (BUILTIN_ERR_EXEC);
-	}
+		return (print_error("cd: ", "HOME not set\n", 0, BUILTIN_ERR_EXEC));
 	else if (len > 2)
-	{
-		print_error("cd: ", "too many arguments\n", 0, data);
-		return (BUILTIN_ERR_EXEC);
-	}
+		return (print_error("cd: ", "too many arguments\n", 0, BUILTIN_ERR_EXEC));
 	else if (len > 1 && cmd[1][0] == '-'
 		&& !cmd[1][1] && !env_find(data->env, "OLDPWD"))
-	{
-		print_error("cd: ", "OLDPWD not set\n", 0, data);
-		return (BUILTIN_ERR_EXEC);
-	}
+		return (print_error("cd: ", "OLDPWD not set\n", 0, BUILTIN_ERR_EXEC));
 	return (SUCCESS);
 }
 
@@ -123,6 +114,5 @@ int	builtin_cd(char **cmd, t_data *data)
 		return (SUCCESS);
 	if (_env(data, "CDPATH", 2, cmd[1]))
 		return (SUCCESS);
-	print_error("cd: ", cmd[1], ": No such file or directory\n", data);
-	return (BUILTIN_ERR_EXEC);
+	return (print_error("cd: ", cmd[1], ": No such file or directory\n", BUILTIN_ERR_EXEC));
 }

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 08:52:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/29 19:08:43 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:45:38 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ static int	_last_heredoc(t_redir *redir, int size)
 
 static void	_open(int *fd, char *path, int flag, mode_t mode)
 {
-	int	b;
-
-	b = 0;
 	if (*fd > 1)
 		close(*fd);
 	if (!mode)
-		b = access(path, F_OK);
+		access(path, F_OK);
 	*fd = open(path, flag, mode);
 }
 

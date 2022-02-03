@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/15 13:05:54 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 12:50:42 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	_check_first(char **cmd, t_data *data)
 		|| (cmd[1][1] && uti_isdigit(&cmd[1][1])))
 	{
 		print_error("exit: ", cmd[1],
-			": numbered argument is necessary\n", data);
+			": numbered argument is necessary\n", 0);
 		_ft_exit(cmd, data, 2);
 	}
 	return ((unsigned char)ret);
@@ -52,6 +52,5 @@ int	builtin_exit(char **cmd, t_data *data)
 		ret = _check_first(cmd, data);
 	if (len < 3)
 		_ft_exit(cmd, data, ret);
-	print_error("exit: ", "too many arguments\n", 0, data);
-	return (BUILTIN_ERR_EXEC);
+	return (print_error("exit: ", "too many arguments\n", 0, BUILTIN_ERR_EXEC));
 }

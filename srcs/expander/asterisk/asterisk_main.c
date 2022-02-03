@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/01 15:51:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:42:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static char	*_expand(char *word, char **dir_list)
 	}
 	return (new_word);
 }
-
+/*
 static char	*_join(char **split)
 {
 	int		i;
@@ -110,7 +110,7 @@ static char	*_join(char **split)
 		i++;
 	}
 	return (ret);
-}
+}*/
 
 char	*expander_asterisk(char *rl)
 {

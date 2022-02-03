@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.h                                            :+:      :+:    :+:   */
+/*   interactive.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 21:18:20 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 12:36:18 by buschiix         ###   ########.fr       */
+/*   Created: 2022/02/03 12:10:22 by buschiix          #+#    #+#             */
+/*   Updated: 2022/02/03 12:26:37 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_H
-# define PRINT_H
-# include "struct.h"
+#ifndef INTERACTIVE_H
+# define INTERACTIVE_H
+# include "file_descriptor.h"
 
-int		print_error(char *cmd, char *message1, char *message2, int return_value);
-void	print_fd(const char *s, int fd);
+typedef enum e_cmd_interactive
+{
+	INTERACTIVE_INIT,
+	INTERACTIVE_INCR,
+	INTERACTIVE_RETURN_IS_IT,
+	INTERACTIVE_RETURN_LINE,
+	INTERACTIVE_MOVE_STDERR
+}	t_cmd_interactive;
+
+typedef struct s_interactive
+{
+	unsigned long	line;
+	int				is_interactive;
+}					t_interactive;
 #endif

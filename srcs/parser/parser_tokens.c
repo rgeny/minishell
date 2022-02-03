@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 17:41:50 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 12:48:21 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ int	parse_tokens(t_data *data, t_token *tokens)
 	n_separator = NULL;
 	ret = init_n_command(&current_token, &n_command, n_separator);
 	if (ret)
-		return (print_parser_error(data, ret, current_token));
+		return (print_parser_error(ret, current_token));
 	while (current_token)
 	{
 		ret = init_n_separator(&n_separator, n_command);
 		if (ret)
-			return (print_parser_error(data, ret, current_token));
+			return (print_parser_error(ret, current_token));
 		if (!current_token->next)
-			return (print_parser_error(data, 1, current_token));
+			return (print_parser_error(1, current_token));
 		current_token = current_token->next;
 		ret = init_n_command(&current_token, &n_command, n_separator);
 		if (ret)
-			return (print_parser_error(data, ret, current_token));
+			return (print_parser_error(ret, current_token));
 	}
 	_set_root(data, n_command, n_separator);
 	return (OK);

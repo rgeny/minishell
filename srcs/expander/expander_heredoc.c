@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/01 14:56:26 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:41:29 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	_son(int pipefd[2], char *delimiter)
 	exit(0);
 }
 
-static void	_ret_son(int *fd_in, int status, char *delimiter, t_data *data)
+static void	_ret_son(int *fd_in, int status, char *delimiter)
 {
 	if (WIFSIGNALED(status))
 	{
@@ -55,12 +55,12 @@ static void	_ret_son(int *fd_in, int status, char *delimiter, t_data *data)
 		else if (status == SIGNAL_EOF)
 			print_error("heredoc: ",
 				"delimited by the signal EOF instead of word: ",
-				delimiter, data);
+				delimiter, 0);
 		write(1, "\n", 1);
 	}
 }
 
-int	expander_heredoc(char *delimiter, t_data *data)
+int	expander_heredoc(char *delimiter)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -73,7 +73,7 @@ int	expander_heredoc(char *delimiter, t_data *data)
 	signal_ignore();
 	waitpid(pid, &status, 0);
 	signal_current();
-	_ret_son(&pipefd[0], status, delimiter, data);
+	_ret_son(&pipefd[0], status, delimiter);
 	close(pipefd[1]);
 	return (pipefd[0]);
 }
