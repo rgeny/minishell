@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/29 17:34:23 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:31:04 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 #include "utils.h"
 #include "struct.h"
 
-void	print_error(char *cmd, char *message1, char *message2, t_data *data)
+int	print_error(char *cmd, char *message1, char *message2, int return_value)
 {
 	char	*line;
 
 	write(2, "minishell: ", 11);
-	if (!data->interactive.is_interactive)
+	if (!uti_interactive(INTERACTIVE_RETURN_IS_IT))
 	{
 		write(2, "line ", 5);
-		line = uti_itoa(data->interactive.line);
+		line = uti_itoa(uti_interactive(INTERACTIVE_RETURN_LINE));
 		write(2, line, str_len(line));
 		write(2, ": ", 2);
 		str_free(line);
@@ -34,4 +34,5 @@ void	print_error(char *cmd, char *message1, char *message2, t_data *data)
 		write(2, message1, str_len(message1));
 	if (message2)
 		write(2, message2, str_len(message2));
+	return (return_value);
 }

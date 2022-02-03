@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:30:25 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 17:28:40 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 12:47:28 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	print_ast(t_node *node, int depth)
 		print_ast(node->right, depth++);
 }
 
-int	print_syntax_error(t_data *data, t_token *token)
+int	print_syntax_error(t_token *token)
 {
 	char	*msg;
 	char	*token_content;
@@ -83,19 +83,18 @@ int	print_syntax_error(t_data *data, t_token *token)
 		token_content = token->content;
 	else
 		token_content = "newline";
-	print_error(msg, token_content, "'\n", data);
-	return (1);
+	return (print_error(msg, token_content, "'\n", 1));
 }
 
-int print_parser_error(t_data *data, int error_code, t_token *token)
+int print_parser_error(int error_code, t_token *token)
 {
 	if (error_code == SYNTAX_ERROR_CODE)
 	{
-		print_syntax_error(data, token);
+		print_syntax_error(token);
 	}
 	else if (error_code == MALLOC_ERROR_CODE)
 	{
-		print_error("Cannot allocate memory\n", NULL, NULL, data);
+		print_error("Cannot allocate memory\n", NULL, NULL, error_code);
 	}
 	return (error_code);
 } 

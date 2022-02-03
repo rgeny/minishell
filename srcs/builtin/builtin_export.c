@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 17:03:50 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:50:54 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	builtin_export(char **cmd, t_data *data)
 			{
 				ret = BUILTIN_ERR_EXEC;
 				print_error("export: ", cmd[i],
-					": not a valid identifier\n", data);
+					": not a valid identifier\n", 0);
 			}
 			i++;
 		}

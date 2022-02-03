@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/02 11:04:09 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:27:11 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,11 @@ typedef struct s_env
 	char			*value;
 }					t_env;
 
-typedef struct s_interactive
-{
-	unsigned long	line;
-	int				is_interactive;
-}					t_interactive;
-
 typedef struct s_data
 {
 	t_env			*env;
 	t_token			*tokens;
 	t_node		*ast_root;
 	char			*pwd;
-	t_interactive	interactive;
 }					t_data;
-
 #endif

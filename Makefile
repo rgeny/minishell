@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/01/30 18:35:18 by tokino           ###   ########.fr        #
+#    Updated: 2022/02/03 12:36:56 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,13 @@ BOLD_CYAN		= "\033[01m\033[36m"
 CC				= cc
 
 # ******************************** COMPIL FLAG ******************************* #
-COMPILF			= $(DEPF) -g #-Wall -Werror -Wextra
+COMPILF			= $(DEPF) -g -Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 
 # ********************************** OBJ FLAG ******************************** #
 OBJF			= $(INCLUDESF) $(PROMPTF)
-INCLUDESF		= -I$(INCLUDES_DIR)
+INCLUDESF		= -I$(INCLUDES_DIR) -I$(TYPEDEF_DIR) -I$(DEFINE_DIR)
 PROMPTF			= -D PROMPT=$(VPROMPT)
 VPROMPT			= \"$(BOLD_CYAN)$(shell whoami)$(DEFAULT):$(BOLD_BLUE)\"
 
@@ -52,6 +52,10 @@ NEW_DIR			= mkdir -p
 # **************************************************************************** #
 
 # ********************************* Directory ******************************** #
+OBJ_DIR			= objs
+INCLUDES_DIR	= includes/
+TYPEDEF_DIR		= typedef/
+DEFINE_DIR		= define/
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
 LEXER_DIR		= $(SRC_DIR)lexer/
@@ -68,8 +72,6 @@ PRINT_DIR		= $(SRC_DIR)print/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
 LST_DIR			= $(SRC_DIR)lst/
-OBJ_DIR			= objs
-INCLUDES_DIR	= includes/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
 VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR)
@@ -79,7 +81,7 @@ VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_D
 
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
-					$(addprefix utils_,		bzero calloc min itoa ato quicksort is) \
+					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive) \
 					$(addprefix mem_,		cpy set) \
 					$(addprefix expander_,	var path heredoc main) \
 					$(addprefix asterisk_,	main dir_list) \

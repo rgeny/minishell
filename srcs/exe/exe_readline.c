@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 14:57:23 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:44:52 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "str.h"
 #include "env.h"
 #include "error.h"
+#include "utils.h"
 
 static int	_cmp(char *s1, char *s2)
 {
@@ -34,9 +35,9 @@ static int	_cmp(char *s1, char *s2)
 	return (0);
 }
 
-static void	_curse_error(t_data *data)
+static void	_cursor_error(void)
 {
-	if (data->interactive.is_interactive)
+	if (uti_interactive(INTERACTIVE_RETURN_IS_IT))//data->interactive.is_interactive)
 	{
 		if (!g_last_return)
 			write(1, "\033[32m\033[01m> ", 12);
@@ -70,45 +71,23 @@ static char	*_prompt(t_data *data)
 	return (prompt);
 }
 
-static void	_non_interactive(t_interactive *interactive)
-{
-	static int	fdnull = -1;
-	static int	fderr = -1;
-
-	if (!interactive->is_interactive)
-	{
-		if (fderr < 0)
-		{
-			fdnull = open("/dev/null", O_WRONLY);
-			fderr = dup(2);
-			dup2(fdnull, 2);
-			close(fdnull);
-			interactive->line++;
-		}
-		else
-		{
-			dup2(fderr, 2);
-			close(fderr);
-			fderr = -1;
-		}
-	}
-}
-
 char	*exe_readline(t_data *data)
 {
 	char	*prompt;
 	char	*ret;
 	int		fdout;
 
-	_curse_error(data);
+	_cursor_error();
 	prompt = _prompt(data);
 	fdout = dup(1);
-	_non_interactive(&data->interactive);
+//	_non_interactive(&data->interactive);
+	uti_interactive(INTERACTIVE_MOVE_STDERR);
 	dup2(2, 1);
 	ret = readline(prompt);
 	dup2(fdout, 1);
 	close(fdout);
-	_non_interactive(&data->interactive);
+	uti_interactive(INTERACTIVE_MOVE_STDERR);
+	//_non_interactive(&data->interactive);
 	str_free(prompt);
 	return (ret);
 }

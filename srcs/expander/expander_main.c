@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 18:41:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 12:42:36 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "expander.h"
 #include "str.h"
 
-static void	_heredoc(t_data *data, t_command *cmd)
+static void	_heredoc(t_command *cmd)
 {
 	int	i = 0;
 	int	fd;
@@ -27,7 +27,7 @@ static void	_heredoc(t_data *data, t_command *cmd)
 	{
 		if (cmd->redirections[i].type == E_REDIR_TYPE_HEREDOC)
 		{
-			fd = expander_heredoc(cmd->redirections[i].path, data);
+			fd = expander_heredoc(cmd->redirections[i].path);
 			if (cmd->fd_in)
 				close(cmd->fd_in);
 			cmd->fd_in = fd;
@@ -162,7 +162,7 @@ void	expander_main(t_data *data, t_node *ast)
 
 	if (ast->command)
 	{
-		_heredoc(data, ast->command);
+		_heredoc(ast->command);
 		expander_var(ast->command->cargs, data);
 		_asterisk_cmd(ast->command->cargs);
 		_join_and_split_cmd(ast->command);

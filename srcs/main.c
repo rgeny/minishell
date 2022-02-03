@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/02 13:52:46 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:37:12 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "parser.h"
 #include "minishell_signal.h"
 #include "cleaner.h"
-
+#include "utils.h"
 
 int	g_last_return;
 static void	_init(char *envp[], t_data *data)
@@ -36,13 +36,14 @@ static void	_init(char *envp[], t_data *data)
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		data->pwd = str_dup(pwd->value);
-	data->interactive.line = 0;
+/*	data->interactive.line = 0;
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 		data->interactive.is_interactive = 0;
 	else
-		data->interactive.is_interactive = 1;
+		data->interactive.is_interactive = 1;*/
+	uti_interactive(INTERACTIVE_INIT);
 }
-
+/*
 static void	_t1(t_carg *args)
 {
 	while (args)
@@ -51,7 +52,7 @@ static void	_t1(t_carg *args)
 		args = args->next;
 	}
 	printf("\n\n");
-}
+}*/
 
 static void	_exe(t_data *data)
 {
@@ -102,7 +103,7 @@ int	main(__attribute((unused)) int argc,
 	signal_current();
 	_init(envp, &data);
 	_exe(&data);
-	if (data.interactive.is_interactive)
+	if (uti_interactive(INTERACTIVE_RETURN_IS_IT))
 		write(1, "exit\n", 5);
 	clean_all(&data);
 	return (g_last_return);

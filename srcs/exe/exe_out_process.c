@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/02 14:27:31 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:36:41 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	_son(char **cmd, t_data *data)
 	str_free(data->pwd);
 	path = expander_path(cmd[0], data->env);
 	execve(path, cmd, env_cpy);
-	print_error(cmd[0], ": command not found\n", 0, data);
+	print_error(cmd[0], ": command not found\n", 0, 0);
 	str_free_list(cmd);
 	str_free_list(env_cpy);
 	str_free(path);

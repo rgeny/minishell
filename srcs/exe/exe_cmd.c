@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/02 14:14:26 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:45:47 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 void	exe_cmd(t_node *cmd, t_data *data)
 {
-	int	fd_in;
-	int	fd_out;
-
 	exe_redir(cmd->command);
 	if (cmd->command->arg_nb && cmd->command->args[0])
 	{
