@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 13:35:00 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 17:55:48 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_command {
 	int		arg_nb;
 	int		fd_in;
 	int		fd_out;
+	int		fd_tmp;
 }	t_command;
 
 typedef enum s_node_type {

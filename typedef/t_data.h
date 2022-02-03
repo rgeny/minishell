@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:27:04 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 13:34:18 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 22:16:55 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 typedef struct s_data
 {
+	int				pipefd[2];
+	int				fd_in;
 	t_env			*env;
 	t_token			*tokens;
 	t_node		*ast_root;

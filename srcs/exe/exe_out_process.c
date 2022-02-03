@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:36:41 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 22:54:37 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,22 @@ void	exe_out_process(t_command *cmd, t_data *data)
 {
 	cmd->pid = fork();
 	if (!cmd->pid)
+	{
+//		if (cmd->fd_in != 0)
+//		{
+//			dup2(cmd->fd_in, 0);
+//			close(cmd->fd_in);
+//			close(cmd->fd_tmp);
+//		}
+//		if (cmd->fd_out != 1)
+//		{
+//			dup2(cmd->fd_out, 1);
+//			close(cmd->fd_out);
+//			close(cmd->fd_tmp);
+//		}
+		if (data->pipefd[0] != 0)
+			close(data->pipefd[0]);
 		_son(cmd->args, data);
+	}
 	signal_ignore();
-//	waitpid(cmd->pid, &g_last_return, 0);
-//	signal_current();
-//	if (WIFSIGNALED(g_last_return))
-//		g_last_return = WTERMSIG(g_last_return) + 128;
-//	else
-//		g_last_return = WEXITSTATUS(g_last_return);
 }

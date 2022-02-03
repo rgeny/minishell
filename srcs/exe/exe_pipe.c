@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 09:48:32 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/02 14:04:53 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 23:08:16 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,76 +15,62 @@
 #include "struct.h"
 #include "exe.h"
 
-/*void	exe_pipe(t_node *cmd, t_data *data)
-{
-	int	pipefd[2];
-	int	fd_stdout;
-	int	fd_stdin;
-
-	pipe(pipefd);
-	fd_stdin = dup(0);
-	fd_stdout = dup(1);
-	dup2(pipefd[1], 1);
-
-	exe_main(cmd->left, data);
-
-	dup2(fd_stdout, 1);
-	close(fd_stdout);
-	close(pipefd[1]);
-
-	exe_main(cmd->right, data);
-
-	dup2(fd_stdin, 0);
-	close(fd_stdin);
-	close(pipefd[0]);
-
-}*/
-
-static void	_pipe(t_node *cmd, t_data *data, int pipefd[2])
+static void	_pipe(t_node *cmd, t_data *data)
 {
 	if (cmd->type == E_NODE_TYPE_COMMAND)
 		exe_cmd(cmd, data);
 	else
 	{
-		_pipe(cmd->left, data, pipefd);
-		
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		pipe(pipefd);
-		dup2(pipefd[1], 1);
-
-		_pipe(cmd->right, data, pipefd);
+		_pipe(cmd->left, data);
+		if (data->fd_in != 0)
+			close(data->fd_in);
+		data->fd_in = data->pipefd[0];
+		close(data->pipefd[1]);
+		pipe(data->pipefd);
+		_pipe(cmd->right, data);
 	}
 }
-
+#include <stdio.h>
 void	exe_pipe(t_node *cmd, t_data *data)
 {
-	int	pipefd[2];
-	int	fd_stdout;
-	int	fd_stdin;
+	int	fd_in;
+	int	fd_out;
 
-	if (cmd->type == E_NODE_TYPE_COMMAND)
-		exe_cmd(cmd, data);
-	else
-	{
-		pipe(pipefd);
-		fd_stdout = dup(1);
-		dup2(pipefd[1], 1);
-		fd_stdin = dup(0);
-		
-		_pipe(cmd->left, data, pipefd);
+	fd_in = dup(0);
+	fd_out = dup(1);
+	pipe(data->pipefd);
+	data->fd_in = 0;
 
-		dup2(fd_stdout, 1);
-		close(fd_stdout);
-		close(pipefd[1]);
-		dup2(pipefd[0], 0);
+	_pipe(cmd->left, data);
+	dup2(fd_out, 1);
+	close(fd_out);
+	if (data->fd_in != 0)
+		close(data->fd_in);
+	data->fd_in = data->pipefd[0];
+	close(data->pipefd[1]);
+	data->pipefd[1] = 1;
 
-		_pipe(cmd->right, data, pipefd);
-
-		dup2(fd_stdin, 0);
-		close(fd_stdin);
-		close(pipefd[0]);
-		close(pipefd[1]);
-	}
+	_pipe(cmd->right, data);
+	dup2(fd_in, 0);
+	close(fd_in);
+	close(data->pipefd[0]);
 }
+/*	int	pipefd[2];
+
+	pipe(pipefd);
+	if (cmd->left->command->fd_out == 1)
+	{
+		cmd->left->command->fd_out = pipefd[1];
+		cmd->left->command->fd_tmp = pipefd[0];
+	}
+	if (cmd->right->command->fd_in == 0)
+	{
+		cmd->right->command->fd_in = pipefd[0];
+		cmd->right->command->fd_tmp = pipefd[1];
+	}*/
+
+
+//	close(pipefd[1]);
+
+
+//	close(pipefd[0]);
