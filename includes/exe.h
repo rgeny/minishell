@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:04:11 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/02 11:03:49 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:37:24 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXE_H
 # define EXE_H
-# include "struct.h"
+# include "t_data.h"
 
 void	exe_builtin(char **cmd, t_data *data);
 void	exe_out_process(t_command *cmd, t_data *data);

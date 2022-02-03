@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.h                                            :+:      :+:    :+:   */
+/*   t_env.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 21:18:20 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 13:36:45 by buschiix         ###   ########.fr       */
+/*   Created: 2022/02/03 13:26:22 by buschiix          #+#    #+#             */
+/*   Updated: 2022/02/03 13:26:39 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_H
-# define PRINT_H
+#ifndef T_ENV_H
+# define T_ENV_H
 
-int		print_error(char *cmd, char *message1, char *message2, int return_value);
-void	print_fd(const char *s, int fd);
+typedef struct s_env
+{
+	struct s_env	*next;
+	struct s_env	*prev;
+	char			*name;
+	char			*value;
+}					t_env;
 #endif

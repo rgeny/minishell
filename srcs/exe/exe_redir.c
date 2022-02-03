@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 08:52:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:45:38 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:39:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
-#include "struct.h"
+#include "t_ast.h"
 #include "print.h"
 
 static int	_last_heredoc(t_redir *redir, int size)

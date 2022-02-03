@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 22:03:02 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 13:16:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_ast_the_fancy_way(t_node *root)
 {
 	t_anode			*proot;
 	t_ast_printer	printer;
-	int				xmin;
+//	int				xmin;
 	int				i;
 
 	if (root == NULL)

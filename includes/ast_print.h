@@ -6,16 +6,16 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:15:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 21:01:32 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 13:35:22 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_PRINT_H
 # define AST_PRINT_H
 
-# include "parser.h"
 # include <limits.h>
 # include "mem.h"
+# include "parser.h"
 
 # define AST_MAX_HEIGHT 1000
 

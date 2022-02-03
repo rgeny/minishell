@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interactive.h                                      :+:      :+:    :+:   */
+/*   t_interactive.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:10:22 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 12:26:37 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:09:07 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INTERACTIVE_H
-# define INTERACTIVE_H
+#ifndef T_INTERACTIVE_H
+# define T_INTERACTIVE_H
 # include "file_descriptor.h"
 
 typedef enum e_cmd_interactive

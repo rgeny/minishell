@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/03 12:59:58 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:37:48 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <unistd.h>
 
-# include "struct.h"
+# include "t_ast.h"
 # include "str.h"
 # include "utils.h"
 # include "lst.h"

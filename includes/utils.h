@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:59:37 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:38:33 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define UTILS_H
 # include <stdlib.h>
 # include "env.h"
-# include "struct.h"
-# include "interactive.h"
+# include "t_interactive.h"
 
 typedef enum e_iswhat
 {
@@ -24,6 +23,7 @@ typedef enum e_iswhat
 	IS_NUM,
 }	t_iswhat;
 int				uti_min(int a, int b);
+int				uti_max(int a, int b);
 void			*uti_calloc(size_t count, size_t size);
 void			uti_bzero(void *s, size_t n);
 char			*uti_itoa(int n);

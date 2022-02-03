@@ -6,11 +6,12 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 19:38:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 14:56:42 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/03 13:39:29 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "env.h"
 #include "str.h"
 #include "error.h"
 

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:30:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 21:59:00 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 13:18:32 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	_print_left_edge(t_ast_printer *p, t_anode *anode, int x, int lvl)
 {
 	int	i;
 
+	(void)anode;
 	i = 0;
 	while (i < (x - p->print_next - (lvl)))
 	{
@@ -31,6 +32,7 @@ static void	_print_right_edge(t_ast_printer *p, t_anode *anode, int x, int lvl)
 {
 	int	i;
 
+	(void)anode;
 	i = 0;
 	while (i < (x - p->print_next + (lvl)))
 	{
@@ -68,6 +70,8 @@ void	print_level(t_ast_printer *p, t_anode *anode, int x, int lvl)
 	int	i;
 	int	isleft;
 
+	(void)i;
+	(void)isleft;
 	if (anode == NULL)
 		return ;
 	isleft = (anode->parent_dir == -1);

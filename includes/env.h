@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 11:45:25 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:34:32 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-# include "struct.h"
+# include "t_data.h"
 
 /*
 **	env_init

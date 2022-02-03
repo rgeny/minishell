@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 17:27:20 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/06 22:45:02 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/03 13:37:06 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
-# include "env.h"
+# include "t_data.h"
 
 int	builtin_export(char **cmd, t_data *data);
 int	builtin_unset(char **cmd, t_data *data);

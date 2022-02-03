@@ -6,13 +6,12 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/25 11:21:56 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/03 13:38:04 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STR_H
 # define STR_H
-# include "struct.h"
 
 char	*str_dup(const char *s);
 char	*str_ndup(const char *s, int n);
