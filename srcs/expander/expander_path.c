@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/28 18:40:46 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/04 23:44:36 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	*expander_path(char *cmd, t_env *env)
 
 	if (!access(cmd, F_OK | X_OK))
 		return (cmd);
-	env = env_find(env, "PATH");
-	if (!env)
-		return (0);
-	split = str_split(env->value, ":");
+	s = env_find_value(env, "PATH");
+	if (!s)
+		return (NULL);
+	split = str_split(s, ":");
 	i = 0;
 	while (split && split[i])
 	{

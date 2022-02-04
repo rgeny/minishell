@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 13:34:32 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 23:37:39 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	env_new(t_env **env, char *name, char *value);
 **	env_find
 ** return a pointer to env var called name if it exists otherwise return 0.
 */
-t_env	*env_find(t_env *env, char *name);
+t_env	*env_find_var(t_env *env, char *name);
+char	*env_find_value(t_env *env, char *name);
+char	*env_find_name(t_env *env, char *name);
 /*
 **	env_assign
 ** new_value parameter need to be malloc.

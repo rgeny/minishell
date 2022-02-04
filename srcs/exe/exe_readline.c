@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:44:52 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 23:45:51 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*_prompt(t_data *data)
 	prompt = path;
 	if (!tmp)
 		prompt = data->pwd;
-	pwd = env_find(data->env, "HOME");
+	pwd = env_find_var(data->env, "HOME");
 	ret = 0;
 	if (pwd)
 		ret = _cmp(pwd->value, prompt);

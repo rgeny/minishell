@@ -6,13 +6,27 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 21:48:21 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 23:12:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef D_ERROR_H
 # define D_ERROR_H
 
-# define CD_NOT_SET
-# define CD_HOME "HOME"CD_NOT_SET
+/*	Allowed functions error 	*/
+# define GETCWD "getcwd: command has failed\n"
+
+/*	global error	*/
+# define TOO_MANY_ARGS "too many arguments\n"
+# define NO_FILE ": No such file or directory\n"
+
+/*	env error	*/
+# define ENV_HOME "HOME"
+# define ENV_PWD "PWD"
+# define ENV_OLDPWD "OLDPWD"
+# define ENV_CDPATH "CDPATH"
+
+/*	cd error	*/
+# define CD "cd: "
+# define CD_NOT_SET " not set\n"
 #endif

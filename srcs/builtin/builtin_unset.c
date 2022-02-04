@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 21:55:02 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 23:46:35 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	builtin_unset(char **cmd, t_data *data)
 	{
 		if (!_isavailable(cmd[i]))
 		{
-			to_del = env_find(data->env, cmd[i]);
+			to_del = env_find_var(data->env, cmd[i]);
 			if (to_del)
 			{
 				if (data->env == to_del)

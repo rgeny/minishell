@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:34:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 21:48:36 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:57:46 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ERROR_H
 
 # include "t_error.h"
+# include "d_error.h"
 
 extern int	g_last_return;
 

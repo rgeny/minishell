@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 21:56:40 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 23:46:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*_find_pwd(t_data *data)
 	char	*ret;
 	t_env	*pwd;
 
-	pwd = env_find(data->env, "PWD");
+	pwd = env_find_var(data->env, "PWD");
 	if (pwd && pwd->value)
 	{
 		ret = str_dup(pwd->value);

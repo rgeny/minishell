@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 15:11:41 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 15:17:03 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/04 23:42:43 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	env_assign(t_env *env, char *name, char *new_value)
 
 	if (!new_value)
 		return ;
-	node = env_find(env, name);
+	node = env_find_var(env, name);
 	if (!node)
 	{
 		str_free(new_value);
