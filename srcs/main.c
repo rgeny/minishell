@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 20:12:16 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:38:23 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ int	main(__attribute((unused)) int argc,
 	__attribute__((unused)) char *argv[], char *envp[])
 {
 //	struct rlimit	l;
-	t_data	data;
+//
+//	getrlimit(RLIMIT_AS, &l);
+//	l.rlim_cur = 4000000;
+//	setrlimit(RLIMIT_AS, &l);
+	
 
-//	getrlimit(RLIMIT_MEMLOCK, &l);
-//	l.rlim_cur = 1;
-//	setrlimit(RLIMIT_MEMLOCK, &l);
+	t_data	data;
 	signal_current();
 	_init(envp, &data);
 	_exe(&data);

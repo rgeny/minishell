@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 09:48:32 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 19:40:31 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:34:35 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static void	_dup_and_close(int oldfd, int newfd)
 static void	_pipe_stdin(int pipefd[2])
 {
 	pipe(pipefd);
-	_dup_and_close(pipefd[1], STDIN_FILENO);
-	pipefd[1] = 1;
+	_dup_and_close(pipefd[1], STDOUT_FILENO);
+	pipefd[1] = STDOUT_FILENO;
 }
 
 static void	_pipe_stdout(int pipefd[2])
 {
-	_dup_and_close(pipefd[0], 0);
-	pipefd[0] = 0;
+	_dup_and_close(pipefd[0], STDIN_FILENO);
+	pipefd[0] = STDIN_FILENO;
 }
 
 static void	_pipe(t_node *cmd, t_data *data)
@@ -52,8 +52,8 @@ void	exe_pipe(t_node *cmd, t_data *data)
 	int	fd_in;
 	int	fd_out;
 
-	fd_in = dup(0);
-	fd_out = dup(1);
+	fd_in = dup(STDIN_FILENO);
+	fd_out = dup(STDOUT_FILENO);
 	_pipe_stdin(data->pipefd);
 	_pipe(cmd->left, data);
 	_dup_and_close(fd_out, 1);
