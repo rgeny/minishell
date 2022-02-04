@@ -1,20 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_fd.c                                         :+:      :+:    :+:   */
+/*   str_print.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/31 21:57:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 19:03:34 by buschiix         ###   ########.fr       */
+/*   Created: 2022/02/04 19:48:45 by buschiix          #+#    #+#             */
+/*   Updated: 2022/02/04 20:23:53 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "str.h"
 
-void	print_fd(const char *s, int fd)
+
+void	str_print_fd(char *s, int fd)
 {
-	write(fd, s, str_len(s));
-	write(fd, "\n", 1);
+	if (s)
+		write(fd, s, str_len(s));
+}
+
+void	str_print_fd_nl(char *s, int fd)
+{
+	if (s)
+	{
+		write(fd, s, str_len(s));
+		write(fd, "\n", 1);
+	}
+}
+
+void	str_print_stderr(char *s)
+{
+	str_print_fd(s, STDERR_FILENO);
 }

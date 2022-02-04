@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:50:09 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:23:39 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static int	_error(char **cmd, t_data *data)
 
 	len = str_llen(cmd);
 	if (len == 1 && !env_find(data->env, "HOME"))
-		return (print_error("cd: ", "HOME not set\n", 0, BUILTIN_ERR_EXEC));
+		return (error_print("cd: ", "HOME not set\n", 0, BUILTIN_ERR_EXEC));
 	else if (len > 2)
-		return (print_error("cd: ", "too many arguments\n", 0, BUILTIN_ERR_EXEC));
+		return (error_print("cd: ", "too many arguments\n", 0, BUILTIN_ERR_EXEC));
 	else if (len > 1 && cmd[1][0] == '-'
 		&& !cmd[1][1] && !env_find(data->env, "OLDPWD"))
-		return (print_error("cd: ", "OLDPWD not set\n", 0, BUILTIN_ERR_EXEC));
+		return (error_print("cd: ", "OLDPWD not set\n", 0, BUILTIN_ERR_EXEC));
 	return (SUCCESS);
 }
 
@@ -69,7 +69,7 @@ static int	_move(char *dir, char *pwd, t_data *data, int b)
 	if (!ret)
 		_replace_pwd_var(data);
 	if (!ret && b)
-		print_fd(pathpwd, 1);
+		str_print_fd_nl(pathpwd, 1);
 	str_free(path);
 	return (!!ret);
 }
@@ -114,5 +114,5 @@ int	builtin_cd(char **cmd, t_data *data)
 		return (SUCCESS);
 	if (_env(data, "CDPATH", 2, cmd[1]))
 		return (SUCCESS);
-	return (print_error("cd: ", cmd[1], ": No such file or directory\n", BUILTIN_ERR_EXEC));
+	return (error_print("cd: ", cmd[1], ": No such file or directory\n", BUILTIN_ERR_EXEC));
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/03 13:16:01 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:09:22 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ void *_print_lexer_error(int error_code, t_token **tokens)
 	if (error_code == QUOTE_ERROR_CODE)
 	{
 		msg = "Syntax error: Please close all your quotes\n";
-		print_error(msg, NULL, NULL, 0);
+		error_print(msg, NULL, NULL, 0);
 	}
 	else if (error_code == MALLOC_ERROR_CODE)
 	{
-		print_error("Error: Cannot allocate memory\n", NULL, NULL, 0);
+		error_print("Error: Cannot allocate memory\n", NULL, NULL, 0);
 	}
 	lexer_free_tokens(tokens);
 	return (NULL);

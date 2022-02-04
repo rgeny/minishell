@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/03 13:19:05 by buschiix         ###   ########.fr        #
+#    Updated: 2022/02/04 20:27:48 by buschiix         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,6 @@ GLOBAL_DIR		= $(SRC_DIR)global/
 EXPANDER_DIR	= $(SRC_DIR)expander/
 ASTERISK_DIR	= $(EXPANDER_DIR)asterisk/
 EXE_DIR			= $(SRC_DIR)exe/
-PRINT_DIR		= $(SRC_DIR)print/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
 LST_DIR			= $(SRC_DIR)lst/
@@ -82,7 +81,7 @@ VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_D
 
 SRC				= $(addsuffix .c,			main \
 					$(addprefix env_,		del find init new print assign switch new_) \
-					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max) \
+					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max error) \
 					$(addprefix mem_,		cpy set) \
 					$(addprefix expander_,	var path heredoc main) \
 					$(addprefix asterisk_,	main dir_list) \
@@ -90,8 +89,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix parser_,	tokens print n_create n_command n_separator free_ast) \
 					$(addprefix cleaner_,	all) \
-					$(addprefix str_,		cmp len dup split join free split_first) \
-					$(addprefix print_,		error fd) \
+					$(addprefix str_,		cmp len dup split join free split_first print) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
 					$(addprefix signal_,	current fork ignore) \
 					$(addprefix lst_,		carg) \

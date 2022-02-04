@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 19:32:25 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:52:00 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:10:50 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	_isavailable(char *s)
 {
 	if (uti_is_valid_var_name(s))
 		return (SUCCESS);
-	return (print_error("unset: ", s, ": not a valid identifier\n", BUILTIN_ERR_EXEC));
+	return (error_print("unset: ", s, ": not a valid identifier\n", BUILTIN_ERR_EXEC));
 }
 
 int	builtin_unset(char **cmd, t_data *data)

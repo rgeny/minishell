@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 12:10:22 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 13:09:07 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:12:13 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ typedef enum e_cmd_interactive
 	INTERACTIVE_INIT,
 	INTERACTIVE_INCR,
 	INTERACTIVE_RETURN_IS_IT,
-	INTERACTIVE_RETURN_LINE,
-	INTERACTIVE_MOVE_STDERR
+	INTERACTIVE_MOVE_STDERR,
+	INTERACTIVE_PRINT_LINE
 }	t_cmd_interactive;
 
 typedef struct s_interactive

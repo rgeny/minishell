@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:48:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/03 13:33:01 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:09:38 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "t_lexer.h"
 # include "str.h"
 # include "utils.h"
-# include "print.h"
+# include "error.h"
 
 # define OK 0
 # define SYNTAX_ERROR_CODE	-1

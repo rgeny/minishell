@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:18:30 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 13:13:17 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:24:43 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include "t_interactive.h"
 #include "utils.h"
+#include "str.h"
 
 static void	_init(t_interactive *interactive)
 {
@@ -43,6 +44,17 @@ static void	_dup_stderr(void)
 	}
 }
 
+static void	_print_line(unsigned long line)
+{
+	char	*str_line;
+
+	str_line = uti_itoa(line);
+	str_print_stderr("line ");
+	str_print_stderr(str_line);
+	str_print_stderr(": ");
+	str_free(str_line);
+}
+
 unsigned long	uti_interactive(t_cmd_interactive cmd)
 {
 	static t_interactive	interactive;
@@ -53,8 +65,8 @@ unsigned long	uti_interactive(t_cmd_interactive cmd)
 		interactive.line++;
 	else if (cmd == INTERACTIVE_RETURN_IS_IT)
 		return (interactive.is_interactive);
-	else if (cmd == INTERACTIVE_RETURN_LINE)
-		return (interactive.line);
+	else if (cmd == INTERACTIVE_PRINT_LINE && interactive.is_interactive)
+		_print_line(interactive.line);
 	else if (cmd == INTERACTIVE_MOVE_STDERR && !interactive.is_interactive)
 		_dup_stderr();
 	return (cmd);

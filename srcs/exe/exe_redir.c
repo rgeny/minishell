@@ -6,14 +6,14 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 08:52:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 23:16:38 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:09:11 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include "t_ast.h"
-#include "print.h"
+#include "error.h"
 
 static int	_last_heredoc(t_redir *redir, int n_redir)
 {
@@ -46,17 +46,17 @@ static int	_open_redir(t_command *cmd, int last_heredoc)
 		if (cmd->redirections[i].type == E_REDIR_TYPE_STDIN && i > last_heredoc)
 		{
 			if (_open(&cmd->fd_in, cmd->redirections[i].path, O_RDONLY, 0) == -1)
-				return (print_error(cmd->redirections[i].path, ": No such file or directory\n", 0, -1));
+				return (error_print(cmd->redirections[i].path, ": No such file or directory\n", 0, -1));
 		}
 		else if (cmd->redirections[i].type == E_REDIR_TYPE_APPEND && i > last_heredoc)
 		{
 			if (_open(&cmd->fd_out, cmd->redirections[i].path, o_write | O_APPEND, mode) == -1)
-				return (print_error(cmd->redirections[i].path, ": No such file or directory\n", 0, -1));
+				return (error_print(cmd->redirections[i].path, ": No such file or directory\n", 0, -1));
 		}
 		else if (cmd->redirections[i].type == E_REDIR_TYPE_STDOUT)
 		{
 			if (_open(&cmd->fd_out, cmd->redirections[i].path, o_write | O_TRUNC, mode) == -1)
-				return (print_error(cmd->redirections[i].path, ": No such file or directory\n", 0, -1));
+				return (error_print(cmd->redirections[i].path, ": No such file or directory\n", 0, -1));
 		}
 		i++;
 	}

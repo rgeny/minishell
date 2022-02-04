@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 13:19:51 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:12:16 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,8 @@ static void	_init(char *envp[], t_data *data)
 	pwd = env_find(data->env, "PWD");
 	if (pwd)
 		data->pwd = str_dup(pwd->value);
-/*	data->interactive.line = 0;
-	if (!isatty(0) || !isatty(1) || !isatty(2))
-		data->interactive.is_interactive = 0;
-	else
-		data->interactive.is_interactive = 1;*/
 	uti_interactive(INTERACTIVE_INIT);
 }
-/*
-static void	_t1(t_carg *args)
-{
-	while (args)
-	{
-		printf("%s\n", args->content);
-		args = args->next;
-	}
-	printf("\n\n");
-}*/
 
 static void	_exe(t_data *data)
 {
@@ -67,7 +52,6 @@ static void	_exe(t_data *data)
 		data->tokens = lexer_lex(rl);
 		if (data->tokens && parse_tokens(data, data->tokens) == 0)
 		{
-//			_t1(data->ast_root->command->cargs);
 			// lexer_print_tokens(data->tokens); 
 //			print_ast_the_fancy_way(data->ast_root);
 			expander_main(data, data->ast_root);
