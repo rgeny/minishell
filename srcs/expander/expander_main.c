@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 12:42:36 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:16:51 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ static void	_join_and_split_cmd(t_command *cmd)
 	ret[len] = NULL;
 	tmp = cmd->cargs;
 	i = 0;
-//	printf("len : %d\n", len);
 	while (tmp && i < len) //split
 	{
 		j = 0;
