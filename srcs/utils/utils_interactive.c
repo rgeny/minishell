@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:18:30 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 20:24:43 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:53:28 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ unsigned long	uti_interactive(t_cmd_interactive cmd)
 		interactive.line++;
 	else if (cmd == INTERACTIVE_RETURN_IS_IT)
 		return (interactive.is_interactive);
-	else if (cmd == INTERACTIVE_PRINT_LINE && interactive.is_interactive)
+	else if (cmd == INTERACTIVE_PRINT_LINE && !interactive.is_interactive)
 		_print_line(interactive.line);
 	else if (cmd == INTERACTIVE_MOVE_STDERR && !interactive.is_interactive)
 		_dup_stderr();

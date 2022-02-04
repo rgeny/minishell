@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 20:10:36 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:52:40 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ int	builtin_exit(char **cmd, t_data *data)
 		ret = _check_first(cmd, data);
 	if (len < 3)
 		_ft_exit(cmd, data, ret);
-	return (error_print("exit: ", "too many arguments\n", 0, BUILTIN_ERR_EXEC));
+	return (error_print("exit: ", "too many arguments\n", 0, ERROR_EXEC));
 }

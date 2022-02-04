@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   utils_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 20:25:11 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:34:36 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,12 @@ static int	_error(int cmd, int return_value)
 
 	if (cmd == ERROR_SET)
 		error = return_value;
-	else if (cmd == ERROR_SET_GLOBAL)
-	{
-		g_last_return = return_value;
-		error = SUCCESS;
-	}
 	return (error);
 }
 
-void	error_set_global(void)
+void	error_reset(void)
 {
-	_error(ERROR_SET_GLOBAL, SUCCESS);
+	_error(ERROR_SET, SUCCESS);
 }
 
 int	error_get(void)

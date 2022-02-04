@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 20:23:39 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:50:37 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static int	_error(char **cmd, t_data *data)
 
 	len = str_llen(cmd);
 	if (len == 1 && !env_find(data->env, "HOME"))
-		return (error_print("cd: ", "HOME not set\n", 0, BUILTIN_ERR_EXEC));
+		return (error_print("cd: ", "HOME not set\n", 0, ERROR_EXEC));
 	else if (len > 2)
-		return (error_print("cd: ", "too many arguments\n", 0, BUILTIN_ERR_EXEC));
+		return (error_print("cd: ", "too many arguments\n", 0, ERROR_EXEC));
 	else if (len > 1 && cmd[1][0] == '-'
 		&& !cmd[1][1] && !env_find(data->env, "OLDPWD"))
-		return (error_print("cd: ", "OLDPWD not set\n", 0, BUILTIN_ERR_EXEC));
+		return (error_print("cd: ", "OLDPWD not set\n", 0, ERROR_EXEC));
 	return (SUCCESS);
 }
 
@@ -63,7 +63,7 @@ static int	_move(char *dir, char *pwd, t_data *data, int b)
 
 	path = str_join(pwd, dir, '/');
 	if (!path)
-		return (BUILTIN_ERR_EXEC);
+		return (ERROR_EXEC);
 	ret = chdir(path);
 	getcwd(pathpwd, PATH_MAX + 1);
 	if (!ret)
@@ -95,7 +95,7 @@ static int	_env(t_data *data, char *name, char print_path, char *cmd)
 		if (!_move(cmd, split[i], data, 1))
 		{
 			str_free_list(split);
-			return (BUILTIN_ERR_EXEC);
+			return (ERROR_EXEC);
 		}
 	}
 	str_free_list(split);
@@ -105,7 +105,7 @@ static int	_env(t_data *data, char *name, char print_path, char *cmd)
 int	builtin_cd(char **cmd, t_data *data)
 {
 	if (_error(cmd, data))
-		return (BUILTIN_ERR_EXEC);
+		return (ERROR_EXEC);
 	if (!cmd[1])
 		return (_env(data, "HOME", 0, 0));
 	if (cmd[1][0] == '-' && !cmd[1][1])
@@ -114,5 +114,5 @@ int	builtin_cd(char **cmd, t_data *data)
 		return (SUCCESS);
 	if (_env(data, "CDPATH", 2, cmd[1]))
 		return (SUCCESS);
-	return (error_print("cd: ", cmd[1], ": No such file or directory\n", BUILTIN_ERR_EXEC));
+	return (error_print("cd: ", cmd[1], ": No such file or directory\n", ERROR_EXEC));
 }

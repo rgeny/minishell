@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 20:26:29 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:56:40 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 static int	check_arg(char *arg)
 {
 	if (arg[0] == '-' && arg[1] && arg[1] != '-')
-		return (error_print("pwd: ", arg, ": invalid option\npwd: usage: pwd\n", BUILTIN_ERR_SYNTAX));
+		return (error_print("pwd: ", arg, ": invalid option\npwd: usage: pwd\n", ERROR_SYNTAX));
 	else if (arg[0] == '-' && arg[1] == '-' && arg[2])
-		return (error_print("pwd: --: invalid option\npwd: usage: pwd\n", 0, 0, BUILTIN_ERR_SYNTAX));
+		return (error_print("pwd: --: invalid option\npwd: usage: pwd\n", 0, 0, ERROR_SYNTAX));
 	return (SUCCESS);
 }
 
@@ -54,8 +54,8 @@ int	builtin_pwd(char **cmd, t_data *data)
 	char	tmp[PATH_MAX + 1];
 	char	*path;
 
-	if (cmd[1] && check_arg(cmd[1]) == BUILTIN_ERR_SYNTAX)
-		return (BUILTIN_ERR_SYNTAX);
+	if (cmd[1] && check_arg(cmd[1]) == ERROR_SYNTAX)
+		return (ERROR_SYNTAX);
 	if (!getcwd(tmp, PATH_MAX + 1))
 		path = _find_pwd(data);
 	else
