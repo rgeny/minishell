@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:48:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 17:07:16 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 18:32:20 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@
 # include "str.h"
 # include "utils.h"
 # include "error.h"
-
-# define OK 0
-# define SYNTAX_ERROR_CODE	-1
-# define MALLOC_ERROR_CODE	-2
-# define QUOTE_ERROR_CODE	-3
 
 typedef enum e_mode {
 	E_MODE_WORD,
