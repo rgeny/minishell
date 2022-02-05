@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:39:13 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 16:26:31 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	_init(char *envp[], t_data *data)
 	data->env = 0;
 	env_init(&data->env, envp);
 	data->pwd = 0;
-	data->tokens = NULL;
 	data->ast_root = NULL;
 	data->pwd = str_dup(env_find_value(data->env, ENV_PWD));
 	uti_interactive(INTERACTIVE_INIT);
@@ -45,11 +44,9 @@ static void	_exe(t_data *data)
 	while (rl && str_cmp(rl, "exit"))
 	{
 		add_history(rl);
-		data->tokens = lexer_lex(rl);
-		if (data->tokens && parse_tokens(data, data->tokens) == 0)
+		if (parser_main(data, rl) == SUCCESS && data->ast_root)
 		{
-			// lexer_print_tokens(data->tokens); 
-//			print_ast_the_fancy_way(data->ast_root);
+
 			expander_main(data, data->ast_root);
 			in = dup(0);
 			out = dup(1);
@@ -60,7 +57,6 @@ static void	_exe(t_data *data)
 			close(out);
 		}
 		str_free(rl);
-		lexer_free_tokens(&data->tokens);
 		free_ast(&data->ast_root);
 		rl = exe_readline(data);
 	}
@@ -78,7 +74,6 @@ int	main(__attribute((unused)) int argc,
 	getrlimit(RLIMIT_AS, &l);
 	l.rlim_cur = 160300000;
 	setrlimit(RLIMIT_AS, &l);
-	
 
 	t_data	data;
 	signal_current();

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/02 13:40:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/04 16:45:30 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	lexer_create_operator_tok(t_tok_constructor *c, t_token **tokens, int stri)
 	else
 		len = 1;
 	c->cur_token->content = str_ndup(&str[stri], len);
+	// TODO : Handle malloc error
 	c->cur_token->type = _get_ope_token_type(c->cur_token);
 	_token_add_back(tokens, c->cur_token);
 	return (len);
@@ -68,6 +69,7 @@ int	lexer_terminate_token(t_tok_constructor *c, t_token **tokens, int stri)
 	str_start = (char *)c->str + c->start_index;
 	token_len = stri - c->start_index;
 	c->cur_token->content = str_ndup(str_start, token_len);
+	// TOOD : Handle malloc error
 	c->cur_token->type = E_TOKEN_TYPE_WORD;
 	_token_add_back(tokens, c->cur_token);
 	c->cur_token = NULL;

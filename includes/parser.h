@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/04 20:09:52 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 15:19:55 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@
 # define SYNTAX_ERROR_CODE -1
 # define MALLOC_ERROR_CODE -2
 
-int		parse_tokens(t_data *data, t_token *tokens);
+int     parser_main(t_data *data, char *rl);
+t_node	*parse_tokens(t_token *tokens);
 
 t_node	*n_create(t_node_type type);
-int		init_n_command(t_token **token, t_node **n_command, t_node *n_sep);
-int		init_n_separator(t_node **n_separator, t_node *n_command);
+void		init_n_command(t_token **token, t_node **n_command, t_node *n_sep);
+void	init_n_separator(t_node **n_separator, t_node *n_command);
 
 bool	is_command_token(t_token_type type);
 

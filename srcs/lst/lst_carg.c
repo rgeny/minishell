@@ -6,16 +6,19 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:47:46 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/03 12:53:23 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 15:14:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lst.h"
+#include "error.h"
 
 void	lst_carg_add_back(t_carg **lst, t_carg *new)
 {
 	t_carg	*current;
 
+	if (error_get() != SUCCESS)
+		return ;
 	current = *lst;
 	while (current && current->next)
 		current = current->next;
