@@ -6,23 +6,20 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 19:40:52 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:36:22 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include "error.h"
-#include "str.h"
+#include "builtin.h"
 
 int	builtin_env(char **envp)
 {
 	int	i;
 
-	if (!envp)
+	if (envp == NULL)
 		return (SUCCESS);
 	i = 0;
-	while (envp[i])
+	while (envp[i] != NULL)
 	{
 		str_print_fd_nl(envp[i], STDOUT_FILENO);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 20:56:19 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:35:49 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static int	_check_flag(char **cmd)
 	int	j;
 
 	i = 0;
-	while (cmd[i])
+	while (cmd[i] != NULL)
 	{
 		if (cmd[i][0] != '-')
 			return (i);
 		j = str_first_dif(&cmd[i][1], 'n') + 1;
-		if (cmd[i][j])
+		if (cmd[i][j] != '\0')
 			return (i);
 		i++;
 	}
@@ -37,9 +37,9 @@ int	builtin_echo(char **cmd)
 
 	i = _check_flag(cmd);
 	flag = (bool)i;
-	while (cmd[i])
+	while (cmd[i] != NULL)
 	{
-		if (write(1, cmd[i], str_len(cmd[i])) && cmd[i + 1])
+		if (write(1, cmd[i], str_len(cmd[i])) != 0 && cmd[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
 	}

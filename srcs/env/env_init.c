@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 19:51:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 17:03:40 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:24:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	_actualize(t_env **env)
 	env_new(env, str_dup("PWD"), str_dup(path));
 	value = env_find_val(*env, "SHLVL");
 	if (value)
-		n = uti_ato_i(value) + 1;
+		n = uti_atoi(value) + 1;
 	else
 		n = 1;
 	s = uti_itoa(n);

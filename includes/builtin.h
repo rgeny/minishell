@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 17:27:20 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 16:10:00 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:05:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "str.h"
 # include "error.h"
 # include "t_data.h"
+# include "parser.h"
 
 int	builtin_export(char **cmd, t_data *data);
 int	builtin_unset(char **cmd, t_data *data);

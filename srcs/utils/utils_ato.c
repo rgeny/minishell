@@ -6,11 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:27:14 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 00:53:58 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 21:23:35 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	uti_ato_i(char *s)
+int	uti_atoi(char *s)
 {
 	long	n;
 	int		i;
@@ -27,7 +27,7 @@ int	uti_ato_i(char *s)
 	return (n);
 }
 
-long	uti_ato_l(char *s)
+long	uti_atol(char *s)
 {
 	unsigned long	n;
 	int				i;

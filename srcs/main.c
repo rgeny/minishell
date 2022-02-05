@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 19:39:27 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:10:31 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	main(__attribute((unused)) int argc,
 	getrlimit(RLIMIT_AS, &l);
 	l.rlim_cur = 160300000;
 	setrlimit(RLIMIT_AS, &l);
+
+	printf("%ld %ld\n", sizeof(unsigned), sizeof(unsigned char));
 
 	t_data	data;
 	signal_current();

@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 22:47:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/08 17:46:33 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 21:30:09 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,18 @@ int	uti_is_in_charset(char c, char *charset)
 	return (0);
 }
 
-int	uti_isdigit(char *s)
+bool	uti_isdigit(char *s)
 {
 	int	i;
 
 	i = 0;
-	if (!s[0])
-		return (1);
 	while (s[i])
 	{
 		if (s[i] < '0' || s[i] > '9')
-			return (1);
+			return (true);
 		i++;
 	}
-	return (0);
+	return (false);
 }
 
 int	uti_is_valid_var_name(char *s)
