@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 17:06:01 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 18:53:24 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void	_terminate_token_and_create_a_new_one(
 				t_tok_constructor *c, t_token **tokens, int i)
 {
 	lexer_terminate_token(c, tokens, i);
-	lexer_tok_constructor_new(c, i + 1);
+	if (c->cur_token == NULL)
+		lexer_tok_constructor_new(c, i + 1);
 }
 
 static int	_process_char(t_tok_constructor *c, t_token **tokens, int i)
