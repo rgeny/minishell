@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 00:03:31 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 14:01:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ static int	_move(char *dir, char *pwd, t_data *data, int print_path)
 	char	cwd[PATH_MAX + 1];
 
 	path = str_join(pwd, dir, '/');
-	if (!path)
+	if (!path || chdir(path))
+	{
+		str_free(path);
 		return (ERROR_EXEC);
-	if (chdir(path))
-		return (ERROR_EXEC);
+	}
 	getcwd(cwd, PATH_MAX + 1);
 	_replace_pwd_var(data);
 	if (print_path)
@@ -83,7 +84,7 @@ static int	_env(t_data *data, char *name, char print_path, char *cmd)
 	var = env_find_var(data->env, name);
 	if (print_path < 2)
 	{
-		_move(0, var->value, data, print_path);
+		_move(NULL, var->value, data, print_path);
 		return (SUCCESS);
 	}
 	if (!var)
