@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 18:32:04 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 19:31:45 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include "lst.h"
 # include "error.h"
 
-int     parser_main(t_data *data, char *rl);
+int		parser_main(t_data *data, char *rl);
 t_node	*parse_tokens(t_token *tokens);
 
 t_node	*n_create(t_node_type type);
-void		init_n_command(t_token **token, t_node **n_command, t_node *n_sep);
+void	init_n_command(t_token **token, t_node **n_command, t_node *n_sep);
 void	init_n_separator(t_node **n_separator, t_node *n_command);
 
 bool	is_command_token(t_token_type type);
