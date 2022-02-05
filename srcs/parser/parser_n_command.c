@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 15:19:49 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 20:40:13 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,16 @@ static void	_set_arg(t_carg **cargs, t_token *token)
 
 static void	_set_n_command(t_token **token, t_command *command)
 {
-	int		arg_count; // TO REMOVE with command->args
 	int		redir_count;
 
 	if (error_get() != SUCCESS)
 		return ;
-	arg_count = 0; // TO REMOVE with command->args
 	redir_count = 0;
 	while (*token && is_command_token((*token)->type) && error_get() == SUCCESS)
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 		{
-		//	command->args[arg_count] = str_dup((*token)->content); // TO REMOVE with command->args
 			_set_arg(&command->cargs, *token);
-			arg_count++; // TO REMOVE with command->args
 		}
 		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)
 		{
@@ -116,7 +112,6 @@ void	init_n_command(t_token **token, t_node **n_command, t_node *n_sep)
 		return ;
 	command = (*n_command)->command;
 	_get_size_and_check_syntax(token, command);
-	//command->args = uti_calloc(command->arg_nb, sizeof(t_carg));
 	command->cargs = NULL;
 	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
 	_set_n_command(token, command);
