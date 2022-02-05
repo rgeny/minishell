@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 18:43:17 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 19:39:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	_exe(t_data *data)
 	rl = exe_readline(data);
 	while (rl && str_cmp(rl, "exit"))
 	{
+		error_reset();
 		add_history(rl);
 		data->tokens = lexer_lex(rl);
 		if (data->tokens && parse_tokens(data, data->tokens) == 0)

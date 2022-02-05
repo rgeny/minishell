@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/18 19:04:39 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 19:40:52 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@ int	builtin_env(char **envp)
 {
 	int	i;
 
-	if (envp)
+	if (!envp)
+		return (SUCCESS);
+	i = 0;
+	while (envp[i])
 	{
-		i = 0;
-		while (envp[i])
-		{
-			write(1, envp[i], str_len(envp[i]));
-			write(1, "\n", 1);
-			i++;
-		}
-		str_free_list(envp);
+		str_print_fd_nl(envp[i], STDOUT_FILENO);
+		i++;
 	}
+	str_free_list(envp);
 	return (SUCCESS);
 }
