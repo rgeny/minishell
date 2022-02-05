@@ -6,17 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 18:49:35 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:56:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdbool.h>
-#include "str.h"
 #include "builtin.h"
-#include "error.h"
-
-#include <stdio.h>
 
 static int	_check_flag(char **cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 19:44:31 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 20:50:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@
 #include "builtin.h"
 #include "error.h"
 #include "print.h"
+#include "parser.h"
+#include "lexer.h"
 
-static void	_ft_exit(char **cmd, t_data *data, int ret)
+static void	_free_and_exit(char **cmd, t_data *data, int ret)
 {
-	str_free_list(cmd);
+	free_ast(&data->ast_root);
+//	str_free_list(cmd);
+	(void)cmd;
 	env_del_all(data->env);
 	str_free(data->pwd);
 	exit(ret);
@@ -35,7 +39,7 @@ static int	_check_first(char **cmd, t_data *data)
 		|| (cmd[1][1] && uti_isdigit(&cmd[1][1])))
 	{
 		error_print(EXIT, cmd[1], NUMBERED_ARG, ERROR_SYNTAX);
-		_ft_exit(cmd, data, ERROR_SYNTAX);
+		_free_and_exit(cmd, data, ERROR_SYNTAX);
 	}
 	return ((unsigned char)ret);
 }
@@ -50,6 +54,6 @@ int	builtin_exit(char **cmd, t_data *data)
 	if (len > 1)
 		ret = _check_first(cmd, data);
 	if (len < 3)
-		_ft_exit(cmd, data, ret);
+		_free_and_exit(cmd, data, ret);
 	return (error_print(EXIT, TOO_MANY_ARGS, NULL, ERROR_EXEC));
 }
