@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 13:38:33 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 14:23:49 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include "env.h"
 # include "t_interactive.h"
+# include "error.h"
 
 typedef enum e_iswhat
 {

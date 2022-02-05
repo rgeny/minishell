@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   d_error.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 23:12:53 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 14:23:19 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 /*	global error	*/
 # define TOO_MANY_ARGS "too many arguments\n"
 # define NO_FILE ": No such file or directory\n"
+# define MALLOC_ERROR "Cannot allocate memory\n"
 
 /*	env error	*/
 # define ENV_HOME "HOME"
