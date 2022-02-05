@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 21:54:42 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 21:53:45 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ static int	_print(t_env *env)
 		{
 			if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
 			{
-				write(1, "export ", 7);
-				write(1, cpy[i], str_len(cpy[i]));
-				write(1, "\n", 1);
+				str_print_fd(EXPORT, STDOUT_FILENO);
+				str_print_fd_nl(cpy[i], STDOUT_FILENO);
 			}
 			i++;
 		}
@@ -76,8 +75,7 @@ int	builtin_export(char **cmd, t_data *data)
 			else
 			{
 				ret = ERROR_EXEC;
-				error_print("export: ", cmd[i],
-					": not a valid identifier\n", 0);
+				error_print(EXPORT, cmd[i], BAD_IDENTIFIER, ERROR_EXEC);
 			}
 			i++;
 		}
