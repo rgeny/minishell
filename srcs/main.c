@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:39:13 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 14:54:09 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	main(__attribute((unused)) int argc,
 	l.rlim_cur = 160300000;
 	setrlimit(RLIMIT_AS, &l);
 	
-
 	t_data	data;
 	signal_current();
 	_init(envp, &data);
