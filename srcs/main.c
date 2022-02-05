@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 17:03:25 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 18:43:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	_init(char *envp[], t_data *data)
 	data->pwd = 0;
 	data->tokens = NULL;
 	data->ast_root = NULL;
+	data->pipefd[0] = STDIN_FILENO;
+	data->pipefd[1] = STDOUT_FILENO;
 	data->pwd = str_dup(env_find_val(data->env, ENV_PWD));
 	uti_interactive(INTERACTIVE_INIT);
 }
@@ -78,7 +80,7 @@ int	main(__attribute((unused)) int argc,
 	getrlimit(RLIMIT_AS, &l);
 	l.rlim_cur = 160300000;
 	setrlimit(RLIMIT_AS, &l);
-	
+
 	t_data	data;
 	signal_current();
 	_init(envp, &data);

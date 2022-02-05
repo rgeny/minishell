@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 20:26:04 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 18:13:40 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	str_free_list(char **s);
 void	str_print_fd(char *s, int fd);
 void	str_print_stderr(char *s);
 void	str_print_fd_nl(char *s, int fd);
+int		str_first_dif(const char *s, char c);
 #endif

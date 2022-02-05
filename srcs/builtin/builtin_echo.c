@@ -6,32 +6,30 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/01 18:53:30 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 18:49:35 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdbool.h>
 #include "str.h"
 #include "builtin.h"
 #include "error.h"
+
+#include <stdio.h>
 
 static int	_check_flag(char **cmd)
 {
 	int	i;
 	int	j;
 
-	i = 1;
+	i = 0;
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '-')
-		{
-			j = 1;
-			while (cmd[i][j] == 'n')
-				j++;
-			if (cmd[i][j])
-				return (i);
-		}
-		else
+		if (cmd[i][0] != '-')
+			return (i);
+		j = str_first_dif(&cmd[i][1], 'n') + 1;
+		if (cmd[i][j])
 			return (i);
 		i++;
 	}
@@ -40,19 +38,18 @@ static int	_check_flag(char **cmd)
 
 int	builtin_echo(char **cmd)
 {
-	int	ret;
-	int	i;
+	bool	flag;
+	int		i;
 
-	ret = _check_flag(cmd);
-	i = ret;
+	i = _check_flag(cmd);
+	flag = (bool)i;
 	while (cmd[i])
 	{
-		write(1, cmd[i], str_len(cmd[i]));
-		i++;
-		if (cmd[i] && cmd[i - 1][0])
+		if (write(1, cmd[i], str_len(cmd[i])) && cmd[i + 1])
 			write(1, " ", 1);
+		i++;
 	}
-	if (ret == 1)
+	if (flag == false)
 		write(1, "\n", 1);
 	return (SUCCESS);
 }

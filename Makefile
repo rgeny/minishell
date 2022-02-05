@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/04 22:04:53 by buschiix         ###   ########.fr        #
+#    Updated: 2022/02/05 18:14:28 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix parser_,	tokens print n_create n_command n_separator free_ast) \
 					$(addprefix cleaner_,	all) \
-					$(addprefix str_,		cmp len dup split join free split_first print) \
+					$(addprefix str_,		cmp len dup split join free split_first print first_dif) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
 					$(addprefix signal_,	current fork ignore) \
 					$(addprefix lst_,		carg) \

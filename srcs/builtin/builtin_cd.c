@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 17:06:13 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 18:48:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ static int	_check_error(char **cmd, t_data *data)
 {
 	int	len;
 
-	if (error_get() != SUCCESS)
-		return (error_get());
 	len = str_llen(cmd);
-	if (len == 1 && !env_find_var(data->env, ENV_HOME))
+	if (len == 0 && !env_find_var(data->env, ENV_HOME))
 		return (error_print(CD, ENV_HOME, CD_NOT_SET, ERROR_EXEC));
-	else if (len > 2)
+	else if (len > 1)
 		return (error_print(CD, TOO_MANY_ARGS, NULL, ERROR_EXEC));
-	else if (len > 1 && cmd[1][0] == '-' && !cmd[1][1]
+	else if (len > 0 && cmd[0][0] == '-' && !cmd[0][1]
 		&& !env_find_var(data->env, ENV_OLDPWD))
 		return (error_print(CD, ENV_OLDPWD, CD_NOT_SET, ERROR_EXEC));
 	return (SUCCESS);
@@ -87,14 +85,14 @@ int	builtin_cd(char **cmd, t_data *data)
 {
 	if (_check_error(cmd, data) != SUCCESS)
 		return (error_get());
-	if (!cmd[1])
+	if (!cmd[0])
 		return (_move_cwd(NULL, env_find_val(data->env, ENV_HOME), data, 0));
-	if (cmd[1][0] == '-' && !cmd[1][1])
+	if (cmd[0][0] == '-' && !cmd[0][1])
 		return (_move_cwd(NULL, env_find_val(data->env, ENV_OLDPWD), data, 1));
-	if (_move_cwd(cmd[1], 0, data, 0) == SUCCESS
-		|| _move_with_cdpath(data, cmd[1]) == SUCCESS)
+	if (_move_cwd(cmd[0], 0, data, 0) == SUCCESS
+		|| _move_with_cdpath(data, cmd[0]) == SUCCESS)
 		return (SUCCESS);
 	if (error_get())
 		return (error_get());
-	return (error_print(CD, cmd[1], NO_FILE, ERROR_EXEC));
+	return (error_print(CD, cmd[0], NO_FILE, ERROR_EXEC));
 }
