@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:43:25 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:04:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*_find_var_value(char *cmd, t_data *data)
 	if (cmd[0] == '?')
 		return (uti_itoa(g_last_return));
 	name = str_ndup(cmd, str_len_alnum(cmd));
-	value = env_find_value(data->env, name);
+	value = env_find_val(data->env, name);
 	str_free(name);
 	return (str_dup(value));
 }

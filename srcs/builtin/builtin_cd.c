@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 16:51:33 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 17:06:13 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	_check_error(char **cmd, t_data *data)
 static int	_replace_pwd(t_data *data, char *cwd)
 {
 	t_env	*tmp;
-	
+
 	tmp = env_find_var(data->env, ENV_PWD);
 	if (tmp)
 	{
@@ -64,12 +64,14 @@ static int	_move_cwd(char *dir, char *pwd, t_data *data, bool print_path)
 	return (_replace_pwd(data, cwd));
 }
 
-static int	_move_with_cdpath(t_data *data, char *cd_path_value, char *cmd)
+static int	_move_with_cdpath(t_data *data, char *cmd)
 {
 	char	**split;
 	int		i;
+	char	*cdpath;
 
-	split = str_split(cd_path_value, ":");
+	cdpath = env_find_val(data->env, ENV_CDPATH);
+	split = str_split(cdpath, ":");
 	if (split == NULL)
 		return (ERROR_EXEC);
 	i = 0;
@@ -86,11 +88,11 @@ int	builtin_cd(char **cmd, t_data *data)
 	if (_check_error(cmd, data) != SUCCESS)
 		return (error_get());
 	if (!cmd[1])
-		return (_move_cwd(NULL, env_find_value(data->env, ENV_HOME), data, false));
+		return (_move_cwd(NULL, env_find_val(data->env, ENV_HOME), data, 0));
 	if (cmd[1][0] == '-' && !cmd[1][1])
-		return (_move_cwd(NULL, env_find_value(data->env, ENV_OLDPWD), data, true));
+		return (_move_cwd(NULL, env_find_val(data->env, ENV_OLDPWD), data, 1));
 	if (_move_cwd(cmd[1], 0, data, 0) == SUCCESS
-		|| _move_with_cdpath(data, env_find_value(data->env, ENV_CDPATH), cmd[1]) == SUCCESS)
+		|| _move_with_cdpath(data, cmd[1]) == SUCCESS)
 		return (SUCCESS);
 	if (error_get())
 		return (error_get());

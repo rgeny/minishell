@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:18:35 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:39:36 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:02:51 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_env	*env_find_var(t_env *env, char *name)
 	return (env);
 }
 
-char	*env_find_value(t_env *env, char *name)
+char	*env_find_val(t_env *env, char *name)
 {
 	t_env	*var;
 

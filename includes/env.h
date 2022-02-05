@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:37:39 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:03:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	env_new(t_env **env, char *name, char *value);
 ** return a pointer to env var called name if it exists otherwise return 0.
 */
 t_env	*env_find_var(t_env *env, char *name);
-char	*env_find_value(t_env *env, char *name);
+char	*env_find_val(t_env *env, char *name);
 char	*env_find_name(t_env *env, char *name);
 /*
 **	env_assign

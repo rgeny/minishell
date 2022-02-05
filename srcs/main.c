@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 14:54:09 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/05 17:03:25 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	_init(char *envp[], t_data *data)
 	data->pwd = 0;
 	data->tokens = NULL;
 	data->ast_root = NULL;
-	data->pwd = str_dup(env_find_value(data->env, ENV_PWD));
+	data->pwd = str_dup(env_find_val(data->env, ENV_PWD));
 	uti_interactive(INTERACTIVE_INIT);
 }
 
