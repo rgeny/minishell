@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 15:56:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 17:12:59 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ void	print_ast_the_fancy_way(t_node *root)
 {
 	t_anode			*proot;
 	t_ast_printer	printer;
-//	int				xmin;
 	int				i;
 
-	if (root == NULL)
+	if (root == NULL || error_get() != SUCCESS)
 		return ;
 	printf("\nWhat a wonderfull AST :\n");
 	_init_printer(&printer);
@@ -73,5 +72,6 @@ void	print_ast_the_fancy_way(t_node *root)
 		printf("\n");
 		i++;
 	}
+	printf("\n");
 	_free_ascii_tree(proot);
 }

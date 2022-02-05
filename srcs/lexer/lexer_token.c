@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/04 16:45:30 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 17:06:46 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,37 +43,38 @@ int	lexer_create_operator_tok(t_tok_constructor *c, t_token **tokens, int stri)
 {
 	int			len;
 	const char	*str;
-
+	
+	if (error_get() != SUCCESS)
+		return (0);
 	str = c->str;
 	if (uti_is_in_charset(str[stri], "<>&|") && str[stri] == str[stri + 1])
 		len = 2;
 	else
 		len = 1;
 	c->cur_token->content = str_ndup(&str[stri], len);
-	// TODO : Handle malloc error
 	c->cur_token->type = _get_ope_token_type(c->cur_token);
 	_token_add_back(tokens, c->cur_token);
 	return (len);
 }
 
-int	lexer_terminate_token(t_tok_constructor *c, t_token **tokens, int stri)
+void	lexer_terminate_token(t_tok_constructor *c, t_token **tokens, int stri)
 {
 	int		token_len;
 	char	*str_start;
 
+	if (error_get() != SUCCESS)
+		return ;
 	if (stri == c->start_index)
 	{
 		c->start_index++;
-		return (1);
+		return ;
 	}
 	str_start = (char *)c->str + c->start_index;
 	token_len = stri - c->start_index;
 	c->cur_token->content = str_ndup(str_start, token_len);
-	// TOOD : Handle malloc error
 	c->cur_token->type = E_TOKEN_TYPE_WORD;
 	_token_add_back(tokens, c->cur_token);
 	c->cur_token = NULL;
-	return (1);
 }
 
 int	lexer_update_token_mode(t_tok_constructor *constructor, char c)

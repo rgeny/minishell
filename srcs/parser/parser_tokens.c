@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 15:55:01 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 17:22:19 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ t_node	*parse_tokens(t_token *tokens)
 	t_node	*n_command;
 	t_node	*n_separator;
 
-	if (tokens == NULL)
+	if (tokens == NULL || error_get() != SUCCESS)
 		return (NULL);
 	current_token = tokens;
 	n_separator = NULL;
+	n_command = NULL;
 	init_n_command(&current_token, &n_command, n_separator);
 	while (current_token && error_get() == SUCCESS)
 	{

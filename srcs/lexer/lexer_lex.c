@@ -6,45 +6,37 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/04 20:59:12 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 17:06:01 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static int	_terminate_token_and_create_a_new_one(
+static void	_terminate_token_and_create_a_new_one(
 				t_tok_constructor *c, t_token **tokens, int i)
 {
 	lexer_terminate_token(c, tokens, i);
-		// TODO - Handle malloc error
 	lexer_tok_constructor_new(c, i + 1);
-	if (c->cur_token == NULL)
-		return (MALLOC_ERROR_CODE);
-	return (OK);
 }
 
 static int	_process_char(t_tok_constructor *c, t_token **tokens, int i)
 {
 	int	len;
 
+	if (error_get()!= SUCCESS)
+		return 0;
 	if (c->mode == E_MODE_WORD)
 	{
 		if (lexer_get_chartype(c->str[i]) == E_CHAR_TYPE_BLANK)
 		{
-			if (_terminate_token_and_create_a_new_one(c, tokens, i))
-				return (MALLOC_ERROR_CODE);
+			_terminate_token_and_create_a_new_one(c, tokens, i);
 			return (1);
 		}
 		else if (lexer_get_chartype(c->str[i]) == E_CHAR_TYPE_OPERATOR)
 		{
-			if (_terminate_token_and_create_a_new_one(c, tokens, i))
-				return (MALLOC_ERROR_CODE);
+			_terminate_token_and_create_a_new_one(c, tokens, i);
 			len = lexer_create_operator_tok(c, tokens, i);
-			// If ...
-				// TODO - Handle malloc error
 			lexer_tok_constructor_new(c, i + len);
-			if (c->cur_token == NULL)
-				return (MALLOC_ERROR_CODE);
 			return (len);
 		}
 		else
@@ -54,27 +46,9 @@ static int	_process_char(t_tok_constructor *c, t_token **tokens, int i)
 		return (lexer_update_token_mode(c, c->str[i]));
 }
 
-void *_print_lexer_error(int error_code, t_token **tokens)
-{
-	char *msg;
-
-	if (error_code == QUOTE_ERROR_CODE)
-	{
-		msg = "Syntax error: Please close all your quotes\n";
-		error_print(msg, NULL, NULL, 0);
-	}
-	else if (error_code == MALLOC_ERROR_CODE)
-	{
-		error_print("Error: Cannot allocate memory\n", NULL, NULL, 0);
-	}
-	lexer_free_tokens(tokens); // useless, should free token constructor instead
-	return (NULL);
-} 
-
 t_token	*lexer_lex(const char *str)
 {
 	int					i;
-	int					len;
 	t_tok_constructor	constructor;
 	t_token				*tokens;
 
@@ -82,21 +56,13 @@ t_token	*lexer_lex(const char *str)
 	tokens = NULL;
 	i = 0;
 	lexer_tok_constructor_new(&constructor, i);
-	if (constructor.cur_token == NULL)
-		return (_print_lexer_error(MALLOC_ERROR_CODE, &tokens));
-	while (str && str[i])
-	{
-		len = _process_char(&constructor, &tokens, i);
-		if (len == MALLOC_ERROR_CODE)
-			return (_print_lexer_error(MALLOC_ERROR_CODE, &tokens));
-		i += len;
-	}
-	if (constructor.cur_token)
+	while (str && str[i] && error_get() == SUCCESS)
+		i += _process_char(&constructor, &tokens, i);;
+	if (constructor.cur_token && error_get() == SUCCESS)
 	{
 		if (constructor.mode != E_MODE_WORD)
-			return (_print_lexer_error(QUOTE_ERROR_CODE, &tokens));
+			error_print(QUOTE_ERROR, NULL, NULL, ERROR_SYNTAX);
 		lexer_terminate_token(&constructor, &tokens, i);
-			// TODO - Handle malloc error
 	}
 	lexer_tok_constructor_free(&constructor);
 	return (tokens);
