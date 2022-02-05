@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 17:22:19 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 18:25:39 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_node	*parse_tokens(t_token *tokens)
 			init_n_command(&current_token, &n_command, n_separator);
 		}
 		else
-			print_parser_error(1, current_token);
+			print_syntax_error(current_token);
 	}
 	return(_set_root(n_command, n_separator));
 }
