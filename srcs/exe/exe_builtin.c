@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 19:38:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 14:59:27 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:33:42 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exe_builtin(char **cmd, char **args, t_data *data)
 	if (!str_cmp(cmd[0], "export"))
 		g_last_return = builtin_export(args, data);
 	else if (!str_cmp(cmd[0], "unset"))
-		g_last_return = builtin_unset(cmd, data);
+		g_last_return = builtin_unset(args, data);
 	else if (!str_cmp(cmd[0], "exit"))
 		g_last_return = builtin_exit(cmd, data);
 	else if (!str_cmp(cmd[0], "cd"))

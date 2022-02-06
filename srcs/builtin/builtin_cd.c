@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 21:34:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:30:56 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	_replace_pwd(t_data *data, char *cwd)
 		env_assign(data->env, ENV_PWD, str_dup(cwd));
 	}
 	else
-		env_del_one(env_find_var(data->env, ENV_OLDPWD));
+		env_del_one(&data->env, ENV_OLDPWD);
 	str_free(data->pwd);
 	data->pwd = str_dup(cwd);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 20:09:21 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 23:22:38 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/06 15:32:11 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 #include "env.h"
 #include "str.h"
 
-void	env_del_one(t_env *env)
+void	env_del_one(t_env **env, char *name)
 {
-	if (!env)
+	t_env	*var;
+
+	var = env_find_var(*env, name);
+	if (var == NULL)
 		return ;
-	if (env->prev)
-		env->prev->next = env->next;
-	if (env->next)
-		env->next->prev = env->prev;
-	str_free(env->name);
-	str_free(env->value);
-	if (env)
-		free(env);
+	if (var->prev)
+		var->prev->next = var->next;
+	else
+		*env = var->next;
+	if (var->next)
+		var->next->prev = var->prev;
+	str_free(var->name);
+	str_free(var->value);
+	free(var);
 }
 
 void	env_del_all(t_env *env)
@@ -35,7 +39,9 @@ void	env_del_all(t_env *env)
 	while (env)
 	{
 		next = env->next;
-		env_del_one(env);
+		str_free(env->name);
+		str_free(env->value);
+		free(env);
 		env = next;
 	}
 }

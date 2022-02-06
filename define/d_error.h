@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/06 15:15:29 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:19:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 /*	global error	*/
 # define TOO_MANY_ARGS "too many arguments"
 # define NO_FILE ": No such file or directory"
+# define BAD_IDENTIFIER ": not a valid identifier"
 # define MALLOC_ERROR "Cannot allocate memory"
 
 /*	env error	*/
@@ -37,10 +38,13 @@
 
 /*	export error	*/
 # define EXPORT "export: "
-# define BAD_IDENTIFIER ": not a valid identifier"
 
 /*	pwd error	*/
 # define PWD "pwd: "
 # define BAD_OPT ": invalid option\npwd: usage: pwd"
 # define DOUBLE_HYPHEN "--"
+
+/*	unset error	*/
+# define UNSET "unset: "
+
 #endif
