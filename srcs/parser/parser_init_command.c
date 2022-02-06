@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 20:40:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:42:09 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,23 @@ static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 	*token = start_token;
 }
 
-void	init_n_command(t_token **token, t_node **n_command, t_node *n_sep)
+t_node	*init_command(t_token **token)
 {
 	t_command	*command;
+	t_node		*command_node;
 
 	if (!is_command_token((*token)->type))
 	{
 		print_syntax_error(*token);
-		return ;
+		return (NULL);
 	}
-	*n_command = n_create(E_NODE_TYPE_COMMAND);
-	if (*n_command == NULL)
-		return ;
-	command = (*n_command)->command;
+	command_node = n_create(E_NODE_TYPE_COMMAND);
+	if (command_node == NULL)
+		return (NULL);
+	command = command_node->command;
 	_get_size_and_check_syntax(token, command);
 	command->cargs = NULL;
 	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
 	_set_n_command(token, command);
-	if (n_sep)
-		n_sep->right = *n_command;
+	return (command_node);
 }

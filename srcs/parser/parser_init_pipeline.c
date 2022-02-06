@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:21:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:42:11 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static bool	_is_pipeline_token(t_token_type type)
 	return (is_command_token(type) || type == E_TOKEN_TYPE_PIPE);
 }
 
-static void	_init_n_pipe(t_node **pipe_node, t_node *n_command)
+static t_node	*_init_pipe_node(t_node *pipe_node, t_node *command_node)
 {
-	t_node	*new_n_separator;
+	t_node	*new_pipe_node;
 
-	new_n_separator = n_create(E_NODE_TYPE_PIPE);
-	if (new_n_separator == NULL)
-		return ;
-	if (!*pipe_node)
-		new_n_separator->left = n_command;
+	new_pipe_node = n_create(E_NODE_TYPE_PIPE);
+	if (new_pipe_node == NULL)
+		return (NULL);
+	if (!pipe_node)
+		new_pipe_node->left = command_node;
 	else
-		new_n_separator->left = *pipe_node;
-	*pipe_node = new_n_separator;
+		new_pipe_node->left = pipe_node;
+	return (new_pipe_node);
 }
 
 t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
@@ -49,16 +49,15 @@ t_node	*init_pipeline(t_token **token, int subshell_lvl)
 	if (error_get() != SUCCESS)
 		return (NULL);
 	pipe_node = NULL;
-	command_node = NULL;
-	init_n_command(token, &command_node, pipe_node);
+	command_node = init_command(token);
 	while (*token && _is_pipeline_token((*token)->type) && error_get() == SUCCESS)
 	{
-		_init_n_pipe(&pipe_node, command_node);
+		pipe_node = _init_pipe_node(pipe_node, command_node);
 		if ((*token)->next)
 		{
 			*token = (*token)->next;
 			// if (_is_pipeline_token((*token)->type))
-				init_n_command(token, &command_node, pipe_node);
+			pipe_node->right = init_command(token);
 			// else if ((*token)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
 			// {
 					

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:22:33 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:26:13 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl)
 	
 	if (error_get() != SUCCESS)
 		return (NULL);
-	
-	pipeline_node = init_pipeline(tokens, subshell_lvl);
 	andor_node = NULL;
+	pipeline_node = init_pipeline(tokens, subshell_lvl);
 	while (*tokens && _is_list_token((*tokens)->type) && error_get() == SUCCESS)
 	{
 		type = _get_node_type(*tokens);

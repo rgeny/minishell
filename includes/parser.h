@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:13:23 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:42:13 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		parser_main(t_data *data, char *rl);
 t_node	*parse_tokens(t_token *tokens);
 
 t_node	*n_create(t_node_type type);
-void	init_n_command(t_token **token, t_node **n_command, t_node *n_sep);
+t_node	*init_command(t_token **token);
 t_node	*init_pipeline(t_token **token, int subshell_lvl);
 t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl);
 
