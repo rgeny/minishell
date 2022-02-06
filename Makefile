@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/05 18:14:28 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/06 17:13:52 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_D
 # *********************************** sources ******************************** #
 
 SRC				= $(addsuffix .c,			main \
-					$(addprefix env_,		del find init new print assign switch new_) \
+					$(addprefix env_,		del find init new assign switch) \
 					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max error) \
 					$(addprefix mem_,		cpy set) \
 					$(addprefix expander_,	var path heredoc main) \

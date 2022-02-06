@@ -6,11 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 21:03:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/29 16:08:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:51:42 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	str_cmp(char *s1, char *s2)
+int	str_cmp(const char *s1, const char *s2)
 {
 	int	i;
 

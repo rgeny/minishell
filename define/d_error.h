@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/06 15:19:43 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 16:02:42 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define ENV_PWD "PWD"
 # define ENV_OLDPWD "OLDPWD"
 # define ENV_CDPATH "CDPATH"
+# define ENV_SHLVL "SHLVL"
 
 /*	cd error	*/
 # define CD "cd: "

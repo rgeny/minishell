@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:42:26 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/06 15:57:28 by rgeny            ###   ########.fr       */
 /*   Updated: 2022/01/09 16:52:05 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -36,6 +36,8 @@ void	env_new(t_env **env, char *name, char *value)
 {
 	t_env	*new;
 
+	if (name == NULL)
+		return (str_free(value));
 	new = env_find_var(*env, name);
 	if (new)
 	{

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 14:08:06 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 18:13:40 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:51:30 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	*str_dup(const char *s);
 char	*str_ndup(const char *s, int n);
-int		str_cmp(char *s1, char *s2);
+int		str_cmp(const char *s1, const char *s2);
 int		str_ncmp(const char *s1, const char *s2, unsigned int n);
 int		str_lcmp(char *s1, char *s2, int l);
 char	*str_join(const char *s1, const char *s2, char c);

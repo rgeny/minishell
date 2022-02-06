@@ -6,13 +6,19 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 15:30:43 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 17:14:06 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
+# include <stdlib.h>
+# include <dirent.h>
+# include <unistd.h>
+# include <stdbool.h>
 # include "t_data.h"
+# include "str.h"
+# include "utils.h"
 
 /*
 **	env_init
@@ -32,9 +38,9 @@ void	env_new(t_env **env, char *name, char *value);
 **	env_find
 ** return a pointer to env var called name if it exists otherwise return 0.
 */
-t_env	*env_find_var(t_env *env, char *name);
-char	*env_find_val(t_env *env, char *name);
-char	*env_find_name(t_env *env, char *name);
+t_env	*env_find_var(t_env *env, const char *name);
+char	*env_find_val(t_env *env, const char *name);
+char	*env_find_name(t_env *env, const char *name);
 /*
 **	env_assign
 ** new_value parameter need to be malloc.
@@ -46,15 +52,8 @@ void	env_assign(t_env *env, char *name, char *new_value);
 **	env_switch
 ** cpy env in char ** and return this.
 */
-char	**env_switch(t_data *data, int with_not_init); //abc
-/*
-**	env_new_
-** Save the path of the current script in the PATH environment variable.
-*/
-void	env_new_(char *s, t_env **env);
+char	**env_switch(t_data *data, bool with_not_init); //abc
 
 void	env_del_one(t_env **env, char *name);
 void	env_del_all(t_env *env);
-void	env_print_one(t_env *env);
-void	env_print_all(t_env *env);
 #endif

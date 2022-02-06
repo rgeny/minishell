@@ -6,15 +6,19 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:27:14 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 21:23:35 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 16:06:46 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "utils.h"
 
 int	uti_atoi(char *s)
 {
 	long	n;
 	int		i;
 
+	if (s == NULL)
+		return (0);
 	n = 0;
 	i = 0;
 	while (s[i])

@@ -6,13 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 14:13:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/18 18:04:44 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/06 15:40:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	str_llen(const char **s)
+int	str_llen(char **s)
 {
 	int	i;
 
