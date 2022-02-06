@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/03 21:54:45 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/06 17:56:11 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	_wait_all(t_node *cmd, t_data *data)
 		return ;
 	if (cmd->type == E_NODE_TYPE_COMMAND)
 	{
-		if (waitpid(cmd->command->pid, &g_last_return, 0) != -1)
+		if (cmd->command->pid && waitpid(cmd->command->pid, &g_last_return, 0) != -1)
 		{
 			if (WIFSIGNALED(g_last_return))
 				g_last_return = WTERMSIG(g_last_return) + 128;
@@ -38,20 +38,21 @@ static void	_wait_all(t_node *cmd, t_data *data)
 void	exe_main(t_node *cmd, t_data *data)
 {
 	if (cmd->type == E_NODE_TYPE_PIPE)
-	{
 		exe_pipe(cmd, data);
-		_wait_all(cmd, data);
-	}
 	else if (cmd->type == E_NODE_TYPE_COMMAND)
-	{
 		exe_cmd(cmd, data);
-		if (waitpid(cmd->command->pid, &g_last_return, 0) != -1)
-		{
-			if (WIFSIGNALED(g_last_return))
-				g_last_return = WTERMSIG(g_last_return) + 128;
-			else
-				g_last_return = WEXITSTATUS(g_last_return);
-		}
+	else if (cmd->type == E_NODE_TYPE_AND)
+	{
+		exe_main(cmd->left, data);
+		if (g_last_return == SUCCESS)
+			exe_main(cmd->right, data);
 	}
+	else if (cmd->type == E_NODE_TYPE_OR)
+	{
+		exe_main(cmd->left, data);
+		if (g_last_return != SUCCESS)
+			exe_main(cmd->right, data);
+	}
+	_wait_all(cmd, data);
 	signal_current();
 }
