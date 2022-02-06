@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/06 17:26:23 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/06 17:28:26 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ SRC				= $(addsuffix .c,			main \
 					$(addprefix asterisk_,	main dir_list) \
 					$(addprefix exe_,		builtin out_process readline main redir pipe cmd) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix parser_,	tokens print n_create n_command free_ast main init_pipeline init_pipeline_list) \
+					$(addprefix parser_,	tokens print n_create init_command free_ast main init_pipeline init_pipeline_list) \
 					$(addprefix cleaner_,	all) \
 					$(addprefix str_,		cmp len dup split join free split_first print first_dif) \
 					$(addprefix builtin_,	cd exit export unset echo env pwd) \
