@@ -1,0 +1,1 @@
+	- getcwd qui fail ne doit pas annuler l'exécution

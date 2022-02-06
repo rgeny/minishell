@@ -529,8 +529,10 @@ then
 	test_ret_stdout	"echo ****a*****b****c****d****"
 	test_ret_stdout "echo a"
 	test_ret_stdout "*"
-	test_ret_stdout "cat *"
-	test_ret_stdout "cat .*"
+	test_ret_stdout "echo *"
+	test_ret_stdout "echo .*"
+	test_ret_stdout "mkdir t1\ncd t1\nrm -rf ../t1\necho *"
+	test_ret_stdout "mkdir t1\ncd t1\nrm -rf ../t1\necho .*"
 #todo : add compter ligne d'erreur
 
 	cd ../

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/06 17:26:09 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 18:33:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,6 @@
 /*	unset error	*/
 # define UNSET "unset: "
 
+/*	expander error	*/
+# define EXPAND_ASTERISK "asterisk: "
 #endif

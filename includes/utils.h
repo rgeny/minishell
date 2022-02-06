@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 16:06:31 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 18:27:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,5 @@ int				uti_is_in_charset(char c, char *charset);
 bool			uti_is_valid_name(char *s);
 void			uti_quicksort(int start, int end, char **s);
 unsigned long	uti_interactive(t_cmd_interactive cmd);
+void			uti_free(void **p);
 #endif
