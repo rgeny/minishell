@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:39:54 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 19:26:12 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 11:53:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,20 @@ t_anode	*_build_ascii_tree_recursive(t_node *tnode)
 	{
 		anode->label = uti_calloc(2, sizeof(char *));
 		anode->label[0] = str_dup("PIPE");
+		anode->lab_width = str_len(anode->label[0]);
+		anode->lab_height = 1;
+	}
+	else if (tnode->type == E_NODE_TYPE_OR)
+	{
+		anode->label = uti_calloc(2, sizeof(char *));
+		anode->label[0] = str_dup("||");
+		anode->lab_width = str_len(anode->label[0]);
+		anode->lab_height = 1;
+	}
+	else if (tnode->type == E_NODE_TYPE_AND)
+	{
+		anode->label = uti_calloc(2, sizeof(char *));
+		anode->label[0] = str_dup("&&");
 		anode->lab_width = str_len(anode->label[0]);
 		anode->lab_height = 1;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_ast.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 17:55:48 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:33:47 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ typedef struct s_command {
 
 typedef enum s_node_type {
 	E_NODE_TYPE_COMMAND,
-	E_NODE_TYPE_PIPE
+	E_NODE_TYPE_PIPE,
+	E_NODE_TYPE_AND,
+	E_NODE_TYPE_OR
 	// TODO : Add &&/|| types for bonuses
 }	t_node_type;
 

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 10:40:52 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 12:07:33 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,97 @@ bool	is_command_token(t_token_type type)
 	return (type == E_TOKEN_TYPE_WORD || type == E_TOKEN_TYPE_REDIRECTION);
 }
 
-static t_node	*_set_root(t_node *n_command, t_node *n_separator)
+bool	is_pipeline_token(t_token_type type)
 {
-	if (n_separator)
-		return (n_separator);
+	return (is_command_token(type) || type == E_TOKEN_TYPE_PIPE);
+}
+
+static t_node	*_set_root(t_node *main_node, t_node *separator_node)
+{
+	if (separator_node)
+		return (separator_node);
 	else
-		return (n_command);
+		return (main_node);
+}
+
+t_node	*init_pipeline(t_token **token)
+{
+	t_node	*command_node;
+	t_node	*pipe_node;
+
+	if (error_get() != SUCCESS)
+		return (NULL);
+	pipe_node = NULL;
+	command_node = NULL;
+	init_n_command(token, &command_node, pipe_node);
+	while (*token && is_pipeline_token((*token)->type) && error_get() == SUCCESS)
+	{
+		init_n_pipe(&pipe_node, command_node);
+		if ((*token)->next)
+		{
+			*token = (*token)->next;
+			init_n_command(token, &command_node, pipe_node);
+		}
+		else
+			print_syntax_error(*token); // tokens finished by a pipe
+	}
+	return (_set_root(command_node, pipe_node));
+}
+
+t_node	*init_andor_node(t_token *token, t_node *andor_node, t_node *pipeline_node)
+{
+	t_node	*new_andor_node;
+	t_node_type	type;
+	
+	if (token->type == E_TOKEN_TYPE_OR)
+		type = E_NODE_TYPE_OR;
+	else //if (token->type == E_TOKEN_TYPE_AND)
+		type = E_NODE_TYPE_AND;
+	new_andor_node = n_create(type);
+	if (new_andor_node == NULL)
+		return (NULL) ;
+	if (!andor_node)
+		new_andor_node->left = pipeline_node;
+	else
+		new_andor_node->left = andor_node;
+	return (new_andor_node);
+}
+
+t_node	*init_pipeline_list(t_token **tokens)
+{
+	t_node	*new_pipeline_node;
+	t_node	*pipeline_node;
+	t_node	*andor_node;
+	
+	if (error_get() != SUCCESS)
+		return (NULL);
+	
+	pipeline_node = init_pipeline(tokens);
+	andor_node = NULL;
+	while (*tokens && error_get() == SUCCESS)
+	{
+		printf("I find the token %s outside a pipeline\n", (*tokens)->content);
+		andor_node = init_andor_node(*tokens, andor_node, pipeline_node);
+		if ((*tokens)->next)
+		{
+			*tokens = (*tokens)->next;
+			new_pipeline_node = init_pipeline(tokens);
+			andor_node->right = new_pipeline_node;
+		}
+		else
+			print_syntax_error(*tokens); // tokens finished by a pipe
+	}
+	return (_set_root(pipeline_node, andor_node));
 }
 
 t_node	*parse_tokens(t_token *tokens)
 {
 	t_token	*current_token;
-	t_node	*n_command;
-	t_node	*n_separator;
+	t_node	*root;
 
 	if (tokens == NULL || error_get() != SUCCESS)
 		return (NULL);
 	current_token = tokens;
-	n_separator = NULL;
-	n_command = NULL;
-
-	init_n_command(&current_token, &n_command, n_separator);
-	while (current_token && error_get() == SUCCESS)
-	{
-		init_n_pipe(&n_separator, n_command);
-		if (current_token->next)
-		{
-			current_token = current_token->next;
-			init_n_command(&current_token, &n_command, n_separator);
-		}
-		else
-			print_syntax_error(current_token); // tokens finished by a pipe
-	}
-	
-	return (_set_root(n_command, n_separator));
+	root = init_pipeline_list(&current_token);
+	return (root);
 }
