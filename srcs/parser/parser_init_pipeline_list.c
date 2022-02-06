@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:13:48 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:22:33 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static bool	_is_list_token(t_token_type type)
 
 t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl)
 {
-	t_node	*new_pipeline_node;
 	t_node	*pipeline_node;
 	t_node	*andor_node;
 	t_node_type	type;
@@ -69,8 +68,7 @@ t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl)
 		if ((*tokens)->next)
 		{
 			*tokens = (*tokens)->next;
-			new_pipeline_node = init_pipeline(tokens, subshell_lvl);
-			andor_node->right = new_pipeline_node;
+			andor_node->right = init_pipeline(tokens, subshell_lvl);
 		}
 		else
 			print_syntax_error(*tokens); // list finished by && or ||
