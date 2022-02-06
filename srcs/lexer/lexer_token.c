@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 17:06:46 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 14:50:15 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static t_token_type	_get_ope_token_type(t_token *token)
 		return (E_TOKEN_TYPE_OR);
 	else if (!str_cmp(token->content, "&&"))
 		return (E_TOKEN_TYPE_AND);
+	else if (!str_cmp(token->content, "("))
+		return (E_TOKEN_TYPE_PARENTHESIS_OPEN);
+	else if (!str_cmp(token->content, ")"))
+		return (E_TOKEN_TYPE_PARENTHESIS_CLOSE);
 	else
 		return (E_TOKEN_TYPE_OPERATOR);
 }

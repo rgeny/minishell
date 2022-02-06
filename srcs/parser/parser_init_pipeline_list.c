@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 14:30:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:13:48 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static bool	_is_list_token(t_token_type type)
 			|| type == E_TOKEN_TYPE_OR);
 }
 
-t_node	*init_pipeline_list(t_token **tokens)
+t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl)
 {
 	t_node	*new_pipeline_node;
 	t_node	*pipeline_node;
@@ -60,7 +60,7 @@ t_node	*init_pipeline_list(t_token **tokens)
 	if (error_get() != SUCCESS)
 		return (NULL);
 	
-	pipeline_node = init_pipeline(tokens);
+	pipeline_node = init_pipeline(tokens, subshell_lvl);
 	andor_node = NULL;
 	while (*tokens && _is_list_token((*tokens)->type) && error_get() == SUCCESS)
 	{
@@ -69,7 +69,7 @@ t_node	*init_pipeline_list(t_token **tokens)
 		if ((*tokens)->next)
 		{
 			*tokens = (*tokens)->next;
-			new_pipeline_node = init_pipeline(tokens);
+			new_pipeline_node = init_pipeline(tokens, subshell_lvl);
 			andor_node->right = new_pipeline_node;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 13:57:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 15:21:38 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
 		return (main_node);
 }
 
-t_node	*init_pipeline(t_token **token)
+t_node	*init_pipeline(t_token **token, int subshell_lvl)
 {
 	t_node	*command_node;
 	t_node	*pipe_node;
+
+	(void)subshell_lvl;
 
 	if (error_get() != SUCCESS)
 		return (NULL);
@@ -55,10 +57,16 @@ t_node	*init_pipeline(t_token **token)
 		if ((*token)->next)
 		{
 			*token = (*token)->next;
-			init_n_command(token, &command_node, pipe_node);
+			// if (_is_pipeline_token((*token)->type))
+				init_n_command(token, &command_node, pipe_node);
+			// else if ((*token)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
+			// {
+					
+			// }
 		}
-		else
+		else // if ((*token)->next == NULL)
 			print_syntax_error(*token); // tokens finished by a pipe
+
 	}
 	return (_set_pipeline_root(command_node, pipe_node));
 }

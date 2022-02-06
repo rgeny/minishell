@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 09:39:05 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/06 11:28:50 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 14:51:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	lexer_get_chartype(char c)
 		return (E_CHAR_TYPE_SQUOTE);
 	else if (c == '"')
 		return (E_CHAR_TYPE_DQUOTE);
-	else if (uti_is_in_charset(c, "<>|&"))
+	else if (uti_is_in_charset(c, "<>|&()"))
 		return (E_CHAR_TYPE_OPERATOR);
 	else
 		return (E_CHAR_TYPE_ALNUMP);
