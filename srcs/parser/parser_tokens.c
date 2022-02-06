@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 12:11:05 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/06 13:34:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ t_node	*init_pipeline_list(t_token **tokens)
 	andor_node = NULL;
 	while (*tokens && error_get() == SUCCESS)
 	{
-		printf("I find the token %s outside a pipeline\n", (*tokens)->content);
-		andor_node = init_andor_node(*tokens, andor_node, pipeline_node);
+		andor_node = init_andor_node(andor_node, pipeline_node, (*tokens)->type);
 		if ((*tokens)->next)
 		{
 			*tokens = (*tokens)->next;
