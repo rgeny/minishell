@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/05 21:49:08 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 15:15:29 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,9 @@
 /*	export error	*/
 # define EXPORT "export: "
 # define BAD_IDENTIFIER ": not a valid identifier"
+
+/*	pwd error	*/
+# define PWD "pwd: "
+# define BAD_OPT ": invalid option\npwd: usage: pwd"
+# define DOUBLE_HYPHEN "--"
 #endif
