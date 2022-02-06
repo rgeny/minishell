@@ -6,79 +6,60 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 21:53:45 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 14:53:47 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include "env.h"
-#include "str.h"
-#include "error.h"
-#include "print.h"
-#include "struct.h"
-#include "utils.h"
+#include "builtin.h"
 
-static int	_print(t_env *env)
+static void	_print_env(t_data *data)
 {
 	char	**cpy;
 	int		i;
-	t_data	data;
 
-	data.env = env;
-	data.pwd = 0;
-	cpy = env_switch(&data, 1);
-	if (cpy)
+	cpy = env_switch(data, true);
+	if (cpy == NULL)
+		return ;
+	uti_quicksort(0, str_llen(cpy) - 1, cpy);
+	i = 0;
+	while (cpy[i] != NULL)
 	{
-		uti_quicksort(0, str_llen(cpy) - 1, cpy);
-		i = 0;
-		while (cpy[i])
+		if (cpy[i][0] != '_' || cpy[i][1] != '=')
 		{
-			if (cpy[i] && (cpy[i][0] != '_' || cpy[i][1] != '='))
-			{
-				str_print_fd(EXPORT, STDOUT_FILENO);
-				str_print_fd_nl(cpy[i], STDOUT_FILENO);
-			}
-			i++;
+			str_print_fd(EXPORT, STDOUT_FILENO);
+			str_print_fd_nl(cpy[i], STDOUT_FILENO);
 		}
+		i++;
 	}
 	str_free_list(cpy);
-	return (SUCCESS);
 }
 
-static int	_new(char **cmd, t_data *data)
+static void	_export_var(char **cmd, t_data *data)
 {
+	int		i;
 	char	**var;
 
-	var = str_split_first(cmd[0], '=');
-	env_new(&data->env, str_dup(var[0]), str_dup(var[1]));
-	str_free_list(var);
-	return (SUCCESS);
+	i = 0;
+	while (cmd[i] != NULL)
+	{
+		if (uti_is_valid_name(cmd[i]) == true)
+		{
+			var = str_split_first(cmd[i], '=');
+			if (var != NULL && var[0] != NULL)
+				env_new(&data->env, str_dup(var[0]), str_dup(var[1]));
+			str_free_list(var);
+		}
+		else
+			error_print(EXPORT, cmd[i], BAD_IDENTIFIER, ERROR_EXEC);
+		i++;
+	}
 }
 
 int	builtin_export(char **cmd, t_data *data)
 {
-	int	i;
-	int	ret;
-
-	ret = 0;
-	if (!cmd[1])
-		return (_print(data->env));
+	if (cmd[0] == NULL)
+		_print_env(data);
 	else
-	{
-		i = 1;
-		ret = SUCCESS;
-		while (cmd[i])
-		{
-			if (uti_is_valid_var_name(cmd[i]))
-				ret |= _new(&cmd[i], data);
-			else
-			{
-				ret = ERROR_EXEC;
-				error_print(EXPORT, cmd[i], BAD_IDENTIFIER, ERROR_EXEC);
-			}
-			i++;
-		}
-	}
-	return (ret);
+		_export_var(cmd, data);
+	return (error_get());
 }
