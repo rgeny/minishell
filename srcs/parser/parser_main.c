@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_n_separator.c                               :+:      :+:    :+:   */
+/*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 11:49:27 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/30 13:46:04 by tokino           ###   ########.fr       */
+/*   Created: 2022/02/04 21:49:56 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/05 19:29:25 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "lexer.h"
+#include "ast_print.h"
 
-int	init_n_separator(t_node **n_separator, t_node *n_command)
+int	parser_main(t_data *data, char *rl)
 {
-	t_node	*new_n_separator;
+	t_token	*tokens;
 
-	new_n_separator = n_create(E_NODE_TYPE_PIPE);
-	if (new_n_separator == NULL)
-		return (MALLOC_ERROR_CODE);
-	if (!*n_separator)
-		new_n_separator->left = n_command;
-	else
-		new_n_separator->left = *n_separator;
-	*n_separator = new_n_separator;
-	return (OK);
+	error_reset();
+	tokens = lexer_lex(rl);
+	lexer_print_tokens(tokens);
+	data->ast_root = parse_tokens(tokens);
+	print_ast_the_fancy_way(data->ast_root);
+	lexer_free_tokens(&tokens);
+	return (error_get());
 }

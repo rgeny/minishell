@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/04 20:09:52 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/06 15:42:13 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@
 # include "lst.h"
 # include "error.h"
 
-# define OK 0
-# define SYNTAX_ERROR_CODE -1
-# define MALLOC_ERROR_CODE -2
-
-int		parse_tokens(t_data *data, t_token *tokens);
+int		parser_main(t_data *data, char *rl);
+t_node	*parse_tokens(t_token *tokens);
 
 t_node	*n_create(t_node_type type);
-int		init_n_command(t_token **token, t_node **n_command, t_node *n_sep);
-int		init_n_separator(t_node **n_separator, t_node *n_command);
+t_node	*init_command(t_token **token);
+t_node	*init_pipeline(t_token **token, int subshell_lvl);
+t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl);
 
 bool	is_command_token(t_token_type type);
 
@@ -39,7 +37,6 @@ int		print_unspec_msg(char *token);
 void	print_node(t_node *n);
 void	print_ast(t_node *node, int depth);
 int		print_syntax_error(t_token *token);
-int 	print_parser_error(int error_code, t_token *token);
 
 void	free_ast(t_node **root);
 void	print_ast_the_fancy_way(t_node *root);

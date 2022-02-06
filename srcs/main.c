@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 15:05:20 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 17:25:37 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	_init(char *envp[], t_data *data)
 	data->env = 0;
 	env_init(&data->env, envp);
 	data->pwd = 0;
-	data->tokens = NULL;
 	data->ast_root = NULL;
 	data->pipefd[0] = STDIN_FILENO;
 	data->pipefd[1] = STDOUT_FILENO;
@@ -48,11 +47,9 @@ static void	_exe(t_data *data)
 	{
 		error_reset();
 		add_history(rl);
-		data->tokens = lexer_lex(rl);
-		if (data->tokens && parse_tokens(data, data->tokens) == 0)
+		if (parser_main(data, rl) == SUCCESS && data->ast_root)
 		{
-			// lexer_print_tokens(data->tokens); 
-//			print_ast_the_fancy_way(data->ast_root);
+
 			expander_main(data, data->ast_root);
 			in = dup(0);
 			out = dup(1);
@@ -63,7 +60,6 @@ static void	_exe(t_data *data)
 			close(out);
 		}
 		str_free(rl);
-		lexer_free_tokens(&data->tokens);
 		free_ast(&data->ast_root);
 		rl = exe_readline(data);
 	}

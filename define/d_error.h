@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/06 16:02:42 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/06 17:26:09 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # define NO_FILE ": No such file or directory"
 # define BAD_IDENTIFIER ": not a valid identifier"
 # define MALLOC_ERROR "Cannot allocate memory"
+
+/*  Syntax error    */
+# define TOKEN_ERROR    "Syntax error near unexpected token '" 
+# define QUOTE_ERROR    "Syntax error: Please close all your quotes\n"
 
 /*	env error	*/
 # define ENV_HOME "HOME"

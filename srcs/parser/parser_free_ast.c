@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:43:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/02 14:45:17 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 20:40:14 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ void	free_redirections(t_command *command)
 
 void	free_n_command(t_command *command)
 {
-	if (command->args) // TO DELETE
-	{
-		str_free_list(command->args);
-		command->args = NULL; 
-	}
 	if (command->cargs)
 	{
 		free_cargs(command->cargs);

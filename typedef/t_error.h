@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:43 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/05 14:29:18 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/05 14:47:33 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef enum e_error
 	ERROR_EXEC=1,
 	ERROR_MALLOC=1,
 	ERROR_SYNTAX=2,
+	ERROR_TOKEN=2,
 	ERROR_SET,
 	ERROR_GET
 }	t_error;
