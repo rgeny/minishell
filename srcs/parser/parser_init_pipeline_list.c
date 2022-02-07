@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:26:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 11:02:57 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ static bool	_is_list_token(t_token_type type)
 			|| type == E_TOKEN_TYPE_OR);
 }
 
-t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl)
+static bool	_is_valid_token(t_token_type type)
+{
+	return (_is_list_token(type) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
+}
+
+t_node	*init_pipeline_list(t_token **tokens)
 {
 	t_node	*pipeline_node;
 	t_node	*andor_node;
@@ -59,18 +64,44 @@ t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl)
 	if (error_get() != SUCCESS)
 		return (NULL);
 	andor_node = NULL;
-	pipeline_node = init_pipeline(tokens, subshell_lvl);
-	while (*tokens && _is_list_token((*tokens)->type) && error_get() == SUCCESS)
+
+	if (*tokens && error_get() == SUCCESS && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
+	{
+		printf("( spotted !!\n");
+		*tokens = (*tokens)->next;
+		pipeline_node = init_pipeline_list(tokens);
+	}
+	else
+	{
+		pipeline_node = init_pipeline(tokens);
+	}
+	while (*tokens && _is_valid_token((*tokens)->type) && error_get() == SUCCESS)
 	{
 		type = _get_node_type(*tokens);
 		andor_node = _init_andor_node(andor_node, pipeline_node, type);
-		if ((*tokens)->next)
+
+		if ((*tokens)->next && error_get() == SUCCESS && _is_valid_token((*tokens)->next->type))
 		{
 			*tokens = (*tokens)->next;
-			andor_node->right = init_pipeline(tokens, subshell_lvl);
+			if (_is_list_token((*tokens)->type))
+				andor_node->right = init_pipeline(tokens);
+			else if ((*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
+			{
+				printf("( spotted !!\n");
+				*tokens = (*tokens)->next;
+				andor_node->right = init_pipeline_list(tokens);
+			}
 		}
 		else
 			print_syntax_error(*tokens); // list finished by && or ||
 	}
+
+	// Here I can have a closed )
+	if (*tokens && error_get() == SUCCESS && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_CLOSE)
+	{
+		printf(") spotted !!\n");
+		*tokens = (*tokens)->next;
+	}
+
 	return (_set_list_root(pipeline_node, andor_node));
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_n_command.c                                 :+:      :+:    :+:   */
+/*   parser_init_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:42:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 10:12:19 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ t_node	*init_command(t_token **token)
 	t_command	*command;
 	t_node		*command_node;
 
+	if (error_get() != SUCCESS || !*token)
+		return (NULL);
 	if (!is_command_token((*token)->type))
 	{
 		print_syntax_error(*token);

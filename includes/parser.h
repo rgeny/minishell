@@ -28,8 +28,8 @@ t_node	*parse_tokens(t_token *tokens);
 
 t_node	*n_create(t_node_type type);
 t_node	*init_command(t_token **token);
-t_node	*init_pipeline(t_token **token, int subshell_lvl);
-t_node	*init_pipeline_list(t_token **tokens, int subshell_lvl);
+t_node	*init_pipeline(t_token **token);
+t_node	*init_pipeline_list(t_token **tokens);
 
 bool	is_command_token(t_token_type type);
 

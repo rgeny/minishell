@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 17:25:37 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/07 11:57:06 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	_exe(t_data *data)
 		if (parser_main(data, rl) == SUCCESS && data->ast_root)
 		{
 
-			expander_main(data, data->ast_root);
+			// expander_main(data, data->ast_root);
 			in = dup(0);
 			out = dup(1);
-			exe_main(data->ast_root, data);
+			// exe_main(data->ast_root, data);
 			dup2(in, 0);
 			dup2(out, 1);
 			close(in);
