@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:51:26 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:26:37 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,9 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	if (error_get() != SUCCESS)
 		return (NULL);
 	andor_node = NULL;
-	// printf("New list lvl %d\n", get_subshell_lvl());
 	if (*tokens && error_get() == SUCCESS && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
 	{
 		// printf("( spotted !!\n");
-		increase_subshell_lvl();
 		*tokens = (*tokens)->next;
 		pipeline_node = init_pipeline_list(tokens, true);
 	}
@@ -94,7 +92,6 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 			else if ((*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
 			{
 				// printf("( spotted !!\n");
-				increase_subshell_lvl();
 				*tokens = (*tokens)->next;
 				andor_node->right = init_pipeline_list(tokens, true);
 			}
@@ -110,8 +107,6 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 		if (*tokens && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_CLOSE)
 		{
 			// printf(") spotted !!\n");
-			decrease_subshell_lvl();
-			// printf("Just decrease subshell lvl to : %d\n", get_subshell_lvl());
 			*tokens = (*tokens)->next;
 		}
 		else

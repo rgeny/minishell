@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:20:31 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:26:42 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_node	*init_pipeline(t_token **tokens)
 			else if ((*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
 			{
 				// printf("( spotted !!\n");
-				increase_subshell_lvl();
 				*tokens = (*tokens)->next;
 				pipe_node->right = init_pipeline_list(tokens, true);
 			}

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:20:20 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:26:24 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,5 @@ int		print_syntax_error(t_token *token);
 
 void	free_ast(t_node **root);
 void	print_ast_the_fancy_way(t_node *root);
-
-
-void    increase_subshell_lvl(void);
-void    decrease_subshell_lvl(void);
-int     get_subshell_lvl(void);
-void    set_subshell_lvl(int lvl);
-void    reset_subshell_lvl(void);
-
 
 #endif

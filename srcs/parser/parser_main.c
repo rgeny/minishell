@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:49:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:57:34 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:27:30 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	parser_main(t_data *data, char *rl)
 	error_reset();
 	tokens = lexer_lex(rl);
 	// lexer_print_tokens(tokens);
-	reset_subshell_lvl();
 	data->ast_root = parse_tokens(tokens);
-//	print_ast_the_fancy_way(data->ast_root);
+	print_ast_the_fancy_way(data->ast_root);
 	lexer_free_tokens(&tokens);
 	return (error_get());
 }
