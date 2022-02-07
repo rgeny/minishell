@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 12:45:49 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 13:10:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	_set_n_command(t_token **token, t_command *command)
 	if (error_get() != SUCCESS)
 		return ;
 	redir_count = 0;
-	while (is_command_token(*token) && error_get() == SUCCESS)
+	while (!is_error() && is_command_token(*token))
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 		{
@@ -65,7 +65,7 @@ static void	_set_n_command(t_token **token, t_command *command)
 			_set_redirection(&command->redirections[redir_count], token);
 			redir_count++;
 		}
-		if (error_get() == SUCCESS)
+		if (!is_error())
 			*token = (*token)->next;
 	}
 }
@@ -79,7 +79,7 @@ static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 	start_token = *token;
 	command->arg_nb = 0;
 	command->redir_nb = 0;
-	while (is_command_token(*token) && error_get() == SUCCESS)
+	while (!is_error() && is_command_token(*token))
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 			command->arg_nb++;

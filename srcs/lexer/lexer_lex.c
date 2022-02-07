@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 19:28:16 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 13:09:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_token	*lexer_lex(const char *str)
 	tokens = NULL;
 	i = 0;
 	lexer_tok_constructor_new(&constructor, i);
-	while (str && str[i] && error_get() == SUCCESS)
+	while (!is_error() && str && str[i])
 		i += _process_char(&constructor, &tokens, i);
-	if (constructor.cur_token && error_get() == SUCCESS)
+	if (!is_error() && constructor.cur_token)
 	{
 		if (constructor.mode != E_MODE_WORD)
 			error_print(QUOTE_ERROR, NULL, NULL, ERROR_SYNTAX);

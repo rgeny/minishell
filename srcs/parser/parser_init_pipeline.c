@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 12:56:53 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 13:10:54 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ t_node	*init_pipeline(t_token **tokens)
 	command_node = init_command(tokens);
 	if (is_opened_parenthesis_token(*tokens))
 		print_syntax_error(*tokens); 
-	while (_is_valid_token(*tokens) && error_get() == SUCCESS)
+	while (!is_error() && _is_valid_token(*tokens))
 	{
 		pipe_node = _init_pipe_node(pipe_node, command_node);
-		if (error_get() == SUCCESS && _is_valid_token((*tokens)->next))
+		if (!is_error() && _is_valid_token((*tokens)->next))
 		{
 			*tokens = (*tokens)->next;
 			if (is_pipeline_token(*tokens))

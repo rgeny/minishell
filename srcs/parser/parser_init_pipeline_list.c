@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 12:56:03 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 13:10:41 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	if (error_get() != SUCCESS)
 		return (NULL);
 	andor_node = NULL;
-	if (error_get() == SUCCESS && is_opened_parenthesis_token(*tokens))
+	if (!is_error() && is_opened_parenthesis_token(*tokens))
 	{
 		*tokens = (*tokens)->next;
 		pipeline_node = init_pipeline_list(tokens, true);
@@ -75,12 +75,12 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	{
 		pipeline_node = init_pipeline(tokens);
 	}
-	while (_is_valid_token(*tokens) && error_get() == SUCCESS)
+	while (!is_error() && _is_valid_token(*tokens))
 	{
 		type = _get_node_type(*tokens);
 		andor_node = _init_andor_node(andor_node, pipeline_node, type);
 
-		if (error_get() == SUCCESS && _is_valid_token((*tokens)->next))
+		if (!is_error() && _is_valid_token((*tokens)->next))
 		{
 			*tokens = (*tokens)->next;
 			if (is_list_token(*tokens))
@@ -97,7 +97,7 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	}
 
 	// Here I can have a closed )
-	if (error_get() == SUCCESS && is_subshell)
+	if (!is_error() && is_subshell)
 	{
 		if (is_closed_parenthesis_token(*tokens))
 			*tokens = (*tokens)->next;

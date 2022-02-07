@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/05 19:45:51 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/07 13:07:43 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	error_reset(void)
 int	error_get(void)
 {
 	return (_error(ERROR_GET, SUCCESS));
+}
+
+bool	is_error(void)
+{
+	return (error_get() != SUCCESS);
 }
 
 int	error_print(char *cmd, char *msg1, char *msg2, int return_value)
