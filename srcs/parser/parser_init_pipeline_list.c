@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:02:57 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 11:51:26 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,17 @@ static t_node	*_init_andor_node(t_node *andor_node, t_node *pipeline_node, t_nod
 	return (new_andor_node);
 }
 
-static t_node	*_set_list_root(t_node *main_node, t_node *separator_node)
+static t_node	*_set_list_root(t_node *main_node, t_node *separator_node, bool is_subshell)
 {
+	t_node	*root;
+
 	if (separator_node)
-		return (separator_node);
+		root = separator_node;
 	else
-		return (main_node);
+		root = main_node;
+	if (root && root->type != E_NODE_TYPE_COMMAND && is_subshell)
+		root->is_subshell = true;
+	return (root);
 }
 
 static t_node_type	_get_node_type(t_token *token)
@@ -55,7 +60,7 @@ static bool	_is_valid_token(t_token_type type)
 	return (_is_list_token(type) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
 }
 
-t_node	*init_pipeline_list(t_token **tokens)
+t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 {
 	t_node	*pipeline_node;
 	t_node	*andor_node;
@@ -64,12 +69,13 @@ t_node	*init_pipeline_list(t_token **tokens)
 	if (error_get() != SUCCESS)
 		return (NULL);
 	andor_node = NULL;
-
+	// printf("New list lvl %d\n", get_subshell_lvl());
 	if (*tokens && error_get() == SUCCESS && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
 	{
-		printf("( spotted !!\n");
+		// printf("( spotted !!\n");
+		increase_subshell_lvl();
 		*tokens = (*tokens)->next;
-		pipeline_node = init_pipeline_list(tokens);
+		pipeline_node = init_pipeline_list(tokens, true);
 	}
 	else
 	{
@@ -87,9 +93,10 @@ t_node	*init_pipeline_list(t_token **tokens)
 				andor_node->right = init_pipeline(tokens);
 			else if ((*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
 			{
-				printf("( spotted !!\n");
+				// printf("( spotted !!\n");
+				increase_subshell_lvl();
 				*tokens = (*tokens)->next;
-				andor_node->right = init_pipeline_list(tokens);
+				andor_node->right = init_pipeline_list(tokens, true);
 			}
 		}
 		else
@@ -97,11 +104,21 @@ t_node	*init_pipeline_list(t_token **tokens)
 	}
 
 	// Here I can have a closed )
-	if (*tokens && error_get() == SUCCESS && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_CLOSE)
+	// if (*tokens && error_get() == SUCCESS && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_CLOSE)
+	if (is_subshell && error_get() == SUCCESS)
 	{
-		printf(") spotted !!\n");
-		*tokens = (*tokens)->next;
+		if (*tokens && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_CLOSE)
+		{
+			// printf(") spotted !!\n");
+			decrease_subshell_lvl();
+			// printf("Just decrease subshell lvl to : %d\n", get_subshell_lvl());
+			*tokens = (*tokens)->next;
+		}
+		else
+		{
+			print_syntax_error(*tokens);
+		}
 	}
 
-	return (_set_list_root(pipeline_node, andor_node));
+	return (_set_list_root(pipeline_node, andor_node, is_subshell));
 }

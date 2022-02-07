@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:36:35 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 15:23:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 11:19:33 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_node	*n_create(t_node_type type)
 	node->type = type;
 	node->left = NULL;
 	node->right = NULL;
+	node->is_subshell = false;
 	if (type == E_NODE_TYPE_COMMAND)
 	{
 		node->command = uti_calloc(1, sizeof(t_command));

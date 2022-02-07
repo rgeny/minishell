@@ -6,13 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:39:54 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 11:53:12 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 11:29:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_print.h"
 
-char	*_cargs_to_str(t_carg *cargs)
+char	*_cargs_to_str(t_carg *cargs, bool is_subshell)
 {
 	int		len;
 	t_carg	*tmp;
@@ -25,9 +25,14 @@ char	*_cargs_to_str(t_carg *cargs)
 		len += str_len(tmp->content) + 1;
 		tmp = tmp->next;
 	}
-	str = uti_calloc(len, sizeof(char));
-	tmp = cargs;
+	str = uti_calloc(len + 4, sizeof(char));
 	len = 0;
+	if (is_subshell)
+	{
+		mem_cpy(str, "(s) ", 4);
+		len += 4;
+	}
+	tmp = cargs;
 	while (tmp)
 	{
 		mem_cpy(str + len, tmp->content, str_len(tmp->content));
@@ -69,7 +74,7 @@ void	_set_label(t_anode *anode, t_node *tnode)
 	int	redir;
 
 	anode->label = uti_calloc(tnode->command->redir_nb + 2, sizeof(char *));
-	anode->label[0] = _cargs_to_str(tnode->command->cargs);
+	anode->label[0] = _cargs_to_str(tnode->command->cargs, tnode->is_subshell);
 	anode->lab_width = str_len(anode->label[0]);
 	redir = 0;
 	while (redir < tnode->command->redir_nb)
@@ -104,21 +109,30 @@ t_anode	*_build_ascii_tree_recursive(t_node *tnode)
 	else if (tnode->type == E_NODE_TYPE_PIPE)
 	{
 		anode->label = uti_calloc(2, sizeof(char *));
-		anode->label[0] = str_dup("PIPE");
+		if (tnode->is_subshell)
+			anode->label[0] = str_dup("(s)PIPE");
+		else
+			anode->label[0] = str_dup("PIPE");
 		anode->lab_width = str_len(anode->label[0]);
 		anode->lab_height = 1;
 	}
 	else if (tnode->type == E_NODE_TYPE_OR)
 	{
 		anode->label = uti_calloc(2, sizeof(char *));
-		anode->label[0] = str_dup("||");
+		if (tnode->is_subshell)
+			anode->label[0] = str_dup("(s)||");
+		else
+			anode->label[0] = str_dup("||");
 		anode->lab_width = str_len(anode->label[0]);
 		anode->lab_height = 1;
 	}
 	else if (tnode->type == E_NODE_TYPE_AND)
 	{
 		anode->label = uti_calloc(2, sizeof(char *));
-		anode->label[0] = str_dup("&&");
+		if (tnode->is_subshell)
+			anode->label[0] = str_dup("(s)&&");
+		else
+			anode->label[0] = str_dup("&&");
 		anode->lab_width = str_len(anode->label[0]);
 		anode->lab_height = 1;
 	}

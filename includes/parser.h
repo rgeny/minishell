@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:42:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 11:20:20 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_node	*parse_tokens(t_token *tokens);
 t_node	*n_create(t_node_type type);
 t_node	*init_command(t_token **token);
 t_node	*init_pipeline(t_token **token);
-t_node	*init_pipeline_list(t_token **tokens);
+t_node	*init_pipeline_list(t_token **tokens, bool is_subshell);
 
 bool	is_command_token(t_token_type type);
 
@@ -40,5 +40,13 @@ int		print_syntax_error(t_token *token);
 
 void	free_ast(t_node **root);
 void	print_ast_the_fancy_way(t_node *root);
+
+
+void    increase_subshell_lvl(void);
+void    decrease_subshell_lvl(void);
+int     get_subshell_lvl(void);
+void    set_subshell_lvl(int lvl);
+void    reset_subshell_lvl(void);
+
 
 #endif

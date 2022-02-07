@@ -6,14 +6,16 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:20:33 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/05 19:21:12 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 11:32:28 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int	lexer_print_tokens(t_token *token)
+void	lexer_print_tokens(t_token *token)
 {
+	if (error_get() != SUCCESS)
+		return ;
 	printf("\nHere is the token list :\n");
 	while (token)
 	{
@@ -21,5 +23,5 @@ int	lexer_print_tokens(t_token *token)
 		token = token->next;
 	}
 	printf("\n\n");
-	return (0);
+	return ;
 }
