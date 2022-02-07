@@ -1,1 +1,2 @@
 	- getcwd qui fail ne doit pas annuler l'exécution
+	- add set_error and rename fonction error

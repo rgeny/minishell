@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/07 12:34:02 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/07 17:23:32 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,11 @@ void	expander_main(t_data *data, t_node *ast)
 	if (ast->command)
 	{
 		_heredoc(ast->command);
-		expander_var(ast->command->cargs, data);
-		_asterisk_cmd(ast->command->cargs);
+		if (ast->command->cargs)
+		{
+			expander_var(ast->command->cargs, data);
+			_asterisk_cmd(ast->command->cargs);
+		}
 		_join_and_split_cmd(ast->command);
 	}
 	expander_main(data, ast->left);

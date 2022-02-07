@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/06 18:33:00 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/07 18:57:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,11 @@
 
 /*	expander error	*/
 # define EXPAND_ASTERISK "asterisk: "
+
+/*	heredoc error	*/
+# define HEREDOC "heredoc: "
+# define SIG_EOF "delimited by the signal EOF instead of word: "
+
+/*	signal error	*/
+# define SIG_ERROR 128
 #endif

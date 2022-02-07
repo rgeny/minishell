@@ -6,74 +6,53 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 20:07:53 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:31:25 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
-#include "str.h"
-#include "error.h"
-#include "minishell_signal.h"
-#include "print.h"
+#include "expander.h"
 
-static void	_son(int pipefd[2], char *delimiter)
+static void	_handle_errors(int pipefd[2], char *delimiter)
 {
-	char	*s;
-
-	signal(SIGINT, SIG_DFL);
-	s = readline("> ");
-	while (str_cmp(s, delimiter))
+	if (error_get() == 0)
+		error_print(HEREDOC, SIG_EOF, delimiter, 0);
+	else
 	{
-		write(pipefd[1], s, str_len(s));
-		write(pipefd[1], "\n", 1);
-		free(s);
-		s = readline("> ");
-	}
-	free(s);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	exit(0);
-}
-
-static void	_ret_son(int *fd_in, int status, char *delimiter)
-{
-	if (WIFSIGNALED(status))
-	{
-		status = WTERMSIG(status);
-		if (status == SIGINT)
-		{
-			g_last_return = status + SIGNAL_ERROR;
-			close(*fd_in);
-			*fd_in = -1;
-		}
-		else if (status == SIGNAL_EOF)
-			error_print("heredoc: ",
-				"delimited by the signal EOF instead of word: ",
-				delimiter, 0);
+		close(pipefd[1]);
+		pipefd[1] = -1;
 		write(1, "\n", 1);
 	}
+}
+
+static void	_generate_heredoc(int pipefd[2], char *delimiter)
+{
+	char	*s;
+	char	*prompt;
+
+	signal_heredoc();
+	prompt = str_join(delimiter, "> ", '\0');
+	s = readline(prompt);
+	while (s != NULL && str_cmp(s, delimiter) != 0)
+	{
+		str_print_fd_nl(s, pipefd[1]);
+		str_free(s);
+		s = readline(prompt);
+	}
+	signal_current();
+	if (s == NULL)
+		_handle_errors(pipefd, delimiter);
 }
 
 int	expander_heredoc(char *delimiter)
 {
 	int		pipefd[2];
-	pid_t	pid;
-	int		status;
+	int		fd_stdin;
 
+	fd_stdin = dup(0);
 	pipe(pipefd);
-	pid = fork();
-	if (!pid)
-		_son(pipefd, delimiter);
-	signal_ignore();
-	waitpid(pid, &status, 0);
-	signal_current();
-	_ret_son(&pipefd[0], status, delimiter);
+	_generate_heredoc(pipefd, delimiter);
+	dup2(fd_stdin, 0);
+	close(fd_stdin);
 	close(pipefd[1]);
 	return (pipefd[0]);
 }
