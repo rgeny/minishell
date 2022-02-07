@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:38:07 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 12:54:57 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 14:11:16 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_command_token(t_token *token)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	if (!token)
 		return (false);
@@ -24,7 +24,7 @@ bool	is_command_token(t_token *token)
 
 bool	is_pipeline_token(t_token *token)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	if (!token)
 		return (false);
@@ -34,19 +34,19 @@ bool	is_pipeline_token(t_token *token)
 
 bool	is_list_token(t_token *token)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	if (!token)
 		return (false);
 	type = token->type;
-	return (is_pipeline_token(token)\
-			|| type == E_TOKEN_TYPE_AND\
+	return (is_pipeline_token(token) \
+			|| type == E_TOKEN_TYPE_AND \
 			|| type == E_TOKEN_TYPE_OR);
 }
 
 bool	is_opened_parenthesis_token(t_token *token)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	if (!token)
 		return (false);
@@ -56,7 +56,7 @@ bool	is_opened_parenthesis_token(t_token *token)
 
 bool	is_closed_parenthesis_token(t_token *token)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	if (!token)
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 14:08:51 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 14:26:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,25 @@ static t_node	*_init_pipe_node(t_node *pipe_node, t_node *command_node)
 	return (new_pipe_node);
 }
 
-static t_node	*_init_right_child(t_token **tokens)
+static t_node	*_init_right_command(t_token **tokens)
 {
-	t_node	*right_child;
+	t_node	*command_node;
 
-	right_child = NULL;
+	command_node = NULL;
 	if (!is_error() && _is_valid_token((*tokens)->next))
 	{
 		*tokens = (*tokens)->next;
 		if (is_pipeline_token(*tokens))
-			right_child = init_command(tokens);
+			command_node = init_command(tokens);
 		else if (is_opened_parenthesis_token(*tokens))
 		{
 			*tokens = (*tokens)->next;
-			right_child = init_pipeline_list(tokens, true);
+			command_node = init_pipeline_list(tokens, true);
 		}
 	}
 	else
 		print_syntax_error(*tokens);
-	return (right_child);
+	return (command_node);
 }
 
 t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
@@ -84,7 +84,7 @@ t_node	*init_pipeline(t_token **tokens)
 	while (!is_error() && _is_valid_token(*tokens))
 	{
 		pipe_node = _init_pipe_node(pipe_node, command_node);
-		pipe_node->right = _init_right_child(tokens);
+		pipe_node->right = _init_right_command(tokens);
 	}
 	return (_set_pipeline_root(command_node, pipe_node));
 }
