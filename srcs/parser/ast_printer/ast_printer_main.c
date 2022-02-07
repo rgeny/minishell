@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:14:55 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 17:16:18 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	_init_printer(t_ast_printer *p)
 	}
 }
 
-void	print_ast_the_fancy_way(t_node *root)
+void	print_ast(t_node *root)
 {
 	t_anode			*proot;
 	t_ast_printer	printer;

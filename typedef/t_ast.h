@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 11:21:32 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 17:15:43 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_carg {
 }	t_carg;
 
 typedef struct s_command {
-	char	**args; // NULL terminated // TO DEL
+	char	**args;
 	t_carg	*cargs;
 	t_redir	*redirections;
 	pid_t	pid;
@@ -50,14 +50,13 @@ typedef enum s_node_type {
 	E_NODE_TYPE_PIPE,
 	E_NODE_TYPE_AND,
 	E_NODE_TYPE_OR
-	// TODO : Add &&/|| types for bonuses
 }	t_node_type;
 
 typedef struct s_node {
 	t_node_type		type;
-	t_command		*command; // NULL except for leaf
-	struct s_node	*left; // NULL if leaf
-	struct s_node	*right; // NULL if leaf
+	t_command		*command;
+	struct s_node	*left;
+	struct s_node	*right;
 	bool			is_subshell;
 }	t_node;
 #endif

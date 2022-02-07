@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/07 14:41:02 by tokino           ###   ########.fr        #
+#    Updated: 2022/02/07 17:23:10 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,29 +71,29 @@ EXE_DIR			= $(SRC_DIR)exe/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
 LST_DIR			= $(SRC_DIR)lst/
-AST_DIR			= $(SRC_DIR)ast/
+AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR) $(AST_DIR)
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR) $(AST_PRINTER_DIR)
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_DIR)
 
 # *********************************** sources ******************************** #
 
-SRC				= $(addsuffix .c,			main \
-					$(addprefix env_,		del find init new assign switch) \
-					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max error) \
-					$(addprefix mem_,		cpy set) \
-					$(addprefix expander_,	var path heredoc main) \
-					$(addprefix asterisk_,	main dir_list) \
-					$(addprefix exe_,		builtin out_process readline main redir pipe cmd) \
-					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix parser_,	tokens print n_create init_command free_ast main init_pipeline init_pipeline_list init_separator is_given_token) \
-					$(addprefix cleaner_,	all) \
-					$(addprefix str_,		cmp len dup split join free split_first print first_dif) \
-					$(addprefix builtin_,	cd exit export unset echo env pwd) \
-					$(addprefix signal_,	current fork ignore) \
-					$(addprefix lst_,		carg) \
-					$(addprefix ast_,		fancy_printer asciitree_builder set_profiles set_edge_length print_level)\
+SRC				= $(addsuffix .c,				main \
+					$(addprefix env_,			del find init new assign switch) \
+					$(addprefix utils_,			bzero calloc min itoa ato quicksort is interactive max error) \
+					$(addprefix mem_,			cpy set) \
+					$(addprefix expander_,		var path heredoc main) \
+					$(addprefix asterisk_,		main dir_list) \
+					$(addprefix exe_,			builtin out_process readline main redir pipe cmd) \
+					$(addprefix lexer_,			lex token token_constructor print_tokens get_char_type free_tokens) \
+					$(addprefix parser_,		tokens print n_create init_command free_ast main init_pipeline init_pipeline_list init_separator is_given_token) \
+					$(addprefix cleaner_,		all) \
+					$(addprefix str_,			cmp len dup split join free split_first print first_dif) \
+					$(addprefix builtin_,		cd exit export unset echo env pwd) \
+					$(addprefix signal_,		current fork ignore) \
+					$(addprefix lst_,			carg) \
+					$(addprefix ast_printer_,	main asciitree_builder set_profiles set_edge_length level)\
 					$(SRC_BUILTIN))
 
 # *********************************** others ********************************* #

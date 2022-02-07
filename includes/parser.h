@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 16:03:14 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 17:23:54 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ bool	is_opened_parenthesis_token(t_token *token);
 bool	is_closed_parenthesis_token(t_token *token);
 
 int		print_syntax_error(t_token *token);
-
+void	print_ast(t_node *root);
 void	free_ast(t_node **root);
-void	print_ast_the_fancy_way(t_node *root);
 
 #endif
