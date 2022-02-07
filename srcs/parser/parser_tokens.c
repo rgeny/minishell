@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 13:11:02 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:17:07 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_node	*parse_tokens(t_token *tokens)
 	t_token	*current_token;
 	t_node	*root;
 
-	if (tokens == NULL || error_get() != SUCCESS)
+	if (tokens == NULL || is_error())
 		return (NULL);
 	current_token = tokens;
 	root = init_pipeline_list(&current_token, false);

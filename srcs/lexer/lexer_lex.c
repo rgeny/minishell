@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:49:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 13:09:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:15:14 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	_process_char(t_tok_constructor *c, t_token **tokens, int i)
 {
 	int	len;
 
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return (0);
 	if (c->mode == E_MODE_WORD)
 	{

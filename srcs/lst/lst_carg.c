@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:47:46 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 20:02:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:16:30 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	lst_carg_add_back(t_carg **lst, t_carg *new)
 {
 	t_carg	*current;
 
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	current = *lst;
 	while (current && current->next)

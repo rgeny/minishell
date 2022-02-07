@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 13:10:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:16:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_redir_type	_get_redirection_type(char *token_content)
 
 static void	_set_redirection(t_redir *redirection, t_token **token)
 {
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	redirection->type = _get_redirection_type((*token)->content);
 	*token = (*token)->next;
@@ -37,7 +37,7 @@ static void	_set_arg(t_carg **cargs, t_token *token)
 {
 	t_carg	*carg;
 
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	carg = uti_calloc(1, sizeof(t_carg));
 	if (carg == NULL)
@@ -51,7 +51,7 @@ static void	_set_n_command(t_token **token, t_command *command)
 {
 	int		redir_count;
 
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	redir_count = 0;
 	while (!is_error() && is_command_token(*token))
@@ -74,7 +74,7 @@ static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 {
 	t_token	*start_token;
 
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	start_token = *token;
 	command->arg_nb = 0;
@@ -103,7 +103,7 @@ t_node	*init_command(t_token **token)
 	t_command	*command;
 	t_node		*command_node;
 
-	if (error_get() != SUCCESS || !*token)
+	if (is_error() || !*token)
 		return (NULL);
 	if (!is_command_token(*token))
 	{

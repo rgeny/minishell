@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:20:33 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:32:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:15:21 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	lexer_print_tokens(t_token *token)
 {
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	printf("\nHere is the token list :\n");
 	while (token)

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 14:50:15 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:16:20 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	lexer_create_operator_tok(t_tok_constructor *c, t_token **tokens, int stri)
 	int			len;
 	const char	*str;
 	
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return (0);
 	str = c->str;
 	if (uti_is_in_charset(str[stri], "<>&|") && str[stri] == str[stri + 1])
@@ -66,7 +66,7 @@ void	lexer_terminate_token(t_tok_constructor *c, t_token **tokens, int stri)
 	int		token_len;
 	char	*str_start;
 
-	if (error_get() != SUCCESS)
+	if (is_error())
 		return ;
 	if (stri == c->start_index)
 	{
