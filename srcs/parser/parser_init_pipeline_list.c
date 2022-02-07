@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 14:34:23 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 14:40:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,6 @@ static bool	_is_valid_token(t_token *token)
 		return (false);
 	type = token->type;
 	return (is_list_token(token) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
-}
-
-static t_node	*_init_andor_node(t_token *token, t_node *andor_node, t_node *pipeline_node)
-{
-	t_node		*new_andor_node;
-	t_node_type	type;
-
-	if (token->type == E_TOKEN_TYPE_OR)
-		type = E_NODE_TYPE_OR;
-	else
-		type = E_NODE_TYPE_AND;
-	new_andor_node = n_create(type);
-	if (new_andor_node == NULL)
-		return (NULL);
-	if (!andor_node)
-		new_andor_node->left = pipeline_node;
-	else
-		new_andor_node->left = andor_node;
-	return (new_andor_node);
 }
 
 static t_node	*_init_right_pipeline(t_token **tokens)
@@ -100,7 +81,7 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	pipeline_node = _init_pipeline(tokens);
 	while (!is_error() && _is_valid_token(*tokens))
 	{
-		andor_node = _init_andor_node(*tokens, andor_node, pipeline_node);
+		andor_node = init_separator_node(*tokens, andor_node, pipeline_node);
 		andor_node->right = _init_right_pipeline(tokens);
 	}
 	if (!is_error() && is_subshell)

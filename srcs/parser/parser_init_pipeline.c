@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 14:26:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 14:40:39 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,6 @@ static bool	_is_valid_token(t_token *token)
 		return (false);
 	type = token->type;
 	return (is_pipeline_token(token) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
-}
-
-static t_node	*_init_pipe_node(t_node *pipe_node, t_node *command_node)
-{
-	t_node	*new_pipe_node;
-
-	new_pipe_node = n_create(E_NODE_TYPE_PIPE);
-	if (new_pipe_node == NULL)
-		return (NULL);
-	if (!pipe_node)
-		new_pipe_node->left = command_node;
-	else
-		new_pipe_node->left = pipe_node;
-	return (new_pipe_node);
 }
 
 static t_node	*_init_right_command(t_token **tokens)
@@ -83,7 +69,7 @@ t_node	*init_pipeline(t_token **tokens)
 		print_syntax_error(*tokens);
 	while (!is_error() && _is_valid_token(*tokens))
 	{
-		pipe_node = _init_pipe_node(pipe_node, command_node);
+		pipe_node = init_separator_node(*tokens, pipe_node, command_node);
 		pipe_node->right = _init_right_command(tokens);
 	}
 	return (_set_pipeline_root(command_node, pipe_node));
