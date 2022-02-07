@@ -6,65 +6,73 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 12:42:53 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:09:44 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <stdlib.h>
-#include "env.h"
-#include "str.h"
 #include "expander.h"
+
+static bool	_change_values(int *j, char **p, int i, int n_quote)
+{
+	*j += i;
+	*p += n_quote;
+	return (true);
+}
+
+static bool	_is_valid_name(char *word, char *dir, char **p, int *j)
+{
+	int		i;
+	int		n_quote;
+	int		len;
+
+	i = 0;
+	n_quote = 0;
+	while (word[i + n_quote] != '\0' && word[i + n_quote] != '*')
+	{
+		if (uti_is_in_charset(word[i + n_quote], QUOTES))
+		{
+			len = str_clen(&word[i + n_quote + 1], word[i + n_quote]);
+			if (str_ncmp(&word[i + n_quote + 1], &dir[i], len) != 0)
+				return (false);
+			i += len;
+			n_quote += 2;
+		}
+		else if (word[i + n_quote] != dir[i])
+			return (false);
+		else
+			i++;
+	}
+	if (word[i + n_quote] == '*'
+		|| (word[i + n_quote] == '\0' && dir[i] == '\0'))
+		return (_change_values(j, p, i, n_quote));
+	return (false);
+}
 
 static int	_cmp(char *word, char *dir)
 {
-	int	i;
-	int	j;
-	int	k;
-	int	b;
+	int		i;
+	int		quote;
+	bool	asterisk;
 
 	i = 0;
-	k = 0;
-	b = 0;
-	while (word[i + k]
-		&& (word[i + k] == dir[i] || word[i + k] == '*'
-			|| (!b && (word[i + k] == '\'' || word[i + k] == '\"'))
-			|| word[i + k] == b))
+	asterisk = false;
+	while (word[i] != '\0' || dir[i] != '\0')
 	{
-		if (word[i + k] == '*' && !b)
+		if (word[i] == '*')
 		{
-			while (word[i + k] == '*')
-				word++;
-			while (word[i + k] != '*' && dir[i])
-			{
-				j = 0;
-				while (word[i + j + k] && word[i + j + k] == dir[i + j])
-					j++;
-				if ((!word[i + j + k] && !dir[i + j]) || word[i + j + k] == '*')
-					i += j;
-				else
-					dir++;
-			}
+			word += str_first_dif(&word[i], '*');
+			asterisk = true;
 		}
-		if (word[i + k] && dir[i] && (word[i + k] != '*' || b))
+		else if (asterisk == true)
 		{
-			if (!b && (word[i + k] == '\'' || word[i + k] == '\"'))
-			{
-				b = word[i + k];
-				k++;
-			}
-			else if (word[i + k] == b)
-			{
-				b = 0;
-				k++;
-			}
-			else
-				i++;
+			while (dir[i] && _is_valid_name(&word[i], &dir[i], &word, &i) == 0)
+				dir++;
+			asterisk = false;
 		}
+		else if (_is_valid_name(&word[i], &dir[i], &word, &i) == 0)
+			return (0);
 	}
-	return (!word[i + k] && !dir[i]);
+	return (word[i] == '\0' && dir[i] == '\0');
 }
 
 static char	*_expand(char *word, char **dir_list)
@@ -74,7 +82,6 @@ static char	*_expand(char *word, char **dir_list)
 	char	*tmp;
 
 	new_word = 0;
-	tmp = 0;
 	i = 0;
 	while (dir_list[i])
 	{
@@ -88,41 +95,18 @@ static char	*_expand(char *word, char **dir_list)
 	}
 	return (new_word);
 }
-/*
-static char	*_join(char **split)
-{
-	int		i;
-	char	*tmp;
-	char	*ret;
 
-	i = 0;
-	ret = 0;
-	while (split[i])
-	{
-		if (ret)
-		{
-			tmp = str_join(ret, split[i], ' ');
-			str_free(ret);
-			ret = tmp;
-		}
-		else
-			ret = str_dup(split[i]);
-		i++;
-	}
-	return (ret);
-}*/
-
-char	*expander_asterisk(char *rl)
+char	*expander_asterisk(char *word)
 {
 	char	**dir_list;
-	char	*ret;
+	char	*new_word;
 
-	dir_list = asterisk_dir_list(rl[0] == '.');
-	if (!dir_list)
+	dir_list = asterisk_dir_list(word[0] == '.');
+	if (dir_list == NULL)
 		return (NULL);
-	ret = 0;
-	if (str_len(rl) == str_clen(rl, '='))
-		ret = _expand(rl, dir_list);
+	new_word = NULL;
+	if (str_len(word) == str_clen(word, '='))
+		new_word = _expand(word, dir_list);
 	str_free_list(dir_list);
-	return (ret);
+	return (new_word);
 }

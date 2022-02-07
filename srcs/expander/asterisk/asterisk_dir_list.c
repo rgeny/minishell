@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:33:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 10:42:53 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/07 15:24:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,12 @@ static int	_init(DIR **fd_dir, char ***to_return, bool is_hidden, int *n_dir)
 	return (SUCCESS);
 }
 
-char	**asterisk_dir_list(bool is_hidden)
+static void	_fill(DIR *fd_dir, int n_dir, char **to_return, bool is_hidden)
 {
-	int		n_dir;
-	DIR		*fd_dir;
 	dirent	*cur_dir;
-	char	**to_return;
 
-	_init(&fd_dir, &to_return, is_hidden, &n_dir);
-	if (fd_dir == NULL || to_return == NULL || n_dir == 0)
-		return (NULL);
 	cur_dir = readdir(fd_dir);
-	while (n_dir != 0 && cur_dir != NULL)
+	while (n_dir > 0 && cur_dir != NULL)
 	{
 		if (_is_valid_dir(cur_dir->d_name, is_hidden) == true)
 		{
@@ -82,6 +76,19 @@ char	**asterisk_dir_list(bool is_hidden)
 		}
 		cur_dir = readdir(fd_dir);
 	}
+}
+
+char	**asterisk_dir_list(bool is_hidden)
+{
+	int		n_dir;
+	DIR		*fd_dir;
+	char	**to_return;
+
+	_init(&fd_dir, &to_return, is_hidden, &n_dir);
+	if (fd_dir == NULL || to_return == NULL || n_dir == 0)
+		return (NULL);
+	_fill(fd_dir, n_dir, to_return, is_hidden);
 	closedir(fd_dir);
+	uti_quicksort(0, n_dir - 1, to_return);
 	return (to_return);
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 18:16:51 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/07 12:34:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	_asterisk_cmd(t_carg *cmd)
 {
 	char	*tmp;
 
+	if (!str_cmp(cmd->content, "echo")) //a delete
+		cmd = cmd->next;
 	while (cmd)
 	{
 		tmp = expander_asterisk(cmd->content);
