@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:16:38 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:27:22 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ static t_node	*_init_pipeline(t_token **tokens)
 {
 	t_node	*pipeline_node;
 
-	if (!is_error() && is_opened_parenthesis_token(*tokens))
+	if (is_error())
+		return (NULL);
+	if (is_opened_parenthesis_token(*tokens))
 	{
 		*tokens = (*tokens)->next;
 		pipeline_node = init_pipeline_list(tokens, true);
@@ -40,8 +42,10 @@ static t_node	*_init_right_pipeline(t_token **tokens)
 {
 	t_node	*pipeline_node;
 
+	if (is_error())
+		return (NULL);
 	pipeline_node = NULL;
-	if (!is_error() && _is_valid_token((*tokens)->next))
+	if (_is_valid_token((*tokens)->next))
 	{
 		*tokens = (*tokens)->next;
 		if (is_list_token(*tokens))

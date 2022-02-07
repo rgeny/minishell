@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:17:01 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:28:30 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static t_node	*_init_right_command(t_token **tokens)
 {
 	t_node	*command_node;
 
+	if (is_error())
+		return (NULL);
 	command_node = NULL;
-	if (!is_error() && _is_valid_token((*tokens)->next))
+	if (_is_valid_token((*tokens)->next))
 	{
 		*tokens = (*tokens)->next;
 		if (is_pipeline_token(*tokens))

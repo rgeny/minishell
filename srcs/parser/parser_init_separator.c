@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:36:52 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 14:50:49 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:24:04 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_node	*init_separator_node(t_token *token, t_node *separator_node, t_node *cmd_
 	t_node		*new_separator_node;
 	t_node_type	type;
 
+    if (is_error())
+		return (NULL);
     if (token->type == E_TOKEN_TYPE_PIPE)
         type = E_NODE_TYPE_PIPE;
 	else if (token->type == E_TOKEN_TYPE_OR)
