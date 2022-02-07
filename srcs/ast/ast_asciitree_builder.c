@@ -6,13 +6,13 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:39:54 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:29:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:30:22 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_print.h"
 
-char	*_cargs_to_str(t_carg *cargs, bool is_subshell)
+char	*_cargs_to_str(t_carg *cargs)
 {
 	int		len;
 	t_carg	*tmp;
@@ -25,13 +25,8 @@ char	*_cargs_to_str(t_carg *cargs, bool is_subshell)
 		len += str_len(tmp->content) + 1;
 		tmp = tmp->next;
 	}
-	str = uti_calloc(len + 4, sizeof(char));
+	str = uti_calloc(len, sizeof(char));
 	len = 0;
-	if (is_subshell)
-	{
-		mem_cpy(str, "(s) ", 4);
-		len += 4;
-	}
 	tmp = cargs;
 	while (tmp)
 	{
@@ -74,7 +69,7 @@ void	_set_label(t_anode *anode, t_node *tnode)
 	int	redir;
 
 	anode->label = uti_calloc(tnode->command->redir_nb + 2, sizeof(char *));
-	anode->label[0] = _cargs_to_str(tnode->command->cargs, tnode->is_subshell);
+	anode->label[0] = _cargs_to_str(tnode->command->cargs);
 	anode->lab_width = str_len(anode->label[0]);
 	redir = 0;
 	while (redir < tnode->command->redir_nb)
