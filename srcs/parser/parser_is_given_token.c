@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 12:38:07 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 14:11:16 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:44:19 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	is_opened_parenthesis_token(t_token *token)
 	if (!token)
 		return (false);
 	type = token->type;
-	return (type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
+	return (type == E_TOKEN_TYPE_OPENED_PAR);
 }
 
 bool	is_closed_parenthesis_token(t_token *token)
@@ -61,5 +61,5 @@ bool	is_closed_parenthesis_token(t_token *token)
 	if (!token)
 		return (false);
 	type = token->type;
-	return (type == E_TOKEN_TYPE_PARENTHESIS_CLOSE);
+	return (type == E_TOKEN_TYPE_CLOSED_PAR);
 }

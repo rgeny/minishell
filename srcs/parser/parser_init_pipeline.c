@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:28:30 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 15:44:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	_is_valid_token(t_token *token)
 	if (!token)
 		return (false);
 	type = token->type;
-	return (is_pipeline_token(token) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
+	return (is_pipeline_token(token) || type == E_TOKEN_TYPE_OPENED_PAR);
 }
 
 static t_node	*_init_right_command(t_token **tokens)
