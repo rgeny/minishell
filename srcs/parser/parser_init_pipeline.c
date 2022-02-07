@@ -6,16 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 12:26:42 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:56:53 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-static bool	_is_pipeline_token(t_token_type type)
-{
-	return (is_command_token(type) || type == E_TOKEN_TYPE_PIPE);
-}
 
 static t_node	*_init_pipe_node(t_node *pipe_node, t_node *command_node)
 {
@@ -39,9 +34,14 @@ t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
 		return (main_node);
 }
 
-static bool	_is_valid_token(t_token_type type)
+static bool	_is_valid_token(t_token *token)
 {
-	return (_is_pipeline_token(type) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
+	t_token_type type;
+
+	if (!token)
+		return (false);
+	type = token->type;
+	return (is_pipeline_token(token) || type == E_TOKEN_TYPE_PARENTHESIS_OPEN);
 }
 
 t_node	*init_pipeline(t_token **tokens)
@@ -51,24 +51,24 @@ t_node	*init_pipeline(t_token **tokens)
 
 	if (error_get() != SUCCESS)
 		return (NULL);
-	if (!_is_pipeline_token((*tokens)->type))
+	if (!is_pipeline_token(*tokens))
 	{
 		print_syntax_error(*tokens);
 		return (NULL);
 	}
 	pipe_node = NULL;
 	command_node = init_command(tokens);
-	if (*tokens && (*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
+	if (is_opened_parenthesis_token(*tokens))
 		print_syntax_error(*tokens); 
-	while (*tokens && _is_valid_token((*tokens)->type) && error_get() == SUCCESS)
+	while (_is_valid_token(*tokens) && error_get() == SUCCESS)
 	{
 		pipe_node = _init_pipe_node(pipe_node, command_node);
-		if ((*tokens)->next && error_get() == SUCCESS && _is_valid_token((*tokens)->next->type))
+		if (error_get() == SUCCESS && _is_valid_token((*tokens)->next))
 		{
 			*tokens = (*tokens)->next;
-			if (_is_pipeline_token((*tokens)->type))
+			if (is_pipeline_token(*tokens))
 				pipe_node->right = init_command(tokens);
-			else if ((*tokens)->type == E_TOKEN_TYPE_PARENTHESIS_OPEN)
+			else if (is_opened_parenthesis_token(*tokens))
 			{
 				// printf("( spotted !!\n");
 				*tokens = (*tokens)->next;

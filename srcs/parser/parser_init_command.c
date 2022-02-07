@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 10:12:19 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:45:49 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	_set_n_command(t_token **token, t_command *command)
 	if (error_get() != SUCCESS)
 		return ;
 	redir_count = 0;
-	while (*token && is_command_token((*token)->type) && error_get() == SUCCESS)
+	while (is_command_token(*token) && error_get() == SUCCESS)
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 		{
@@ -79,7 +79,7 @@ static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 	start_token = *token;
 	command->arg_nb = 0;
 	command->redir_nb = 0;
-	while (*token && is_command_token((*token)->type) && error_get() == SUCCESS)
+	while (is_command_token(*token) && error_get() == SUCCESS)
 	{
 		if ((*token)->type == E_TOKEN_TYPE_WORD)
 			command->arg_nb++;
@@ -105,7 +105,7 @@ t_node	*init_command(t_token **token)
 
 	if (error_get() != SUCCESS || !*token)
 		return (NULL);
-	if (!is_command_token((*token)->type))
+	if (!is_command_token(*token))
 	{
 		print_syntax_error(*token);
 		return (NULL);

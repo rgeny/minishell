@@ -6,16 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:55:21 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 12:38:28 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-bool	is_command_token(t_token_type type)
-{
-	return (type == E_TOKEN_TYPE_WORD || type == E_TOKEN_TYPE_REDIRECTION);
-}
 
 t_node	*parse_tokens(t_token *tokens)
 {
