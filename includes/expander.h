@@ -6,14 +6,15 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 18:10:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/07 10:39:53 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
-# include <stdbool.h>
-# include "t_data.h"
+# include "env.h"
+
+typedef struct dirent dirent;
 
 void	expander_main(t_data * data, t_node *ast);
 int		expander_heredoc(char *delimiter);
