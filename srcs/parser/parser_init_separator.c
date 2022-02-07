@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:36:52 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:34:23 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/07 17:29:21 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_node	*init_separator_node(t_token *token, t_node *sep_node, t_node *cmd_node)
 		type = E_NODE_TYPE_OR;
 	else
 		type = E_NODE_TYPE_AND;
-	new_separator_node = n_create(type);
+	new_separator_node = create_node(type);
 	if (new_separator_node == NULL)
 		return (NULL);
 	if (!sep_node)

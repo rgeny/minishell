@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_print_level.c                                  :+:      :+:    :+:   */
+/*   ast_printer_level.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:30:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/03 13:18:32 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/07 17:28:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,8 @@ static void	_print_label(t_ast_printer *p, t_anode *anode, int x)
 
 void	print_level(t_ast_printer *p, t_anode *anode, int x, int lvl)
 {
-	int	i;
-	int	isleft;
-
-	(void)i;
-	(void)isleft;
 	if (anode == NULL)
 		return ;
-	isleft = (anode->parent_dir == -1);
 	if (lvl < anode->lab_height)
 		_print_label(p, anode, x);
 	else if (anode->edge_length >= lvl + anode->lab_height - 1)
