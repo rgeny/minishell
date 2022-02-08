@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 12:31:17 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:49:05 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	_set_redirection(t_redir *redirection, t_token **token)
 	redirection->type = _get_redirection_type((*token)->content);
 	*token = (*token)->next;
 	redirection->path = str_dup((*token)->content);
+
+	//process heredoc
 }
 
 static void	_set_arg(t_carg **cargs, t_token *token)
@@ -98,25 +100,34 @@ static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 	*token = start_token;
 }
 
-t_node	*init_command(t_token **token)
+t_node	*init_command(t_token **tokens)
 {
 	t_command	*command;
 	t_node		*command_node;
 
 	if (is_error())
 		return (NULL);
-	if (!is_command_token(*token))
+	if (is_opened_parenthesis_token(*tokens))
 	{
-		print_syntax_error(*token);
-		return (NULL);
+		*tokens = (*tokens)->next; // OPENED_PAR
+		command_node = init_pipeline_list(tokens, true);
+		*tokens = (*tokens)->next; // CLOSED_PAR
 	}
-	command_node = create_node(E_NODE_TYPE_COMMAND);
-	if (command_node == NULL)
-		return (NULL);
-	command = command_node->command;
-	_get_size_and_check_syntax(token, command);
-	command->cargs = NULL;
-	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
-	_set_n_command(token, command);
+	else
+	{
+		if (!is_command_token(*tokens))
+		{
+			print_syntax_error(*tokens);
+			return (NULL);
+		}
+		command_node = create_node(E_NODE_TYPE_COMMAND);
+		if (command_node == NULL)
+			return (NULL);
+		command = command_node->command;
+		_get_size_and_check_syntax(tokens, command);
+		command->cargs = NULL;
+		command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
+		_set_n_command(tokens, command);
+	}
 	return (command_node);
 }
