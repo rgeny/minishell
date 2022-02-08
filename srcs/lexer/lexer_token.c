@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:12:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:44:18 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:15:10 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	lexer_create_operator_tok(t_tok_constructor *c, t_token **tokens, int stri)
 {
 	int			len;
 	const char	*str;
-	
+
 	if (is_error())
 		return (0);
 	str = c->str;

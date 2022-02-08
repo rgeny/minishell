@@ -6,43 +6,20 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:44:17 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:28:31 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static bool	_is_valid_token(t_token *token)
+static bool	_is_pipe_token(t_token *token)
 {
 	t_token_type	type;
 
 	if (!token)
 		return (false);
 	type = token->type;
-	return (is_pipeline_token(token) || type == E_TOKEN_TYPE_OPENED_PAR);
-}
-
-static t_node	*_init_right_command(t_token **tokens)
-{
-	t_node	*command_node;
-
-	if (is_error())
-		return (NULL);
-	command_node = NULL;
-	if (_is_valid_token((*tokens)->next))
-	{
-		*tokens = (*tokens)->next;
-		if (is_pipeline_token(*tokens))
-			command_node = init_command(tokens);
-		else if (is_opened_parenthesis_token(*tokens))
-		{
-			*tokens = (*tokens)->next;
-			command_node = init_pipeline_list(tokens, true);
-		}
-	}
-	else
-		print_syntax_error(*tokens);
-	return (command_node);
+	return (type == E_TOKEN_TYPE_PIPE);
 }
 
 t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
@@ -60,19 +37,12 @@ t_node	*init_pipeline(t_token **tokens)
 
 	if (is_error())
 		return (NULL);
-	if (!is_pipeline_token(*tokens))
-	{
-		print_syntax_error(*tokens);
-		return (NULL);
-	}
 	pipe_node = NULL;
 	command_node = init_command(tokens);
-	if (is_opened_parenthesis_token(*tokens))
-		print_syntax_error(*tokens);
-	while (!is_error() && _is_valid_token(*tokens))
+	while (!is_error() && _is_pipe_token(*tokens))
 	{
-		pipe_node = init_separator_node(*tokens, pipe_node, command_node);
-		pipe_node->right = _init_right_command(tokens);
+		pipe_node = init_separator_node(tokens, pipe_node, command_node);
+		pipe_node->right = init_command(tokens);
 	}
 	return (_set_pipeline_root(command_node, pipe_node));
 }

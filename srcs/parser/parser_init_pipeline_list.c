@@ -6,59 +6,20 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:44:16 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:28:58 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static t_node	*_init_pipeline(t_token **tokens)
-{
-	t_node	*pipeline_node;
-
-	if (is_error())
-		return (NULL);
-	if (is_opened_parenthesis_token(*tokens))
-	{
-		*tokens = (*tokens)->next;
-		pipeline_node = init_pipeline_list(tokens, true);
-	}
-	else
-		pipeline_node = init_pipeline(tokens);
-	return (pipeline_node);
-}
-
-static bool	_is_valid_token(t_token *token)
+static bool	_is_andor_token(t_token *token)
 {
 	t_token_type	type;
 
 	if (!token)
 		return (false);
 	type = token->type;
-	return (is_list_token(token) || type == E_TOKEN_TYPE_OPENED_PAR);
-}
-
-static t_node	*_init_right_pipeline(t_token **tokens)
-{
-	t_node	*pipeline_node;
-
-	if (is_error())
-		return (NULL);
-	pipeline_node = NULL;
-	if (_is_valid_token((*tokens)->next))
-	{
-		*tokens = (*tokens)->next;
-		if (is_list_token(*tokens))
-			pipeline_node = init_pipeline(tokens);
-		else if (is_opened_parenthesis_token(*tokens))
-		{
-			*tokens = (*tokens)->next;
-			pipeline_node = init_pipeline_list(tokens, true);
-		}
-	}
-	else
-		print_syntax_error(*tokens);
-	return (pipeline_node);
+	return (type == E_TOKEN_TYPE_OR || type == E_TOKEN_TYPE_AND);
 }
 
 static t_node	*_set_list_root(
@@ -83,18 +44,11 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	if (is_error())
 		return (NULL);
 	andor_node = NULL;
-	pipeline_node = _init_pipeline(tokens);
-	while (!is_error() && _is_valid_token(*tokens))
+	pipeline_node = init_pipeline(tokens);
+	while (!is_error() && _is_andor_token(*tokens))
 	{
-		andor_node = init_separator_node(*tokens, andor_node, pipeline_node);
-		andor_node->right = _init_right_pipeline(tokens);
-	}
-	if (!is_error() && is_subshell)
-	{
-		if (is_closed_parenthesis_token(*tokens))
-			*tokens = (*tokens)->next;
-		else
-			print_syntax_error(*tokens);
+		andor_node = init_separator_node(tokens, andor_node, pipeline_node);
+		andor_node->right = init_pipeline(tokens);
 	}
 	return (_set_list_root(pipeline_node, andor_node, is_subshell));
 }

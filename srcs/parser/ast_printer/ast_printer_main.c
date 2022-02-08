@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_fancy_printer.c                                :+:      :+:    :+:   */
+/*   ast_printer_main.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 17:16:18 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:20:54 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	print_ast(t_node *root)
 
 	if (root == NULL || is_error())
 		return ;
-	printf("\nWhat a wonderfull AST :\n");
+	printf("\nWhat a wonderful AST :\n");
 	_init_printer(&printer);
 	proot = build_ascii_tree(root);
 	compute_edge_lengths(&printer, proot);

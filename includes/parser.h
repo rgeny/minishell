@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 17:27:26 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:27:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_node	*init_command(t_token **token);
 t_node	*init_pipeline(t_token **token);
 t_node	*init_pipeline_list(t_token **tokens, bool is_subshell);
 t_node	*init_separator_node(
-			t_token *token, t_node *sep_node, t_node *cmd_node);
+			t_token **token, t_node *sep_node, t_node *cmd_node);
 
 bool	is_command_token(t_token *token);
 bool	is_pipeline_token(t_token *token);

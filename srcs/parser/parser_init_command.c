@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 17:27:26 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:31:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_node	*init_command(t_token **token)
 	t_command	*command;
 	t_node		*command_node;
 
-	if (is_error() || !*token)
+	if (is_error())
 		return (NULL);
 	if (!is_command_token(*token))
 	{

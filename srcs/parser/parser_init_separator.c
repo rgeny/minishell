@@ -6,22 +6,22 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:36:52 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 17:29:21 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 12:26:41 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_node	*init_separator_node(t_token *token, t_node *sep_node, t_node *cmd_node)
+t_node	*init_separator_node(t_token **token, t_node *sep_node, t_node *cmd_node)
 {
 	t_node		*new_separator_node;
 	t_node_type	type;
 
 	if (is_error())
 		return (NULL);
-	if (token->type == E_TOKEN_TYPE_PIPE)
+	if ((*token)->type == E_TOKEN_TYPE_PIPE)
 		type = E_NODE_TYPE_PIPE;
-	else if (token->type == E_TOKEN_TYPE_OR)
+	else if ((*token)->type == E_TOKEN_TYPE_OR)
 		type = E_NODE_TYPE_OR;
 	else
 		type = E_NODE_TYPE_AND;
@@ -32,5 +32,6 @@ t_node	*init_separator_node(t_token *token, t_node *sep_node, t_node *cmd_node)
 		new_separator_node->left = cmd_node;
 	else
 		new_separator_node->left = sep_node;
+	*token = (*token)->next;
 	return (new_separator_node);
 }
