@@ -6,88 +6,73 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 17:04:05 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 20:04:30 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "expander.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "env.h"
-#include "str.h"
-#include "utils.h"
-#include "error.h"
-
-static char	*_find_var_value(char *cmd, t_data *data)
+static char	*_find_var_value(char *word, t_data *data)
 {
-	char	*value;;
+	char	*value;
 	char	*name;
 
-	if (cmd[0] == '?')
+	if (word[0] == '?')
 		return (uti_itoa(g_last_return));
-	name = str_ndup(cmd, str_len_alnum(cmd));
+	name = str_ndup(word, str_len_alnum(word));
 	value = env_find_val(data->env, name);
 	str_free(name);
 	return (str_dup(value));
 }
 
-static char	*_switch_name_to_value(char *prev, char *find, char *cmd, int len)
+static char	*_switch_name_to_value(char *prev, char *find, char *word, int len)
 {
 	char	*tmp;
-	char	*ret;
+	char	*new_value;
 
-	ret = 0;
-	tmp = 0;
 	tmp = str_join(prev, find, 0);
-	ret = str_join(tmp, &cmd[len], 0);
-	if (!ret)
-		ret = uti_calloc(2, 1);
+	new_value = str_join(tmp, &word[len], 0);
+	if (new_value == NULL)
+		new_value = uti_calloc(2, 1);
 	str_free(tmp);
 	str_free(find);
-	return (ret);
+	return (new_value);
 }
 
-static void	_expand(char **cmd, t_data *data, int i)
+static void	_expand(char **word, t_data *data, int i)
 {
 	int		len;
-	char	*prev;
-	char	*ret;
+	char	*prev_val;
+	char	*new_val;
 	char	*find;
 
-	prev = str_ndup(cmd[0], i);
-	len = str_len_alnum(&cmd[0][i + 1]);
-	if (cmd[0][i + 1] == '?')
+	prev_val = str_ndup(word[0], i);
+	len = str_len_alnum(&word[0][i + 1]);
+	if (word[0][i + 1] == '?')
 		len++;
-	find = _find_var_value(&cmd[0][i + 1], data);
-	if (find || len)
+	find = _find_var_value(&word[0][i + 1], data);
+	if (find != NULL || len != 0)
 	{
-		ret = _switch_name_to_value(prev, find, &cmd[0][i + 1], len);
-		str_free(cmd[0]);
-		cmd[0] = ret;
+		new_val = _switch_name_to_value(prev_val, find, &word[0][i + 1], len);
+		str_free(word[0]);
+		word[0] = new_val;
 	}
-	str_free(prev);
+	str_free(prev_val);
 }
 
-void	expander_var(t_carg *cmd, t_data *data)
+void	expand_var(char **word, t_data *data)
 {
 	int		i;
 
-	while (cmd)
+	i = 0;
+	while (word[0][i] != '\0')
 	{
-		i = 0;
-		while (cmd->content[i])
-		{
-			if (cmd->content[i] == '\'')
-			{
-				i++;
-				while (cmd->content[i] && cmd->content[i] != '\'')
-					i++;
-			}
-			if (cmd->content[i] == '$')
-				_expand(&cmd->content, data, i);
-			if (cmd->content[i] && (cmd->content[i] != '$' || !uti_isalnum(cmd->content[i + 1])))
-				i++;
-		}
-		cmd = cmd->next;
+		if (word[0][i] == '\'')
+			i += str_clen(&word[0][i + 1], word[0][i]) + 1;
+		if (word[0][i] == '$')
+			_expand(word, data, i);
+		if (word[0][i] != '\0'
+			&& (word[0][i] != '$' || !uti_isalnum(word[0][i + 1])))
+			i++;
 	}
 }

@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_data.h                                           :+:      :+:    :+:   */
+/*   d_global.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 13:27:04 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/08 20:07:18 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/07 14:37:01 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/07 14:37:29 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_DATA_H
-# define T_DATA_H
-# include "t_env.h"
-# include "t_ast.h"
-# include "t_lexer.h"
-
-typedef struct s_data
-{
-	int		pipefd[2];
-	int		fd_in;
-	t_env	*env;
-	t_node	*ast_root;
-	char	*pwd;
-}			t_data;
+#ifndef D_GLOBAL_H
+# define D_GLOBAL_H
+# define QUOTES "\'\""
 #endif

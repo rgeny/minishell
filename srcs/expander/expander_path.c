@@ -6,41 +6,41 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 17:04:16 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 19:49:46 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "env.h"
-#include "str.h"
+#include "expander.h"
 
-#include <stdio.h>
-
-char	*expander_path(char *cmd, t_env *env)
+static char	*_find_path(char *cmd, char **path_list)
 {
-	int		i;
-	char	**split;
-	char	*s;
+	char	*path_cmd;
 
-	if (!access(cmd, F_OK | X_OK))
+	if (access(cmd, F_OK | X_OK) == SUCCESS)
 		return (cmd);
-	s = env_find_val(env, "PATH");
-	if (!s)
-		return (NULL);
-	split = str_split(s, ":");
-	i = 0;
-	while (split && split[i])
+	while (*path_list)
 	{
-		s = str_join(split[i], cmd, '/');
-		if (!access(s, F_OK | X_OK))
-		{
-			str_free_list(split);
-			return (s);
-		}
-		str_free(s);
-		i++;
+		path_cmd = str_join(*path_list, cmd, '/');
+		if (access(path_cmd, F_OK | X_OK) == SUCCESS)
+			return (path_cmd);
+		path_list++;
 	}
-	str_free_list(split);
-	return (0);
+	return (NULL);
+}
+
+char	*expand_path(char *cmd, t_env *env)
+{
+	char	**path_list;
+	char	*path_var;
+	char	*path_cmd;
+
+	path_var = env_find_val(env, "PATH");
+	if (path_var == NULL)
+		return (NULL);
+	path_list = str_split(path_var, ":");
+	if (path_list == NULL)
+		return (NULL);
+	path_cmd = _find_path(cmd, path_list);
+	str_free_list(path_list);
+	return (path_cmd);
 }

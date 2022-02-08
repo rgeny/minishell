@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/08 17:19:42 by tokino           ###   ########.fr        #
+#    Updated: 2022/02/08 20:15:21 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BOLD_CYAN		= "\033[01m\033[36m"
 CC				= cc
 
 # ******************************** COMPIL FLAG ******************************* #
-COMPILEF		= $(DEPF) -g -Wall -Werror -Wextra
+COMPILEF		= $(DEPF) -g #-Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 
@@ -83,21 +83,21 @@ VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR)
 
 SRC				= $(addsuffix .c,				main \
 					$(addprefix env_,			del find init new assign switch) \
-					$(addprefix utils_,			bzero calloc min itoa ato quicksort is interactive max error) \
 					$(addprefix mem_,			cpy set) \
-					$(addprefix expander_,		var path heredoc main) \
-					$(addprefix asterisk_,		main dir_list) \
-					$(addprefix exe_,			builtin out_process readline main redir pipe cmd) \
-					$(addprefix lexer_,			lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix parser_,		free_ast main) \
 					$(addprefix ast_builder_,	command create_node is_given_token main pipeline_list pipeline) \
 					$(addprefix ast_printer_,	main asciitree_builder set_profiles set_edge_length level)\
 					$(addprefix cleaner_,		all) \
 					$(addprefix str_,			cmp len dup split join free split_first print first_dif) \
 					$(addprefix builtin_,		cd exit export unset echo env pwd) \
-					$(addprefix signal_,		current fork ignore) \
-					$(addprefix lst_,			carg) \
-					$(SRC_BUILTIN))
+					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max error free) \
+					$(addprefix expander_,	var path heredoc main quote) \
+					$(addprefix asterisk_,	main dir_list cmp) \
+					$(addprefix exe_,		builtin out_process readline main redir pipe cmd) \
+					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
+					$(addprefix cleaner_,	all) \
+					$(addprefix signal_,	current fork ignore heredoc) \
+					$(addprefix lst_,		carg))
 
 # *********************************** others ********************************* #
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))

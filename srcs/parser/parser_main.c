@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:49:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:27:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 20:09:21 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	parser_main(t_data *data, char *rl)
 	tokens = lexer_lex(rl);
 	// lexer_print_tokens(tokens);
 	data->ast_root = build_ast(tokens);
-	print_ast(data->ast_root);
+//	print_ast(data->ast_root);
 	lexer_free_tokens(&tokens);
 	return (error_get());
 }

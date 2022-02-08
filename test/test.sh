@@ -521,6 +521,7 @@ then
 	cd $DIR_TEST
 	
 	test_ret_stdout "echo *"
+	test_ret_stdout "echo .*"
 	test_ret_stdout "echo *a"
 	test_ret_stdout "echo a*"
 	test_ret_stdout "echo a*bc"
@@ -529,9 +530,16 @@ then
 	test_ret_stdout	"echo ****a*****b****c****d****"
 	test_ret_stdout "echo a"
 	test_ret_stdout "*"
-	test_ret_stdout "cat *"
-	test_ret_stdout "cat .*"
-#todo : add compter ligne d'erreur
+	test_ret_stdout "mkdir t1\ncd t1\nrm -rf ../t1\necho *"
+	test_ret_stdout "mkdir t1\ncd t1\nrm -rf ../t1\necho .*"
+	test_ret_stdout "echo \"ab\"*"
+	test_ret_stdout "echo \"a \"*"
+	test_ret_stdout "echo \'ab\'*"
+	test_ret_stdout "echo \'a \'*"
+	test_ret_stdout "echo a\"b\"*"
+	test_ret_stdout "echo a\" b\"*"
+	test_ret_stdout "echo *\"b\""
+	test_ret_stdout "echo *\"b\"*"
 
 	cd ../
     echo

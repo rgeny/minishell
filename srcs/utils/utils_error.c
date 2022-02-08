@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 13:07:43 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 20:08:32 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ bool	is_error(void)
 
 int	error_print(char *cmd, char *msg1, char *msg2, int return_value)
 {
-	str_print_stderr("minishell: ");
+	if (msg1 != NULL || msg2 != NULL || cmd != NULL)
+		str_print_stderr("minishell: ");
 	uti_interactive(INTERACTIVE_PRINT_LINE);
 	str_print_stderr(cmd);
 	str_print_stderr(msg1);
 	str_print_stderr(msg2);
-	write(STDERR_FILENO, "\n", 1);
+	if (msg1 != NULL || msg2 != NULL || cmd != NULL)
+		write(STDERR_FILENO, "\n", 1);
 	_error(ERROR_SET, return_value);
 	return (return_value);
 }

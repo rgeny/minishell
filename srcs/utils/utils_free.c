@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_data.h                                           :+:      :+:    :+:   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 13:27:04 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/08 20:07:18 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/06 18:22:01 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/06 18:27:49 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_DATA_H
-# define T_DATA_H
-# include "t_env.h"
-# include "t_ast.h"
-# include "t_lexer.h"
+#include "utils.h"
 
-typedef struct s_data
+void	uti_free(void **p)
 {
-	int		pipefd[2];
-	int		fd_in;
-	t_env	*env;
-	t_node	*ast_root;
-	char	*pwd;
-}			t_data;
-#endif
+	if (*p != NULL)
+	{
+		free(*p);
+		*p = NULL;
+	}
+}

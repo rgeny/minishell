@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:55:55 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/03 13:36:34 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/08 10:37:09 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@
 
 void	lst_carg_add_back(t_carg **lst, t_carg *new);
 void	lst_carg_add_after(t_carg *after, t_carg *new);
-
+void	lst_new_after(t_carg *current, char *new_content);
 #endif

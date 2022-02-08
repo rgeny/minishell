@@ -7,12 +7,12 @@ EXPORT :
 SIGNAUX :
 	- test 1 :
 		./minishell
-		ctrl+c			(retourne à la ligne en affichant le prompt)
+		abc ctrl+c		(retourne à la ligne en affichant le prompt)
 		echo $?			(affiche "130\n")
 	
 	- test 2 :
 		./minishell
-		ctrl + d		(Ferme minishell et affiche "exit")
+		abc ctrl + d	(Ferme minishell et affiche "exit")
 		echo $?			(Affiche 0)
 
 	- test 3 :

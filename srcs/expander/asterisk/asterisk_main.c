@@ -6,123 +6,83 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/03 12:42:53 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/08 19:13:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <stdlib.h>
-#include "env.h"
-#include "str.h"
 #include "expander.h"
+#include <stdbool.h>
+#include <stdlib.h>
+#include "lst.h"
 
-static int	_cmp(char *word, char *dir)
+typedef t_command	t_cmd;
+
+static void	_expand_cmd(t_cmd *cmd, t_carg *args, char *word, char **dir_list)
 {
-	int	i;
-	int	j;
-	int	k;
-	int	b;
+	bool	is_first;
 
-	i = 0;
-	k = 0;
-	b = 0;
-	while (word[i + k]
-		&& (word[i + k] == dir[i] || word[i + k] == '*'
-			|| (!b && (word[i + k] == '\'' || word[i + k] == '\"'))
-			|| word[i + k] == b))
+	is_first = true;
+	while (*dir_list)
 	{
-		if (word[i + k] == '*' && !b)
+		if (asterisk_cmp(word, *dir_list))
 		{
-			while (word[i + k] == '*')
-				word++;
-			while (word[i + k] != '*' && dir[i])
+			if (is_first == true)
 			{
-				j = 0;
-				while (word[i + j + k] && word[i + j + k] == dir[i + j])
-					j++;
-				if ((!word[i + j + k] && !dir[i + j]) || word[i + j + k] == '*')
-					i += j;
-				else
-					dir++;
-			}
-		}
-		if (word[i + k] && dir[i] && (word[i + k] != '*' || b))
-		{
-			if (!b && (word[i + k] == '\'' || word[i + k] == '\"'))
-			{
-				b = word[i + k];
-				k++;
-			}
-			else if (word[i + k] == b)
-			{
-				b = 0;
-				k++;
+				args->content = str_dup(*dir_list);
+				is_first = false;
 			}
 			else
-				i++;
+			{
+				lst_new_after(args, *dir_list);
+				args = args->next;
+				cmd->arg_nb++;
+			}
 		}
+		dir_list++;
 	}
-	return (!word[i + k] && !dir[i]);
 }
 
-static char	*_expand(char *word, char **dir_list)
+static bool	_expand_redir(t_redir *redir, char *word, char **dir_list)
 {
-	int		i;
-	char	*new_word;
-	char	*tmp;
+	bool	is_first;
 
-	new_word = 0;
-	tmp = 0;
-	i = 0;
-	while (dir_list[i])
+	is_first = true;
+	while (*dir_list)
 	{
-		if (_cmp(word, dir_list[i]))
+		if (asterisk_cmp(word, *dir_list))
 		{
-			tmp = str_join(new_word, dir_list[i], ' ');
-			str_free(new_word);
-			new_word = tmp;
+			if (is_first == true)
+			{
+				redir->path = str_dup(*dir_list);
+				is_first = false;
+			}
+			else
+			{
+				error_print(word, REDIR_AMBIGUE, NULL, 0);
+				g_last_return = ERROR_EXEC;
+				str_free(redir->path);
+				redir->path = str_dup(word);
+				return (false);
+			}
 		}
-		i++;
+		dir_list++;
 	}
-	return (new_word);
+	return (true);
 }
-/*
-static char	*_join(char **split)
-{
-	int		i;
-	char	*tmp;
-	char	*ret;
 
-	i = 0;
-	ret = 0;
-	while (split[i])
-	{
-		if (ret)
-		{
-			tmp = str_join(ret, split[i], ' ');
-			str_free(ret);
-			ret = tmp;
-		}
-		else
-			ret = str_dup(split[i]);
-		i++;
-	}
-	return (ret);
-}*/
-
-char	*expander_asterisk(char *rl)
+bool	expand_asterisk(t_command *cmd, t_carg *args, t_redir *redir)
 {
 	char	**dir_list;
-	char	*ret;
+	bool	is_success;
 
-	dir_list = asterisk_dir_list(rl[0] == '.');
-	if (!dir_list)
-		return (NULL);
-	ret = 0;
-	if (str_len(rl) == str_clen(rl, '='))
-		ret = _expand(rl, dir_list);
+	is_success = true;
+	dir_list = asterisk_dir_list();
+	if (dir_list == NULL)
+		return (is_success);
+	if (args != NULL && str_len(args->content) == str_clen(args->content, '='))
+		_expand_cmd(cmd, args, args->content, dir_list);
+	if (redir != NULL)
+		is_success = _expand_redir(redir, redir->path, dir_list);
 	str_free_list(dir_list);
-	return (ret);
+	return (is_success);
 }
