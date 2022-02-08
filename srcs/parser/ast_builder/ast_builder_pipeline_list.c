@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_init_pipeline_list.c                        :+:      :+:    :+:   */
+/*   ast_builder_pipeline_list.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 15:13:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 17:23:07 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	_is_andor_token(t_token *token)
 	return (type == E_TOKEN_TYPE_OR || type == E_TOKEN_TYPE_AND);
 }
 
-static t_node	*_init_andor_node(t_ast_constructor *astc, t_node *andor_node, t_node *pipeline_node)
+static t_node	*_build_andor_node(t_ast_constructor *astc, t_node *andor_node, t_node *pipeline_node)
 {
 	t_node		*new_andor_node;
 	t_node_type	type;
@@ -61,7 +61,7 @@ static t_node	*_set_list_root(
 	return (root);
 }
 
-t_node	*init_pipeline_list(t_ast_constructor *astc, bool is_subshell)
+t_node	*build_pipeline_list(t_ast_constructor *astc, bool is_subshell)
 {
 	t_node		*pipeline_node;
 	t_node		*andor_node;
@@ -69,11 +69,11 @@ t_node	*init_pipeline_list(t_ast_constructor *astc, bool is_subshell)
 	if (is_error())
 		return (NULL);
 	andor_node = NULL;
-	pipeline_node = init_pipeline(astc);
+	pipeline_node = build_pipeline(astc);
 	while (!is_error() && _is_andor_token(astc->tokens))
 	{
-		andor_node = _init_andor_node(astc, andor_node, pipeline_node);
-		andor_node->right = init_pipeline(astc);
+		andor_node = _build_andor_node(astc, andor_node, pipeline_node);
+		andor_node->right = build_pipeline(astc);
 	}
 	return (_set_list_root(pipeline_node, andor_node, is_subshell));
 }

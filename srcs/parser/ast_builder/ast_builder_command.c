@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_init_command.c                              :+:      :+:    :+:   */
+/*   ast_builder_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:08:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 17:24:17 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	_set_arg(t_ast_constructor *astc, t_carg **cargs)
 	lst_carg_add_back(cargs, carg);
 }
 
-static void	_set_n_command(t_ast_constructor *astc, t_command *command)
+static void	_set_command(t_ast_constructor *astc, t_command *command)
 {
 	int		redir_count;
 
@@ -111,7 +111,7 @@ static void	_get_size_and_check_syntax(t_ast_constructor *astc, t_command *comma
 	}
 }
 
-t_node	*init_command(t_ast_constructor *astc)
+t_node	*build_command(t_ast_constructor *astc)
 {
 	t_command	*command;
 	t_node		*command_node;
@@ -121,7 +121,7 @@ t_node	*init_command(t_ast_constructor *astc)
 	if (is_opened_parenthesis_token(astc->tokens))
 	{
 		eat_token(astc, E_TOKEN_TYPE_OPENED_PAR);
-		command_node = init_pipeline_list(astc, true);
+		command_node = build_pipeline_list(astc, true);
 		eat_token(astc, E_TOKEN_TYPE_CLOSED_PAR);
 	}
 	else
@@ -135,7 +135,7 @@ t_node	*init_command(t_ast_constructor *astc)
 		_get_size_and_check_syntax(astc, command);
 		command->cargs = NULL;
 		command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
-		_set_n_command(astc, command);
+		_set_command(astc, command);
 	}
 	return (command_node);
 }

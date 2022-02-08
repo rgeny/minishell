@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_tokens.c                                    :+:      :+:    :+:   */
+/*   ast_builder_main.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:09:39 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 17:27:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	eat_token(t_ast_constructor *astc, t_token_type type)
 		print_syntax_error(astc->tokens);
 }
 
-t_node	*parse_tokens(t_token *tokens)
+t_node	*build_ast(t_token *tokens)
 {
 	t_node				*root;
 	t_ast_constructor	*astc;
@@ -37,7 +37,7 @@ t_node	*parse_tokens(t_token *tokens)
 	if (tokens == NULL || is_error())
 		return (NULL);
 	astc = _init_astc(tokens);
-	root = init_pipeline_list(astc, false);
+	root = build_pipeline_list(astc, false);
 	if (!is_error() && astc->tokens)
 		print_syntax_error(astc->tokens);
 	return (root);

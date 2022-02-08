@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_init_pipeline.c                             :+:      :+:    :+:   */
+/*   ast_builder_pipeline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 15:17:07 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 17:23:39 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	_is_pipe_token(t_token *token)
 	return (type == E_TOKEN_TYPE_PIPE);
 }
 
-static t_node	*_init_pipe_node(t_ast_constructor *astc, t_node *pipe_node, t_node *command_node)
+static t_node	*_build_pipe_node(t_ast_constructor *astc, t_node *pipe_node, t_node *command_node)
 {
 	t_node	*new_pipe_node;
 
@@ -45,7 +45,7 @@ t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
 		return (main_node);
 }
 
-t_node	*init_pipeline(t_ast_constructor *astc)
+t_node	*build_pipeline(t_ast_constructor *astc)
 {
 	t_node	*command_node;
 	t_node	*pipe_node;
@@ -53,11 +53,11 @@ t_node	*init_pipeline(t_ast_constructor *astc)
 	if (is_error())
 		return (NULL);
 	pipe_node = NULL;
-	command_node = init_command(astc);
+	command_node = build_command(astc);
 	while (!is_error() && _is_pipe_token(astc->tokens))
 	{
-		pipe_node = _init_pipe_node(astc, pipe_node, command_node);
-		pipe_node->right = init_command(astc);
+		pipe_node = _build_pipe_node(astc, pipe_node, command_node);
+		pipe_node->right = build_command(astc);
 	}
 	return (_set_pipeline_root(command_node, pipe_node));
 }

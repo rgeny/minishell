@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/08 17:11:36 by tokino           ###   ########.fr        #
+#    Updated: 2022/02/08 17:19:42 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,8 @@ SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
 LEXER_DIR		= $(SRC_DIR)lexer/
 PARSER_DIR		= $(SRC_DIR)parser/
+AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
+AST_BUILDER_DIR = $(PARSER_DIR)ast_builder/
 CLEANER_DIR		= $(SRC_DIR)cleaner/
 MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
@@ -71,11 +73,11 @@ EXE_DIR			= $(SRC_DIR)exe/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
 LST_DIR			= $(SRC_DIR)lst/
-AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR) $(AST_PRINTER_DIR)
-VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) $(PARSER_DIR)
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR) 
+VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) 
+VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR)
 
 # *********************************** sources ******************************** #
 
@@ -87,13 +89,14 @@ SRC				= $(addsuffix .c,				main \
 					$(addprefix asterisk_,		main dir_list) \
 					$(addprefix exe_,			builtin out_process readline main redir pipe cmd) \
 					$(addprefix lexer_,			lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix parser_,		tokens print create_node init_command free_ast main init_pipeline init_pipeline_list is_given_token) \
+					$(addprefix parser_,		free_ast main) \
+					$(addprefix ast_builder_,	command create_node is_given_token main pipeline_list pipeline) \
+					$(addprefix ast_printer_,	main asciitree_builder set_profiles set_edge_length level)\
 					$(addprefix cleaner_,		all) \
 					$(addprefix str_,			cmp len dup split join free split_first print first_dif) \
 					$(addprefix builtin_,		cd exit export unset echo env pwd) \
 					$(addprefix signal_,		current fork ignore) \
 					$(addprefix lst_,			carg) \
-					$(addprefix ast_printer_,	main asciitree_builder set_profiles set_edge_length level)\
 					$(SRC_BUILTIN))
 
 # *********************************** others ********************************* #
