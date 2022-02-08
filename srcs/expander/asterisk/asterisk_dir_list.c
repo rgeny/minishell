@@ -6,26 +6,17 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:33:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 15:24:34 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 14:16:36 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <expander.h>
 
-static bool	_is_valid_dir(char *dir_name, bool is_hidden)
+static int	_count_dir(char *cwd)
 {
-	if (is_hidden == true && dir_name[0] == '.')
-		return (true);
-	else if (is_hidden == false && dir_name[0] != '.')
-		return (true);
-	return (false);
-}
-
-static int	_count_dir(char *cwd, bool is_hidden)
-{
-	DIR				*fd_dir;
-	struct dirent	*dir;
-	int				n_dir;
+	DIR			*fd_dir;
+	t_dirent	*dir;
+	int			n_dir;
 
 	fd_dir = opendir(cwd);
 	if (fd_dir == NULL)
@@ -34,61 +25,56 @@ static int	_count_dir(char *cwd, bool is_hidden)
 	dir = readdir(fd_dir);
 	while (dir != NULL)
 	{
-		if (_is_valid_dir(dir->d_name, is_hidden) == true)
-			n_dir++;
+		n_dir++;
 		dir = readdir(fd_dir);
 	}
 	closedir(fd_dir);
 	return (n_dir);
 }
 
-static int	_init(DIR **fd_dir, char ***to_return, bool is_hidden, int *n_dir)
+static int	_init(DIR **fd_dir, char ***dir_list, int *n_dir)
 {
 	char	cwd[PATH_MAX + 1];
 
 	*fd_dir = NULL;
-	*to_return = NULL;
+	*dir_list = NULL;
 	if (getcwd(cwd, PATH_MAX + 1) == NULL)
-		return (SUCCESS);
-	*n_dir = _count_dir(cwd, is_hidden);
+		return (ERROR_EXEC);
+	*n_dir = _count_dir(cwd);
 	if (*n_dir == 0)
-		return (SUCCESS);
-	*to_return = uti_calloc(*n_dir + 1, sizeof(char *));
-	if (*to_return == NULL)
+		return (ERROR_EXEC);
+	*dir_list = uti_calloc(*n_dir + 1, sizeof(char *));
+	if (*dir_list == NULL)
 		return (error_get());
 	*fd_dir = opendir(cwd);
 	if (*fd_dir == NULL)
-		free(*to_return);
+		free(*dir_list);
 	return (SUCCESS);
 }
 
-static void	_fill(DIR *fd_dir, int n_dir, char **to_return, bool is_hidden)
+static void	_fill(DIR *fd_dir, int n_dir, char **dir_list)
 {
-	dirent	*cur_dir;
+	t_dirent	*cur_dir;
 
 	cur_dir = readdir(fd_dir);
-	while (n_dir > 0 && cur_dir != NULL)
+	while (n_dir > 0)
 	{
-		if (_is_valid_dir(cur_dir->d_name, is_hidden) == true)
-		{
-			n_dir--;
-			to_return[n_dir] = str_dup(cur_dir->d_name);
-		}
+		n_dir--;
+		dir_list[n_dir] = str_dup(cur_dir->d_name);
 		cur_dir = readdir(fd_dir);
 	}
 }
 
-char	**asterisk_dir_list(bool is_hidden)
+char	**asterisk_dir_list(void)
 {
 	int		n_dir;
 	DIR		*fd_dir;
-	char	**to_return;
+	char	**dir_list;
 
-	_init(&fd_dir, &to_return, is_hidden, &n_dir);
-	if (fd_dir == NULL || to_return == NULL || n_dir == 0)
+	if (_init(&fd_dir, &dir_list, &n_dir) != SUCCESS)
 		return (NULL);
-	_fill(fd_dir, n_dir, to_return, is_hidden);
+	_fill(fd_dir, n_dir, dir_list);
 	closedir(fd_dir);
-	uti_quicksort(0, n_dir - 1, to_return);
-	return (to_return);
+	uti_quicksort(0, n_dir - 1, dir_list);
+	return (dir_list);
 }

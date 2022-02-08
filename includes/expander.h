@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 11:19:06 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/08 19:49:28 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 # include "d_global.h"
 # include "env.h"
 # include "minishell_signal.h"
+# include "mem.h"
 
-typedef struct dirent dirent;
-
-void	expander_main(t_data * data, t_node *ast);
-int		expander_heredoc(char *delimiter);
-char	*expander_path(char *cmd, t_env *env);
-void	expander_var(t_carg *cmd, t_data *data);
-char	*expander_asterisk(char *rl);
-bool	_expand_asterisk(t_command *cmd);
-char	**asterisk_dir_list(bool is_hidden);
+typedef struct dirent	t_dirent;
+void	expander_main(t_data *data, t_node *ast);
+int		expand_heredoc(char *delimiter, t_data *data);
+char	*expand_path(char *cmd, t_env *env);
+void	expand_var(char **word, t_data *data);
+void	expand_quote(char *s);
+bool	expand_asterisk(t_command *cmd, t_carg *args, t_redir *redir);
+char	**asterisk_dir_list(void);
+bool	asterisk_cmp(char *word, char *dir);
 #endif

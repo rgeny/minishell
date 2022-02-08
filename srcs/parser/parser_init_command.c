@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_n_command.c                                 :+:      :+:    :+:   */
+/*   parser_init_command.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/06 15:42:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 15:24:07 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ t_node	*init_command(t_token **token)
 	command = command_node->command;
 	_get_size_and_check_syntax(token, command);
 	command->cargs = NULL;
-	command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
+	if (command->redir_nb > 0)
+		command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
 	_set_n_command(token, command);
 	return (command_node);
 }

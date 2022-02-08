@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 15:20:31 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 19:50:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	_son(char **cmd, t_data *data)
 	signal_fork();
 	env_cpy = env_switch(data, 0);
 	str_free(data->pwd);
-	path = expander_path(cmd[0], data->env);
+	path = expand_path(cmd[0], data->env);
 	execve(path, cmd, env_cpy);
 	error_print(cmd[0], ": command not found", 0, 0);
 	str_free_list(cmd);

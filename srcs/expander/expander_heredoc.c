@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 19:31:25 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 19:34:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	_handle_errors(int pipefd[2], char *delimiter)
 	{
 		close(pipefd[1]);
 		pipefd[1] = -1;
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	}
 }
 
-static void	_generate_heredoc(int pipefd[2], char *delimiter)
+static void	_generate_heredoc(int pipefd[2], char *delimiter, t_data *data)
 {
 	char	*s;
 	char	*prompt;
@@ -34,6 +34,7 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter)
 	s = readline(prompt);
 	while (s != NULL && str_cmp(s, delimiter) != 0)
 	{
+		expand_var(&s, data);
 		str_print_fd_nl(s, pipefd[1]);
 		str_free(s);
 		s = readline(prompt);
@@ -43,15 +44,15 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter)
 		_handle_errors(pipefd, delimiter);
 }
 
-int	expander_heredoc(char *delimiter)
+int	expand_heredoc(char *delimiter, t_data *data)
 {
 	int		pipefd[2];
 	int		fd_stdin;
 
-	fd_stdin = dup(0);
+	fd_stdin = dup(STDIN_FILENO);
 	pipe(pipefd);
-	_generate_heredoc(pipefd, delimiter);
-	dup2(fd_stdin, 0);
+	_generate_heredoc(pipefd, delimiter, data);
+	dup2(fd_stdin, STDIN_FILENO);
 	close(fd_stdin);
 	close(pipefd[1]);
 	return (pipefd[0]);
