@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 16:17:13 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 17:08:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,7 @@ t_node	*init_command(t_ast_constructor *astc)
 	else
 	{
 		if (!is_command_token(astc->tokens))
-		{
 			print_syntax_error(astc->tokens);
-			return (NULL);
-		}
 		command_node = create_node(E_NODE_TYPE_COMMAND);
 		if (command_node == NULL)
 			return (NULL);
