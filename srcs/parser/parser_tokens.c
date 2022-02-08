@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 16:21:41 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 16:54:34 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,6 @@ void	eat_token(t_ast_constructor *astc, t_token_type type)
 		print_syntax_error(astc->tokens);
 }
 
-static bool	_is_invalid_token(t_token *token)
-{
-	t_token_type	type;
-
-	if (!token)
-		return (false);
-	type = token->type;
-	return (type == E_TOKEN_TYPE_OPERATOR || type == E_TOKEN_TYPE_CLOSED_PAR);
-}
-
 t_node	*parse_tokens(t_token *tokens)
 {
 	t_node	*root;
@@ -48,7 +38,7 @@ t_node	*parse_tokens(t_token *tokens)
 		return (NULL);
 	astc = _init_astc(tokens);
 	root = init_pipeline_list(astc, false);
-	if (!is_error() && _is_invalid_token(astc->tokens))
+	if (!is_error() && astc->tokens)
 		print_syntax_error(astc->tokens);
 	return (root);
 }
