@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/09 14:39:06 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 02:08:39 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 static void	expand_args(t_command *cmd, t_carg *args, t_data *data)
 {
+	cmd->arg_nb = 0;
 	while (args)
 	{
+		cmd->arg_nb++;
 		expand_var(&args->content, data);
 		expand_asterisk(cmd, args, NULL);
 		expand_quote(args->content);

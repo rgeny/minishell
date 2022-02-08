@@ -6,14 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 19:38:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 15:33:42 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 20:18:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
-#include "env.h"
-#include "str.h"
-#include "error.h"
+#include "exe.h"
 
 void	exe_builtin(char **cmd, char **args, t_data *data)
 {

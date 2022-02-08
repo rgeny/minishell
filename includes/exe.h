@@ -6,13 +6,14 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:04:11 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/09 12:26:01 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 02:12:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXE_H
 # define EXE_H
 # include "t_data.h"
+# include "builtin.h"
 
 void	exe_builtin(char **cmd, char **args, t_data *data);
 void	exe_out_process(t_command *cmd, t_data *data);

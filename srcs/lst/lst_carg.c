@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:47:46 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 20:09:46 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 20:35:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	lst_carg_add_after(t_carg *after, t_carg *new)
 	after->next = new;
 	new->next = tmp;
 }
-#include <stdio.h>
+
 void	lst_new_after(t_carg *current, char *new_content)
 {
 	t_carg	*new;
@@ -58,4 +58,22 @@ void	lst_new_after(t_carg *current, char *new_content)
 	}
 	new->next = current->next;
 	current->next = new;
+}
+
+char	**lst_switch(t_carg *lst, int n_arg)
+{
+	char	**args;
+	int		i;
+
+	args = uti_calloc(n_arg + 1, sizeof(char *));
+	if (args == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n_arg)
+	{
+		args[i] = str_dup(lst->content);
+		i++;
+		lst = lst->next;
+	}
+	return (args);
 }
