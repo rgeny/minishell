@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 14:38:05 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 14:53:55 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static t_redir_type	_get_redirection_type(char *token_content)
 		return (E_REDIR_TYPE_HEREDOC);
 }
 
-static void	_set_redirection(t_redir *redirection, t_token **token)
+static void	_set_redirection(t_redir *redirection, t_ast_constructor *astc)
 {
 	if (is_error())
 		return ;
-	redirection->type = _get_redirection_type((*token)->content);
-	*token = (*token)->next;
-	redirection->path = str_dup((*token)->content);
+	redirection->type = _get_redirection_type(astc->tokens->content);
+	astc->tokens = astc->tokens->next;
+	redirection->path = str_dup(astc->tokens->content);
 
 	//process heredoc
 }
@@ -49,36 +49,36 @@ static void	_set_arg(t_carg **cargs, t_token *token)
 	lst_carg_add_back(cargs, carg);
 }
 
-static void	_set_n_command(t_token **token, t_command *command)
+static void	_set_n_command(t_ast_constructor *astc, t_command *command)
 {
 	int		redir_count;
 
 	if (is_error())
 		return ;
 	redir_count = 0;
-	while (!is_error() && is_command_token(*token))
+	while (!is_error() && is_command_token(astc->tokens))
 	{
-		if ((*token)->type == E_TOKEN_TYPE_WORD)
+		if (astc->tokens->type == E_TOKEN_TYPE_WORD)
 		{
-			_set_arg(&command->cargs, *token);
+			_set_arg(&command->cargs, astc->tokens);
 		}
-		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)
+		else if (astc->tokens->type == E_TOKEN_TYPE_REDIRECTION)
 		{
-			_set_redirection(&command->redirections[redir_count], token);
+			_set_redirection(&command->redirections[redir_count], astc);
 			redir_count++;
 		}
 		if (!is_error())
-			*token = (*token)->next;
+			astc->tokens = astc->tokens->next;
 	}
 }
 
-static void	_get_size_and_check_syntax(t_token **token, t_command *command)
+static void	_get_size_and_check_syntax(t_ast_constructor *astc, t_command *command)
 {
 	t_token	*current_token;
 
 	if (is_error())
 		return ;
-	current_token = *token;
+	current_token = astc->tokens;
 	command->arg_nb = 0;
 	command->redir_nb = 0;
 	while (!is_error() && is_command_token(current_token))
@@ -99,34 +99,34 @@ static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 	}
 }
 
-t_node	*init_command(t_token **tokens)
+t_node	*init_command(t_ast_constructor *astc)
 {
 	t_command	*command;
 	t_node		*command_node;
 
 	if (is_error())
 		return (NULL);
-	if (is_opened_parenthesis_token(*tokens))
+	if (is_opened_parenthesis_token(astc->tokens))
 	{
-		*tokens = (*tokens)->next; // OPENED_PAR
-		command_node = init_pipeline_list(tokens, true);
-		*tokens = (*tokens)->next; // CLOSED_PAR
+		astc->tokens = astc->tokens->next; // OPENED_PAR
+		command_node = init_pipeline_list(astc, true);
+		astc->tokens = astc->tokens->next; // CLOSED_PAR
 	}
 	else
 	{
-		if (!is_command_token(*tokens))
+		if (!is_command_token(astc->tokens))
 		{
-			print_syntax_error(*tokens);
+			print_syntax_error(astc->tokens);
 			return (NULL);
 		}
 		command_node = create_node(E_NODE_TYPE_COMMAND);
 		if (command_node == NULL)
 			return (NULL);
 		command = command_node->command;
-		_get_size_and_check_syntax(tokens, command);
+		_get_size_and_check_syntax(astc, command);
 		command->cargs = NULL;
 		command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
-		_set_n_command(tokens, command);
+		_set_n_command(astc, command);
 	}
 	return (command_node);
 }

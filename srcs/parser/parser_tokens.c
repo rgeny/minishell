@@ -6,11 +6,20 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 15:43:51 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 14:46:34 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static t_ast_constructor	*_init_astc(t_token *tokens)
+{
+	t_ast_constructor	*astc;
+
+	astc = uti_calloc(1, sizeof(astc));
+	astc->tokens = tokens;
+	return (astc);
+}
 
 static bool	_is_invalid_token(t_token *token)
 {
@@ -24,14 +33,14 @@ static bool	_is_invalid_token(t_token *token)
 
 t_node	*parse_tokens(t_token *tokens)
 {
-	t_token	*current_token;
 	t_node	*root;
+	t_ast_constructor	*astc;
 
 	if (tokens == NULL || is_error())
 		return (NULL);
-	current_token = tokens;
-	root = init_pipeline_list(&current_token, false);
-	if (!is_error() && _is_invalid_token(current_token))
-		print_syntax_error(current_token);
+	astc = _init_astc(tokens);
+	root = init_pipeline_list(astc, false);
+	if (!is_error() && _is_invalid_token(astc->tokens))
+		print_syntax_error(astc->tokens);
 	return (root);
 }

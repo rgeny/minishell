@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 12:27:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 14:55:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int		parser_main(t_data *data, char *rl);
 t_node	*parse_tokens(t_token *tokens);
 
 t_node	*create_node(t_node_type type);
-t_node	*init_command(t_token **token);
-t_node	*init_pipeline(t_token **token);
-t_node	*init_pipeline_list(t_token **tokens, bool is_subshell);
+t_node	*init_command(t_ast_constructor *astc);
+t_node	*init_pipeline(t_ast_constructor *astc);
+t_node	*init_pipeline_list(t_ast_constructor *astc, bool is_subshell);
 t_node	*init_separator_node(
-			t_token **token, t_node *sep_node, t_node *cmd_node);
+			t_ast_constructor *astc, t_node *sep_node, t_node *cmd_node);
 
 bool	is_command_token(t_token *token);
 bool	is_pipeline_token(t_token *token);

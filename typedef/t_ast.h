@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 17:15:43 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 14:45:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 # include <stdbool.h>
 # include "sys/types.h"
+# include "t_lexer.h"
+
+typedef struct s_ast_constructor
+{
+	t_token	*tokens;
+}	t_ast_constructor;
 
 typedef enum e_redir_type {
 	E_REDIR_TYPE_STDIN,

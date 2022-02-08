@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 12:28:58 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 14:47:36 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_node	*_set_list_root(
 	return (root);
 }
 
-t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
+t_node	*init_pipeline_list(t_ast_constructor *astc, bool is_subshell)
 {
 	t_node		*pipeline_node;
 	t_node		*andor_node;
@@ -44,11 +44,11 @@ t_node	*init_pipeline_list(t_token **tokens, bool is_subshell)
 	if (is_error())
 		return (NULL);
 	andor_node = NULL;
-	pipeline_node = init_pipeline(tokens);
-	while (!is_error() && _is_andor_token(*tokens))
+	pipeline_node = init_pipeline(astc);
+	while (!is_error() && _is_andor_token(astc->tokens))
 	{
-		andor_node = init_separator_node(tokens, andor_node, pipeline_node);
-		andor_node->right = init_pipeline(tokens);
+		andor_node = init_separator_node(astc, andor_node, pipeline_node);
+		andor_node->right = init_pipeline(astc);
 	}
 	return (_set_list_root(pipeline_node, andor_node, is_subshell));
 }
