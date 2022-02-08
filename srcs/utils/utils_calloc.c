@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 18:46:29 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 14:29:44 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 16:22:45 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	*uti_calloc(size_t count, size_t size)
 	dst = malloc(count * size);
 	if (dst == NULL)
 	{
-		error_print(MALLOC_ERROR, NULL, NULL, ERROR_MALLOC);
+		if (!is_error())
+			error_print(MALLOC_ERROR, NULL, NULL, ERROR_MALLOC);
 		return (NULL);
 	}
 	uti_bzero(dst, count * size);
