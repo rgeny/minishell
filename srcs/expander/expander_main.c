@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/07 17:23:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 10:49:25 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,16 @@ static void	_join_and_split_cmd(t_command *cmd)
 	}
 	ret[len] = NULL;
 }
+#include <stdio.h>
+void	_print_test(t_carg *cmd)
+{
+	while (cmd)
+	{
+		printf("%s\n", cmd->content);
+		cmd = cmd->next;
+	}
+	printf("\n");
+}
 
 void	expander_main(t_data *data, t_node *ast)
 {
@@ -167,7 +177,11 @@ void	expander_main(t_data *data, t_node *ast)
 		if (ast->command->cargs)
 		{
 			expander_var(ast->command->cargs, data);
+			_print_test(ast->command->cargs);
+			_expand_asterisk(ast->command);
+			_print_test(ast->command->cargs);
 			_asterisk_cmd(ast->command->cargs);
+			_print_test(ast->command->cargs);
 		}
 		_join_and_split_cmd(ast->command);
 	}

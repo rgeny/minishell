@@ -6,11 +6,14 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/07 17:09:44 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/08 11:48:44 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
+#include <stdbool.h>
+#include <stdlib.h>
+#include "lst.h"
 
 static bool	_change_values(int *j, char **p, int i, int n_quote)
 {
@@ -75,7 +78,7 @@ static int	_cmp(char *word, char *dir)
 	return (word[i] == '\0' && dir[i] == '\0');
 }
 
-static char	*_expand(char *word, char **dir_list)
+/*static char	*_expand(char *word, char **dir_list)
 {
 	int		i;
 	char	*new_word;
@@ -109,4 +112,102 @@ char	*expander_asterisk(char *word)
 		new_word = _expand(word, dir_list);
 	str_free_list(dir_list);
 	return (new_word);
+}*/
+
+static void	_expand_cmd(t_command *cmd, t_carg **args, char **dir_list)
+{
+	bool	is_first;
+	char	*word;
+
+	is_first = true;
+	word = (*args)->content;
+	while (*dir_list)
+	{
+		if (_cmp(word, *dir_list))
+		{
+			if (is_first == true)
+			{
+				(*args)->content = str_dup(*dir_list);
+				is_first = false;
+			}
+			else
+			{
+				lst_new_after(*args, *dir_list);
+				*args = (*args)->next;
+				cmd->arg_nb++;
+			}
+		}
+		dir_list++;
+	}
+	if ((*args)->content != word)
+		str_free(word);
+}
+
+static bool	_expand_redir(t_redir *redir, char **dir_list)
+{
+	bool	is_first;
+	char	*word;
+
+	is_first = true;
+	word = redir->path;
+	while (*dir_list)
+	{
+		if (_cmp(word, *dir_list))
+		{
+			if (is_first == true)
+			{
+				redir->path = str_dup(*dir_list);
+				is_first = false;
+			}
+			else
+			{
+				error_print(word, REDIR_AMBIGUE, NULL, 0);
+				g_last_return = ERROR_EXEC;
+				str_free(redir->path);
+				redir->path = word;
+				return (false);
+			}
+		}
+		dir_list++;
+	}
+	if (redir->path != word)
+		str_free(word);
+	return (true);
+}
+
+bool	_expand_asterisk(t_command *cmd)
+{
+	t_carg	*args;
+	t_redir	*redir;
+	char	**dir_list;
+
+	args = cmd->cargs;
+	redir = cmd->redirections;
+	while (args)
+	{
+		dir_list = asterisk_dir_list(args->content[0] == '.');
+		if (dir_list != NULL)
+		{
+			if (str_len(args->content) == str_clen(args->content, '='))
+				_expand_cmd(cmd, &args, dir_list);
+			str_free_list(dir_list);
+		}
+		args = args->next;
+	}
+	int	i = 0;
+	while (i < cmd->redir_nb)
+	{
+		dir_list = asterisk_dir_list(redir[i].path[0] == '.');
+		if (dir_list != NULL)
+		{
+			if (_expand_redir(&redir[i], dir_list) == false)
+			{
+				str_free_list(dir_list);
+				return (false);
+			}
+			str_free_list(dir_list);
+		}
+		i++;
+	}
+	return (true);
 }
