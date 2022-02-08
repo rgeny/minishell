@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:36:35 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 17:27:24 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 15:16:42 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 t_node	*create_node(t_node_type type)
 {
 	t_node	*node;
-
+	
+	if (is_error())
+		return (NULL);
 	node = uti_calloc(1, sizeof(t_node));
 	if (node == NULL)
 		return (NULL);

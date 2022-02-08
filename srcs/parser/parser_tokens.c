@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 14:46:34 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 15:20:58 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ static t_ast_constructor	*_init_astc(t_token *tokens)
 	astc = uti_calloc(1, sizeof(astc));
 	astc->tokens = tokens;
 	return (astc);
+}
+
+void	eat_token(t_ast_constructor *astc, t_token_type type)
+{
+	if (astc->tokens && astc->tokens->type == type)
+		astc->tokens = astc->tokens->next;
+	else
+		print_syntax_error(astc->tokens);
 }
 
 static bool	_is_invalid_token(t_token *token)
