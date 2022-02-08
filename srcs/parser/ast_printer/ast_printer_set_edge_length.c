@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_set_edge_length.c                              :+:      :+:    :+:   */
+/*   ast_printer_set_edge_length.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:27:50 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/01 22:01:25 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 16:00:47 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	_set_height(t_anode *anode)
 	int		h;
 	t_anode	*child;
 
-	h = 1;
+	h = anode->lab_height;
 	if (anode->left != NULL)
 	{
 		child = anode->left;
