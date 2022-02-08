@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 12:49:05 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/08 14:38:05 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,29 @@ static void	_set_n_command(t_token **token, t_command *command)
 
 static void	_get_size_and_check_syntax(t_token **token, t_command *command)
 {
-	t_token	*start_token;
+	t_token	*current_token;
 
 	if (is_error())
 		return ;
-	start_token = *token;
+	current_token = *token;
 	command->arg_nb = 0;
 	command->redir_nb = 0;
-	while (!is_error() && is_command_token(*token))
+	while (!is_error() && is_command_token(current_token))
 	{
-		if ((*token)->type == E_TOKEN_TYPE_WORD)
+		if (current_token->type == E_TOKEN_TYPE_WORD)
 			command->arg_nb++;
-		else if ((*token)->type == E_TOKEN_TYPE_REDIRECTION)
+		else if (current_token->type == E_TOKEN_TYPE_REDIRECTION)
 		{
-			*token = (*token)->next;
-			if (!*token || (*token)->type != E_TOKEN_TYPE_WORD)
+			current_token = current_token->next;
+			if (!current_token || current_token->type != E_TOKEN_TYPE_WORD)
 			{
-				print_syntax_error(*token);
+				print_syntax_error(current_token);
 				return ;
 			}
 			command->redir_nb++;
 		}
-		*token = (*token)->next;
+		current_token = current_token->next;
 	}
-	*token = start_token;
 }
 
 t_node	*init_command(t_token **tokens)
