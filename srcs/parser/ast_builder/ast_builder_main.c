@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 16:08:28 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ t_ast	*build_ast(t_token *tokens)
 	root = build_pipeline_list(astc, false);
 	if (!is_error() && astc->tokens)
 		print_syntax_error(astc->tokens);
+	free(astc);
 	return (root);
 }
