@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:27:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	eat_token(t_ast_constructor *astc, t_token_type type)
 		print_syntax_error(astc->tokens);
 }
 
-t_node	*build_ast(t_token *tokens)
+t_ast	*build_ast(t_token *tokens)
 {
-	t_node				*root;
+	t_ast				*root;
 	t_ast_constructor	*astc;
 
 	if (tokens == NULL || is_error())

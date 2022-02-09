@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:27:04 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/08 20:07:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:33:24 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_data
 	int		pipefd[2];
 	int		fd_in;
 	t_env	*env;
-	t_node	*ast_root;
+	t_ast	*ast;
 	char	*pwd;
 }			t_data;
 #endif

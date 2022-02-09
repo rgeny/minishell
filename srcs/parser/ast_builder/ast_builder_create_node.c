@@ -6,19 +6,19 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:36:35 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:19:18 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:52 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_node	*create_node(t_node_type type)
+t_ast	*create_node(t_node_type type)
 {
-	t_node	*node;
+	t_ast	*node;
 	
 	if (is_error())
 		return (NULL);
-	node = uti_calloc(1, sizeof(t_node));
+	node = uti_calloc(1, sizeof(t_ast));
 	if (node == NULL)
 		return (NULL);
 	node->type = type;

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:17:57 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:35 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ static void	_get_size_and_check_syntax(t_ast_constructor *astc, t_command *comma
 	}
 }
 
-t_node	*build_command(t_ast_constructor *astc)
+t_ast	*build_command(t_ast_constructor *astc)
 {
 	t_command	*command;
-	t_node		*command_node;
+	t_ast		*command_node;
 
 	if (is_error())
 		return (NULL);

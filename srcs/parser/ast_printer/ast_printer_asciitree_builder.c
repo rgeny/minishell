@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:39:54 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:18:09 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:45 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*_redir_to_str(t_redir redir)
 	return (str);
 }
 
-void	_set_label(t_anode *anode, t_node *tnode)
+void	_set_label(t_anode *anode, t_ast *tnode)
 {
 	int	redir;
 
@@ -83,7 +83,7 @@ void	_set_label(t_anode *anode, t_node *tnode)
 	anode->lab_height = tnode->cmd->redir_nb + 1;
 }
 
-t_anode	*_build_ascii_tree_recursive(t_node *tnode)
+t_anode	*_build_ascii_tree_recursive(t_ast *tnode)
 {
 	t_anode	*anode;
 
@@ -134,7 +134,7 @@ t_anode	*_build_ascii_tree_recursive(t_node *tnode)
 	return (anode);
 }
 
-t_anode	*build_ascii_tree(t_node *tnode)
+t_anode	*build_ascii_tree(t_ast *tnode)
 {
 	t_anode	*anode;
 

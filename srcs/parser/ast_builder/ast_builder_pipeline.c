@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:23:39 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:37 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static bool	_is_pipe_token(t_token *token)
 	return (type == E_TOKEN_TYPE_PIPE);
 }
 
-static t_node	*_build_pipe_node(t_ast_constructor *astc, t_node *pipe_node, t_node *command_node)
+static t_ast	*_build_pipe_node(t_ast_constructor *astc, t_ast *pipe_node, t_ast *command_node)
 {
-	t_node	*new_pipe_node;
+	t_ast	*new_pipe_node;
 
 	eat_token(astc, E_TOKEN_TYPE_PIPE);
 	new_pipe_node = create_node(E_NODE_TYPE_PIPE);
@@ -37,7 +37,7 @@ static t_node	*_build_pipe_node(t_ast_constructor *astc, t_node *pipe_node, t_no
 	return (new_pipe_node);
 }
 
-t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
+t_ast	*_set_pipeline_root(t_ast *main_node, t_ast *separator_node)
 {
 	if (separator_node)
 		return (separator_node);
@@ -45,10 +45,10 @@ t_node	*_set_pipeline_root(t_node *main_node, t_node *separator_node)
 		return (main_node);
 }
 
-t_node	*build_pipeline(t_ast_constructor *astc)
+t_ast	*build_pipeline(t_ast_constructor *astc)
 {
-	t_node	*command_node;
-	t_node	*pipe_node;
+	t_ast	*command_node;
+	t_ast	*pipe_node;
 
 	if (is_error())
 		return (NULL);

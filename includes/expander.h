@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 19:49:28 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:26 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "mem.h"
 
 typedef struct dirent	t_dirent;
-void	expander_main(t_data *data, t_node *ast);
+void	expander_main(t_data *data, t_ast *ast);
 int		expand_heredoc(char *delimiter, t_data *data);
 char	*expand_path(char *cmd, t_env *env);
 void	expand_var(char **word, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 20:09:08 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:33:25 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	_init(char *envp[], t_data *data)
 	data->env = 0;
 	env_init(&data->env, envp);
 	data->pwd = 0;
-	data->ast_root = NULL;
+	data->ast = NULL;
 	data->pipefd[0] = STDIN_FILENO;
 	data->pipefd[1] = STDOUT_FILENO;
 	data->pwd = str_dup(env_find_val(data->env, ENV_PWD));
@@ -47,12 +47,12 @@ static void	_exe(t_data *data)
 	{
 		error_reset();
 		add_history(rl);
-		if (parser_main(data, rl) == SUCCESS && data->ast_root)
+		if (parser_main(data, rl) == SUCCESS && data->ast)
 		{
-			expander_main(data, data->ast_root);
+			expander_main(data, data->ast);
 			in = dup(0);
 			out = dup(1);
-			exe_main(data->ast_root, data);
+			exe_main(data->ast, data);
 			dup2(in, 0);
 			dup2(out, 1);
 			close(in);
@@ -61,7 +61,7 @@ static void	_exe(t_data *data)
 				g_last_return = error_get();
 		}
 		str_free(rl);
-		free_ast(&data->ast_root);
+		free_ast(&data->ast);
 		rl = exe_readline(data);
 	}
 }

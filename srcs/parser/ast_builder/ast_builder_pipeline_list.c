@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:23:07 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:36 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static bool	_is_andor_token(t_token *token)
 	return (type == E_TOKEN_TYPE_OR || type == E_TOKEN_TYPE_AND);
 }
 
-static t_node	*_build_andor_node(t_ast_constructor *astc, t_node *andor_node, t_node *pipeline_node)
+static t_ast	*_build_andor_node(t_ast_constructor *astc, t_ast *andor_node, t_ast *pipeline_node)
 {
-	t_node		*new_andor_node;
+	t_ast		*new_andor_node;
 	t_node_type	type;
 
 	if (astc->tokens->type == E_TOKEN_TYPE_OR)
@@ -47,10 +47,10 @@ static t_node	*_build_andor_node(t_ast_constructor *astc, t_node *andor_node, t_
 	return (new_andor_node);
 }
 
-static t_node	*_set_list_root(
-					t_node *main_node, t_node *separator_node, bool is_subshell)
+static t_ast	*_set_list_root(
+					t_ast *main_node, t_ast *separator_node, bool is_subshell)
 {
-	t_node	*root;
+	t_ast	*root;
 
 	if (separator_node)
 		root = separator_node;
@@ -61,10 +61,10 @@ static t_node	*_set_list_root(
 	return (root);
 }
 
-t_node	*build_pipeline_list(t_ast_constructor *astc, bool is_subshell)
+t_ast	*build_pipeline_list(t_ast_constructor *astc, bool is_subshell)
 {
-	t_node		*pipeline_node;
-	t_node		*andor_node;
+	t_ast		*pipeline_node;
+	t_ast		*andor_node;
 
 	if (is_error())
 		return (NULL);

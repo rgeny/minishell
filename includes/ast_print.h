@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:15:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 16:01:17 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:31 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_asciinode {
 	int					line_nb;
 }	t_anode;
 
-t_anode	*build_ascii_tree(t_node *t);
+t_anode	*build_ascii_tree(t_ast *t);
 void	set_left_profile(t_ast_printer *p, t_anode *anode, int x, int y);
 void	set_right_profile(t_ast_printer *p, t_anode *anode, int x, int y);
 void	set_proot_left_profile(t_ast_printer *p, t_anode *anode);

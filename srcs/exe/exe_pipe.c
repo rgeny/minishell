@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 09:48:32 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 20:34:35 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:29:23 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,20 @@ static void	_pipe_stdout(int pipefd[2])
 	pipefd[0] = STDIN_FILENO;
 }
 
-static void	_pipe(t_node *cmd, t_data *data)
+static void	_pipe(t_ast *ast, t_data *data)
 {
-	if (cmd->type == E_NODE_TYPE_COMMAND)
-		exe_cmd(cmd, data);
+	if (ast->type == E_NODE_TYPE_COMMAND)
+		exe_cmd(ast, data);
 	else
 	{
-		_pipe(cmd->left, data);
+		_pipe(ast->left, data);
 		_pipe_stdout(data->pipefd);
 		_pipe_stdin(data->pipefd);
-		_pipe(cmd->right, data);
+		_pipe(ast->right, data);
 	}
 }
 
-void	exe_pipe(t_node *cmd, t_data *data)
+void	exe_pipe(t_ast *ast, t_data *data)
 {
 	int	fd_in;
 	int	fd_out;
@@ -55,9 +55,9 @@ void	exe_pipe(t_node *cmd, t_data *data)
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	_pipe_stdin(data->pipefd);
-	_pipe(cmd->left, data);
+	_pipe(ast->left, data);
 	_dup_and_close(fd_out, 1);
 	_pipe_stdout(data->pipefd);
-	exe_cmd(cmd->right, data);
+	exe_cmd(ast->right, data);
 	_dup_and_close(fd_in, 0);
 }

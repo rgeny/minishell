@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 22:00:47 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 21:31:03 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:33:26 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	_free_and_exit(char **cmd, t_data *data, int ret)
 {
-	free_ast(&data->ast_root);
+	free_ast(&data->ast);
 //	str_free_list(cmd);
 	(void)cmd;
 	env_del_all(data->env);

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/09 12:18:08 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:27 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	expand_redir(t_command *cmd, int n_redir, t_redir *redir, t_data *da
 	}
 }
 
-void	expander_main(t_data *data, t_node *ast)
+void	expander_main(t_data *data, t_ast *ast)
 {
 	if (!ast)
 		return ;

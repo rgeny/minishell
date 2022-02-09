@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/09 12:18:01 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:23:25 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ typedef enum s_node_type {
 	E_NODE_TYPE_OR
 }	t_node_type;
 
-typedef struct s_node {
+typedef struct s_ast {
 	t_node_type		type;
 	t_command		*cmd;
-	struct s_node	*left;
-	struct s_node	*right;
+	struct s_ast	*left;
+	struct s_ast	*right;
 	bool			is_subshell;
-}	t_node;
+}	t_ast;
 #endif
