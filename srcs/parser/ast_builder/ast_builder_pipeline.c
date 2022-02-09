@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 13:42:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:37 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:56:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static bool	_is_pipe_token(t_token *token)
 	return (type == E_TOKEN_TYPE_PIPE);
 }
 
-static t_ast	*_build_pipe_node(t_ast_constructor *astc, t_ast *pipe_node, t_ast *command_node)
+static t_ast	*_build_pipe_node(t_ast_constructor *astc, \
+					t_ast *pipe_node, t_ast *command_node)
 {
 	t_ast	*new_pipe_node;
 

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 14:00:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:36 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:55:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static bool	_is_andor_token(t_token *token)
 	return (type == E_TOKEN_TYPE_OR || type == E_TOKEN_TYPE_AND);
 }
 
-static t_ast	*_build_andor_node(t_ast_constructor *astc, t_ast *andor_node, t_ast *pipeline_node)
+static t_ast	*_build_andor_node(t_ast_constructor *astc, \
+					t_ast *andor_node, t_ast *pipeline_node)
 {
 	t_ast		*new_andor_node;
 	t_node_type	type;

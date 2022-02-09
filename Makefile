@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/09 12:51:23 by tokino           ###   ########.fr        #
+#    Updated: 2022/02/09 15:01:40 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ SRC				= $(addsuffix .c,				main \
 					$(addprefix mem_,			cpy set) \
 					$(addprefix parser_,		free_ast main) \
 					$(addprefix ast_builder_,	command create_node is_given_token main pipeline_list pipeline) \
-					$(addprefix ast_printer_,	main asciitree_builder set_profiles set_edge_length level)\
+					$(addprefix ast_printer_,	main asciitree_builder label_builder set_profiles set_edge_length level)\
 					$(addprefix cleaner_,		all) \
 					$(addprefix str_,			cmp len dup split join free split_first print first_dif) \
 					$(addprefix builtin_,		cd exit export unset echo env pwd) \

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 18:28:18 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/09 12:40:00 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:53:35 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_redir{
 	t_carg	*cargs;
 	t_redir	*redirections;
 	pid_t	pid;
-	int		redir_nb;
 	int		fd_in;
 	int		fd_out;
 }	t_command;*/
