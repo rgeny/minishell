@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:27 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:39:06 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@ static void	expand_args(t_command *cmd, t_carg *args, t_data *data)
 	}
 }
 
-static void	expand_redir(t_command *cmd, int n_redir, t_redir *redir, t_data *data)
+static void	expand_redir(t_command *cmd, t_redir *redir, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < n_redir)
+	while (redir)
 	{
 		if (redir->type != E_REDIR_TYPE_HEREDOC)
-			expand_asterisk(NULL, NULL, &redir[i]);
+			expand_asterisk(NULL, NULL, redir);
 		expand_quote(redir->path);
 		if (redir->type == E_REDIR_TYPE_HEREDOC)
 		{
@@ -39,7 +36,7 @@ static void	expand_redir(t_command *cmd, int n_redir, t_redir *redir, t_data *da
 				close(cmd->fd_in);
 			cmd->fd_in = expand_heredoc(redir->path, data);
 		}
-		i++;
+		redir = redir->next;
 	}
 }
 
@@ -50,7 +47,7 @@ void	expander_main(t_data *data, t_ast *ast)
 	if (ast->cmd)
 	{
 		expand_args(ast->cmd, ast->cmd->cargs, data);
-		expand_redir(ast->cmd, ast->cmd->redir_nb, ast->cmd->redirections, data);
+		expand_redir(ast->cmd, ast->cmd->redirections, data);
 	}
 	expander_main(data, ast->left);
 	expander_main(data, ast->right);

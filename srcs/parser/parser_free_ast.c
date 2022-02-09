@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:43:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:46 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:41:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,17 @@ void	free_cargs(t_carg *cargs)
 	}
 }
 
-void	free_redirections(t_command *command)
+void	free_redirections(t_redir *redirections)
 {
-	int		i;
-	t_redir	*redir;
+	t_redir	*tmp;
 
-	i = 0;
-	while (i < command->redir_nb)
+	while (redirections != NULL)
 	{
-		redir = &command->redirections[i];
-		free(redir->path);
-		i++;
+		tmp = redirections;
+		redirections = redirections->next;
+		free(tmp->path);
+		free(tmp);
 	}
-	free(command->redirections);
 }
 
 void	free_n_command(t_command *command)
@@ -49,7 +47,7 @@ void	free_n_command(t_command *command)
 	}
 	if (command->redirections)
 	{
-		free_redirections(command);
+		free_redirections(command->redirections);
 		command->redirections = NULL;
 	}
 	free(command);

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:36:35 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:52 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:47:42 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_ast	*create_node(t_node_type type)
 		node->cmd = uti_calloc(1, sizeof(t_command));
 		if (node->cmd == NULL)
 			return (NULL);
-		node->cmd->args = NULL;
+		node->cmd->cargs = NULL;
 		node->cmd->redirections = NULL;
 	}
 	else

@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/08 20:15:21 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/09 12:51:23 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ SRC				= $(addsuffix .c,				main \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix cleaner_,	all) \
 					$(addprefix signal_,	current fork ignore heredoc) \
-					$(addprefix lst_,		carg))
+					$(addprefix lst_,		carg redir))
 
 # *********************************** others ********************************* #
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_out_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 19:50:05 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:50:49 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ static void	_son(char **cmd, t_data *data)
 
 void	exe_out_process(t_command *cmd, t_data *data)
 {
-	cmd->pid = fork();
-	if (!cmd->pid)
-	{
-		if (data->pipefd[0])
-			close(data->pipefd[0]);
-		_son(cmd->args, data);
-	}
-	signal_ignore();
+	// cmd->pid = fork();
+	// if (!cmd->pid)
+	// {
+	// 	if (data->pipefd[0])
+	// 		close(data->pipefd[0]);
+	// 	_son(cmd->args, data);
+	// }
+	// signal_ignore();
 }

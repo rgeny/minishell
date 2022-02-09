@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:35 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:48:29 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static t_redir_type	_get_redirection_type(char *token_content)
 		return (E_REDIR_TYPE_HEREDOC);
 }
 
-static void	_set_redirection(t_redir *redirection, t_ast_constructor *astc)
+static void	_set_redirection(t_redir **redirections, t_ast_constructor *astc)
 {
+	t_redir	*redirection;
 	t_token	*token;
 
 	if (is_error())
@@ -34,12 +35,17 @@ static void	_set_redirection(t_redir *redirection, t_ast_constructor *astc)
 	eat_token(astc, E_TOKEN_TYPE_REDIRECTION);
 	if (is_error())
 		return ;
+	redirection = uti_calloc(1, sizeof(t_redir));
+	if (redirection == NULL)
+		return ;
 	redirection->type = _get_redirection_type(token->content);
 	token = astc->tokens;
 	eat_token(astc, E_TOKEN_TYPE_WORD);
 	if (is_error())
 		return ;
 	redirection->path = str_dup(token->content);
+	redirection->next = NULL;
+	lst_redirection_add_back(redirections, redirection);
 
 	//process heredoc
 }
@@ -65,11 +71,8 @@ static void	_set_arg(t_ast_constructor *astc, t_carg **cargs)
 
 static void	_set_command(t_ast_constructor *astc, t_command *command)
 {
-	int		redir_count;
-
 	if (is_error())
 		return ;
-	redir_count = 0;
 	while (!is_error() && is_command_token(astc->tokens))
 	{
 		if (astc->tokens->type == E_TOKEN_TYPE_WORD)
@@ -78,42 +81,13 @@ static void	_set_command(t_ast_constructor *astc, t_command *command)
 		}
 		else if (astc->tokens->type == E_TOKEN_TYPE_REDIRECTION)
 		{
-			_set_redirection(&command->redirections[redir_count], astc);
-			redir_count++;
+			_set_redirection(&command->redirections, astc);
 		}
-	}
-}
-
-static void	_get_size_and_check_syntax(t_ast_constructor *astc, t_command *command) // DEADCODE
-{
-	t_token	*current_token;
-
-	if (is_error())
-		return ;
-	current_token = astc->tokens;
-	command->arg_nb = 0;
-	command->redir_nb = 0;
-	while (!is_error() && is_command_token(current_token))
-	{
-		if (current_token->type == E_TOKEN_TYPE_WORD)
-			command->arg_nb++;
-		else if (current_token->type == E_TOKEN_TYPE_REDIRECTION)
-		{
-			current_token = current_token->next;
-			if (!current_token || current_token->type != E_TOKEN_TYPE_WORD)
-			{
-				// print_syntax_error(current_token);
-				return ;
-			}
-			command->redir_nb++;
-		}
-		current_token = current_token->next;
 	}
 }
 
 t_ast	*build_command(t_ast_constructor *astc)
 {
-	t_command	*command;
 	t_ast		*command_node;
 
 	if (is_error())
@@ -131,11 +105,7 @@ t_ast	*build_command(t_ast_constructor *astc)
 		command_node = create_node(E_NODE_TYPE_COMMAND);
 		if (command_node == NULL)
 			return (NULL);
-		command = command_node->cmd;
-		_get_size_and_check_syntax(astc, command);
-		command->cargs = NULL;
-		command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));
-		_set_command(astc, command);
+		_set_command(astc, command_node->cmd);
 	}
 	return (command_node);
 }

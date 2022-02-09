@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:25 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 14:44:00 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum e_redir_type {
 typedef struct s_redir{
 	t_redir_type	type;
 	char			*path;
+	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_carg {
@@ -40,12 +41,9 @@ typedef struct s_carg {
 }	t_carg;
 
 typedef struct s_command {
-	char	**args;
 	t_carg	*cargs;
 	t_redir	*redirections;
 	pid_t	pid;
-	int		redir_nb;
-	int		arg_nb;
 	int		fd_in;
 	int		fd_out;
 	int		fd_tmp;
