@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_n_create.c                                  :+:      :+:    :+:   */
+/*   ast_builder_create_node.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:36:35 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 15:16:42 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:19:18 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ t_node	*create_node(t_node_type type)
 	node->is_subshell = false;
 	if (type == E_NODE_TYPE_COMMAND)
 	{
-		node->command = uti_calloc(1, sizeof(t_command));
-		if (node->command == NULL)
+		node->cmd = uti_calloc(1, sizeof(t_command));
+		if (node->cmd == NULL)
 			return (NULL);
-		node->command->args = NULL;
-		node->command->redirections = NULL;
+		node->cmd->args = NULL;
+		node->cmd->redirections = NULL;
 	}
 	else
 	{
-		node->command = NULL;
+		node->cmd = NULL;
 	}
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:43:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/05 20:40:14 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:18:10 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	free_ast(t_node **root)
 		free_ast(&(*root)->left);
 	if ((*root)->right)
 		free_ast(&(*root)->right);
-	if ((*root)->command)
+	if ((*root)->cmd)
 	{
-		free_n_command((*root)->command);
-		(*root)->command = NULL;
+		free_n_command((*root)->cmd);
+		(*root)->cmd = NULL;
 	}
 	free(*root);
 	*root = NULL;

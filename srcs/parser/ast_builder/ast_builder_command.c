@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 17:24:17 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:17:57 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_node	*build_command(t_ast_constructor *astc)
 		command_node = create_node(E_NODE_TYPE_COMMAND);
 		if (command_node == NULL)
 			return (NULL);
-		command = command_node->command;
+		command = command_node->cmd;
 		_get_size_and_check_syntax(astc, command);
 		command->cargs = NULL;
 		command->redirections = uti_calloc(command->redir_nb, sizeof(t_redir));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 20:05:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:18:12 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 
 void	exe_cmd(t_node *cmd, t_data *data)
 {
-/*	exe_redir(cmd->command);
-	if (cmd->command->arg_nb && cmd->command->args[0] && error_get() == SUCCESS)
+/*	exe_redir(cmd->cmd);
+	if (cmd->cmd->arg_nb && cmd->cmd->args[0] && error_get() == SUCCESS)
 	{
-		exe_builtin(cmd->command->args, &cmd->command->args[1], data);
+		exe_builtin(cmd->cmd->args, &cmd->cmd->args[1], data);
 		if (g_last_return == -1)
-			exe_out_process(cmd->command, data);
+			exe_out_process(cmd->cmd, data);
 	}*/
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_asciitree_builder.c                            :+:      :+:    :+:   */
+/*   ast_printer_asciitree_builder.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:39:54 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 12:30:22 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 12:18:09 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,19 @@ void	_set_label(t_anode *anode, t_node *tnode)
 {
 	int	redir;
 
-	anode->label = uti_calloc(tnode->command->redir_nb + 2, sizeof(char *));
-	anode->label[0] = _cargs_to_str(tnode->command->cargs);
+	anode->label = uti_calloc(tnode->cmd->redir_nb + 2, sizeof(char *));
+	anode->label[0] = _cargs_to_str(tnode->cmd->cargs);
 	anode->lab_width = str_len(anode->label[0]);
 	redir = 0;
-	while (redir < tnode->command->redir_nb)
+	while (redir < tnode->cmd->redir_nb)
 	{
 		anode->label[redir + 1] = \
-			_redir_to_str(tnode->command->redirections[redir]);
+			_redir_to_str(tnode->cmd->redirections[redir]);
 		anode->lab_width = \
 			uti_max(anode->lab_width, str_len(anode->label[redir + 1]));
 		redir++;
 	}
-	anode->lab_height = tnode->command->redir_nb + 1;
+	anode->lab_height = tnode->cmd->redir_nb + 1;
 }
 
 t_anode	*_build_ascii_tree_recursive(t_node *tnode)

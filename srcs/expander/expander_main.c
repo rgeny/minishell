@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 16:54:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 19:50:47 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:18:08 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	expander_main(t_data *data, t_node *ast)
 {
 	if (!ast)
 		return ;
-	if (ast->command)
+	if (ast->cmd)
 	{
-		expand_args(ast->command, ast->command->cargs, data);
-		expand_redir(ast->command, ast->command->redir_nb, ast->command->redirections, data);
+		expand_args(ast->cmd, ast->cmd->cargs, data);
+		expand_redir(ast->cmd, ast->cmd->redir_nb, ast->cmd->redirections, data);
 	}
 	expander_main(data, ast->left);
 	expander_main(data, ast->right);

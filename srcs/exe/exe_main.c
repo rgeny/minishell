@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 17:56:11 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:18:03 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	_wait_all(t_node *cmd, t_data *data)
 		return ;
 	if (cmd->type == E_NODE_TYPE_COMMAND)
 	{
-		if (cmd->command->pid && waitpid(cmd->command->pid, &g_last_return, 0) != -1)
+		if (cmd->cmd->pid && waitpid(cmd->cmd->pid, &g_last_return, 0) != -1)
 		{
 			if (WIFSIGNALED(g_last_return))
 				g_last_return = WTERMSIG(g_last_return) + 128;
