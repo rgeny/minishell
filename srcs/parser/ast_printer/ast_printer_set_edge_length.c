@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 19:27:50 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 16:00:47 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/09 15:45:32 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	_set_profiles(t_ast_printer *p, t_anode *anode)
 		i = 0;
 		while (i < anode->left->height && i < AST_MAX_HEIGHT)
 		{
-			p->right_profile[i] = INT_MIN;
+			p->right_profile[i] = 0;
 			i++;
 		}
 		set_right_profile(p, anode->left, 0, 0);
@@ -31,7 +31,7 @@ static void	_set_profiles(t_ast_printer *p, t_anode *anode)
 		i = 0;
 		while (i < anode->right->height && i < AST_MAX_HEIGHT)
 		{
-			p->left_profile[i] = INT_MAX;
+			p->left_profile[i] = 0;
 			i++;
 		}
 		set_left_profile(p, anode->right, 0, 0);
