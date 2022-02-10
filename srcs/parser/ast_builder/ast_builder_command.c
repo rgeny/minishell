@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 14:48:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 10:01:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ static void	_set_command(t_ast_constructor *astc, t_command *command)
 		else if (astc->tokens->type == E_TOKEN_TYPE_REDIRECTION)
 		{
 			_set_redirection(&command->redirections, astc);
+			if (command->redirections
+				&& command->redirections->type == E_REDIR_TYPE_HEREDOC)
+			{
+				if (command->fd_heredoc != STDIN_FILENO)
+					close(command->fd_heredoc);
+				command->fd_heredoc = expand_heredoc(command->redirections->path, astc->data);
+			}
 		}
 	}
 }

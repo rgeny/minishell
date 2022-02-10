@@ -24,19 +24,29 @@ function in_arg()
 {
     if [ "$ARG" == "" ]
     then
-	return 1
+		return 1
     fi
+	is_flag=1
     for i in $ARG
     do
-	for j in $*
-	do
-	    if [ "$j" == "$i" ]
-	    then
-		return 1
-	    fi
-	done
+		for j in $*
+		do
+			if [ "$j" == "-p" ] || [ "$j" == "--stop" ]
+			then
+				is_flag=0
+			fi
+		    if [ "$j" == "$i" ]
+	    	then
+				return 1
+			else
+				if [ "$i" != "-p" ] && [ "$i" != "--stop" ]
+				then
+					is_flag=0
+				fi
+			fi
+		done
     done
-    return 0
+    return $is_flag
 }
 
 function test_ret_stdout()
@@ -76,7 +86,11 @@ function test_ret_stdout()
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n"
 			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
 		fi
-	#		exit
+		in_arg "--stop"
+		if [ $? == 1 ] && [ "$ARG" != "" ]
+		then
+			exit
+		fi
     fi
     printf $COLOR_WHITE
     INDEX=$((INDEX + 1))
@@ -96,7 +110,7 @@ function test_env()
     if [ "$LINE_MINISHELL" == "$LINE_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
 		printf $COLOR_GREEN"$INDEX:OK "
-		in_arg "\-p"
+		in_arg "-p"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
 		then
 			printf $COLOR_WHITE"CMD : \n$@\n"
@@ -121,7 +135,11 @@ function test_env()
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\nMinishell n line : $LINE_MINISHELL\nTest minishell :\n$TEST_MINISHELL\n"
 			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
 		fi
-	#		exit
+		in_arg "--stop"
+		if [ $? == 1 ] && [ "$ARG" != "" ]
+		then
+			exit
+		fi
     fi
     printf $COLOR_WHITE
     INDEX=$((INDEX + 1))
@@ -461,13 +479,28 @@ then
 fi
 
 ###########################################################
+##################### DELETE QUOTE ########################
+###########################################################
+in_arg "delete_quote"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST DELETE QUOTE *****\n"
+	test_ret_stdout "echo \" a \"bc\" def ghij\"klmno\" \"pqrstuv\"wxyz0123 456789abc\"defghijklm\"nopqrstuvwxyz \""
+
+	echo
+	unset CMD
+fi
+
+
+###########################################################
 ######################### PARSING #########################
 ###########################################################
 in_arg "parsing"
 if [ $? == 1 ]
 then
 #	INDEX=0
-	printf "***** TEST PARSING *****"
+	printf "***** TEST PARSING *****\n"
 	test_ret_stdout "\"\""
 	test_ret_stdout ".."
 	test_ret_stdout "\"\"abc\"\""
@@ -571,6 +604,19 @@ then
 	test_ret_stdout "echo a > \$a"
 
 	cd ../
+	echo
+	unset CMD
+fi
+
+###########################################################
+######################## SUBSHELL #########################
+###########################################################
+in_arg "subshell"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST SUBSHELL *****\n"
+
 	echo
 	unset CMD
 fi

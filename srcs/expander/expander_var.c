@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 20:04:30 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 08:33:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	_expand(char **word, t_data *data, int i)
 	str_free(prev_val);
 }
 
-void	expand_var(char **word, t_data *data)
+bool	expand_var(char **word, t_data *data)
 {
 	int		i;
 
@@ -75,4 +75,5 @@ void	expand_var(char **word, t_data *data)
 			&& (word[0][i] != '$' || !uti_isalnum(word[0][i + 1])))
 			i++;
 	}
+	return (word[0][0] != '\0');
 }

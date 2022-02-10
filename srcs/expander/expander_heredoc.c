@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/08 19:34:23 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 10:36:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static void	_handle_errors(int pipefd[2], char *delimiter)
 	else
 	{
 		close(pipefd[1]);
-		pipefd[1] = -1;
+		pipefd[1] = STDOUT_FILENO;
 		write(STDOUT_FILENO, "\n", 1);
+		g_last_return = error_get();
 	}
 }
 
@@ -49,6 +50,7 @@ int	expand_heredoc(char *delimiter, t_data *data)
 	int		pipefd[2];
 	int		fd_stdin;
 
+	expand_quote(delimiter);
 	fd_stdin = dup(STDIN_FILENO);
 	pipe(pipefd);
 	_generate_heredoc(pipefd, delimiter, data);

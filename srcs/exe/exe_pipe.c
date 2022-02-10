@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 09:48:32 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/09 12:29:23 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 04:20:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,20 @@ static void	_pipe_stdout(int pipefd[2])
 	pipefd[0] = STDIN_FILENO;
 }
 
+#include <unistd.h>
+
 static void	_pipe(t_ast *ast, t_data *data)
 {
-	if (ast->type == E_NODE_TYPE_COMMAND)
+	if (ast->is_subshell)
+	{
+		ast->is_subshell = false;
+		ast->pid = fork();
+		if (ast->pid == -1)
+			exit(1);
+		if (ast->pid == 0)
+			exe_subshell(ast, data);
+	}
+	else if (ast->type == E_NODE_TYPE_COMMAND)
 		exe_cmd(ast, data);
 	else
 	{
@@ -58,6 +69,6 @@ void	exe_pipe(t_ast *ast, t_data *data)
 	_pipe(ast->left, data);
 	_dup_and_close(fd_out, 1);
 	_pipe_stdout(data->pipefd);
-	exe_cmd(ast->right, data);
+	_pipe(ast->right, data);
 	_dup_and_close(fd_in, 0);
 }

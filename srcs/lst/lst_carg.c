@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:47:46 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/08 20:35:23 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 09:07:51 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,26 @@
 #include "error.h"
 #include <stdlib.h>
 #include "utils.h"
+
+void	lst_del_one(t_carg **args, t_command *cmd)
+{
+	t_carg	*next;
+	t_carg	*prev;
+
+	if (cmd->cargs == *args)
+		cmd->cargs = (*args)->next;
+	else
+	{
+		prev = cmd->cargs;
+		while (prev->next != *args)
+			prev = prev->next;
+		prev->next = (*args)->next;
+	}
+	str_free((*args)->content);
+	next = (*args)->next;
+	free(*args);
+	*args = next;
+}
 
 void	lst_carg_add_back(t_carg **lst, t_carg *new)
 {

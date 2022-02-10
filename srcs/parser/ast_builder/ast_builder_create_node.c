@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:36:35 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 15:56:32 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 09:49:42 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_ast	*create_node(t_node_type type)
 	node->type = type;
 	node->left = NULL;
 	node->right = NULL;
+	node->pid = 0;
 	node->is_subshell = false;
 	if (type == E_NODE_TYPE_COMMAND)
 	{
@@ -32,10 +33,10 @@ t_ast	*create_node(t_node_type type)
 			return (NULL);
 		node->cmd->cargs = NULL;
 		node->cmd->redirections = NULL;
+		node->cmd->fd_heredoc = STDIN_FILENO;
+		node->cmd->pid = 0;
 	}
 	else
-	{
 		node->cmd = NULL;
-	}
 	return (node);
 }

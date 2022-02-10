@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_quote.c                                   :+:      :+:    :+:   */
+/*   exe_subshell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 15:40:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 08:52:49 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 03:48:59 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 03:50:28 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "exe.h"
 
-void	expand_quote(char *s)
+void	exe_subshell(t_ast *ast, t_data *data)
 {
-	int		i;
-	int		len;
-
-	i = 0;
-	while (s[i])
-	{
-		if (uti_is_in_charset(s[i], QUOTES))
-		{
-			len = str_clen(s + i + 1, s[i]);
-			mem_cpy(s, s + i + 1, len);
-			i += 2;
-			s += len;
-		}
-		else
-		{
-			*s = s[i];
-			s++;
-		}
-	}
-	uti_bzero(s, str_len(s));
+	exe_main(ast, data);
+	exit(g_last_return);
 }

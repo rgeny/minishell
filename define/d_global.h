@@ -6,11 +6,11 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:37:01 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/07 14:37:29 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 08:44:20 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef D_GLOBAL_H
 # define D_GLOBAL_H
-# define QUOTES "\'\""
+# define QUOTES "'\""
 #endif

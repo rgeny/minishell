@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/08 11:48:33 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 10:55:41 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,15 @@
 
 /*	expander error	*/
 # define EXPAND_ASTERISK "asterisk: "
-# define REDIR_AMBIGUE " : redirections ambiguë"
+# define REDIR_AMBIGUE " : ambiguous redirect"
 
 /*	heredoc error	*/
 # define HEREDOC "heredoc: "
 # define SIG_EOF "delimited by the signal EOF instead of word: "
 
-
 /*	signal error	*/
 # define SIG_ERROR 128
+
+/*	redirections error	*/
+# define PERMISSION_DENIED ": Permission denied"
 #endif

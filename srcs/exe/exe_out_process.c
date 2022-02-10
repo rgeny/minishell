@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/09 12:50:49 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 04:46:26 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static void	_son(char **cmd, t_data *data)
 	exit(127);
 }
 
-void	exe_out_process(t_command *cmd, t_data *data)
+void	exe_out_process(t_command *cmd, char **args, t_data *data)
 {
-	// cmd->pid = fork();
-	// if (!cmd->pid)
-	// {
-	// 	if (data->pipefd[0])
-	// 		close(data->pipefd[0]);
-	// 	_son(cmd->args, data);
-	// }
-	// signal_ignore();
+	cmd->pid = fork();
+	if (!cmd->pid)
+	{
+		if (data->pipefd[0])
+			close(data->pipefd[0]);
+		_son(args, data);
+	}
+	signal_ignore();
 }

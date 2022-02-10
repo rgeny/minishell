@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/09 14:44:00 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 10:04:53 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 typedef struct s_ast_constructor
 {
-	t_token	*tokens;
+	t_token			*tokens;
+	struct s_data	*data;
 }	t_ast_constructor;
 
 typedef enum e_redir_type {
@@ -44,9 +45,8 @@ typedef struct s_command {
 	t_carg	*cargs;
 	t_redir	*redirections;
 	pid_t	pid;
-	int		fd_in;
-	int		fd_out;
-	int		fd_tmp;
+	int		arg_nb; // to delete
+	int		fd_heredoc;
 }	t_command;
 
 typedef enum s_node_type {
@@ -62,5 +62,6 @@ typedef struct s_ast {
 	struct s_ast	*left;
 	struct s_ast	*right;
 	bool			is_subshell;
+	pid_t			pid;
 }	t_ast;
 #endif

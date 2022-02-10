@@ -6,18 +6,19 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:21:43 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 16:08:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 10:00:26 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static t_ast_constructor	*_init_astc(t_token *tokens)
+static t_ast_constructor	*_init_astc(t_token *tokens, t_data *data)
 {
 	t_ast_constructor	*astc;
 
 	astc = uti_calloc(1, sizeof(astc));
 	astc->tokens = tokens;
+	astc->data = data;
 	return (astc);
 }
 
@@ -29,14 +30,14 @@ void	eat_token(t_ast_constructor *astc, t_token_type type)
 		print_syntax_error(astc->tokens);
 }
 
-t_ast	*build_ast(t_token *tokens)
+t_ast	*build_ast(t_token *tokens, t_data *data)
 {
 	t_ast				*root;
 	t_ast_constructor	*astc;
 
 	if (tokens == NULL || is_error())
 		return (NULL);
-	astc = _init_astc(tokens);
+	astc = _init_astc(tokens, data);
 	root = build_pipeline_list(astc, false);
 	if (!is_error() && astc->tokens)
 		print_syntax_error(astc->tokens);

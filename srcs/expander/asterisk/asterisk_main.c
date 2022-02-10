@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/09 12:39:43 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 10:41:44 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static bool	_expand_redir(t_redir *redir, char *word, char **dir_list)
 			}
 			else
 			{
-				error_print(word, REDIR_AMBIGUE, NULL, 0);
+				error_print(word, REDIR_AMBIGUE, NULL, ERROR_EXEC);
 				g_last_return = ERROR_EXEC;
 				str_free(redir->path);
 				redir->path = str_dup(word);
