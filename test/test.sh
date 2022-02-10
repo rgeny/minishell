@@ -471,9 +471,7 @@ then
 	test_ret_stdout "export test=\"    a    b   \"\necho ab\"\"\'\$test\"\"\'"
 	test_ret_stdout "export var=test\$var\necho \$var"
 
-
-
-
+	rm *var*
     echo
 	unset CMD
 fi

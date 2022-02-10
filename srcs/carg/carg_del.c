@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander_space_args.c                              :+:      :+:    :+:   */
+/*   carg_del.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 12:44:33 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 16:09:17 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 16:01:21 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 16:01:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "carg.h"
 
-void	expand_space_carg(t_carg *args)
+void	carg_del_one(t_carg **args, t_command *cmd)
 {
-	char	**word_list;
-	int		i;
-	bool	is_first;
+	t_carg	*next;
+	t_carg	*prev;
 
-	word_list = split_word(args->content);
-	i = 0;
-	is_first = true;
-	while (word_list[i])
+	if (cmd->cargs == *args)
+		cmd->cargs = (*args)->next;
+	else
 	{
-		if (is_first)
-		{
-			str_free(&args->content);
-			args->content = str_dup(word_list[i]);
-			is_first = false;
-		}
-		else
-		{
-			carg_new_after(args, word_list[i]);
-			args = args->next;
-		}
-		i++;
+		prev = cmd->cargs;
+		while (prev->next != *args)
+			prev = prev->next;
+		prev->next = (*args)->next;
 	}
-	str_free_list(&word_list);
+	str_free(&(*args)->content);
+	next = (*args)->next;
+	free(*args);
+	*args = next;
 }

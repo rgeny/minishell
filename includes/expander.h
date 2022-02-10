@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 13:01:41 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 16:09:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "env.h"
 # include "minishell_signal.h"
 # include "mem.h"
-# include "lst.h"
+# include "carg.h"
 
 typedef t_command	t_cmd;
 typedef struct dirent	t_dirent;

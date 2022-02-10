@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 15:58:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 16:07:45 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exe_cmd(t_ast *ast, t_data *data)
 	if (!is_error())
 	{
 		expand_args(ast->cmd, ast->cmd->cargs, data, &arg_n);
-		args = lst_switch(ast->cmd->cargs, arg_n);
+		args = carg_switch_to_list(ast->cmd->cargs, arg_n);
 	}
 	if (!is_error() && arg_n && args[0])
 	{

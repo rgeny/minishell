@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/10 14:34:19 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/10 16:06:59 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,11 +74,12 @@ PARSER_DIR		= $(SRC_DIR)parser/
 AST_BUILDER_DIR = $(PARSER_DIR)ast_builder/
 AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
 SPACE_DIR		= $(EXPANDER_DIR)space/
+CARG_DIR		= $(SRC_DIR)carg/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
 VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(LST_DIR) 
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) 
-VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR) $(SPACE_DIR)
+VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR) $(SPACE_DIR) $(CARG_DIR)
 
 # *********************************** sources ******************************** #
 
@@ -97,9 +98,9 @@ SRC				= $(addsuffix .c,				main \
 						$(addprefix asterisk_,	main dir_list cmp) \
 					$(addprefix exe_,		builtin out_process readline main redir pipe cmd subshell) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix cleaner_,	all) \
 					$(addprefix signal_,	current fork ignore heredoc) \
-					$(addprefix lst_,		carg redir))
+					$(addprefix lst_,		redir) \
+					$(addprefix carg_,		add del new switch))
 
 # *********************************** others ********************************* #
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))

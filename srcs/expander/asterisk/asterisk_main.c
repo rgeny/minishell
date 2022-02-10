@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 12:57:41 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 16:09:37 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	_expand_cmd(t_cmd *cmd, t_carg *args, char *word, char **dir_list)
 			}
 			else
 			{
-				lst_new_after(args, *dir_list);
+				carg_new_after(args, *dir_list);
 				args = args->next;
 			}
 		}
