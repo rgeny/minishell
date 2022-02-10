@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_free.c                                         :+:      :+:    :+:   */
+/*   mem_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:38:28 by rgeny            ###   ########.fr       */
+/*   Created: 2020/11/14 14:22:28 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/10 18:28:52 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "mem.h"
 
-void	str_free(char **s)
+void	*mem_set(void *b, int c, size_t len)
 {
-	if (*s)
-	{
-		free(*s);
-		*s = NULL;
-	}
-}
+	unsigned char	*str_b;
 
-void	str_free_list(char ***s)
-{
-	int	i;
-
-	if (!*s)
-		return ;
-	i = 0;
-	while ((*s)[i])
+	str_b = (unsigned char *)b;
+	while (len > 0)
 	{
-		str_free(&(*s)[i]);
-		i++;
+		*str_b = (unsigned char)c;
+		str_b++;
+		len--;
 	}
-	free(*s);
-	*s = NULL;
+	*str_b = 0;
+	return (b);
 }

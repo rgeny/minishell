@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free.c                                       :+:      :+:    :+:   */
+/*   is_in_charset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/06 18:22:01 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 18:27:49 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:55:03 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:56:22 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "is.h"
 
-void	uti_free(void **p)
+bool	is_in_charset(char c, char *charset)
 {
-	if (*p != NULL)
+	int	i;
+
+	i = 0;
+	while (charset[i])
 	{
-		free(*p);
-		*p = NULL;
+		if (c == charset[i])
+			return (true);
+		i++;
 	}
+	return (false);
 }

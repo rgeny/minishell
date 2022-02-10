@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bzero.c                                      :+:      :+:    :+:   */
+/*   is_digit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 14:31:47 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/15 14:42:03 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:56:29 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:56:47 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "is.h"
 
-void	uti_bzero(void *s, size_t n)
+bool	is_digit(char *s)
 {
-	size_t			i;
-	unsigned char	*str;
+	int	i;
 
 	i = 0;
-	str = (unsigned char *)s;
-	while (i < n)
+	while (s[i])
 	{
-		str[i] = '\0';
+		if (s[i] < '0' || s[i] > '9')
+			return (true);
 		i++;
 	}
+	return (false);
 }

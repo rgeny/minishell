@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst.h                                              :+:      :+:    :+:   */
+/*   t_is.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/30 14:55:55 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 16:11:12 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 18:07:43 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:11:36 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LST_H
-# define LST_H
+#ifndef T_IS_H
+# define T_IS_H
 
-# include "t_ast.h"
-
-void	lst_redirection_add_back(t_redir **lst, t_redir *new);
+typedef enum e_iswhat
+{
+	IS_OTHER,
+	IS_ALPHA,
+	IS_NUM
+}	t_iswhat;
 #endif

@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_itoa.c                                       :+:      :+:    :+:   */
+/*   str_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 17:07:01 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:12:13 by buschiix         ###   ########.fr       */
+/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:30:13 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "str.h"
 
-#include "utils.h"
-
-static int	_size(int n)
+void	str_free(char **s)
 {
-	if (n < 10)
-		return (1);
-	else
-		return (1 + _size(n / 10));
+	if (*s)
+	{
+		free(*s);
+		*s = NULL;
+	}
 }
 
-char	*uti_itoa(int n)
+void	str_free_list(char ***s)
 {
-	int		sz;
-	char	*s;
+	int	i;
 
-	sz = _size(n);
-	s = uti_calloc(sz + 1, sizeof(char));
-	if (!s)
-		return (0);
-	s[sz] = 0;
-	while (sz)
+	if (!*s)
+		return ;
+	i = 0;
+	while ((*s)[i])
 	{
-		sz--;
-		s[sz] = n % 10 + '0';
-		n /= 10;
+		str_free(&(*s)[i]);
+		i++;
 	}
-	return (s);
+	free(*s);
+	*s = NULL;
 }

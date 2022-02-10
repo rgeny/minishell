@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set.c                                              :+:      :+:    :+:   */
+/*   is_alnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 14:22:28 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/15 14:38:10 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:59:02 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:00:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "is.h"
 
-void	*mem_set(void *b, int c, size_t len)
+int	is_alnum(char c)
 {
-	unsigned char	*str_b;
-
-	str_b = (unsigned char *)b;
-	while (len > 0)
-	{
-		*str_b = (unsigned char)c;
-		str_b++;
-		len--;
-	}
-	*str_b = 0;
-	return (b);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+		return (IS_ALPHA);
+	else if (c >= '0' && c <= '9')
+		return (IS_NUM);
+	else
+		return (IS_OTHER);
 }

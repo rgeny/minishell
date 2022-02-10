@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_get_char_type.c                              :+:      :+:    :+:   */
+/*   str_join.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 09:39:05 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 18:17:38 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 18:47:50 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:50:51 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "str.h"
 
-int	lexer_get_chartype(char c)
+char	*str_join(const char *s1, const char *s2, char c)
 {
-	if (is_in_charset(c, " \t"))
-		return (E_CHAR_TYPE_BLANK);
-	else if (c == '\'')
-		return (E_CHAR_TYPE_SQUOTE);
-	else if (c == '"')
-		return (E_CHAR_TYPE_DQUOTE);
-	else if (is_in_charset(c, "<>|&()"))
-		return (E_CHAR_TYPE_OPERATOR);
-	else
-		return (E_CHAR_TYPE_ALNUMP);
+	int		sz1;
+	int		sz2;
+	char	*dst;
+
+	if (!s1)
+		return (str_dup(s2));
+	if (!s2)
+		return (str_dup(s1));
+	sz1 = str_len((char *)s1);
+	sz2 = str_len((char *)s2);
+	dst = uti_calloc(sz1 + sz2 + 2, sizeof(char *));
+	if (!dst)
+		return (NULL);
+	mem_cpy(dst, s1, sz1);
+	dst[sz1] = c;
+	mem_cpy(dst + sz1 + !!c, s2, sz2);
+	return (dst);
 }

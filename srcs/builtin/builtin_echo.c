@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 12:04:15 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:33:07 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	_check_flag(char **cmd)
 	}
 	return (i);
 }
-#include <stdio.h>
+
 int	builtin_echo(char **cmd)
 {
 	bool	flag;

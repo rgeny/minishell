@@ -505,7 +505,7 @@ then
 	test_ret_stdout "\"\'abc\'\""
 	test_ret_stdout "\'\"abc\"\'"
 	test_ret_stdout "echo \"\" bonjour"
-	test_ret_stdout "echo\tbonjour"
+	test_ret_stdout "echo	bonjour"
 	test_ret_stdout "export \"\""
 	test_ret_stdout "unset \"\""
 	test_ret_stdout "export \"test=ici\"=coucou\necho \$test"

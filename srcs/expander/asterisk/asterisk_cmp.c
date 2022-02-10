@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 12:59:58 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/08 13:36:20 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:16:39 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool	_is_valid_name(char *word, char *dir, char **pt_word, int *j)
 	n_quote = 0;
 	while (word[i + n_quote] != '\0' && word[i + n_quote] != '*')
 	{
-		if (uti_is_in_charset(word[i + n_quote], QUOTES))
+		if (is_in_charset(word[i + n_quote], QUOTES))
 		{
 			len = str_clen(&word[i + n_quote + 1], word[i + n_quote]);
 			if (str_ncmp(&word[i + n_quote + 1], &dir[i], len) != 0)

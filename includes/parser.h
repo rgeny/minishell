@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 16:20:55 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 17:43:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # include "t_ast.h"
 # include "str.h"
-# include "utils.h"
+# include "common.h"
 # include "redir.h"
 # include "error.h"
 # include "expander.h"

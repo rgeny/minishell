@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/10 16:19:07 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/10 18:25:32 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,10 +58,10 @@ TYPEDEF_DIR		= typedef/
 DEFINE_DIR		= define/
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
-MEM_DIR			= $(SRC_DIR)mem/
-STR_DIR			= $(SRC_DIR)str/
-UTILS_DIR		= $(SRC_DIR)utils/
-GLOBAL_DIR		= $(SRC_DIR)global/
+COMMON_DIR		= $(SRC_DIR)common/
+STR_DIR			= $(COMMON_DIR)str/
+MEM_DIR			= $(COMMON_DIR)mem/
+IS_DIR			= $(COMMON_DIR)is/
 EXPANDER_DIR	= $(SRC_DIR)expander/
 EXE_DIR			= $(SRC_DIR)exe/
 LEXER_DIR		= $(SRC_DIR)lexer/
@@ -76,31 +76,38 @@ AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
 SPACE_DIR		= $(EXPANDER_DIR)space/
 CARG_DIR		= $(SRC_DIR)carg/
 
-VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(REDIR_DIR) 
+VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(COMMON_DIR) $(GLOBAL_DIR)
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(REDIR_DIR) $(IS_DIR) 
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) 
 VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR) $(SPACE_DIR) $(CARG_DIR)
 
 # *********************************** sources ******************************** #
 
-SRC				= $(addsuffix .c,				main \
-					$(addprefix env_,			del find init new assign switch) \
-					$(addprefix mem_,			cpy set) \
-					$(addprefix parser_,		free_ast main) \
-						$(addprefix ast_builder_,	command create_node is_given_token main pipeline_list pipeline) \
-						$(addprefix ast_printer_,	main asciitree_builder label_builder set_profiles set_edge_length level)\
-					$(addprefix cleaner_,		all) \
-					$(addprefix str_,			cmp len dup split join free split_first print first_dif) \
-					$(addprefix builtin_,		cd exit export unset echo env pwd) \
-					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max error free) \
-					$(addprefix expander_,	args redir var path heredoc quote \
-						$(addprefix space_,	args redir tool)) \
-						$(addprefix asterisk_,	main dir_list cmp) \
-					$(addprefix exe_,		builtin out_process readline main redir pipe cmd subshell) \
-					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
-					$(addprefix signal_,	current fork ignore heredoc) \
-					$(addprefix redir_,		add) \
-					$(addprefix carg_,		add del new switch))
+SRC				= $(addsuffix .c,					main \
+					$(addprefix env_,				del find init new assign switch) \
+					$(addprefix mem_,				cpy set) \
+					$(addprefix parser_,			free_ast main) \
+						$(addprefix ast_builder_,	command create_node is_given_token \
+													main pipeline_list pipeline) \
+						$(addprefix ast_printer_,	main asciitree_builder label_builder \
+													set_profiles set_edge_length level)\
+					$(addprefix cleaner_,			all) \
+					$(addprefix str_,				cmp len dup split join free split_first \
+													print first_dif) \
+					$(addprefix builtin_,			cd exit export unset echo env pwd) \
+					$(addprefix common_,			bzero calloc min itoa ato quicksort \
+													interactive max error) \
+					$(addprefix is_,				alnum digit in_charset valid_name) \
+					$(addprefix expander_,			args redir var path heredoc quote \
+						$(addprefix space_,			args redir tool)) \
+						$(addprefix asterisk_,		main dir_list cmp) \
+					$(addprefix exe_,				builtin out_process readline main \
+													redir pipe cmd subshell) \
+					$(addprefix lexer_,				lex token token_constructor \
+													print_tokens get_char_type free_tokens) \
+					$(addprefix signal_,			current fork ignore heredoc) \
+					$(addprefix redir_,				add) \
+					$(addprefix carg_,				add del new switch))
 
 # *********************************** others ********************************* #
 OBJ				= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))

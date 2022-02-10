@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_ignore.c                                    :+:      :+:    :+:   */
+/*   is.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 00:56:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 18:38:07 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:55:28 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:12:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#ifndef IS_H
+# define IS_H
+# include <stdbool.h>
+# include "t_is.h"
 
-void	signal_ignore(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
+bool	is_in_charset(char c, char *charset);
+bool	is_digit(char *s);
+bool	is_valid_name(char *s);
+int		is_alnum(char c);
+#endif

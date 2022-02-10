@@ -6,26 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:52:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 11:43:16 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:30:26 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "str.h"
-#include <stdlib.h>
-
-static int	is_in_charset(char c, char *charset)
-{
-	int	i;
-
-	i = 0;
-	while (charset[i])
-	{
-		if (c == charset[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static int	get_word_cnt(char const *s, char *charset)
 {

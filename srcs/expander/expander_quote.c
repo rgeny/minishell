@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 15:40:23 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 08:52:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:16:05 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	expand_quote(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (uti_is_in_charset(s[i], QUOTES))
+		if (is_in_charset(s[i], QUOTES))
 		{
 			len = str_clen(s + i + 1, s[i]);
 			mem_cpy(s, s + i + 1, len);

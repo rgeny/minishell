@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 10:48:21 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/07 11:32:46 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 17:43:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 # include "t_lexer.h"
 # include "str.h"
-# include "utils.h"
+# include "common.h"
 # include "error.h"
 
 typedef enum e_mode {

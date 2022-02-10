@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_calloc.c                                     :+:      :+:    :+:   */
+/*   common_bzero.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 18:46:29 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 07:51:28 by rgeny            ###   ########.fr       */
+/*   Created: 2020/11/14 14:31:47 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/10 18:28:04 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "common.h"
 
-void	*uti_calloc(size_t count, size_t size)
+void	uti_bzero(void *s, size_t n)
 {
-	void	*dst;
+	size_t			i;
+	unsigned char	*str;
 
-	dst = malloc(count * size);
-	if (dst == NULL)
+	i = 0;
+	str = (unsigned char *)s;
+	while (i < n)
 	{
-		if (is_error())
-			error_print(MALLOC_ERROR, NULL, NULL, ERROR_MALLOC);
-		return (NULL);
+		str[i] = '\0';
+		i++;
 	}
-	uti_bzero(dst, count * size);
-	return (dst);
 }

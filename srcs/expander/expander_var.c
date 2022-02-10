@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:52:14 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:16:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	expand_var(char **word, t_env *env)
 		if (word[0][i] == '$')
 			_expand(word, env, i);
 		if (word[0][i] != '\0'
-			&& (word[0][i] != '$' || !uti_isalnum(word[0][i + 1])))
+			&& (word[0][i] != '$' || !is_alnum(word[0][i + 1])))
 			i++;
 	}
 	return (word[0][0] != '\0');

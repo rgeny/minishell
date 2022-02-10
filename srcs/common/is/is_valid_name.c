@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_heredoc.c                                   :+:      :+:    :+:   */
+/*   is_valid_name.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:39:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:37:49 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:56:55 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:57:22 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "is.h"
 
-static void	_sigint(int sig)
+bool	is_valid_name(char *s)
 {
-	error_print(NULL, NULL, NULL, SIGINT + SIG_ERROR);
-	close(0);
-}
+	int	i;
 
-void	signal_heredoc(void)
-{
-	signal(SIGINT, _sigint);
+	i = 0;
+	while (s[i] && s[i] != '=')
+	{
+		if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
+				|| s[i] == '_' || (i && s[i] >= '0' && s[i] <= '9')))
+			return (false);
+		i++;
+	}
+	if (!i)
+		return (false);
+	return (true);
 }

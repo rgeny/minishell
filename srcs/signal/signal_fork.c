@@ -6,11 +6,11 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 00:55:13 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/09 00:56:14 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 18:37:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include "minishell_signal.h"
 
 void	signal_fork(void)
 {

@@ -6,13 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 18:10:24 by tokino            #+#    #+#             */
-/*   Updated: 2022/01/25 11:27:34 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 17:51:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "str.h"
-#include "utils.h"
-#include "mem.h"
 
 char	*str_ndup(const char *s, int n)
 {

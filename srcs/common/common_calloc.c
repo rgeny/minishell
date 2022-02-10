@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_join.c                                         :+:      :+:    :+:   */
+/*   utils_calloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 18:47:50 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/30 11:51:33 by tokino           ###   ########.fr       */
+/*   Created: 2020/11/17 18:46:29 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/10 17:51:38 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "mem.h"
-#include "str.h"
-#include "utils.h"
+#include "common.h"
 
-char	*str_join(const char *s1, const char *s2, char c)
+void	*uti_calloc(size_t count, size_t size)
 {
-	int		sz1;
-	int		sz2;
-	char	*dst;
+	void	*dst;
 
-	if (!s1)
-		return (str_dup(s2));
-	if (!s2)
-		return (str_dup(s1));
-	sz1 = str_len((char *)s1);
-	sz2 = str_len((char *)s2);
-	dst = uti_calloc(sz1 + sz2 + 2, sizeof(char *));
-	if (!dst)
+	dst = malloc(count * size);
+	if (dst == NULL)
+	{
+		if (is_error())
+			error_print(MALLOC_ERROR, NULL, NULL, ERROR_MALLOC);
 		return (NULL);
-	mem_cpy(dst, s1, sz1);
-	dst[sz1] = c;
-	mem_cpy(dst + sz1 + !!c, s2, sz2);
+	}
+	uti_bzero(dst, count * size);
 	return (dst);
 }

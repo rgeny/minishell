@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:44:00 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:14:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	_export_var(char **cmd, t_data *data)
 	i = 0;
 	while (cmd[i] != NULL)
 	{
-		if (uti_is_valid_name(cmd[i]) == true)
+		if (is_valid_name(cmd[i]))
 		{
 			var = str_split_first(cmd[i], '=');
 			if (var != NULL && var[0] != NULL)
