@@ -54,7 +54,7 @@ function test_ret_stdout()
     TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR_MINISHELL)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR_BASH)
+    TEST_BASH=$(printf "$@" | $CMD bash --posix  2>$LOG_ERROR_BASH)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
 
@@ -102,7 +102,7 @@ function test_env()
     LINE_MINISHELL=$(echo "$TEST_MINISHELL" | wc -l)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR_BASH)
+    TEST_BASH=$(printf "$@" | $CMD bash --posix  2>$LOG_ERROR_BASH)
     LINE_BASH=$(echo "$TEST_BASH" | wc -l)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
@@ -224,9 +224,42 @@ then
     test_ret_stdout "echo \$??"
     test_ret_stdout "echo $ ?"
     test_ret_stdout "echo $^"
+    test_ret_stdout "echo \$\"\""
+    test_ret_stdout "echo \$\'\'"
     test_ret_stdout "echo \$9"
     test_ret_stdout "echo \$ \$q"
     test_ret_stdout "echo \$b \$a \$s"
+    test_ret_stdout "ec\"\"ho test"
+    test_ret_stdout "ec\'\'ho test"
+    test_ret_stdout "\"\"echo test"
+    test_ret_stdout "\'\'echo test"
+    test_ret_stdout "echo\"\" test"
+    test_ret_stdout "echo\'\' test"
+    test_ret_stdout "\"\" echo test"
+    test_ret_stdout "\'\' echo test"
+    test_ret_stdout "echo \"\" test"
+    test_ret_stdout "echo \'\' test"
+    test_ret_stdout "echo \$USER"
+    test_ret_stdout "echo \$USE\"\"R"
+    test_ret_stdout "echo \$USE\'\'R"
+    test_ret_stdout "echo \$USER\"\""
+    test_ret_stdout "echo \$USER\'\'"
+    test_ret_stdout "echo \$USER\"\"TOTO"
+    test_ret_stdout "echo \$USER\'\'TOTO"
+    test_ret_stdout "echo \$USER \"\""
+    test_ret_stdout "echo \$USER \'\'"
+    test_ret_stdout "echo \"\"\$USE\"\"R"
+    test_ret_stdout "echo \'\'\$USE\'\'R"
+    test_ret_stdout "echo \"\"\$USER"
+    test_ret_stdout "echo \'\'\$USER"
+    test_ret_stdout "echo ''\$USER"
+    test_ret_stdout "echo \$\"\"USER"
+    test_ret_stdout "echo \$\'\'USER"
+	test_ret_stdout "echo \"\"'\$ABC\"\"'"
+	test_ret_stdout "echo \"\""
+	test_ret_stdout "echo \"\"\"\""
+	test_ret_stdout "echo \"\" \"\""
+	test_ret_stdout "echo \"\" \"\" \"\""
     echo
 fi
 
