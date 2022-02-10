@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 14:25:48 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 15:02:36 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define NO_FILE ": No such file or directory"
 # define BAD_IDENTIFIER ": not a valid identifier"
 # define MALLOC_ERROR "Cannot allocate memory"
+# define CMD_NOT_FOUND ": command not found"
 
 /*  Syntax error    */
 # define TOKEN_ERROR    "Syntax error near unexpected token '" 
@@ -63,6 +64,7 @@
 
 /*	signal error	*/
 # define SIG_ERROR 128
+# define EXECVE_FAIL 127
 
 /*	redirections error	*/
 # define PERMISSION_DENIED ": Permission denied"

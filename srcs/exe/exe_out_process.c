@@ -6,22 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:57:10 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 15:04:10 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "env.h"
-#include "str.h"
-#include "print.h"
-#include "minishell_signal.h"
-#include "expander.h"
-#include "error.h"
-#include "parser.h"
+#include "exe.h"
 
 static void	_son(char **cmd, t_data *data)
 {
@@ -29,17 +18,16 @@ static void	_son(char **cmd, t_data *data)
 	char	*path;
 
 	signal_fork();
-	env_cpy = env_switch(data, 0);
+	env_cpy = env_switch(data, false);
 	str_free(&data->pwd);
 	path = expand_path(cmd[0], data->env);
 	execve(path, cmd, env_cpy);
-	error_print(cmd[0], ": command not found", 0, 0);
 	str_free_list(&cmd);
 	str_free_list(&env_cpy);
 	str_free(&path);
 	env_del_all(data->env);
 	free_ast(&data->ast);
-	exit(127);
+	exit(error_print(cmd[0], CMD_NOT_FOUND, NULL, EXECVE_FAIL));
 }
 
 void	exe_out_process(t_command *cmd, char **args, t_data *data)
