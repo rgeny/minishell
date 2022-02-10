@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 01:37:12 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 15:15:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:51:53 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int	builtin_pwd(char **cmd, t_data *data)
 	if (path == NULL)
 		path = _find_pwd(data);
 	str_print_fd_nl(path, 1);
-	str_free(path);
+	str_free(&path);
 	return (SUCCESS);
 }

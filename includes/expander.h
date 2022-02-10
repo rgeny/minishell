@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:03:00 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:18:14 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 typedef struct dirent	t_dirent;
 void	expander_main(t_data *data, t_ast *ast);
-int		expand_heredoc(char *delimiter, t_data *data);
+int		expand_heredoc(char *delimiter, t_env *env);
 char	*expand_path(char *cmd, t_env *env);
-bool	expand_var(char **word, t_data *data);
+bool	expand_var(char **word, t_env *env);
 void	expand_quote(char *s);
 bool	expand_asterisk(t_command *cmd, t_carg *args, t_redir *redir);
 char	**asterisk_dir_list(void);

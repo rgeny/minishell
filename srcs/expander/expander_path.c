@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 04:28:22 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:55:07 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*expand_path(char *cmd, t_env *env)
 	char	*path_cmd;
 
 	if (access(cmd, F_OK | X_OK) == SUCCESS)
-		return (cmd);
+		return (str_dup(cmd));
 	path_var = env_find_val(env, "PATH");
 	if (path_var == NULL)
 		return (NULL);
@@ -41,6 +41,6 @@ char	*expand_path(char *cmd, t_env *env)
 	if (path_list == NULL)
 		return (NULL);
 	path_cmd = _find_path(cmd, path_list);
-	str_free_list(path_list);
+	str_free_list(&path_list);
 	return (path_cmd);
 }

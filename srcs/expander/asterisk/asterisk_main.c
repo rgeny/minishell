@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 10:41:44 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:52:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static bool	_expand_redir(t_redir *redir, char *word, char **dir_list)
 			{
 				error_print(word, REDIR_AMBIGUE, NULL, ERROR_EXEC);
 				g_last_return = ERROR_EXEC;
-				str_free(redir->path);
+				str_free(&redir->path);
 				redir->path = str_dup(word);
 				return (false);
 			}
@@ -82,6 +82,6 @@ bool	expand_asterisk(t_command *cmd, t_carg *args, t_redir *redir)
 		_expand_cmd(cmd, args, args->content, dir_list);
 	if (redir != NULL)
 		is_success = _expand_redir(redir, redir->path, dir_list);
-	str_free_list(dir_list);
+	str_free_list(&dir_list);
 	return (is_success);
 }

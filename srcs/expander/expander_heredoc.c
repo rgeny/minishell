@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 10:36:05 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:52:25 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	_handle_errors(int pipefd[2], char *delimiter)
 	}
 }
 
-static void	_generate_heredoc(int pipefd[2], char *delimiter, t_data *data)
+static void	_generate_heredoc(int pipefd[2], char *delimiter, t_env *env)
 {
 	char	*s;
 	char	*prompt;
@@ -35,9 +35,9 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter, t_data *data)
 	s = readline(prompt);
 	while (s != NULL && str_cmp(s, delimiter) != 0)
 	{
-		expand_var(&s, data);
+		expand_var(&s, env);
 		str_print_fd_nl(s, pipefd[1]);
-		str_free(s);
+		str_free(&s);
 		s = readline(prompt);
 	}
 	signal_current();
@@ -45,7 +45,7 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter, t_data *data)
 		_handle_errors(pipefd, delimiter);
 }
 
-int	expand_heredoc(char *delimiter, t_data *data)
+int	expand_heredoc(char *delimiter, t_env *env)
 {
 	int		pipefd[2];
 	int		fd_stdin;
@@ -53,7 +53,7 @@ int	expand_heredoc(char *delimiter, t_data *data)
 	expand_quote(delimiter);
 	fd_stdin = dup(STDIN_FILENO);
 	pipe(pipefd);
-	_generate_heredoc(pipefd, delimiter, data);
+	_generate_heredoc(pipefd, delimiter, env);
 	dup2(fd_stdin, STDIN_FILENO);
 	close(fd_stdin);
 	close(pipefd[1]);

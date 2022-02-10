@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:22:51 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 10:23:34 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:20:21 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 int		parser_main(t_data *data, char *rl);
 
-t_ast	*build_ast(t_token *tokens, t_data *data);
+t_ast	*build_ast(t_token *tokens, t_env *env);
 t_ast	*build_command(t_ast_constructor *astc);
 t_ast	*build_pipeline(t_ast_constructor *astc);
 t_ast	*build_pipeline_list(t_ast_constructor *astc, bool is_subshell);

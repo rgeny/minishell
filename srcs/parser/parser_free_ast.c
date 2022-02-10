@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 17:43:18 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 08:42:07 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:51:35 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_cargs(t_carg *cargs)
 	{
 		tmp = cargs;
 		cargs = cargs->next;
-		str_free(tmp->content);
+		str_free(&tmp->content);
 		free(tmp);
 	}
 }

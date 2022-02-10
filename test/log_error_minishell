@@ -1,2 +1,1 @@
-minishell: line 1: ..: command not found
-free(): double free detected in tcache 2
+minishell: line 1: $a : ambiguous redirect

@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:18:30 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 20:53:28 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 11:52:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	_print_line(unsigned long line)
 	str_print_stderr("line ");
 	str_print_stderr(str_line);
 	str_print_stderr(": ");
-	str_free(str_line);
+	str_free(&str_line);
 }
 
 unsigned long	uti_interactive(t_cmd_interactive cmd)

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 14:47:46 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 09:07:51 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:53:12 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	lst_del_one(t_carg **args, t_command *cmd)
 			prev = prev->next;
 		prev->next = (*args)->next;
 	}
-	str_free((*args)->content);
+	str_free(&(*args)->content);
 	next = (*args)->next;
 	free(*args);
 	*args = next;

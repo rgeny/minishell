@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:23:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 11:42:36 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	_free_ascii_tree(t_anode *node)
 		return ;
 	_free_ascii_tree(node->left);
 	_free_ascii_tree(node->right);
-	str_free_list(node->label);
+	str_free_list(&node->label);
 	free(node);
 	node = NULL;
 }

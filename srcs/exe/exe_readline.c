@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/04 23:45:51 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 11:53:02 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*_prompt(t_data *data)
 	else
 		tmp = str_join(PROMPT, prompt, 0);
 	prompt = str_join(tmp, " \033[37m\033[00m", 0);
-	str_free(tmp);
+	str_free(&tmp);
 	return (prompt);
 }
 
@@ -88,6 +88,6 @@ char	*exe_readline(t_data *data)
 	close(fdout);
 	uti_interactive(INTERACTIVE_MOVE_STDERR);
 	//_non_interactive(&data->interactive);
-	str_free(prompt);
+	str_free(&prompt);
 	return (ret);
 }

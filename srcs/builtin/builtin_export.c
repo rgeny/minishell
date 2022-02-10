@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 14:53:47 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:44:00 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	_print_env(t_data *data)
 		}
 		i++;
 	}
-	str_free_list(cpy);
+	str_free_list(&cpy);
 }
 
 static void	_export_var(char **cmd, t_data *data)
@@ -47,7 +47,7 @@ static void	_export_var(char **cmd, t_data *data)
 			var = str_split_first(cmd[i], '=');
 			if (var != NULL && var[0] != NULL)
 				env_new(&data->env, str_dup(var[0]), str_dup(var[1]));
-			str_free_list(var);
+			str_free_list(&var);
 		}
 		else
 			error_print(EXPORT, cmd[i], BAD_IDENTIFIER, ERROR_EXEC);

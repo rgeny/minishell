@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 21:36:22 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:44:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	builtin_env(char **envp)
 		str_print_fd_nl(envp[i], STDOUT_FILENO);
 		i++;
 	}
-	str_free_list(envp);
+	str_free_list(&envp);
 	return (SUCCESS);
 }

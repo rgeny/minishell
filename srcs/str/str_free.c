@@ -6,29 +6,33 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/08 00:48:22 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 11:38:28 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void	str_free(char *s)
+void	str_free(char **s)
 {
-	if (s)
-		free(s);
+	if (*s)
+	{
+		free(*s);
+		*s = NULL;
+	}
 }
 
-void	str_free_list(char **s)
+void	str_free_list(char ***s)
 {
 	int	i;
 
-	if (!s)
+	if (!*s)
 		return ;
 	i = 0;
-	while (s[i])
+	while ((*s)[i])
 	{
-		str_free(s[i]);
+		str_free(&(*s)[i]);
 		i++;
 	}
-	free(s);
+	free(*s);
+	*s = NULL;
 }

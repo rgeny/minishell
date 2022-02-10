@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 10:38:17 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 12:31:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	_exe(t_data *data)
 		add_history(rl);
 		if (parser_main(data, rl) == SUCCESS && data->ast)
 		{
-//			expander_main(data, data->ast);
 			in = dup(0);
 			out = dup(1);
 			exe_main(data->ast, data);
@@ -58,10 +57,10 @@ static void	_exe(t_data *data)
 			dup2(out, 1);
 			close(in);
 			close(out);
-			if (error_get())
-				g_last_return = error_get();
 		}
-		str_free(rl);
+		if (error_get())
+			g_last_return = error_get();
+		str_free(&rl);
 		free_ast(&data->ast);
 		rl = exe_readline(data);
 	}

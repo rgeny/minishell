@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 05:16:45 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 10:52:44 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:52:33 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	expand_space_carg(t_carg *args)
 	{
 		if (is_first)
 		{
-			str_free(args->content);
+			str_free(&args->content);
 			args->content = str_dup(word_list[i]);
 			is_first = false;
 		}
@@ -106,7 +106,7 @@ void	expand_space_carg(t_carg *args)
 		}
 		i++;
 	}
-	str_free_list(word_list);
+	str_free_list(&word_list);
 }
 
 bool	expand_space_redir(t_redir *redir)
@@ -116,8 +116,8 @@ bool	expand_space_redir(t_redir *redir)
 	if (_count_word(redir->path) > 1)
 		return (false);
 	word_list = _split_word(redir->path);
-	str_free(redir->path);
+	str_free(&redir->path);
 	redir->path = str_dup(word_list[0]);
-	str_free_list(word_list);
+	str_free_list(&word_list);
 	return (true);
 }

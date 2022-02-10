@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 10:04:53 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 12:25:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # include <stdbool.h>
 # include "sys/types.h"
 # include "t_lexer.h"
+# include "t_env.h"
 
 typedef struct s_ast_constructor
 {
-	t_token			*tokens;
-	struct s_data	*data;
+	t_token	*tokens;
+	t_env	*env;
 }	t_ast_constructor;
 
 typedef enum e_redir_type {
@@ -47,6 +48,7 @@ typedef struct s_command {
 	pid_t	pid;
 	int		arg_nb; // to delete
 	int		fd_heredoc;
+	int		last_return;
 }	t_command;
 
 typedef enum s_node_type {

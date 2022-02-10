@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 08:07:50 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 12:04:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	_check_flag(char **cmd)
 	}
 	return (i);
 }
-
+#include <stdio.h>
 int	builtin_echo(char **cmd)
 {
 	bool	flag;
@@ -39,7 +39,8 @@ int	builtin_echo(char **cmd)
 	flag = (bool)i;
 	while (cmd[i] != NULL)
 	{
-		if (write(1, cmd[i], str_len(cmd[i])) != 0 && cmd[i + 1] != NULL)
+		write(STDOUT_FILENO, cmd[i], str_len(cmd[i]));
+		if (cmd[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;
 	}

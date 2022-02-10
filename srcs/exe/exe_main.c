@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 03:56:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 12:26:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	_wait_process(t_ast *ast, t_data *data)
 			else
 				g_last_return = WEXITSTATUS(g_last_return);
 		}
+		else
+			g_last_return = ast->cmd->last_return;
 	}
 	_wait_process(ast->left, data);
 	_wait_process(ast->right, data);

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 15:30:56 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 11:53:28 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	_replace_pwd(t_data *data, char *cwd)
 	}
 	else
 		env_del_one(&data->env, ENV_OLDPWD);
-	str_free(data->pwd);
+	str_free(&data->pwd);
 	data->pwd = str_dup(cwd);
 	return (SUCCESS);
 }
@@ -52,7 +52,7 @@ static int	_move_cwd(char *dir, char *pwd, t_data *data, bool print_path)
 
 	path = str_join(pwd, dir, '/');
 	ret = chdir(path);
-	str_free(path);
+	str_free(&path);
 	if (ret != 0 && dir != NULL)
 		return (ERROR_EXEC);
 	if (getcwd(cwd, PATH_MAX + 1) == NULL)
@@ -77,7 +77,7 @@ static int	_move_with_cdpath(t_data *data, char *cmd)
 		i++;
 	if (split[i] == NULL)
 		error_print(NULL, NULL, NULL, ERROR_EXEC);
-	str_free_list(split);
+	str_free_list(&split);
 	return (error_get());
 }
 

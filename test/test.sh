@@ -512,8 +512,8 @@ then
 	test_ret_stdout "unset \"\""
 	test_ret_stdout "export \"test=ici\"=coucou\necho \$test"
 	test_ret_stdout "export var=\"cat Makefile | grep >\"\necho \$var"
-	test_ret_stdout "echo \"\$test\" \"Makefile\""
-	test_ret_stdout "echo \$test\" Makefile"
+	test_ret_stdout "echo \"\$test\"\"Makefile\""
+	test_ret_stdout "echo \"\$test\"Makefile"
 	test_ret_stdout "export test=\"   a    b    \"\necho \$test"
 
 	echo
