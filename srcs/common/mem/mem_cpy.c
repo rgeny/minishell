@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst.h                                              :+:      :+:    :+:   */
+/*   mem_cpy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/30 14:55:55 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 09:04:53 by rgeny            ###   ########.fr       */
+/*   Created: 2020/11/14 14:45:17 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/10 18:28:40 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LST_H
-# define LST_H
+#include "mem.h"
 
-# include "t_ast.h"
+void	*mem_cpy(void *dst, const void *src, size_t n)
+{
+	size_t			i;
+	unsigned char	*c_dst;
+	unsigned char	*c_src;
 
-void	lst_carg_add_back(t_carg **lst, t_carg *new);
-void	lst_carg_add_after(t_carg *after, t_carg *new);
-void	lst_new_after(t_carg *current, char *new_content);
-void	lst_del_one(t_carg **args, t_command *cmd);
-void	lst_redirection_add_back(t_redir **lst, t_redir *new);
-char	**lst_switch(t_carg *lst, int n_arg);
-#endif
+	i = -1;
+	c_dst = (unsigned char *)dst;
+	c_src = (unsigned char *)src;
+	if (c_dst == NULL && c_src == NULL)
+		return (NULL);
+	while (++i < n)
+		c_dst[i] = c_src[i];
+	return (dst);
+}

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 11:21:14 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 16:20:37 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ static void	_set_redirection(t_redir **redirections, t_ast_constructor *astc)
 		return ;
 	redirection->path = str_dup(token->content);
 	redirection->next = NULL;
-	lst_redirection_add_back(redirections, redirection);
-
-	//process heredoc
+	redir_add_back(redirections, redirection);
 }
 
 static void	_set_arg(t_ast_constructor *astc, t_carg **cargs)
@@ -66,7 +64,7 @@ static void	_set_arg(t_ast_constructor *astc, t_carg **cargs)
 		return ;
 	carg->content = str_dup(token->content);
 	carg->next = NULL;
-	lst_carg_add_back(cargs, carg);
+	carg_add_back(cargs, carg);
 }
 
 static void	_set_command(t_ast_constructor *astc, t_command *command)

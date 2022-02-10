@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bzero.c                                      :+:      :+:    :+:   */
+/*   carg_add.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 14:31:47 by tokino            #+#    #+#             */
-/*   Updated: 2021/12/15 14:42:03 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 16:02:24 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 16:02:45 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "carg.h"
 
-void	uti_bzero(void *s, size_t n)
+void	carg_add_back(t_carg **lst, t_carg *new)
 {
-	size_t			i;
-	unsigned char	*str;
+	t_carg	*current;
 
-	i = 0;
-	str = (unsigned char *)s;
-	while (i < n)
-	{
-		str[i] = '\0';
-		i++;
-	}
+	if (is_error())
+		return ;
+	current = *lst;
+	while (current && current->next)
+		current = current->next;
+	if (current)
+		current->next = new;
+	else
+		*lst = new;
 }

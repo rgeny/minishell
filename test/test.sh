@@ -471,9 +471,7 @@ then
 	test_ret_stdout "export test=\"    a    b   \"\necho ab\"\"\'\$test\"\"\'"
 	test_ret_stdout "export var=test\$var\necho \$var"
 
-
-
-
+	rm *var*
     echo
 	unset CMD
 fi
@@ -507,7 +505,7 @@ then
 	test_ret_stdout "\"\'abc\'\""
 	test_ret_stdout "\'\"abc\"\'"
 	test_ret_stdout "echo \"\" bonjour"
-	test_ret_stdout "echo   bonjour"
+	test_ret_stdout "echo	bonjour"
 	test_ret_stdout "export \"\""
 	test_ret_stdout "unset \"\""
 	test_ret_stdout "export \"test=ici\"=coucou\necho \$test"

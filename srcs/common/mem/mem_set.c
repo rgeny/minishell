@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_calloc.c                                     :+:      :+:    :+:   */
+/*   mem_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 18:46:29 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 07:51:28 by rgeny            ###   ########.fr       */
+/*   Created: 2020/11/14 14:22:28 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/10 18:28:52 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "mem.h"
 
-void	*uti_calloc(size_t count, size_t size)
+void	*mem_set(void *b, int c, size_t len)
 {
-	void	*dst;
+	unsigned char	*str_b;
 
-	dst = malloc(count * size);
-	if (dst == NULL)
+	str_b = (unsigned char *)b;
+	while (len > 0)
 	{
-		if (is_error())
-			error_print(MALLOC_ERROR, NULL, NULL, ERROR_MALLOC);
-		return (NULL);
+		*str_b = (unsigned char)c;
+		str_b++;
+		len--;
 	}
-	uti_bzero(dst, count * size);
-	return (dst);
+	*str_b = 0;
+	return (b);
 }

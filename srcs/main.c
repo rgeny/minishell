@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 12:31:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:31:48 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "parser.h"
 #include "minishell_signal.h"
 #include "cleaner.h"
-#include "utils.h"
+#include "common.h"
 
 int	g_last_return;
 static void	_init(char *envp[], t_data *data)
@@ -66,18 +66,18 @@ static void	_exe(t_data *data)
 	}
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <sys/resource.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <sys/time.h>
+//#include <sys/resource.h>
 
 int	main(__attribute((unused)) int argc,
 	__attribute__((unused)) char *argv[], char *envp[])
 {
-	struct rlimit	l;
-	getrlimit(RLIMIT_AS, &l);
-	l.rlim_cur = 160300000;
-	setrlimit(RLIMIT_AS, &l);
+//	struct rlimit	l;
+//	getrlimit(RLIMIT_AS, &l);
+//	l.rlim_cur = 160300000;
+//	setrlimit(RLIMIT_AS, &l);
 
 	t_data	data;
 	signal_current();

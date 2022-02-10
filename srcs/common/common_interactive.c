@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_interactive.c                                :+:      :+:    :+:   */
+/*   common_interactive.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:18:30 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 11:52:03 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:32:47 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include "t_interactive.h"
-#include "utils.h"
-#include "str.h"
+#include "common.h"
 
 static void	_init(t_interactive *interactive)
 {
 	interactive->line = 0;
-	interactive->is_interactive = isatty(0) && isatty(1) && isatty(2);
+	interactive->is_interactive = (isatty(0) && isatty(1) && isatty(2));
 }
 
 static void	_dup_stderr(void)

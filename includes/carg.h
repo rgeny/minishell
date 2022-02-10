@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_get_char_type.c                              :+:      :+:    :+:   */
+/*   carg.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 09:39:05 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 18:17:38 by rgeny            ###   ########.fr       */
+/*   Created: 2022/01/30 14:55:55 by tokino            #+#    #+#             */
+/*   Updated: 2022/02/10 16:08:16 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#ifndef CARG_H
+# define CARG_H
 
-int	lexer_get_chartype(char c)
-{
-	if (is_in_charset(c, " \t"))
-		return (E_CHAR_TYPE_BLANK);
-	else if (c == '\'')
-		return (E_CHAR_TYPE_SQUOTE);
-	else if (c == '"')
-		return (E_CHAR_TYPE_DQUOTE);
-	else if (is_in_charset(c, "<>|&()"))
-		return (E_CHAR_TYPE_OPERATOR);
-	else
-		return (E_CHAR_TYPE_ALNUMP);
-}
+# include "t_ast.h"
+# include "error.h"
+
+void	carg_add_back(t_carg **lst, t_carg *new);
+void	carg_new_after(t_carg *current, char *new_content);
+void	carg_del_one(t_carg **args, t_command *cmd);
+void	carg_redirection_add_back(t_redir **lst, t_redir *new);
+char	**carg_switch_to_list(t_carg *lst, int n_arg);
+#endif

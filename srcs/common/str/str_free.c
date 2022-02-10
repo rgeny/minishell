@@ -1,19 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_ignore.c                                    :+:      :+:    :+:   */
+/*   str_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 00:56:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 18:38:07 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:30:13 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "str.h"
 
-void	signal_ignore(void)
+void	str_free(char **s)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (*s)
+	{
+		free(*s);
+		*s = NULL;
+	}
+}
+
+void	str_free_list(char ***s)
+{
+	int	i;
+
+	if (!*s)
+		return ;
+	i = 0;
+	while ((*s)[i])
+	{
+		str_free(&(*s)[i]);
+		i++;
+	}
+	free(*s);
+	*s = NULL;
 }

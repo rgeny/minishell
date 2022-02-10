@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_ignore.c                                    :+:      :+:    :+:   */
+/*   is_alnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 00:56:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 18:38:07 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:59:02 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:00:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "is.h"
 
-void	signal_ignore(void)
+int	is_alnum(char c)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+		return (IS_ALPHA);
+	else if (c >= '0' && c <= '9')
+		return (IS_NUM);
+	else
+		return (IS_OTHER);
 }

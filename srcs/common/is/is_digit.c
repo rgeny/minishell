@@ -1,42 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_itoa.c                                       :+:      :+:    :+:   */
+/*   is_digit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 17:07:01 by rgeny             #+#    #+#             */
-/*   Updated: 2022/01/07 21:12:13 by buschiix         ###   ########.fr       */
+/*   Created: 2022/02/10 17:56:29 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:56:47 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "is.h"
 
-#include "utils.h"
-
-static int	_size(int n)
+bool	is_digit(char *s)
 {
-	if (n < 10)
-		return (1);
-	else
-		return (1 + _size(n / 10));
-}
+	int	i;
 
-char	*uti_itoa(int n)
-{
-	int		sz;
-	char	*s;
-
-	sz = _size(n);
-	s = uti_calloc(sz + 1, sizeof(char));
-	if (!s)
-		return (0);
-	s[sz] = 0;
-	while (sz)
+	i = 0;
+	while (s[i])
 	{
-		sz--;
-		s[sz] = n % 10 + '0';
-		n /= 10;
+		if (s[i] < '0' || s[i] > '9')
+			return (true);
+		i++;
 	}
-	return (s);
+	return (false);
 }

@@ -1,24 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_heredoc.c                                   :+:      :+:    :+:   */
+/*   utils_itoa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:39:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:37:49 by rgeny            ###   ########.fr       */
+/*   Created: 2021/12/15 17:07:01 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:51:58 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "common.h"
 
-static void	_sigint(int sig)
+static int	_size(int n)
 {
-	error_print(NULL, NULL, NULL, SIGINT + SIG_ERROR);
-	close(0);
+	if (n < 10)
+		return (1);
+	else
+		return (1 + _size(n / 10));
 }
 
-void	signal_heredoc(void)
+char	*uti_itoa(int n)
 {
-	signal(SIGINT, _sigint);
+	int		sz;
+	char	*s;
+
+	sz = _size(n);
+	s = uti_calloc(sz + 1, sizeof(char));
+	if (!s)
+		return (0);
+	s[sz] = 0;
+	while (sz)
+	{
+		sz--;
+		s[sz] = n % 10 + '0';
+		n /= 10;
+	}
+	return (s);
 }

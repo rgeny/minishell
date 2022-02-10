@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_ignore.c                                    :+:      :+:    :+:   */
+/*   is_in_charset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 00:56:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 18:38:07 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 17:55:03 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 17:56:22 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "is.h"
 
-void	signal_ignore(void)
+bool	is_in_charset(char c, char *charset)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	int	i;
+
+	i = 0;
+	while (charset[i])
+	{
+		if (c == charset[i])
+			return (true);
+		i++;
+	}
+	return (false);
 }

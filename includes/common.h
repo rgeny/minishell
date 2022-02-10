@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:26:48 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 18:27:55 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 18:32:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef COMMON_H
+# define COMMON_H
 # include <stdlib.h>
 # include <stdbool.h> 
+# include <fcntl.h>
 # include "env.h"
 # include "t_interactive.h"
 # include "error.h"
 
-typedef enum e_iswhat
-{
-	IS_OTHER,
-	IS_ALPHA,
-	IS_NUM,
-}	t_iswhat;
 int				uti_min(int a, int b);
 int				uti_max(int a, int b);
 void			*uti_calloc(size_t count, size_t size);

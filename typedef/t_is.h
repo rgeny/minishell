@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_free.c                                         :+:      :+:    :+:   */
+/*   t_is.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/29 22:36:14 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:38:28 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 18:07:43 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 18:11:36 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#ifndef T_IS_H
+# define T_IS_H
 
-void	str_free(char **s)
+typedef enum e_iswhat
 {
-	if (*s)
-	{
-		free(*s);
-		*s = NULL;
-	}
-}
-
-void	str_free_list(char ***s)
-{
-	int	i;
-
-	if (!*s)
-		return ;
-	i = 0;
-	while ((*s)[i])
-	{
-		str_free(&(*s)[i]);
-		i++;
-	}
-	free(*s);
-	*s = NULL;
-}
+	IS_OTHER,
+	IS_ALPHA,
+	IS_NUM
+}	t_iswhat;
+#endif

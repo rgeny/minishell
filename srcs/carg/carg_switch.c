@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_heredoc.c                                   :+:      :+:    :+:   */
+/*   carg_switch.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:39:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:37:49 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 16:03:59 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 16:04:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "carg.h"
 
-static void	_sigint(int sig)
+char	**carg_switch_to_list(t_carg *lst, int n_arg)
 {
-	error_print(NULL, NULL, NULL, SIGINT + SIG_ERROR);
-	close(0);
-}
+	char	**args;
+	int		i;
 
-void	signal_heredoc(void)
-{
-	signal(SIGINT, _sigint);
+	args = uti_calloc(n_arg + 1, sizeof(char *));
+	if (args == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n_arg)
+	{
+		args[i] = str_dup(lst->content);
+		i++;
+		lst = lst->next;
+	}
+	return (args);
 }

@@ -6,13 +6,11 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 19:48:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/04 20:23:53 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 18:29:47 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "str.h"
-
 
 void	str_print_fd(char *s, int fd)
 {

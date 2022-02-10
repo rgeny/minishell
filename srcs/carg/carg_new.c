@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_heredoc.c                                   :+:      :+:    :+:   */
+/*   carg_new.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 17:39:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:37:49 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/10 16:03:11 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 16:03:49 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "carg.h"
 
-static void	_sigint(int sig)
+void	carg_new_after(t_carg *current, char *new_content)
 {
-	error_print(NULL, NULL, NULL, SIGINT + SIG_ERROR);
-	close(0);
-}
+	t_carg	*new;
 
-void	signal_heredoc(void)
-{
-	signal(SIGINT, _sigint);
+	if (current == NULL || new_content == NULL)
+		return ;
+	new = uti_calloc(1, sizeof(t_carg));
+	if (new == NULL)
+		return ;
+	new->content = str_dup(new_content);
+	if (new->content == NULL)
+	{
+		free(new);
+		return ;
+	}
+	new->next = current->next;
+	current->next = new;
 }

@@ -6,11 +6,11 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:39:37 by buschiix          #+#    #+#             */
-/*   Updated: 2022/01/07 18:43:16 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/10 18:25:24 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "str.h"
+#include "common.h"
 
 static int	_find_pivot(int start, int end, char **s)
 {

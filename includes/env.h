@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 14:27:18 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/06 17:14:06 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 17:35:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdbool.h>
 # include "t_data.h"
 # include "str.h"
-# include "utils.h"
+# include "common.h"
 
 /*
 **	env_init

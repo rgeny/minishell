@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:44:33 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 12:54:50 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 16:09:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	expand_space_carg(t_carg *args)
 		}
 		else
 		{
-			lst_new_after(args, word_list[i]);
+			carg_new_after(args, word_list[i]);
 			args = args->next;
 		}
 		i++;

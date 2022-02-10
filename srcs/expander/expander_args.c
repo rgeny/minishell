@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:38:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 13:02:45 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 16:08:44 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void	expand_args(t_command *cmd, t_carg *args, t_data *data, int *arg_n)
 			args = args->next;
 		}
 		else
-			lst_del_one(&args, cmd);
+			carg_del_one(&args, cmd);
 	}
 }

@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_redir.c                                        :+:      :+:    :+:   */
+/*   redir_add.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/09 12:46:59 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 12:51:56 by tokino           ###   ########.fr       */
+/*   Created: 2022/02/10 16:17:16 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/10 16:18:10 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lst.h"
-#include "error.h"
+#include "redir.h"
 
-void	lst_redirection_add_back(t_redir **lst, t_redir *new)
+void	redir_add_back(t_redir **lst, t_redir *new)
 {
 	t_redir	*current;
 
