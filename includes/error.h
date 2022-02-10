@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:34:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/07 13:11:28 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/10 14:55:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define ERROR_H
 
 # include <stdbool.h>
+# include <stdlib.h>
+# include "str.h"
+# include "utils.h"
 # include "t_error.h"
 # include "d_error.h"
 

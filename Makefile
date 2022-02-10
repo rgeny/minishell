@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/10 12:53:03 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/10 14:34:19 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,8 @@ DEPF			= -MMD
 # ********************************** OBJ FLAG ******************************** #
 OBJF			= $(INCLUDESF) $(PROMPTF)
 INCLUDESF		= -I$(INCLUDES_DIR) -I$(TYPEDEF_DIR) -I$(DEFINE_DIR)
-PROMPTF			= -D PROMPT=$(VPROMPT)
-VPROMPT			= \"$(BOLD_CYAN)$(shell whoami)$(DEFAULT):$(BOLD_BLUE)\"
+#PROMPTF		= -D PROMPT=$(VPROMPT)
+#VPROMPT		= \"$(BOLD_CYAN)$(shell whoami)$(DEFAULT):$(BOLD_BLUE)\"
 
 # ******************************* Valgrind flag ****************************** #
 VALGRIND		= valgrind

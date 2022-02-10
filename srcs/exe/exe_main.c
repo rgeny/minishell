@@ -6,43 +6,32 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 12:26:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:48:46 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <sys/wait.h>
-#include <error.h>
-#include "struct.h"
 #include "exe.h"
-#include "minishell_signal.h"
 
 static void	_wait_process(t_ast *ast, t_data *data)
 {
+	pid_t	pid;
+
 	if (!ast)
 		return ;
+	pid = 0;
 	if (ast->pid != 0)
+		pid = ast->pid;
+	else if (ast->type == E_NODE_TYPE_COMMAND)
+		pid = ast->cmd->pid;
+	if (pid != 0 && waitpid(pid, &g_last_return, 0) != -1)
 	{
-		if (waitpid(ast->pid, &g_last_return, 0) != -1)
-		{
-			if (WIFSIGNALED(g_last_return))
-				g_last_return = WTERMSIG(g_last_return) + SIG_ERROR;
-			else
-				g_last_return = WEXITSTATUS(g_last_return);
-		}
+		if (WIFSIGNALED(g_last_return))
+			g_last_return = WTERMSIG(g_last_return) + SIG_ERROR;
+		else
+			g_last_return = WEXITSTATUS(g_last_return);
 	}
 	else if (ast->type == E_NODE_TYPE_COMMAND)
-	{
-		if (ast->cmd->pid && waitpid(ast->cmd->pid, &g_last_return, 0) != -1)
-		{
-			if (WIFSIGNALED(g_last_return))
-				g_last_return = WTERMSIG(g_last_return) + 128;
-			else
-				g_last_return = WEXITSTATUS(g_last_return);
-		}
-		else
-			g_last_return = ast->cmd->last_return;
-	}
+		g_last_return = ast->cmd->last_return;
 	_wait_process(ast->left, data);
 	_wait_process(ast->right, data);
 }

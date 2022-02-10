@@ -6,14 +6,10 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/08 20:08:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:54:15 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "str.h"
-#include "utils.h"
-#include "struct.h"
 #include "error.h"
 
 static int	_error(int cmd, int return_value)

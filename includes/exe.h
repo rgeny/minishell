@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 18:04:11 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:07:32 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:49:11 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "t_data.h"
 # include "builtin.h"
 # include "expander.h"
+# include "sys/wait.h"
 
 void	exe_builtin(char **cmd, char **args, t_data *data);
 void	exe_out_process(t_command *cmd, char **args, t_data *data);

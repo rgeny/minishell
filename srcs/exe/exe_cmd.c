@@ -6,11 +6,10 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 13:01:12 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:55:21 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "struct.h"
 #include "exe.h"
 #include <stdio.h>
 #include "error.h"
