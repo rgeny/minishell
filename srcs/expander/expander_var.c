@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:16:23 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 19:11:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	_expand(char **word, t_env *env, int i)
 	if (word[0][i + 1] == '?')
 		len++;
 	find = _find_var_value(&word[0][i + 1], env);
-	if (find != NULL || len != 0)
+	if (find != NULL || len != 0 || is_in_charset(word[0][i + 1], "'\""))
 	{
 		new_val = _switch_name_to_value(prev_val, find, &word[0][i + 1], len);
 		str_free(&word[0]);
