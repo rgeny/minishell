@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 13:25:34 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 12:25:27 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 13:02:23 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_command {
 	t_carg	*cargs;
 	t_redir	*redirections;
 	pid_t	pid;
-	int		arg_nb; // to delete
+//	int		arg_nb; // to delete
 	int		fd_heredoc;
 	int		last_return;
 }	t_command;

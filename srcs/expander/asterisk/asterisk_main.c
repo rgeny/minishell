@@ -6,16 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:35:06 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 11:52:43 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 12:57:41 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include <stdbool.h>
-#include <stdlib.h>
-#include "lst.h"
-
-typedef t_command	t_cmd;
 
 static void	_expand_cmd(t_cmd *cmd, t_carg *args, char *word, char **dir_list)
 {

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 12:27:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 13:01:12 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ void	_print(char **s)
 void	exe_cmd(t_ast *ast, t_data *data)
 {
 	char	**args;
+	int		arg_n;
 
+	arg_n = 0;
 	exe_redir(ast->cmd, ast->cmd->redirections, ast->cmd->fd_heredoc, data);
 	if (!is_error())
 	{
-		expand_args(ast->cmd, ast->cmd->cargs, data);
-		args = lst_switch(ast->cmd->cargs, ast->cmd->arg_nb);
+		expand_args(ast->cmd, ast->cmd->cargs, data, &arg_n);
+		args = lst_switch(ast->cmd->cargs, arg_n);
 	}
-	if (!is_error() && ast->cmd->arg_nb && args[0])
+	if (!is_error() && arg_n && args[0])
 	{
 		exe_builtin(args, &args[1], data);
 		if (g_last_return == -1)

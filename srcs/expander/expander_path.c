@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:55:07 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 14:26:24 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*expand_path(char *cmd, t_env *env)
 
 	if (access(cmd, F_OK | X_OK) == SUCCESS)
 		return (str_dup(cmd));
-	path_var = env_find_val(env, "PATH");
+	path_var = env_find_val(env, ENV_PATH);
 	if (path_var == NULL)
 		return (NULL);
 	path_list = str_split(path_var, ":");

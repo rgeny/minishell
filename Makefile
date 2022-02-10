@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/10 05:35:04 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/10 12:53:03 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,26 +58,27 @@ TYPEDEF_DIR		= typedef/
 DEFINE_DIR		= define/
 SRC_DIR			= srcs/
 ENV_DIR			= $(SRC_DIR)env/
-LEXER_DIR		= $(SRC_DIR)lexer/
-PARSER_DIR		= $(SRC_DIR)parser/
-AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
-AST_BUILDER_DIR = $(PARSER_DIR)ast_builder/
-CLEANER_DIR		= $(SRC_DIR)cleaner/
 MEM_DIR			= $(SRC_DIR)mem/
 STR_DIR			= $(SRC_DIR)str/
 UTILS_DIR		= $(SRC_DIR)utils/
 GLOBAL_DIR		= $(SRC_DIR)global/
 EXPANDER_DIR	= $(SRC_DIR)expander/
-ASTERISK_DIR	= $(EXPANDER_DIR)asterisk/
 EXE_DIR			= $(SRC_DIR)exe/
+LEXER_DIR		= $(SRC_DIR)lexer/
+LST_DIR			= $(SRC_DIR)lst/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
-LST_DIR			= $(SRC_DIR)lst/
+ASTERISK_DIR	= $(EXPANDER_DIR)asterisk/
+CLEANER_DIR		= $(SRC_DIR)cleaner/
+PARSER_DIR		= $(SRC_DIR)parser/
+AST_BUILDER_DIR = $(PARSER_DIR)ast_builder/
+AST_PRINTER_DIR	= $(PARSER_DIR)ast_printer/
+SPACE_DIR		= $(EXPANDER_DIR)space/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(PRINT_DIR) $(LST_DIR) 
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(LST_DIR) 
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) 
-VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR)
+VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR) $(SPACE_DIR)
 
 # *********************************** sources ******************************** #
 
@@ -85,14 +86,15 @@ SRC				= $(addsuffix .c,				main \
 					$(addprefix env_,			del find init new assign switch) \
 					$(addprefix mem_,			cpy set) \
 					$(addprefix parser_,		free_ast main) \
-					$(addprefix ast_builder_,	command create_node is_given_token main pipeline_list pipeline) \
-					$(addprefix ast_printer_,	main asciitree_builder label_builder set_profiles set_edge_length level)\
+						$(addprefix ast_builder_,	command create_node is_given_token main pipeline_list pipeline) \
+						$(addprefix ast_printer_,	main asciitree_builder label_builder set_profiles set_edge_length level)\
 					$(addprefix cleaner_,		all) \
 					$(addprefix str_,			cmp len dup split join free split_first print first_dif) \
 					$(addprefix builtin_,		cd exit export unset echo env pwd) \
 					$(addprefix utils_,		bzero calloc min itoa ato quicksort is interactive max error free) \
-					$(addprefix expander_,	var path heredoc main quote space) \
-					$(addprefix asterisk_,	main dir_list cmp) \
+					$(addprefix expander_,	args redir var path heredoc quote \
+						$(addprefix space_,	args redir tool)) \
+						$(addprefix asterisk_,	main dir_list cmp) \
 					$(addprefix exe_,		builtin out_process readline main redir pipe cmd subshell) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix cleaner_,	all) \
