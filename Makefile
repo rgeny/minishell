@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/10 16:06:59 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/10 16:19:07 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ GLOBAL_DIR		= $(SRC_DIR)global/
 EXPANDER_DIR	= $(SRC_DIR)expander/
 EXE_DIR			= $(SRC_DIR)exe/
 LEXER_DIR		= $(SRC_DIR)lexer/
-LST_DIR			= $(SRC_DIR)lst/
+REDIR_DIR		= $(SRC_DIR)redir/
 BUILTIN_DIR		= $(SRC_DIR)builtin/
 SIGNAL_DIR		= $(SRC_DIR)signal/
 ASTERISK_DIR	= $(EXPANDER_DIR)asterisk/
@@ -77,7 +77,7 @@ SPACE_DIR		= $(EXPANDER_DIR)space/
 CARG_DIR		= $(SRC_DIR)carg/
 
 VPATH			= $(SRC_DIR) $(ENV_DIR) $(MEM_DIR) $(STR_DIR) $(UTILS_DIR) $(GLOBAL_DIR)
-VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(LST_DIR) 
+VPATH			+=$(EXPANDER_DIR) $(EXE_DIR) $(LEXER_DIR) $(REDIR_DIR) 
 VPATH			+=$(BUILTIN_DIR) $(SIGNAL_DIR) $(ASTERISK_DIR) $(CLEANER_DIR) 
 VPATH			+=$(PARSER_DIR) $(AST_BUILDER_DIR) $(AST_PRINTER_DIR) $(SPACE_DIR) $(CARG_DIR)
 
@@ -99,7 +99,7 @@ SRC				= $(addsuffix .c,				main \
 					$(addprefix exe_,		builtin out_process readline main redir pipe cmd subshell) \
 					$(addprefix lexer_,		lex token token_constructor print_tokens get_char_type free_tokens) \
 					$(addprefix signal_,	current fork ignore heredoc) \
-					$(addprefix lst_,		redir) \
+					$(addprefix redir_,		add) \
 					$(addprefix carg_,		add del new switch))
 
 # *********************************** others ********************************* #
