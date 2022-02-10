@@ -31,7 +31,7 @@ function in_arg()
     do
 		for j in $*
 		do
-			if [ "$j" == "-p" ] || [ "$j" == "--stop" ]
+			if [ "$j" == "-v" ] || [ "$j" == "--stop" ]
 			then
 				is_flag=0
 			fi
@@ -39,7 +39,7 @@ function in_arg()
 	    	then
 				return 1
 			else
-				if [ "$i" != "-p" ] && [ "$i" != "--stop" ]
+				if [ "$i" != "-v" ] && [ "$i" != "--stop" ]
 				then
 					is_flag=0
 				fi
@@ -61,7 +61,7 @@ function test_ret_stdout()
     if [ "$TEST_MINISHELL" == "$TEST_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
 		printf $COLOR_GREEN"$INDEX:OK "
-		in_arg "-p"
+		in_arg "-v"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
 		then
 			printf $COLOR_WHITE"CMD : \n$@\n"
@@ -110,7 +110,7 @@ function test_env()
     if [ "$LINE_MINISHELL" == "$LINE_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
 		printf $COLOR_GREEN"$INDEX:OK "
-		in_arg "-p"
+		in_arg "-v"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
 		then
 			printf $COLOR_WHITE"CMD : \n$@\n"
@@ -507,7 +507,7 @@ then
 	test_ret_stdout "\"\'abc\'\""
 	test_ret_stdout "\'\"abc\"\'"
 	test_ret_stdout "echo \"\" bonjour"
-	test_ret_stdout "echo\tbonjour"
+	test_ret_stdout "echo   bonjour"
 	test_ret_stdout "export \"\""
 	test_ret_stdout "unset \"\""
 	test_ret_stdout "export \"test=ici\"=coucou\necho \$test"
