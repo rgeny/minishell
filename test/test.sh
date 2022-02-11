@@ -225,12 +225,28 @@ then
     test_ret_stdout "echo \$??"
     test_ret_stdout "echo $ ?"
     test_ret_stdout "echo $^"
+    test_ret_stdout "echo \"\'a b c\'\""
+    test_ret_stdout "echo \'\"a b c\"\'"
     test_ret_stdout "echo \$\"\""
     test_ret_stdout "echo \$\'\'"
+    test_ret_stdout "echo \"\"\$"
+    test_ret_stdout "echo \'\'\$"
+    test_ret_stdout "echo \'\$\'"
+    test_ret_stdout "echo \"\$\""
+    test_ret_stdout "echo \"  \$  \""
+    test_ret_stdout "echo \'  \$  \'"
     test_ret_stdout "echo \$9"
     test_ret_stdout "echo \$ \$q"
     test_ret_stdout "echo \$b \$a \$s"
-    test_ret_stdout "ec\"\"ho test"
+	test_ret_stdout "echo \"|\" ls"
+	test_ret_stdout "echo \'|\' ls"
+	test_ret_stdout "echo \" |\" ls"
+	test_ret_stdout "echo \' |\' ls"
+	test_ret_stdout "echo \"| \" ls"
+	test_ret_stdout "echo \'| \' ls"
+	test_ret_stdout "echo \"|\"ls"
+	test_ret_stdout "echo \'|\'ls"
+	test_ret_stdout "ec\"\"ho test"
     test_ret_stdout "ec\'\'ho test"
     test_ret_stdout "\"\"echo test"
     test_ret_stdout "\'\'echo test"
@@ -240,31 +256,22 @@ then
     test_ret_stdout "\'\' echo test"
     test_ret_stdout "echo \"\" test"
     test_ret_stdout "echo \'\' test"
-    test_ret_stdout "echo \$USER"
-    test_ret_stdout "echo \$USE\"\"R"
-    test_ret_stdout "echo \$USE\'\'R"
-    test_ret_stdout "echo \$USER\"\""
-    test_ret_stdout "echo \$USER\'\'"
-    test_ret_stdout "echo \$USER\"\"TOTO"
-    test_ret_stdout "echo \$USER\'\'TOTO"
-    test_ret_stdout "echo \$USER \"\""
-    test_ret_stdout "echo \$USER \'\'"
-    test_ret_stdout "echo \"\"\$USE\"\"R"
-    test_ret_stdout "echo \'\'\$USE\'\'R"
-    test_ret_stdout "echo \"\"\$USER"
-    test_ret_stdout "echo \'\'\$USER"
-    test_ret_stdout "echo ''\$USER"
-    test_ret_stdout "echo \$\"\"USER"
-    test_ret_stdout "echo \$\'\'USER"
-	test_ret_stdout "echo \"\"'\$USER\"\"'"
-	test_ret_stdout "echo \'\'\"\$USER\'\'\""
-	test_ret_stdout "echo \"\""
+   	test_ret_stdout "echo \"\""
 	test_ret_stdout "echo \"\"\"\""
 	test_ret_stdout "echo \"\" \"\""
 	test_ret_stdout "echo \"\" \"\" \"\""
 	test_ret_stdout "echo \'\'\'\'"
 	test_ret_stdout "echo \'\' \'\'"
 	test_ret_stdout "echo \'\' \'\' \'\'"
+	test_ret_stdout "echo test\"\"test"
+	test_ret_stdout "echo test\'\'test"
+	test_ret_stdout "echo test\"\'\"test"
+	test_ret_stdout "echo test\'\"\'test"
+	test_ret_stdout "echo test$<test"
+	test_ret_stdout "echo \"test$<test\""
+	test_ret_stdout "echo \'test$<test\'"
+	test_ret_stdout "echo te\"st$<test\""
+	test_ret_stdout "echo te\'st$<test\'"
     echo
 fi
 
@@ -479,6 +486,53 @@ then
 	test_ret_stdout "export var=\"a b\"\n> \$var >hey\ncat hey\nrm hey"
 	test_ret_stdout "export var=\"a b\"\n>hey > \$var\ncat hey\nrm hey"
 
+	test_ret_stdout "echo \$1"
+	test_ret_stdout "echo test\$1"
+	#test_ret_stdout "echo test\$1test"         #PAS A GERER
+	test_ret_stdout "echo \$does_not_exist"
+	test_ret_stdout "echo test\$does_not_exist"
+	test_ret_stdout "echo test\$does_not_existtest"
+	test_ret_stdout "echo \$NULL"
+    test_ret_stdout "echo \$USER"
+    test_ret_stdout "echo \$USER_not_exist"
+
+	#test_ret_stdout "echo \$\$USER"            # PAS A GERER MAIS ...
+    #test_ret_stdout "echo \$\$\$USER"          # PAS A GERER MAIS ...
+	#test_ret_stdout "echo \$-"					# PAS A GERER MAIS ...
+	#test_ret_stdout "echo \$-1"				# PAS A GERER MAIS ...
+	#test_ret_stdout "echo test\$-r"			# PAS A GERER MAIS ...
+	#test_ret_stdout "echo test\$-?"			# PAS A GERER MAIS ...
+	#test_ret_stdout "echo \"test\$-r\""		# PAS A GERER MAIS ...
+	#test_ret_stdout "echo \"test\$-?\""		# PAS A GERER MAIS ...
+	test_ret_stdout "echo \'test\$-r\'"
+	test_ret_stdout "echo \'test\$-?\'"
+	#test_ret_stdout "echo \$-1\$USER"			# PAS A GERER MAIS ...
+    test_ret_stdout "echo \$USER\$USER"
+    test_ret_stdout "echo \$USER\"\"\$USER"
+    test_ret_stdout "echo \$USER\" \"\$USER"
+    test_ret_stdout "echo \$USER\"'\"\$USER"
+    test_ret_stdout "echo \$USER\"''\"\$USER"
+    test_ret_stdout "echo \$USER'\"'\$USER"
+    test_ret_stdout "echo \$USER'\"\"'\$USER"
+    test_ret_stdout "echo \$USE\"\"R"
+    test_ret_stdout "echo \$USE\'\'R"
+    test_ret_stdout "echo \$USER\"\""
+    test_ret_stdout "echo \$USER\'\'"
+    test_ret_stdout "echo \$USER\"\"TOTO"
+    test_ret_stdout "echo \$USER\'\'TOTO"
+    test_ret_stdout "echo \$USER \"\""
+    test_ret_stdout "echo \$USER \'\'"
+    test_ret_stdout "echo \"\"\$USE\"\"R"
+    test_ret_stdout "echo \'\'\$USE\'\'R"
+    test_ret_stdout "echo \"\"\$USER"
+    test_ret_stdout "echo \'\'\$USER"
+    test_ret_stdout "echo ''\$USER"
+    test_ret_stdout "echo \$\"\"USER"
+    test_ret_stdout "echo \$\'\'USER"
+    test_ret_stdout "echo \$\"USER\""
+    test_ret_stdout "echo \$\'USER\'"
+	test_ret_stdout "echo \"\"'\$USER\"\"'"
+	test_ret_stdout "echo \'\'\"\$USER\'\'\""
 
 	CMD="env -i"
     test_ret_stdout "echo \$QBC"
@@ -551,8 +605,34 @@ then
 	test_ret_stdout "l\"s \""
 	test_ret_stdout "\"l\"s"
 	test_ret_stdout "\" l\"s"
+	#test_ret_stdout "ls -la"      #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls -l"       #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls \"\"-la"  #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls ''-la"    #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls \"\" -la" #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls '' -la    #COMPORTEMENT DU TESTEUR ETRANGE"
+	#test_ret_stdout "ls\"\" -la"  #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls'' -la"    #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls \"\"\"\" -la" #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls '''' -la" #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls -\"la\""  #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls \"-la\""  #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls \"-l\"a"  #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls -'la'"    #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls '-la'"    #COMPORTEMENT DU TESTEUR ETRANGE
+	#test_ret_stdout "ls '-l'a"    #COMPORTEMENT DU TESTEUR ETRANGE
+	test_ret_stdout "ls \"   '   \""
+	test_ret_stdout "ls \"   '\""
+	test_ret_stdout "ls \"'   \""
+	test_ret_stdout "ls \"'\""
+	test_ret_stdout "ls '\"'"
+	test_ret_stdout "ls '\"  '"
+	test_ret_stdout "ls '  \"'"
+	test_ret_stdout "ls '   \"  '"
 	test_ret_stdout "echo \"\" bonjour"
 	test_ret_stdout "   echo         bonjour    "
+	test_ret_stdout "echo test | cat"
+	test_ret_stdout "echo test ||| cat"
 	test_ret_stdout "export \"\""
 	test_ret_stdout "unset \"\""
 	test_ret_stdout "export \"test=ici\"=coucou\necho \$test"
