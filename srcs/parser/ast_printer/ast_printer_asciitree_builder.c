@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:39:54 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 15:57:29 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/11 14:53:41 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_anode	*_build_ascii_tree_recursive(t_ast *tnode)
 
 	if (tnode == NULL)
 		return (NULL);
-	anode = malloc(sizeof(t_anode));
+	anode = uti_calloc(1, sizeof(t_anode));
 	anode->left = _build_ascii_tree_recursive(tnode->left);
 	anode->right = _build_ascii_tree_recursive(tnode->right);
 	anode->line_nb = 0;

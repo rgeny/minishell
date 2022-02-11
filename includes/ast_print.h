@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:15:30 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/09 15:00:44 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/11 14:55:06 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <limits.h>
 # include "mem.h"
 # include "parser.h"
+# include "common.h"
 
 # define AST_MAX_HEIGHT 1000
 
