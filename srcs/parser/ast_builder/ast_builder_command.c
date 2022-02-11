@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 11:41:26 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 16:20:37 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 12:56:41 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,29 @@ static t_redir_type	_get_redirection_type(char *token_content)
 		return (E_REDIR_TYPE_HEREDOC);
 }
 
-static void	_set_redirection(t_redir **redirections, t_ast_constructor *astc)
+static t_redir	*_set_redirection(t_redir **redirs, t_ast_constructor *astc)
 {
 	t_redir	*redirection;
 	t_token	*token;
 
 	if (is_error())
-		return ;
+		return (NULL);
 	token = astc->tokens;
 	eat_token(astc, E_TOKEN_TYPE_REDIRECTION);
 	if (is_error())
-		return ;
+		return (NULL);
 	redirection = uti_calloc(1, sizeof(t_redir));
 	if (redirection == NULL)
-		return ;
+		return (NULL);
 	redirection->type = _get_redirection_type(token->content);
 	token = astc->tokens;
 	eat_token(astc, E_TOKEN_TYPE_WORD);
 	if (is_error())
-		return ;
+		return (NULL);
 	redirection->path = str_dup(token->content);
 	redirection->next = NULL;
-	redir_add_back(redirections, redirection);
+	redir_add_back(redirs, redirection);
+	return (redirection);
 }
 
 static void	_set_arg(t_ast_constructor *astc, t_carg **cargs)
@@ -69,6 +70,8 @@ static void	_set_arg(t_ast_constructor *astc, t_carg **cargs)
 
 static void	_set_command(t_ast_constructor *astc, t_command *command)
 {
+	t_redir	*redir;
+
 	if (is_error())
 		return ;
 	while (!is_error() && is_command_token(astc->tokens))
@@ -79,13 +82,12 @@ static void	_set_command(t_ast_constructor *astc, t_command *command)
 		}
 		else if (astc->tokens->type == E_TOKEN_TYPE_REDIRECTION)
 		{
-			_set_redirection(&command->redirections, astc);
-			if (command->redirections
-				&& command->redirections->type == E_REDIR_TYPE_HEREDOC)
+			redir = _set_redirection(&command->redirections, astc);
+			if (redir && redir->type == E_REDIR_TYPE_HEREDOC)
 			{
 				if (command->fd_heredoc != STDIN_FILENO)
 					close(command->fd_heredoc);
-				command->fd_heredoc = expand_heredoc(command->redirections->path, astc->env);
+				command->fd_heredoc = expand_heredoc(redir->path, astc->env);
 			}
 		}
 	}
