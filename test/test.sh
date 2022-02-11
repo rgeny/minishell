@@ -497,6 +497,30 @@ then
 	test_ret_stdout "export var=\"a b\"\n> \$var >hey\ncat hey\nrm hey"
 	test_ret_stdout "export var=\"a b\"\n>hey > \$var\ncat hey\nrm hey"
 
+	test_ret_stdout "export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8"
+	test_ret_stdout "echo \"\$A\'\$B\"\'\$C\"\$D\'\$E\'\"\$F\"\'\"\'\$G\'\$H\""
+
+	test_ret_stdout "export FOO=' \" ' && echo \$FOO"
+	test_ret_stdout "export FOO=' \" ' && echo \"\$FOO\""
+	test_ret_stdout "export FOO=' \" ' && echo \"\$FOO \""
+	test_ret_stdout "export FOO=' \" ' && echo \" \$FOO\""
+	test_ret_stdout "export FOO=' \" ' && echo \" \$FOO \""
+	test_ret_stdout "export FOO=' \" ' && echo \'\$FOO\'"
+	test_ret_stdout "export FOO=' \" ' && echo \'\$FOO \'"
+	test_ret_stdout "export FOO=' \" ' && echo \' \$FOO\'"
+	test_ret_stdout "export FOO=' \" ' && echo \' \$FOO \'"
+
+	test_ret_stdout "export BAR=\" \' \" && echo \$BAR"
+	test_ret_stdout "export BAR=\" \' \" && echo \"\$BAR\""
+	test_ret_stdout "export BAR=\" \' \" && echo \"\$BAR \""
+	test_ret_stdout "export BAR=\" \' \" && echo \" \$BAR\""
+	test_ret_stdout "export BAR=\" \' \" && echo \" \$BAR \""
+	test_ret_stdout "export BAR=\" \' \" && echo \'\$BAR\'"
+	test_ret_stdout "export BAR=\" \' \" && echo \'\$BAR \'"
+	test_ret_stdout "export BAR=\" \' \" && echo \' \$BAR\'"
+	test_ret_stdout "export BAR=\" \' \" && echo \' \$BAR \'"
+
+
 	test_ret_stdout "echo \$1"
 	test_ret_stdout "echo test\$1"
 	#test_ret_stdout "echo test\$1test"         #PAS A GERER
@@ -606,6 +630,9 @@ then
 	test_ret_stdout ".."
 	test_ret_stdout "\"\"abc\"\""
 	test_ret_stdout "\"\'abc\'\""
+	test_ret_stdout "\'\"abc\"\'"
+	test_ret_stdout "\'  \"abc\"  \'"
+	test_ret_stdout "\"  \'abc\'  \""
 	test_ret_stdout "\'\"abc\"\'"
 	test_ret_stdout "ls  \"\""
 	test_ret_stdout "\"ls \""
