@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 12:38:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 16:08:44 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 16:58:46 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	expand_args(t_command *cmd, t_carg *args, t_data *data, int *arg_n)
 	prev = NULL;
 	while (args)
 	{
-		if (expand_var(&args->content, data->env))
+		if (expand_var(&args->content, data->env, false))
 		{
 			(*arg_n)++;
 			expand_space_carg(args);

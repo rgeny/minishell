@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:39:08 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 16:58:21 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef t_command	t_cmd;
 typedef struct dirent	t_dirent;
 int		expand_heredoc(char *delimiter, t_env *env);
 char	*expand_path(char *cmd, t_env *env);
-bool	expand_var(char **word, t_env *env);
+bool	expand_var(char **word, t_env *env, bool is_sub_expand);
 void	expand_quote(char *s);
 
 void	expand_space_carg(t_carg *args);
