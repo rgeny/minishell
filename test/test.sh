@@ -54,7 +54,7 @@ function test_ret_stdout()
     TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR_MINISHELL)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash --posix  2>$LOG_ERROR_BASH)
+    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR_BASH)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
 
@@ -102,7 +102,7 @@ function test_env()
     LINE_MINISHELL=$(echo "$TEST_MINISHELL" | wc -l)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash --posix  2>$LOG_ERROR_BASH)
+    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR_BASH)
     LINE_BASH=$(echo "$TEST_BASH" | wc -l)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
@@ -115,10 +115,10 @@ function test_env()
 		then
 			printf $COLOR_WHITE"CMD : \n$@\n"
 			printf $COLOR_BLUE
-			printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH\n"
+			printf "\nBash      (ret value : $RET_BASH) :\n$TEST_BASH\n"
 			printf "Error message :\n$(cat $LOG_ERROR_BASH)\n"
 			printf $COLOR_GREEN
-			printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
+			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n\n"
 			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
 		fi
     else
@@ -552,7 +552,7 @@ then
 	test_ret_stdout "\"l\"s"
 	test_ret_stdout "\" l\"s"
 	test_ret_stdout "echo \"\" bonjour"
-	test_ret_stdout "echo	bonjour"
+	test_ret_stdout "   echo         bonjour    "
 	test_ret_stdout "export \"\""
 	test_ret_stdout "unset \"\""
 	test_ret_stdout "export \"test=ici\"=coucou\necho \$test"
