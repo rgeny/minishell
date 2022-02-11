@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/11 17:25:13 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 19:22:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ static int	_sub_expand(char **word, t_env *env, int i)
 	str_free(word);
 	*word = prev;
 	len = str_len(to_expand);
+	if (str_len(to_expand) != str_clen(to_expand, '"'))
+	{
+		word[0][i] = '\'';
+		word[0][i + len + 1] = '\'';
+	}
 	str_free(&to_expand);
 	return (i + len + 2);
 }
@@ -91,6 +96,8 @@ bool	expand_var(char **word, t_env *env, bool is_sub_expand)
 	int		i;
 
 	i = 0;
+	if (str_len(*word) == str_clen(*word, '$'))
+		return (true);
 	while (word[0][i] != '\0')
 	{
 		if (word[0][i] == '\'' && !is_sub_expand)
