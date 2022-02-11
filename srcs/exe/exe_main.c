@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/11 21:07:19 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/11 21:29:17 by buschiix         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,17 @@ void	exe_main(t_ast *ast, t_data *data)
 			exe_subshell(ast, data);
 	}
 	else if (ast->type == E_NODE_TYPE_PIPE)
-		exe_pipe(ast, data);
-	else if (ast->type == E_NODE_TYPE_COMMAND)
-		exe_cmd(ast, data);
-	else if (ast->type == E_NODE_TYPE_AND)
 	{
+		exe_pipe(ast, data);
+		_wait_process(ast, data);
+	}
+	else if (ast->type == E_NODE_TYPE_COMMAND)
+	{
+		exe_cmd(ast, data);
+		_wait_process(ast, data);
+	}
+	else if (ast->type == E_NODE_TYPE_AND)
+	{	
 		exe_main(ast->left, data);
 		if (g_last_return == SUCCESS)
 			exe_main(ast->right, data);
@@ -61,6 +67,5 @@ void	exe_main(t_ast *ast, t_data *data)
 		if (g_last_return != SUCCESS)
 			exe_main(ast->right, data);
 	}
-	_wait_process(ast, data);
 	signal_current();
 }
