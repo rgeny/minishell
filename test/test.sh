@@ -610,7 +610,7 @@ then
 	#test_ret_stdout "ls \"\"-la"  #COMPORTEMENT DU TESTEUR ETRANGE
 	#test_ret_stdout "ls ''-la"    #COMPORTEMENT DU TESTEUR ETRANGE
 	#test_ret_stdout "ls \"\" -la" #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls '' -la    #COMPORTEMENT DU TESTEUR ETRANGE"
+	#test_ret_stdout "ls '' -la"   #COMPORTEMENT DU TESTEUR ETRANGE
 	#test_ret_stdout "ls\"\" -la"  #COMPORTEMENT DU TESTEUR ETRANGE
 	#test_ret_stdout "ls'' -la"    #COMPORTEMENT DU TESTEUR ETRANGE
 	#test_ret_stdout "ls \"\"\"\" -la" #COMPORTEMENT DU TESTEUR ETRANGE
