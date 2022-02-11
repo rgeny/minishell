@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 18:17:27 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:29:56 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 14:55:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**str_split_first(char *src, char c)
 
 	if (!src || !c)
 		return (0);
-	ret = malloc(sizeof(char *) * 3);
+	ret = uti_calloc(3, sizeof(char *));
 	len = str_clen(src, c);
 	ret[0] = str_ndup(src, len);
 	ret[1] = 0;

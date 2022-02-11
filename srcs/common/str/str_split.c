@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 20:52:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 18:30:26 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 14:53:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**str_split(char *s, char *charset)
 
 	if (s == NULL || charset == NULL)
 		return ((char **) 0);
-	ary = malloc(sizeof(char *) * (get_word_cnt(s, charset) + 1));
+	ary = uti_calloc(get_word_cnt(s, charset) + 1, sizeof(char *));
 	if (!ary)
 		return (NULL);
 	i = -1;
