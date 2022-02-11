@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 20:36:37 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:36:27 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 19:24:55 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	_sigint(int sig)
 {
 	g_last_return = SIG_ERROR + sig;
+	write(1, "\n", 1);
 	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();

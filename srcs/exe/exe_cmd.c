@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 16:07:45 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 14:41:22 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exe_cmd(t_ast *ast, t_data *data)
 	}
 	if (is_error())
 		g_last_return = error_get();
-	str_free_list(&args);
 	ast->cmd->last_return = g_last_return;
+	str_free_list(&args);
 	error_reset();
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:31:48 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/10 20:17:03 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	_exe(t_data *data)
 	{
 		add_history(rl);
 		error_reset();
-		add_history(rl);
 		if (parser_main(data, rl) == SUCCESS && data->ast)
 		{
 			in = dup(0);

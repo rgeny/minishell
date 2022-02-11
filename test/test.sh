@@ -102,7 +102,7 @@ function test_env()
     LINE_MINISHELL=$(echo "$TEST_MINISHELL" | wc -l)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR_BASH)
+    TEST_BASH=$(printf "$@" | $CMD bash  2>$LOG_ERROR_BASH)
     LINE_BASH=$(echo "$TEST_BASH" | wc -l)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
@@ -144,7 +144,18 @@ function test_env()
     printf $COLOR_WHITE
     INDEX=$((INDEX + 1))
 }
+###########################################################
+######################## OPTIONNEL #########################
+###########################################################
+in_arg "optionnel"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	
 
+	echo
+	unset CMD
+fi
 ###########################################################
 ############################ CD ###########################
 ###########################################################
@@ -741,6 +752,7 @@ if [ $? == 1 ]
 then
 #	INDEX=0
 	printf "***** TEST SUBSHELL *****\n"
+	test_ret_stdout "(ls && uname || pwd)"
 
 	echo
 	unset CMD

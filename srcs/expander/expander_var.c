@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:49 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 19:11:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/11 14:38:38 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*_switch_name_to_value(char *prev, char *find, char *word, int len)
 	return (new_value);
 }
 
-static void	_expand(char **word, t_env *env, int i)
+static void	_expand(char **word, t_env *env, int i, bool is_in_quote)
 {
 	int		len;
 	char	*prev_val;
@@ -51,7 +51,7 @@ static void	_expand(char **word, t_env *env, int i)
 	if (word[0][i + 1] == '?')
 		len++;
 	find = _find_var_value(&word[0][i + 1], env);
-	if (find != NULL || len != 0 || is_in_charset(word[0][i + 1], "'\""))
+	if (find != NULL || len != 0 || word[0][i + 1] == '\'' || (word[0][i + 1] == '\"' && !is_in_quote))//(is_in_charset(word[0][i + 1], "'\""))
 	{
 		new_val = _switch_name_to_value(prev_val, find, &word[0][i + 1], len);
 		str_free(&word[0]);
@@ -63,14 +63,23 @@ static void	_expand(char **word, t_env *env, int i)
 bool	expand_var(char **word, t_env *env)
 {
 	int		i;
+	bool	is_in_quote;
 
 	i = 0;
+		is_in_quote = false;
 	while (word[0][i] != '\0')
 	{
 		if (word[0][i] == '\'')
-			i += str_clen(&word[0][i + 1], word[0][i]) + 1;
+		{
+			if (str_len(&word[0][i + 1]) != str_clen(&word[0][i + 1], '\''))
+				i += str_clen(&word[0][i + 1], word[0][i]) + 1;
+			else
+				i++;
+		}
+		if (word[0][i] == '\"')
+			is_in_quote = !is_in_quote;
 		if (word[0][i] == '$')
-			_expand(word, env, i);
+			_expand(word, env, i, is_in_quote);
 		if (word[0][i] != '\0'
 			&& (word[0][i] != '$' || !is_alnum(word[0][i + 1])))
 			i++;
