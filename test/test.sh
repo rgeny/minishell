@@ -801,6 +801,28 @@ then
 fi
 
 ###########################################################
+########################### OR ############################
+###########################################################
+in_arg "or"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST OR *****\n"
+	test_ret_stdout "ls || uname"
+	test_ret_stdout "uname || cat doesnotexist"
+	test_ret_stdout "cat doesnotexist || uname"
+	test_ret_stdout "cat doesnotexist || cat doesnotexist || cat doesnotexist || uname"
+	test_ret_stdout "cat doesnotexist || uname || cat doesnotexist || uname"
+	test_ret_stdout "touch toto\n ls | grep toto || uname\n rm toto"
+	test_ret_stdout "ls | grep toto || uname"
+	test_ret_stdout "cat doesnotexist | ls || uname"
+	test_ret_stdout "cat doesnotexist | cat stillnotexist || uname"
+	test_ret_stdout "touch toto\n uname || ls | grep toto \nrm toto"
+	echo
+	unset CMD
+fi
+
+###########################################################
 ######################## SUBSHELL #########################
 ###########################################################
 in_arg "subshell"
