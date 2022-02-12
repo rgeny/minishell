@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/11 21:29:17 by buschiix         ###   ########.fr       */
+/*   Updated: 2022/02/12 10:48:29 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	_wait_process(t_ast *ast, t_data *data)
 		g_last_return = ast->cmd->last_return;
 	_wait_process(ast->left, data);
 	_wait_process(ast->right, data);
+	signal_current();
 }
 
 void	exe_main(t_ast *ast, t_data *data)
@@ -67,5 +68,4 @@ void	exe_main(t_ast *ast, t_data *data)
 		if (g_last_return != SUCCESS)
 			exe_main(ast->right, data);
 	}
-	signal_current();
 }

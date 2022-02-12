@@ -13,8 +13,7 @@ ARG=$*
 DIR_TEST=dir_test/
 MINISHELL_DIR=$(pwd)
 MINISHELL=$MINISHELL_DIR/../minishell
-LOG_ERROR_MINISHELL=$MINISHELL_DIR"/log_error_minishell"
-LOG_ERROR_BASH=$MINISHELL_DIR"/log_error_bash"
+LOG_ERROR=$MINISHELL_DIR"/log_error"
 INDEX=0
 
 make re -C ../ > /dev/null
@@ -51,12 +50,12 @@ function in_arg()
 
 function test_ret_stdout()
 {
-    TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR_MINISHELL)
+    TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR)
     RET_MINISHELL=$?
-	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR_BASH)
+	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR | wc -l)
+    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR)
     RET_BASH=$?
-	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
+	LINE_ERROR_BASH=$(cat $LOG_ERROR | wc -l)
 
     if [ "$TEST_MINISHELL" == "$TEST_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
@@ -67,10 +66,10 @@ function test_ret_stdout()
 			printf $COLOR_WHITE"CMD : \n$@\n"
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_BASH)\"\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n"
 			printf $COLOR_GREEN
-			printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
+			printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
 		fi
     else
 		printf $COLOR_RED"$INDEX:KO\n"
@@ -81,10 +80,10 @@ function test_ret_stdout()
 		else
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) :\n$TEST_BASH\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_BASH)\"\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n"
 			printf $COLOR_RED
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
 		fi
 		in_arg "--stop"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
@@ -98,14 +97,14 @@ function test_ret_stdout()
 
 function test_env()
 {
-    TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR_MINISHELL)
+    TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR)
     LINE_MINISHELL=$(echo "$TEST_MINISHELL" | wc -l)
     RET_MINISHELL=$?
-	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR_MINISHELL | wc -l)
-    TEST_BASH=$(printf "$@" | $CMD bash  2>$LOG_ERROR_BASH)
+	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR | wc -l)
+    TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR)
     LINE_BASH=$(echo "$TEST_BASH" | wc -l)
     RET_BASH=$?
-	LINE_ERROR_BASH=$(cat $LOG_ERROR_BASH | wc -l)
+	LINE_ERROR_BASH=$(cat $LOG_ERROR | wc -l)
 
     if [ "$LINE_MINISHELL" == "$LINE_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
@@ -116,10 +115,10 @@ function test_env()
 			printf $COLOR_WHITE"CMD : \n$@\n"
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) :\n$TEST_BASH\n"
-			printf "Error message :\n$(cat $LOG_ERROR_BASH)\n"
+			printf "Error message :\n$(cat $LOG_ERROR)\n"
 			printf $COLOR_GREEN
-			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
+			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
 		fi
     else
 		printf $COLOR_RED"$INDEX:KO\n"
@@ -130,10 +129,10 @@ function test_env()
 		else
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) :\nBash n line      : $LINE_BASH\nTest bash      :\n$TEST_BASH\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_BASH)\"\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n"
 			printf $COLOR_RED
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\nMinishell n line : $LINE_MINISHELL\nTest minishell :\n$TEST_MINISHELL\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
 		fi
 		in_arg "--stop"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
@@ -168,7 +167,7 @@ then
     test_ret_stdout "cd a a"
     test_ret_stdout "cd ../../../../../../../..\npwd"
     test_ret_stdout "cd /mnt/nfs/homes/rgeny\npwd"
-    test_ret_stdout "cd $HOME/Desktop"
+    test_ret_stdout "cd \$HOME/Desktop"
     test_ret_stdout "unset HOME\ncd"
     test_ret_stdout "export HOME=\ncd"
     test_ret_stdout "cd too many arguments"
@@ -189,7 +188,7 @@ then
     test_ret_stdout "cd a a"
     test_ret_stdout "cd ../../../../../../../..\npwd"
     test_ret_stdout "cd /mnt/nfs/homes/rgeny\npwd"
-    test_ret_stdout "cd $HOME/Desktop"
+    test_ret_stdout "cd \$HOME/Desktop"
     test_ret_stdout "unset HOME\ncd"
     test_ret_stdout "export HOME=\ncd"
     test_ret_stdout "cd too many arguments"
@@ -434,20 +433,20 @@ then
     printf "***** TEST UNSET *****\n"
     test_ret_stdout "unset"
     test_ret_stdout "unset a b c d"
-    test_ret_stdout "unset PATH\necho $PATH"
+    test_ret_stdout "unset PATH\necho \$PATH"
     test_ret_stdout "unset PATH\nls"
     test_ret_stdout "unset \"'\" test"
     test_ret_stdout "unset ="
-    test_ret_stdout "unset PWD\necho $PWD"
+    test_ret_stdout "unset PWD\necho \$PWD"
     test_env "export var=1\nexport var1=2\nunset var\nenv"
 	CMD="env -i"
 	test_ret_stdout "unset"
     test_ret_stdout "unset a b c d"
-    test_ret_stdout "unset PATH\necho $PATH"
+    test_ret_stdout "unset PATH\necho \$PATH"
     test_ret_stdout "unset PATH\nls"
     test_ret_stdout "unset \"'\" test"
     test_ret_stdout "unset ="
-    test_ret_stdout "unset PWD\necho $PWD"
+    test_ret_stdout "unset PWD\necho \$PWD"
     test_env "export var=1\nexport var1=2\nunset var\nenv"
 
     echo
@@ -645,22 +644,24 @@ then
 	test_ret_stdout "l\"s \""
 	test_ret_stdout "\"l\"s"
 	test_ret_stdout "\" l\"s"
-	#test_ret_stdout "ls -la"      #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls -l"       #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls \"\"-la"  #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls ''-la"    #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls \"\" -la" #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls '' -la"   #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls\"\" -la"  #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls'' -la"    #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls \"\"\"\" -la" #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls '''' -la" #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls -\"la\""  #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls \"-la\""  #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls \"-l\"a"  #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls -'la'"    #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls '-la'"    #COMPORTEMENT DU TESTEUR ETRANGE
-	#test_ret_stdout "ls '-l'a"    #COMPORTEMENT DU TESTEUR ETRANGE
+	
+	test_ret_stdout "ls -la"
+	test_ret_stdout "ls -l"
+	test_ret_stdout "ls \"\"-la"
+	test_ret_stdout "ls ''-la"
+	test_ret_stdout "ls \"\" -la"
+	test_ret_stdout "ls '' -la"
+	test_ret_stdout "ls\"\" -la"
+	test_ret_stdout "ls'' -la"
+	test_ret_stdout "ls \"\"\"\" -la"
+	test_ret_stdout "ls '''' -la"
+	test_ret_stdout "ls -\"la\""
+	test_ret_stdout "ls \"-la\""  
+	test_ret_stdout "ls \"-l\"a"  
+	test_ret_stdout "ls -'la'"    
+	test_ret_stdout "ls '-la'"    
+	test_ret_stdout "ls '-l'a"    
+	
 	test_ret_stdout "ls \"   '   \""
 	test_ret_stdout "ls \"   '\""
 	test_ret_stdout "ls \"'   \""
@@ -696,12 +697,16 @@ then
 	
 	test_ret_stdout "ls | sort"
 	test_ret_stdout "ls | sort | grep i | wc -l"
-	test_ret_stdout "sleep 1 | ls"
+	test_ret_stdout "sleep 0.1 | ls"
 	test_ret_stdout "cat Makefile | grep pr | head -n 5 | cd file_not_exist"
 	test_ret_stdout "cat Makefile | grep pr | head -n 5 | hello"
 	test_ret_stdout "ls | exit"
-	test_ret_stdout "sleep 1 | exit"
+	test_ret_stdout "sleep 0.1 | exit"
 	test_ret_stdout "echo bip | bip\necho coyotte ><"
+	test_ret_stdout "ls | ls | ls | ls | ls /proc/self/fd"
+	cd $DIR_TEST
+	test_ret_stdout "cat a | < abc cat | cat > c | cat"
+	cd ..
 	
 
 	echo
@@ -774,6 +779,28 @@ then
 fi
 
 ###########################################################
+########################### AND ###########################
+###########################################################
+in_arg "and"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST AND *****\n"
+	test_ret_stdout "ls && uname"
+	test_ret_stdout "ls && cat fesfjseoi && pwd"
+	test_ret_stdout "ls && ls -a && ls -l && ls -la && ls -fesfs && ls"
+	test_ret_stdout "ls | grep a && ls"
+	test_ret_stdout "ls | grep z && ls"
+	test_ret_stdout "ls && sleep 0.1 && pwd"
+	test_ret_stdout "sleep 0.1 && ls && sleep 0.1 && pwd"
+	test_ret_stdout "sleep -1 && ls"
+	test_ret_stdout "ls -fsenifs && ls -fseifkse && ls && ls"
+
+	echo
+	unset CMD
+fi
+
+###########################################################
 ######################## SUBSHELL #########################
 ###########################################################
 in_arg "subshell"
@@ -781,7 +808,6 @@ if [ $? == 1 ]
 then
 #	INDEX=0
 	printf "***** TEST SUBSHELL *****\n"
-	test_ret_stdout "(ls && uname || pwd)"
 
 	echo
 	unset CMD
