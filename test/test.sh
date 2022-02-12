@@ -822,6 +822,27 @@ then
 	unset CMD
 fi
 
+
+###########################################################
+########################### ANDOR #########################
+###########################################################
+in_arg "andor"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST ANDOR *****\n"
+	test_ret_stdout "echo a && echo b || echo c"
+	test_ret_stdout "echo a || echo b && echo c"
+	test_ret_stdout "cat toto && echo b || echo c"
+	test_ret_stdout "cat toto || echo b && echo c"
+	test_ret_stdout "echo a && cat toto || echo c"
+	test_ret_stdout "echo a || cat toto && echo c"
+	test_ret_stdout "echo a && echo b || cat toto"
+	test_ret_stdout "echo a || echo b && cat toto"
+	echo
+	unset CMD
+fi
+
 ###########################################################
 ######################## SUBSHELL #########################
 ###########################################################
