@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:49:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/13 18:38:35 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 18:42:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	parser_main(t_data *data, char *rl)
 	if (is_error())
 	{
 		if (!uti_interactive(INTERACTIVE_RETURN_IS_IT))
-			error_print(rl, NULL, NULL, ERROR_SYNTAX);
+			error_print("'", rl, "'", ERROR_SYNTAX);
 		g_last_return = error_get();
 	}
 	str_free(&rl);
