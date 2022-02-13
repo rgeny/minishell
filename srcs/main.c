@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/12 10:37:45 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 10:05:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,18 @@
 #include "common.h"
 
 int	g_last_return;
-static void	_init(char *envp[], t_data *data)
+static void	_init(char *envp[], t_data *data, char *argv[])
 {
+	int	i;
+
+	data->is_verbose_mod = false;
+	i = 1;
+	while (argv[i])
+	{
+		if (!str_cmp(argv[i], "-v") || !str_cmp(argv[i], "--verbose"))
+			data->is_verbose_mod = true;
+		i++;
+	}
 	g_last_return = 0;
 	data->env = 0;
 	env_init(&data->env, envp);
@@ -80,8 +90,9 @@ int	main(__attribute((unused)) int argc,
 //	setrlimit(RLIMIT_AS, &l);
 
 	t_data	data;
+
 	signal_current();
-	_init(envp, &data);
+	_init(envp, &data, argv);
 	_exe(&data);
 	if (uti_interactive(INTERACTIVE_RETURN_IS_IT))
 		write(1, "exit\n", 5);
