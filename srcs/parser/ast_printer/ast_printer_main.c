@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 19:26:12 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 11:42:36 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 17:27:23 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	print_ast(t_ast *root)
 
 	if (root == NULL || is_error())
 		return ;
-	printf("\nWhat a wonderful AST :\n");
+	printf("AST:\n");
 	_init_printer(&printer);
 	proot = build_ascii_tree(root);
 	compute_edge_lengths(&printer, proot);
