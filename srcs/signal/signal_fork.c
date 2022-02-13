@@ -6,19 +6,23 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 00:55:13 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/12 10:49:04 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:41:10 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signal.h"
 
-void	_sig(int sig)
+static void	_sigint_fork(int sig)
 {
-	write(1, "\n", 1);
+	int	fd;
+
+	fd = open("abc", O_WRONLY | O_CREAT);
+	write(fd, "abc", 3);
+	close(fd);
 }
 
 void	signal_fork(void)
 {
-	signal(SIGINT, _sig);
-	signal(SIGQUIT, _sig);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 11:22:29 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:14:41 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int		count_word(char *s);
 char	**split_word(char *s);
 
 void	expand_args(t_command *cmd, t_carg *args, t_data *data, int *arg_n);
-void	expand_redir(t_command *cmd, t_redir *redir, t_data *data);
+void	expand_redir(t_redir *redir, t_data *data);
 
-bool	expand_asterisk(t_command *cmd, t_carg *args, t_redir *redir);
+bool	expand_asterisk(t_carg *args, t_redir *redir);
 char	**asterisk_dir_list(void);
 bool	asterisk_cmp(char *word, char *dir);
 #endif

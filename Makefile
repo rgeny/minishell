@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/10 18:25:32 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/13 12:24:53 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ SRC				= $(addsuffix .c,					main \
 													print first_dif) \
 					$(addprefix builtin_,			cd exit export unset echo env pwd) \
 					$(addprefix common_,			bzero calloc min itoa ato quicksort \
-													interactive max error) \
+													interactive max error fd) \
 					$(addprefix is_,				alnum digit in_charset valid_name) \
 					$(addprefix expander_,			args redir var path heredoc quote \
 						$(addprefix space_,			args redir tool)) \

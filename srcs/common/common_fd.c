@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_ignore.c                                    :+:      :+:    :+:   */
+/*   common_fd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 00:56:29 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/13 12:20:41 by rgeny            ###   ########.fr       */
+/*   Created: 2022/02/13 11:44:40 by rgeny             #+#    #+#             */
+/*   Updated: 2022/02/13 12:00:49 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "common.h"
 
-void	signal_ignore(void)
+void	close_fd(int *fd, int dfl_value)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	if (*fd != dfl_value)
+	{
+		close(*fd);
+		*fd = dfl_value;
+	}
+}
+
+void	dup_and_close(int *fd, int dfl_value)
+{
+	if (*fd != dfl_value)
+	{
+		dup2(*fd, dfl_value);
+		close_fd(fd, dfl_value);
+	}
 }

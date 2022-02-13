@@ -6,25 +6,11 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 11:20:59 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:20:14 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe.h"
-
-static void	_close_fd(int pipefd[2])
-{
-	if (pipefd[0] != STDIN_FILENO)
-	{
-		close(pipefd[0]);
-		pipefd[0] = STDIN_FILENO;
-	}
-	if (pipefd[1] != STDOUT_FILENO)
-	{
-		close(pipefd[1]);
-		pipefd[1] = STDOUT_FILENO;
-	}
-}
 
 void	exe_cmd(t_ast *ast, t_data *data)
 {
@@ -33,7 +19,7 @@ void	exe_cmd(t_ast *ast, t_data *data)
 
 	arg_n = 0;
 	args = NULL;
-	exe_redir(ast->cmd, ast->cmd->redirections, ast->cmd->fd_heredoc, data);
+	exe_redir(ast->cmd->redirections, ast->cmd->fd_heredoc, data);
 	if (!is_error())
 	{
 		expand_args(ast->cmd, ast->cmd->cargs, data, &arg_n);
@@ -47,7 +33,8 @@ void	exe_cmd(t_ast *ast, t_data *data)
 	}
 	if (is_error())
 		g_last_return = error_get();
-	_close_fd(data->pipefd);
+	close_fd(&data->pipefd[0], STDIN_FILENO);
+	close_fd(&data->pipefd[1], STDOUT_FILENO);
 	ast->cmd->last_return = g_last_return;
 	str_free_list(&args);
 	error_reset();

@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 00:32:29 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 14:37:50 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:17:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe.h"
 
-char	*exe_readline(t_data *data)
+char	*exe_readline(void)
 {
 	char	*ret;
 	int		fdout;
@@ -24,5 +24,7 @@ char	*exe_readline(t_data *data)
 	dup2(fdout, STDOUT_FILENO);
 	close(fdout);
 	uti_interactive(INTERACTIVE_MOVE_STDERR);
+	if (ret && ret[0])
+		add_history(ret);
 	return (ret);
 }

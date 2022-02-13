@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 03:48:59 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 11:30:37 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:01:27 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	_son(t_ast *ast, t_data *data)
 {
+	dup_and_close(&data->pipefd[0], STDIN_FILENO);
+	dup_and_close(&data->pipefd[1], STDOUT_FILENO);
 	exe_main(ast, data);
 	env_del_all(data->env);
 	free_ast(&data->ast);
@@ -29,12 +31,6 @@ void	exe_subshell(t_ast *ast, t_data *data)
 		error_print(FORK_ERROR, NULL, NULL, ERROR_EXEC);
 	else if (ast->pid == 0)
 		_son(ast, data);
-	else
-	{
-		waitpid(ast->pid, &g_last_return, 0);
-		if (WIFSIGNALED(g_last_return))
-			g_last_return = WTERMSIG(g_last_return) + SIG_ERROR;
-		else
-			g_last_return = WEXITSTATUS(g_last_return);
-	}
+	close_fd(&data->pipefd[0], STDIN_FILENO);
+	close_fd(&data->pipefd[1], STDOUT_FILENO);
 }

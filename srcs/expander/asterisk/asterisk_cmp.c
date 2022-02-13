@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 12:59:58 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:16:39 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 12:16:16 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static bool	_is_valid_name(char *word, char *dir, char **pt_word, int *j)
 bool	asterisk_cmp(char *word, char *dir)
 {
 	int		i;
-	int		quote;
 	bool	asterisk;
 
 	if (word[0] != '.' && dir[0] == '.')
