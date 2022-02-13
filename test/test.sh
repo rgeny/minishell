@@ -16,7 +16,7 @@ MINISHELL=$MINISHELL_DIR/../minishell
 LOG_ERROR=$MINISHELL_DIR"/log_error"
 INDEX=0
 
-make re -C ../ > /dev/null
+make -C ../ > /dev/null
 clear
 
 function in_arg()
@@ -53,9 +53,11 @@ function test_ret_stdout()
     TEST_MINISHELL=$(printf "$@" | $CMD $TIMEOUT $MINISHELL 2>$LOG_ERROR)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR | wc -l)
+	LOG_ERROR_MINISHELL=$(cat $LOG_ERROR)
     TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR | wc -l)
+	LOG_ERROR_BASH=$(cat $LOG_ERROR)
 
     if [ "$TEST_MINISHELL" == "$TEST_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
@@ -66,10 +68,10 @@ function test_ret_stdout()
 			printf $COLOR_WHITE"CMD : \n$@\n"
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) : \n$TEST_BASH\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n"
+			printf "Error message :\n\"$LOG_ERROR_BASH\"\n"
 			printf $COLOR_GREEN
 			printf "\nMinishell (ret value : $RET_MINISHELL) : \n$TEST_MINISHELL\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
+			printf "Error message :\n\"$LOG_ERROR_MINISHELL\"\n\n"
 		fi
     else
 		printf $COLOR_RED"$INDEX:KO\n"
@@ -80,10 +82,10 @@ function test_ret_stdout()
 		else
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) :\n$TEST_BASH\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n"
+			printf "Error message :\n\"$LOG_ERROR_BASH\"\n"
 			printf $COLOR_RED
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
+			printf "Error message :\n\"$LOG_ERROR_MINISHELL\"\n\n"
 		fi
 		in_arg "--stop"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
@@ -101,10 +103,12 @@ function test_env()
     LINE_MINISHELL=$(echo "$TEST_MINISHELL" | wc -l)
     RET_MINISHELL=$?
 	LINE_ERROR_MINISHELL=$(cat $LOG_ERROR | wc -l)
+	LOG_ERROR_MINISHELL=$(cat $LOG_ERROR)
     TEST_BASH=$(printf "$@" | $CMD bash 2>$LOG_ERROR)
     LINE_BASH=$(echo "$TEST_BASH" | wc -l)
     RET_BASH=$?
 	LINE_ERROR_BASH=$(cat $LOG_ERROR | wc -l)
+	LOG_ERROR_BASH=$(cat $LOG_ERROR)
 
     if [ "$LINE_MINISHELL" == "$LINE_BASH" ] && [ "$RET_MINISHELL" == "$RET_BASH" ] && [ "$LINE_ERROR_MINISHELL" == "$LINE_ERROR_BASH" ]
     then
@@ -115,10 +119,10 @@ function test_env()
 			printf $COLOR_WHITE"CMD : \n$@\n"
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) :\n$TEST_BASH\n"
-			printf "Error message :\n$(cat $LOG_ERROR)\n"
+			printf "Error message :\n$(cat $LOG_ERROR_BASH)\n"
 			printf $COLOR_GREEN
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\n$TEST_MINISHELL\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
 		fi
     else
 		printf $COLOR_RED"$INDEX:KO\n"
@@ -129,10 +133,10 @@ function test_env()
 		else
 			printf $COLOR_BLUE
 			printf "\nBash      (ret value : $RET_BASH) :\nBash n line      : $LINE_BASH\nTest bash      :\n$TEST_BASH\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR_BASH)\"\n"
 			printf $COLOR_RED
 			printf "\nMinishell (ret value : $RET_MINISHELL) :\nMinishell n line : $LINE_MINISHELL\nTest minishell :\n$TEST_MINISHELL\n"
-			printf "Error message :\n\"$(cat $LOG_ERROR)\"\n\n"
+			printf "Error message :\n\"$(cat $LOG_ERROR_MINISHELL)\"\n\n"
 		fi
 		in_arg "--stop"
 		if [ $? == 1 ] && [ "$ARG" != "" ]
@@ -863,6 +867,34 @@ then
 	test_ret_stdout "echo a || cat toto && echo c"
 	test_ret_stdout "echo a && echo b || cat toto"
 	test_ret_stdout "echo a || echo b && cat toto"
+	test_ret_stdout "echo a || echo b || echo c && echo d"
+	test_ret_stdout "echo a || echo b && echo c || echo d"
+	test_ret_stdout "echo a && echo b || echo c || echo d"
+	test_ret_stdout "cat toto || echo b || echo c && echo d"
+	test_ret_stdout "cat toto || echo b && echo c || echo d"
+	test_ret_stdout "cat toto && echo b || echo c || echo d"
+	test_ret_stdout "echo a || cat toto || echo c && echo d"
+	test_ret_stdout "echo a || cat toto && echo c || echo d"
+	test_ret_stdout "echo a && cat toto || echo c || echo d"
+	test_ret_stdout "echo a || echo b || cat toto && echo d"
+	test_ret_stdout "echo a || echo b && cat toto || echo d"
+	test_ret_stdout "echo a && echo b || cat toto || echo d"
+	test_ret_stdout "echo a || echo b || echo c && cat toto"
+	test_ret_stdout "echo a || echo b && echo c || cat toto"
+	test_ret_stdout "echo a && echo b || echo c || cat toto"
+	test_ret_stdout "echo a || echo b && echo c && echo d"
+	test_ret_stdout "echo a && echo b || echo c && echo d"
+	test_ret_stdout "echo a && echo b && echo c || echo d"
+	test_ret_stdout "cat toto || echo b && echo c && echo d"
+	test_ret_stdout "cat toto && echo b || echo c && echo d"
+	test_ret_stdout "cat toto && echo b && echo c || echo d"
+	test_ret_stdout "echo a || cat toto && echo c && echo d"
+	test_ret_stdout "echo a && cat toto || echo c && echo d"
+	test_ret_stdout "echo a && cat toto && echo c || echo d"
+	test_ret_stdout "echo a || echo b && cat toto && echo d"
+	test_ret_stdout "echo a && echo b || cat toto && echo d"
+	test_ret_stdout "echo a && echo b && cat toto || echo d"
+
 	echo
 	unset CMD
 fi

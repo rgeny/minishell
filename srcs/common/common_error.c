@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 21:14:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 18:28:16 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 18:00:08 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	error_print(char *cmd, char *msg1, char *msg2, int return_value)
 	str_print_stderr(msg1);
 	str_print_stderr(msg2);
 	if (msg1 != NULL || msg2 != NULL || cmd != NULL)
-		write(STDERR_FILENO, "\n", 1);
+		str_print_stderr("\n");
 	_error(ERROR_SET, return_value);
 	return (return_value);
 }

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 15:54:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 18:32:34 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static void	_exe(t_data *data)
 		error_reset();
 		if (parser_main(data, rl) == SUCCESS && data->ast)
 			exe_main(data->ast, data);
-		if (error_get())
-			g_last_return = error_get();
 		free_ast(&data->ast);
 		rl = exe_readline();
 	}
@@ -74,7 +72,7 @@ int	main(__attribute((unused)) int argc,
 	_init(envp, &data, argv);
 	_exe(&data);
 	if (uti_interactive(INTERACTIVE_RETURN_IS_IT))
-		write(1, "exit\n", 5);
+		str_print_fd("exit\n", STDOUT_FILENO);
 	clean_all(&data);
 	return (g_last_return);
 }

@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/13 17:15:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 18:01:24 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	_handle_errors(int pipefd[2], char *delimiter)
 	else
 	{
 		close_fd(&pipefd[1], STDOUT_FILENO);
-		write(STDOUT_FILENO, "\n", 1);
+		str_print_fd("\n", STDOUT_FILENO);
 		g_last_return = error_get();
 	}
 }
