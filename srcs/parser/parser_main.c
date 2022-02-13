@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:49:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/13 10:05:52 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 14:53:46 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int	parser_main(t_data *data, char *rl)
 	if (data->is_verbose_mod)
 		print_ast(data->ast);
 	lexer_free_tokens(&tokens);
+	str_free(&rl);
 	return (error_get());
 }

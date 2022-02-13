@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 12:41:38 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 14:21:40 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static void	_take_return_value(void)
 {
 	if (WIFSIGNALED(g_last_return))
 	{
-		write(1, "\n", 1);
+		if (WTERMSIG(g_last_return) == SIGQUIT)
+			str_print_fd_nl("Quit (core dumped)", STDOUT_FILENO);
+		else
+			write(1, "\n", 1);
 		g_last_return = WTERMSIG(g_last_return) + SIG_ERROR;
 	}
 	else

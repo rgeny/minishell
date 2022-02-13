@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 12:38:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 14:53:43 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exe_out_process(t_command *cmd, char **args, t_data *data)
 	{
 		dup_and_close(&data->pipefd[0], STDIN_FILENO);
 		dup_and_close(&data->pipefd[1], STDOUT_FILENO);
+		close_fd(&data->fd_in, STDIN_FILENO);
 		_son(args, data);
 	}
 	signal_ignore();
