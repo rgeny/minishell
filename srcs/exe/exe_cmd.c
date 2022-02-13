@@ -6,11 +6,25 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 10:08:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/11 14:41:22 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:20:59 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe.h"
+
+static void	_close_fd(int pipefd[2])
+{
+	if (pipefd[0] != STDIN_FILENO)
+	{
+		close(pipefd[0]);
+		pipefd[0] = STDIN_FILENO;
+	}
+	if (pipefd[1] != STDOUT_FILENO)
+	{
+		close(pipefd[1]);
+		pipefd[1] = STDOUT_FILENO;
+	}
+}
 
 void	exe_cmd(t_ast *ast, t_data *data)
 {
@@ -33,6 +47,7 @@ void	exe_cmd(t_ast *ast, t_data *data)
 	}
 	if (is_error())
 		g_last_return = error_get();
+	_close_fd(data->pipefd);
 	ast->cmd->last_return = g_last_return;
 	str_free_list(&args);
 	error_reset();

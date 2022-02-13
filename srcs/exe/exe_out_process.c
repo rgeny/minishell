@@ -6,11 +6,17 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 15:56:27 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:18:48 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exe.h"
+
+static void	_dup_and_close(int fd, int fd2)
+{
+	dup2(fd, fd2);
+	close(fd);
+}
 
 static void	_son(char **cmd, t_data *data)
 {
@@ -36,8 +42,10 @@ void	exe_out_process(t_command *cmd, char **args, t_data *data)
 	cmd->pid = fork();
 	if (!cmd->pid)
 	{
-		if (data->pipefd[0])
-			close(data->pipefd[0]);
+		if (data->pipefd[0] != STDIN_FILENO)
+			_dup_and_close(data->pipefd[0], STDIN_FILENO);
+		if (data->pipefd[1] != STDOUT_FILENO)
+			_dup_and_close(data->pipefd[1], STDOUT_FILENO);
 		_son(args, data);
 	}
 	signal_ignore();

@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:08:02 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/11 16:58:21 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:22:29 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "mem.h"
 # include "carg.h"
 
-typedef t_command	t_cmd;
+typedef t_command		t_cmd;
 typedef struct dirent	t_dirent;
 int		expand_heredoc(char *delimiter, t_env *env);
 char	*expand_path(char *cmd, t_env *env);

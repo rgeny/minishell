@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 15:55:43 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:15:50 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define BAD_IDENTIFIER ": not a valid identifier"
 # define MALLOC_ERROR "Cannot allocate memory"
 # define CMD_NOT_FOUND ": command not found"
+# define FORK_ERROR	": fork error"
 
 /*  Syntax error    */
 # define TOKEN_ERROR    "Syntax error near unexpected token '" 

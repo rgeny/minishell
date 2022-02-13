@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 14:14:36 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/12 10:48:29 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:28:17 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,7 @@ static void	_wait_process(t_ast *ast, t_data *data)
 void	exe_main(t_ast *ast, t_data *data)
 {
 	if (ast->is_subshell)
-	{
-		ast->is_subshell = false;
-		ast->pid = fork();
-		if (ast->pid == 0)
-			exe_subshell(ast, data);
-	}
+		exe_subshell(ast, data);
 	else if (ast->type == E_NODE_TYPE_PIPE)
 	{
 		exe_pipe(ast, data);

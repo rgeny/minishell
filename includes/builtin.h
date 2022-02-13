@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 17:27:20 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/05 21:05:03 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 10:29:01 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_export(char **cmd, t_data *data);
 int	builtin_unset(char **cmd, t_data *data);
 int	builtin_exit(char **cmd, t_data *data);
 int	builtin_cd(char **cmd, t_data *data);
-int	builtin_echo(char **cmd);
-int	builtin_env(char **envp);
+int	builtin_echo(char **cmd, t_data *data);
+int	builtin_env(char **envp, t_data *data);
 int	builtin_pwd(char **cmd, t_data *data);
 #endif

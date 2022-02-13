@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 14:49:40 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/10 11:42:49 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:23:38 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,4 @@ void	clean_all(t_data *data)
 {
 	str_free(&data->pwd);
 	env_del_all(data->env);
-	// lexer_free_tokens(&data->tokens);
 }

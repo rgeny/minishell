@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 18:20:42 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:33:07 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:06:46 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	_check_flag(char **cmd)
 	return (i);
 }
 
-int	builtin_echo(char **cmd)
+int	builtin_echo(char **cmd, t_data *data)
 {
 	bool	flag;
 	int		i;
@@ -39,12 +39,12 @@ int	builtin_echo(char **cmd)
 	flag = (bool)i;
 	while (cmd[i] != NULL)
 	{
-		write(STDOUT_FILENO, cmd[i], str_len(cmd[i]));
+		write(data->pipefd[1], cmd[i], str_len(cmd[i]));
 		if (cmd[i + 1] != NULL)
-			write(1, " ", 1);
+			write(data->pipefd[1], " ", 1);
 		i++;
 	}
 	if (flag == false)
-		write(1, "\n", 1);
+		write(data->pipefd[1], "\n", 1);
 	return (SUCCESS);
 }

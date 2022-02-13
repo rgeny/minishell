@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 18:35:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 18:14:34 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 10:30:42 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	_print_env(t_data *data)
 	{
 		if (cpy[i][0] != '_' || cpy[i][1] != '=')
 		{
-			str_print_fd(EXPORT, STDOUT_FILENO);
-			str_print_fd_nl(cpy[i], STDOUT_FILENO);
+			str_print_fd(EXPORT, data->pipefd[1]);
+			str_print_fd_nl(cpy[i], data->pipefd[1]);
 		}
 		i++;
 	}

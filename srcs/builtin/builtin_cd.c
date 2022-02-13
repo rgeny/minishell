@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 05:33:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:53:28 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 10:29:38 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	_move_cwd(char *dir, char *pwd, t_data *data, bool print_path)
 	if (getcwd(cwd, PATH_MAX + 1) == NULL)
 		return (error_print(CD, GETCWD, NULL, ERROR_EXEC));
 	if (print_path == true)
-		str_print_fd_nl(cwd, STDOUT_FILENO);
+		str_print_fd_nl(cwd, data->pipefd[1]);
 	return (_replace_pwd(data, cwd));
 }
 

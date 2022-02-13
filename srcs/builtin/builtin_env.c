@@ -6,13 +6,13 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:23:28 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 11:44:17 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 10:29:57 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	builtin_env(char **envp)
+int	builtin_env(char **envp, t_data *data)
 {
 	int	i;
 
@@ -21,7 +21,7 @@ int	builtin_env(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		str_print_fd_nl(envp[i], STDOUT_FILENO);
+		str_print_fd_nl(envp[i], data->pipefd[1]);
 		i++;
 	}
 	str_free_list(&envp);

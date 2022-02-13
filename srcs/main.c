@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 10:05:18 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 11:23:06 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "common.h"
 
 int	g_last_return;
+
 static void	_init(char *envp[], t_data *data, char *argv[])
 {
 	int	i;
@@ -49,8 +50,6 @@ static void	_init(char *envp[], t_data *data, char *argv[])
 static void	_exe(t_data *data)
 {
 	char	*rl;
-	int		in;
-	int		out;
 
 	rl = exe_readline(data);
 	while (rl && str_cmp(rl, "exit"))
@@ -59,15 +58,7 @@ static void	_exe(t_data *data)
 			add_history(rl);
 		error_reset();
 		if (parser_main(data, rl) == SUCCESS && data->ast)
-		{
-			in = dup(0);
-			out = dup(1);
 			exe_main(data->ast, data);
-			dup2(in, 0);
-			dup2(out, 1);
-			close(in);
-			close(out);
-		}
 		if (error_get())
 			g_last_return = error_get();
 		str_free(&rl);
@@ -76,19 +67,9 @@ static void	_exe(t_data *data)
 	}
 }
 
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <sys/time.h>
-//#include <sys/resource.h>
-
 int	main(__attribute((unused)) int argc,
 	__attribute__((unused)) char *argv[], char *envp[])
 {
-//	struct rlimit	l;
-//	getrlimit(RLIMIT_AS, &l);
-//	l.rlim_cur = 160300000;
-//	setrlimit(RLIMIT_AS, &l);
-
 	t_data	data;
 
 	signal_current();
