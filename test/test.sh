@@ -696,6 +696,7 @@ then
 	printf "***** TEST PIPE *****\n"
 	
 	test_ret_stdout "ls | sort"
+	test_ret_stdout "ls|ls |ls | ls| ls |                ls"
 	test_ret_stdout "ls | sort | grep i | wc -l"
 	test_ret_stdout "sleep 0.1 | ls"
 	test_ret_stdout "cat Makefile | grep pr | head -n 5 | cd file_not_exist"
@@ -749,6 +750,19 @@ then
 	unset CMD
 fi
 
+###########################################################
+######################### HEREDOC #########################
+###########################################################
+in_arg "heredoc"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST HEREDOC *****\n"
+	test_ret_stdout "cat << end\nabc\nend"
+
+	echo
+	unset CMD
+fi
 ###########################################################
 ##################### REDIRECTIONS ########################
 ###########################################################

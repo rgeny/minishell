@@ -6,7 +6,7 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/13 15:53:54 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 17:15:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter, t_env *env)
 {
 	char	*s;
 	char	*prompt;
+	int		fd_out;
 
 	signal_heredoc();
 	prompt = str_join(delimiter, "> ", '\0');
+	fd_out = dup(STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
 	s = readline(prompt);
 	while (s != NULL && str_cmp(s, delimiter) != 0)
 	{
@@ -40,6 +43,8 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter, t_env *env)
 		str_free(&s);
 		s = readline(prompt);
 	}
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_out);
 	str_free(&prompt);
 	signal_current();
 	if (s == NULL)
