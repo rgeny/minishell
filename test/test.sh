@@ -705,7 +705,7 @@ then
 	test_ret_stdout "echo bip | bip\necho coyotte ><"
 	test_ret_stdout "ls | ls | ls | ls | ls /proc/self/fd"
 	cd $DIR_TEST
-	test_ret_stdout "cat a | < abc cat | cat > c | cat"
+	test_ret_stdout "cat a | < abc cat | cat > c | cat\nrm c"
 	cd ..
 	
 
@@ -851,6 +851,7 @@ if [ $? == 1 ]
 then
 #	INDEX=0
 	printf "***** TEST SUBSHELL *****\n"
+	test_ret_stdout "(ls && pwd || uname)"
 
 	echo
 	unset CMD
