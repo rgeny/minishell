@@ -170,7 +170,7 @@ then
     test_ret_stdout "cd"
     test_ret_stdout "cd a a"
     test_ret_stdout "cd ../../../../../../../..\npwd"
-    test_ret_stdout "cd /mnt/nfs/homes/rgeny\npwd"
+    test_ret_stdout "cd /mnt/nfs/homes/\$USER\npwd"
     test_ret_stdout "cd \$HOME/Desktop"
     test_ret_stdout "unset HOME\ncd"
     test_ret_stdout "export HOME=\ncd"
@@ -191,7 +191,7 @@ then
     test_ret_stdout "cd"
     test_ret_stdout "cd a a"
     test_ret_stdout "cd ../../../../../../../..\npwd"
-    test_ret_stdout "cd /mnt/nfs/homes/rgeny\npwd"
+    test_ret_stdout "cd /mnt/nfs/homes/\$USER\npwd"
     test_ret_stdout "cd \$HOME/Desktop"
     test_ret_stdout "unset HOME\ncd"
     test_ret_stdout "export HOME=\ncd"
@@ -920,21 +920,3 @@ then
 	echo
 	unset CMD
 fi
-
-###########################################################
-########################### MIX ###########################
-###########################################################
-in_arg "mix"
-if [ $? == 1 ]
-then
-#	INDEX=0
-	printf "***** TEST MIX *****\n"
-	cd $DIR_TEST
-	test_ret_stdout "
-
-	cd ..
-	echo
-	unset CMD
-fi
-
-
