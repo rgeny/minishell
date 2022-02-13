@@ -1,5 +1,0 @@
-	- getcwd qui fail ne doit pas annuler l'exécution
-	- add set_error and rename fonction error
-	- supprimer typedef in asterisk main quand t_command sera rename en t_cmd
-	- rename t_command en t_cmd
-- test SHLVL 1000

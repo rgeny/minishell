@@ -758,8 +758,17 @@ if [ $? == 1 ]
 then
 #	INDEX=0
 	printf "***** TEST HEREDOC *****\n"
+	cd $DIR_TEST
 	test_ret_stdout "cat << end\nabc\nend"
+	test_ret_stdout "cat << end <<start\nabc\nstart\nend\nend\ndef\nstart"
+	test_ret_stdout "cat << end\nEnd\neNd\nenD\nENd\nEnD\neND\nEND\nend"
+	test_ret_stdout "<< end cat\nabc\nend"
+	test_ret_stdout "<< end <<start cat\nabc\nstart\nend\nend\ndef\nstart"
+	test_ret_stdout "<<end cat\nEnd\neNd\nenD\nENd\nEnD\neND\nEND\nend"
+	test_ret_stdout "<<end cat <<start abc\nStart\nstart\nend\ndef\n\nae\nend\nstart"
+	test_ret_stdout "<<end cat <<start abc def << x\na1\nend\na2\nstart\na3\nx"
 
+	cd ..
 	echo
 	unset CMD
 fi
@@ -786,6 +795,7 @@ then
 	test_ret_stdout "echo a > b c\necho b\nrm a b c\n"
 	test_ret_stdout "not_cmd a > b\ncat b\nrm b"
 	test_ret_stdout "echo a > \$a"
+	test_ret_stdout "cat < abc < abcd < abcde > t1 > t2 << end >> t3 << t4\na1\nend\na2\nt4\ncat t1 t2 t3\n rm t1 t2 t3"
 
 	cd ../
 	echo
