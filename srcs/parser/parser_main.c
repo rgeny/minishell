@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:49:56 by tokino            #+#    #+#             */
-/*   Updated: 2022/02/13 14:53:46 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/13 18:18:55 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 int	print_syntax_error(t_token *token)
 {
 	if (token)
-		return (error_print(TOKEN_ERROR, token->content, "'\n", ERROR_TOKEN));
-	return (error_print(TOKEN_ERROR, "newline", "'\n", ERROR_TOKEN));
+		return (error_print(TOKEN_ERROR, token->content, "'", ERROR_TOKEN));
+	return (error_print(TOKEN_ERROR, "newline'", NULL, ERROR_TOKEN));
 }
 
 int	parser_main(t_data *data, char *rl)

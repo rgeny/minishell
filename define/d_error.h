@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 21:38:11 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/13 11:15:50 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 18:19:10 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 /*  Syntax error    */
 # define TOKEN_ERROR    "Syntax error near unexpected token '" 
-# define QUOTE_ERROR    "Syntax error: Please close all your quotes\n"
+# define QUOTE_ERROR    "Syntax error: Please close all your quotes"
 
 /*	env error	*/
 # define ENV_HOME "HOME"
