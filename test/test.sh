@@ -894,6 +894,9 @@ then
 	test_ret_stdout "echo a || echo b && cat toto && echo d"
 	test_ret_stdout "echo a && echo b || cat toto && echo d"
 	test_ret_stdout "echo a && echo b && cat toto || echo d"
+	test_ret_stdout "echo a || echo b && echo c && cat toto"
+	test_ret_stdout "echo a && echo b || echo c && cat toto"
+	test_ret_stdout "echo a && echo b && echo c || cat toto"
 
 	echo
 	unset CMD
@@ -908,7 +911,30 @@ then
 #	INDEX=0
 	printf "***** TEST SUBSHELL *****\n"
 	test_ret_stdout "(ls && pwd || uname)"
+	test_ret_stdout "(ls && (ls && (ls && (ls && (ls && ls)))))"
+	test_ret_stdout "ls -fesgse && (uname | cat) || pwd"
+	test_ret_stdout "ls && (uname | cat) || pwd"
+	test_ret_stdout "ls -fsfdfds || (uname | cat) && pwd"
+	test_ret_stdout "ls || (uname | cat) && pwd"
 
 	echo
 	unset CMD
 fi
+
+###########################################################
+########################### MIX ###########################
+###########################################################
+in_arg "mix"
+if [ $? == 1 ]
+then
+#	INDEX=0
+	printf "***** TEST MIX *****\n"
+	cd $DIR_TEST
+	test_ret_stdout "
+
+	cd ..
+	echo
+	unset CMD
+fi
+
+
