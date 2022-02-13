@@ -6,11 +6,12 @@
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 13:10:45 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/11 16:59:40 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 15:53:54 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
+#include "common.h"
 
 static void	_handle_errors(int pipefd[2], char *delimiter)
 {
@@ -18,8 +19,7 @@ static void	_handle_errors(int pipefd[2], char *delimiter)
 		error_print(HEREDOC, SIG_EOF, delimiter, 0);
 	else
 	{
-		close(pipefd[1]);
-		pipefd[1] = STDOUT_FILENO;
+		close_fd(&pipefd[1], STDOUT_FILENO);
 		write(STDOUT_FILENO, "\n", 1);
 		g_last_return = error_get();
 	}
@@ -40,6 +40,7 @@ static void	_generate_heredoc(int pipefd[2], char *delimiter, t_env *env)
 		str_free(&s);
 		s = readline(prompt);
 	}
+	str_free(&prompt);
 	signal_current();
 	if (s == NULL)
 		_handle_errors(pipefd, delimiter);
@@ -56,6 +57,6 @@ int	expand_heredoc(char *delimiter, t_env *env)
 	_generate_heredoc(pipefd, delimiter, env);
 	dup2(fd_stdin, STDIN_FILENO);
 	close(fd_stdin);
-	close(pipefd[1]);
+	close_fd(&pipefd[1], STDOUT_FILENO);
 	return (pipefd[0]);
 }

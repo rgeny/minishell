@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 18:44:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 14:53:45 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/13 15:54:18 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	_exe(t_data *data)
 			exe_main(data->ast, data);
 		if (error_get())
 			g_last_return = error_get();
-//		str_free(&rl);
 		free_ast(&data->ast);
 		rl = exe_readline();
 	}

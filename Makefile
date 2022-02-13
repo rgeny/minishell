@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/13 12:24:53 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/13 15:24:39 by rgeny            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ INCLUDESF		= -I$(INCLUDES_DIR) -I$(TYPEDEF_DIR) -I$(DEFINE_DIR)
 VALGRIND		= valgrind
 VALGRINDF		= --trace-children=yes --suppressions=$(IGNORE_FILE) --leak-check=full --show-leak-kinds=all
 ENV				= env -i
-IGNORE_FILE		= $(shell pwd)/ignoreliberror
+IGNORE_FILE		= $(PWD)/ignoreliberror
+PWD				= $(shell pwd)
 
 # *********************************** others ********************************* #
 RM				= rm -rf

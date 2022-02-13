@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_quicksort.c                                  :+:      :+:    :+:   */
+/*   common_quicksort.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buschiix <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 18:39:37 by buschiix          #+#    #+#             */
-/*   Updated: 2022/02/10 18:25:24 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 16:14:19 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ static int	_find_pivot(int start, int end, char **s)
 	return (start);
 }
 
+static int	_str_equal_cmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s1[i] == s2[i] && s1[i] != '=')
+		i++;
+	if (s1[i] == '=' && s2[i] != '=')
+		return (-s2[i]);
+	return (s1[i] - s2[i]);
+}
+
 static int	_sort(int pivot, int end, char **s)
 {
 	int		i;
@@ -27,7 +39,7 @@ static int	_sort(int pivot, int end, char **s)
 	i = pivot;
 	while (i < end)
 	{
-		if (str_cmp(s[i], s[end]) < 0)
+		if (_str_equal_cmp(s[i], s[end]) < 0)
 		{
 			tmp = s[i];
 			s[i] = s[pivot];

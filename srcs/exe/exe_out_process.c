@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:59:16 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 14:53:43 by tokino           ###   ########.fr       */
+/*   Updated: 2022/02/13 15:32:43 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void	_son(char **cmd, t_data *data)
 	env_cpy = env_switch(data, 0);
 	str_free(&data->pwd);
 	path = expand_path(cmd[0], data->env);
-	execve(path, cmd, env_cpy);
+	if (path != NULL)
+		execve(path, cmd, env_cpy);
 	error_print(cmd[0], CMD_NOT_FOUND, NULL, EXECVE_FAIL);
 	str_free_list(&cmd);
 	str_free_list(&env_cpy);

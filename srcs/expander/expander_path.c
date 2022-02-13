@@ -6,7 +6,7 @@
 /*   By: rgeny <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:32:54 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/10 14:26:24 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/13 15:32:25 by rgeny            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static char	*_find_path(char *cmd, char **path_list)
 		path_cmd = str_join(*path_list, cmd, '/');
 		if (access(path_cmd, F_OK | X_OK) == SUCCESS)
 			return (path_cmd);
+		str_free(&path_cmd);
 		path_list++;
 	}
 	return (NULL);
