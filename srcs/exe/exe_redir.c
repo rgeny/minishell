@@ -6,7 +6,7 @@
 /*   By: tokino <tokino@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 08:52:26 by rgeny             #+#    #+#             */
-/*   Updated: 2022/02/13 15:43:47 by rgeny            ###   ########.fr       */
+/*   Updated: 2022/02/15 10:46:33 by tokino           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	exe_redir(t_redir *redir, int fd_heredoc, t_data *data)
 		if (redir->type == E_REDIR_TYPE_STDIN)
 			_open_redir_stdin(redir, &fd_in);
 		else if (redir->type == E_REDIR_TYPE_STDOUT)
-			_open_redir_stdout(redir, &fd_out, 0);
+			_open_redir_stdout(redir, &fd_out, O_TRUNC);
 		else if (redir->type == E_REDIR_TYPE_HEREDOC)
 			_dup_heredoc(&fd_in, fd_heredoc);
 		else if (redir->type == E_REDIR_TYPE_APPEND)

@@ -6,7 +6,7 @@
 #    By: tokino <tokino@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/30 15:58:20 by rgeny             #+#    #+#              #
-#    Updated: 2022/02/13 15:24:39 by rgeny            ###   ########.fr        #
+#    Updated: 2022/02/15 10:44:55 by tokino           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BOLD_CYAN		= "\033[01m\033[36m"
 CC				= cc
 
 # ******************************** COMPIL FLAG ******************************* #
-COMPILEF		= $(DEPF) -g #-Wall -Werror -Wextra
+COMPILEF		= $(DEPF) -g -Wall -Werror -Wextra
 LIBF			= -lreadline
 DEPF			= -MMD
 
